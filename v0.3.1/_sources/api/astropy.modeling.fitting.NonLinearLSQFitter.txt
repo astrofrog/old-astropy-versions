@@ -1,0 +1,59 @@
+
+
+NonLinearLSQFitter
+===========================================
+
+.. currentmodule:: astropy.modeling.fitting
+
+.. autoclass:: NonLinearLSQFitter
+   :show-inheritance:
+
+   
+     
+   
+
+   
+   
+
+   .. rubric:: Attributes Summary
+
+   .. autosummary::
+   
+      ~NonLinearLSQFitter.supported_constraints
+
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+   
+      ~NonLinearLSQFitter.errorfunc
+
+   
+   
+
+   
+   
+
+   .. rubric:: Attributes Documentation
+
+   
+   .. autoattribute:: supported_constraints
+
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Documentation
+
+   
+   .. automethod:: errorfunc
+
+   
+   

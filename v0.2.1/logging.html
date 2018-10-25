@@ -1,0 +1,443 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+
+    <title>Logging system &mdash; Astropy v0.2.1</title>
+<!-- RTD <head> -->
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/underscore.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/doctools.js"></script>
+
+<script type="text/javascript">
+  // This is included here for Javascript that doesn't have access to the templates.
+  var doc_version = "v0.2.1";
+  var doc_slug = "astropy";
+</script>
+
+<script type="text/javascript" src="//media.readthedocs.org/javascript/rtd.js"></script>
+<!-- end RTD <head> -->
+
+    
+    <link rel="stylesheet" href="_static/bootstrap-astropy.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.2.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/sidebar.js"></script>
+    <link rel="shortcut icon" href="_static/astropy_logo.ico"/>
+    <link rel="top" title="Astropy v0.2.1" href="index.html" />
+    <link rel="next" title="AstropyLogger" href="_generated/astropy.logger.AstropyLogger.html" />
+    <link rel="prev" title="write" href="_generated/astropy.io.registry.write.html" /> 
+  </head>
+  <body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="index.html"></a>
+  <ul>
+    <li><a class="homelink" title="AstroPy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="genindex.html">Index</a></li>
+    <li><a title="Python Module Index" href="py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li class="right">
+	<a href="_generated/astropy.logger.AstropyLogger.html" title="AstropyLogger">
+	  next &raquo;
+	</a>
+      </li>
+      <li class="right">
+	<a href="_generated/astropy.io.registry.write.html" title="write">
+	  &laquo; previous
+	</a>
+	 |
+      </li>
+      <li>
+	<a href="index.html">Astropy v0.2.1</a>
+	 &raquo;
+      </li>
+      
+      <li>Logging system</li> 
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="logging-system">
+<h1>Logging system<a class="headerlink" href="#logging-system" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>The Astropy logging system is designed to give users flexibility in deciding
+which log messages to show, to capture them, and to send them to a file.</p>
+<p>All messages printed by Astropy routines should use the built-in logging
+facility (normal <tt class="docutils literal"><span class="pre">print()</span></tt> calls should only be done by routines that are
+explicitly requested to print output). Messages can have one of several
+levels:</p>
+<ul class="simple">
+<li>DEBUG: Detailed information, typically of interest only when diagnosing
+problems.</li>
+<li>INFO: An message conveying information about the current task, and
+confirming that things are working as expected</li>
+<li>WARNING: An indication that something unexpected happened, and that user
+action may be required.</li>
+<li>ERROR: indicates a more serious issue, including exceptions</li>
+</ul>
+<p>By default, only WARNING and ERROR messages are displayed, and are sent to a
+log file located at <tt class="docutils literal"><span class="pre">~/.astropy/astropy.log</span></tt> (if the file is writeable).</p>
+</div>
+<div class="section" id="configuring-the-logging-system">
+<h2>Configuring the logging system<a class="headerlink" href="#configuring-the-logging-system" title="Permalink to this headline">¶</a></h2>
+<p>First, import the logger:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">astropy</span> <span class="kn">import</span> <span class="n">log</span>
+</pre></div>
+</div>
+<p>The threshold level (defined above) for messages can be set with e.g.:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">log</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="s">&#39;INFO&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Color (enabled by default) can be disabled with:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">log</span><span class="o">.</span><span class="n">setColor</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Warnings from <tt class="docutils literal"><span class="pre">warnings.warn</span></tt> can be logged with:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">log</span><span class="o">.</span><span class="n">enable_warnings_logging</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>which can be disabled with:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">log</span><span class="o">.</span><span class="n">disable_warnings_logging</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>and exceptions can be included in the log with:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">log</span><span class="o">.</span><span class="n">set_exception_logging</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>which can be disabled with:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">log</span><span class="o">.</span><span class="n">disable_exception_logging</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>It is also possible to set these settings from the Astropy configuration file,
+which also allows an overall log file to be specified. See
+<a class="reference internal" href="#using-the-configuration-file">Using the configuration file</a> for more information.</p>
+</div>
+<div class="section" id="context-managers">
+<h2>Context managers<a class="headerlink" href="#context-managers" title="Permalink to this headline">¶</a></h2>
+<p>In some cases, you may want to capture the log messages, for example to check
+whether a specific message was output, or to log the messages from a specific
+section of code to a file. Both of these are possible using context managers.</p>
+<p>To add the log messages to a list, first import the logger if you have not
+already done so:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">astropy</span> <span class="kn">import</span> <span class="n">log</span>
+</pre></div>
+</div>
+<p>then enclose the code in which you want to log the messages to a list in a
+<tt class="docutils literal"><span class="pre">with</span></tt> statement:</p>
+<div class="highlight-python"><pre>with log.log_to_list() as log_list:
+    # your code here</pre>
+</div>
+<p>In the above example, once the block of code has executed, <tt class="docutils literal"><span class="pre">log_list</span></tt> will
+be a Python list containing all the Astropy logging messages that were raised.
+Note that messages continue to be output as normal.</p>
+<p>Similarly, you can output the log messages of a specific section of code to a
+file using:</p>
+<div class="highlight-python"><pre>with log.log_to_file('myfile.log'):
+    # your code here</pre>
+</div>
+<p>which will add all the messages to <tt class="docutils literal"><span class="pre">myfile.log</span></tt> (this is in addition to the
+overall log file mentioned in <a class="reference internal" href="#using-the-configuration-file">Using the configuration file</a>).</p>
+<p>While these context managers will include all the messages emitted by the
+logger (using the global level set by <tt class="docutils literal"><span class="pre">log.setLevel</span></tt>), it is possible to
+filter a subset of these using <tt class="docutils literal"><span class="pre">filter_level=</span></tt>, and specifying one of
+<tt class="docutils literal"><span class="pre">'DEBUG'</span></tt>, <tt class="docutils literal"><span class="pre">'INFO'</span></tt>, <tt class="docutils literal"><span class="pre">'WARN'</span></tt>, <tt class="docutils literal"><span class="pre">'ERROR'</span></tt>. Note that if
+<tt class="docutils literal"><span class="pre">filter_level</span></tt> is a lower level than that set via <tt class="docutils literal"><span class="pre">setLevel</span></tt>, only
+messages with the level set by <tt class="docutils literal"><span class="pre">setLevel</span></tt> or higher will be included (i.e.
+<tt class="docutils literal"><span class="pre">filter_level</span></tt> is only filtering a subset of the messages normally emitted
+by the logger).</p>
+<p>Similarly, it is possible to filter a subset of the messages by origin by
+specifying <tt class="docutils literal"><span class="pre">filter_origin=</span></tt> followed by a string. If the origin of a message
+starts with that string, the message will be included in the context manager.
+For example, <tt class="docutils literal"><span class="pre">filter_origin='astropy.wcs'</span></tt> will include only messages
+emitted in the <tt class="docutils literal"><span class="pre">astropy.wcs</span></tt> sub-package.</p>
+</div>
+<div class="section" id="using-the-configuration-file">
+<h2>Using the configuration file<a class="headerlink" href="#using-the-configuration-file" title="Permalink to this headline">¶</a></h2>
+<p>Options for the logger can be set in the <tt class="docutils literal"><span class="pre">[config.logging_helper]</span></tt> section
+of the Astropy configuration file:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="n">config</span><span class="o">.</span><span class="n">logging_helper</span><span class="p">]</span>
+
+<span class="c"># Threshold for the logging messages. Logging messages that are less severe</span>
+<span class="c"># than this level will be ignored. The levels are &#39;DEBUG&#39;, &#39;INFO&#39;, &#39;WARNING&#39;,</span>
+<span class="c"># &#39;ERROR&#39;</span>
+<span class="n">log_level</span> <span class="o">=</span> <span class="s">&#39;INFO&#39;</span>
+
+<span class="c"># Whether to use color for the level names</span>
+<span class="n">use_color</span> <span class="o">=</span> <span class="bp">True</span>
+
+<span class="c"># Whether to log warnings.warn calls</span>
+<span class="n">log_warnings</span> <span class="o">=</span> <span class="bp">False</span>
+
+<span class="c"># Whether to log exceptions before raising them</span>
+<span class="n">log_exceptions</span> <span class="o">=</span> <span class="bp">False</span>
+
+<span class="c"># Whether to always log messages to a log file</span>
+<span class="n">log_to_file</span> <span class="o">=</span> <span class="bp">True</span>
+
+<span class="c"># The file to log messages to</span>
+<span class="n">log_file_path</span> <span class="o">=</span> <span class="s">&#39;~/.astropy/astropy.log&#39;</span>
+
+<span class="c"># Threshold for logging messages to log_file_path</span>
+<span class="n">log_file_level</span> <span class="o">=</span> <span class="s">&#39;INFO&#39;</span>
+
+<span class="c"># Format for log file entries</span>
+<span class="n">log_file_format</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%(asctime)s</span><span class="s">, </span><span class="si">%(origin)s</span><span class="s">, </span><span class="si">%(levelname)s</span><span class="s">, </span><span class="si">%(message)s</span><span class="s">&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="reference-api">
+<h2>Reference/API<a class="headerlink" href="#reference-api" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-astropy.logger">
+<span id="astropy-logger-module"></span><h3>astropy.logger Module<a class="headerlink" href="#module-astropy.logger" title="Permalink to this headline">¶</a></h3>
+<p>This module defines a logging class based on the built-in logging module</p>
+<div class="section" id="classes">
+<h4>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="_generated/astropy.logger.AstropyLogger.html#astropy.logger.AstropyLogger" title="astropy.logger.AstropyLogger"><tt class="xref py py-obj docutils literal"><span class="pre">AstropyLogger</span></tt></a>(name[,&nbsp;level])</td>
+<td>This class is used to set up the Astropy logging.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="_generated/astropy.logger.LoggingError.html#astropy.logger.LoggingError" title="astropy.logger.LoggingError"><tt class="xref py py-obj docutils literal"><span class="pre">LoggingError</span></tt></a></td>
+<td>This exception is for various errors that occur in the astropy logger, typically when activating or deactivating logger-related features.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+
+
+<h3>Page Contents</h3>
+<ul>
+<li><a class="reference internal" href="#">Logging system</a><ul>
+<li><a class="reference internal" href="#overview">Overview</a></li>
+<li><a class="reference internal" href="#configuring-the-logging-system">Configuring the logging system</a></li>
+<li><a class="reference internal" href="#context-managers">Context managers</a></li>
+<li><a class="reference internal" href="#using-the-configuration-file">Using the configuration file</a></li>
+<li><a class="reference internal" href="#reference-api">Reference/API</a><ul>
+<li><a class="reference internal" href="#module-astropy.logger">astropy.logger Module</a><ul>
+<li><a class="reference internal" href="#classes">Classes</a><ul>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+<footer class="footer">
+  <p class="pull-right">
+    <a href="http://github.com/astropy/astropy/tree/v0.2.1/docs/logging.rst">Edit This Page on Github</a> &nbsp;
+    <a href="_sources/logging.txt"
+       rel="nofollow">Page Source</a> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright 2011-2013, The Astropy Developers.<br/>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3+. &nbsp;
+    Last built 03 Apr 2013. <br/>
+  </p>
+</footer>
+ <!-- End original user content -->
+
+
+<br>
+<br>
+<br>
+
+
+<style type="text/css">
+  .rtd-badge {
+    position: fixed;
+    display: block;
+    bottom: 5px;
+    height: 40px;
+    text-indent: -9999em;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+  }
+  #version_menu {
+    position: fixed;
+    display: none;
+    bottom: 11px;
+    right: 166px;
+    list-style-type: none;
+    margin: 0;
+  }
+  .footer_popout:hover #version_menu {
+    display: block;
+  }
+  #version_menu li {
+    display: block;
+    float: right;
+  }
+  #version_menu li a {
+    display: block;
+    padding: 6px 10px 4px 10px;
+    margin: 7px 7px 0 0;
+    font-weight: bold;
+    font-size: 14px;
+    height: 20px;
+    line-height: 17px;
+    text-decoration: none;
+    color: #fff;
+    background: #8ca1af url(../images/gradient-light.png) bottom left repeat-x;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 1px #465158;
+    -moz-box-shadow: 0 1px 1px #465158;
+    -webkit-box-shadow: 0 1px 1px #465158;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+  }
+  #version_menu li a:hover {
+    text-decoration: none;
+    background-color: #697983;
+    box-shadow: 0 1px 0px #465158;
+    -moz-box-shadow: 0 1px 0px #465158;
+    -webkit-box-shadow: 0 1px 0px #465158;
+  }
+  .rtd-badge.rtd {
+    background: #3b4449 url(//media.readthedocs.org//images/badge-rtd.png) scroll 0px -46px no-repeat;
+    border: 1px solid #282E32;
+    width: 41px;
+    right: 5px;
+  }
+  .footer_popout:hover .rtd-badge.rtd {
+    background-position: top left;
+    width: 160px;
+  }
+  .rtd-badge.revsys { background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline-sponsored {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys-sm.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 205px;
+    right: 173px;
+  }
+
+</style>
+<div class="rtd_doc_footer">
+  <div class="footer_popout">
+    <a href="//readthedocs.org/projects/astropy/?fromdocs=astropy" class="rtd-badge rtd"> Brought to you by Read the Docs</a>
+    <ul id="version_menu">
+      
+        <li><a href="/en/latest/">latest</a></li>
+      
+        <li><a href="/en/add-mpl-to-rtd-pip-req/">add-mpl-to-rtd-pip-req</a></li>
+      
+        <li><a href="/en/v0.2.1/">v0.2.1</a></li>
+      
+        <li><a href="/en/v0.2/">v0.2</a></li>
+      
+        <li><a href="/en/v0.1/">v0.1</a></li>
+      
+    </ul>
+  </div>
+</div>
+<!-- RTD Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17997319-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+<!-- User Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-30968842-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+  </body>
+</html>

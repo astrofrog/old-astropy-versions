@@ -1,0 +1,44 @@
+
+
+JointFitter
+====================================
+
+.. currentmodule:: astropy.modeling.fitting
+
+.. autoclass:: JointFitter
+   :show-inheritance:
+
+   
+     
+   
+
+   
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+   
+      ~JointFitter.errorfunc
+
+   
+   
+
+   
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Documentation
+
+   
+   .. automethod:: errorfunc
+
+   
+   

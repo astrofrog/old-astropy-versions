@@ -1,0 +1,1233 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+
+    <title>FLRW &mdash; Astropy v0.2.1</title>
+<!-- RTD <head> -->
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/underscore.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/doctools.js"></script>
+
+<script type="text/javascript">
+  // This is included here for Javascript that doesn't have access to the templates.
+  var doc_version = "v0.2.1";
+  var doc_slug = "astropy";
+</script>
+
+<script type="text/javascript" src="//media.readthedocs.org/javascript/rtd.js"></script>
+<!-- end RTD <head> -->
+
+    
+    <link rel="stylesheet" href="../_static/bootstrap-astropy.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.2.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="shortcut icon" href="../_static/astropy_logo.ico"/>
+    <link rel="top" title="Astropy v0.2.1" href="../index.html" />
+    <link rel="up" title="Cosmological Calculations (astropy.cosmology)" href="../cosmology/index.html" />
+    <link rel="next" title="FlatLambdaCDM" href="astropy.cosmology.core.FlatLambdaCDM.html" />
+    <link rel="prev" title="set_current" href="astropy.cosmology.core.set_current.html" /> 
+  </head>
+  <body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../index.html"></a>
+  <ul>
+    <li><a class="homelink" title="AstroPy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../genindex.html">Index</a></li>
+    <li><a title="Python Module Index" href="../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li class="right">
+	<a href="astropy.cosmology.core.FlatLambdaCDM.html" title="FlatLambdaCDM">
+	  next &raquo;
+	</a>
+      </li>
+      <li class="right">
+	<a href="astropy.cosmology.core.set_current.html" title="set_current">
+	  &laquo; previous
+	</a>
+	 |
+      </li>
+      <li>
+	<a href="../index.html">Astropy v0.2.1</a>
+	 &raquo;
+      </li>
+      <li><a href="../cosmology/index.html" accesskey="U">Cosmological Calculations (<tt class="docutils literal"><span class="pre">astropy.cosmology</span></tt>)</a> &raquo;</li>
+      
+      <li>FLRW</li> 
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="flrw">
+<h1>FLRW<a class="headerlink" href="#flrw" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="astropy.cosmology.core.FLRW">
+<em class="property">class </em><tt class="descclassname">astropy.cosmology.core.</tt><tt class="descname">FLRW</tt><big>(</big><em>H0</em>, <em>Om0</em>, <em>Ode0</em>, <em>Tcmb0=2.725</em>, <em>Neff=3.04</em>, <em>name='FLRW'</em><big>)</big><a class="reference internal" href="../_modules/astropy/cosmology/core.html#FLRW"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/cosmology/core.py#L61" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.cosmology.core.FLRW" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">astropy.cosmology.core.Cosmology</span></tt></p>
+<p>A class describing an isotropic and homogeneous
+(Friedmann-Lemaitre-Robertson-Walker) cosmology.</p>
+<p>This is an abstract base class &#8211; you can&#8217;t instantiate
+examples of this class, but must work with one of its
+subclasses such as <a class="reference internal" href="astropy.cosmology.core.LambdaCDM.html#astropy.cosmology.core.LambdaCDM" title="astropy.cosmology.core.LambdaCDM"><tt class="xref py py-obj docutils literal"><span class="pre">LambdaCDM</span></tt></a> or <a class="reference internal" href="astropy.cosmology.core.wCDM.html#astropy.cosmology.core.wCDM" title="astropy.cosmology.core.wCDM"><tt class="xref py py-obj docutils literal"><span class="pre">wCDM</span></tt></a>.</p>
+<p class="rubric">Notes</p>
+<p>Class instances are static &#8211; you can&#8217;t change the values
+of the parameters.  That is, all of the attributes above are
+read only.</p>
+<p>The neutrino treatment assumes all neutrino species are massless.</p>
+<p class="rubric">Attributes Summary</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.cosmology.core.FLRW.H0" title="astropy.cosmology.core.FLRW.H0"><tt class="xref py py-obj docutils literal"><span class="pre">H0</span></tt></a></td>
+<td>Return the Hubble constant in [km/sec/Mpc] at z=0</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#astropy.cosmology.core.FLRW.Neff" title="astropy.cosmology.core.FLRW.Neff"><tt class="xref py py-obj docutils literal"><span class="pre">Neff</span></tt></a></td>
+<td>Number of effective neutrino species</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.cosmology.core.FLRW.Ode0" title="astropy.cosmology.core.FLRW.Ode0"><tt class="xref py py-obj docutils literal"><span class="pre">Ode0</span></tt></a></td>
+<td>Omega dark energy; dark energy density/critical density at z=0</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#astropy.cosmology.core.FLRW.Ogamma0" title="astropy.cosmology.core.FLRW.Ogamma0"><tt class="xref py py-obj docutils literal"><span class="pre">Ogamma0</span></tt></a></td>
+<td>Omega gamma; the density/critical density of photons at z=0</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.cosmology.core.FLRW.Ok0" title="astropy.cosmology.core.FLRW.Ok0"><tt class="xref py py-obj docutils literal"><span class="pre">Ok0</span></tt></a></td>
+<td>Omega curvature; the effective curvature density/critical density</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#astropy.cosmology.core.FLRW.Om0" title="astropy.cosmology.core.FLRW.Om0"><tt class="xref py py-obj docutils literal"><span class="pre">Om0</span></tt></a></td>
+<td>Omega matter; matter density/critical density at z=0</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.cosmology.core.FLRW.Onu0" title="astropy.cosmology.core.FLRW.Onu0"><tt class="xref py py-obj docutils literal"><span class="pre">Onu0</span></tt></a></td>
+<td>Omega nu; the density/critical density of neutrinos at z=0</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#astropy.cosmology.core.FLRW.Tcmb0" title="astropy.cosmology.core.FLRW.Tcmb0"><tt class="xref py py-obj docutils literal"><span class="pre">Tcmb0</span></tt></a></td>
+<td>Temperature of the CMB in Kelvin at z=0</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.cosmology.core.FLRW.critical_density0" title="astropy.cosmology.core.FLRW.critical_density0"><tt class="xref py py-obj docutils literal"><span class="pre">critical_density0</span></tt></a></td>
+<td>Critical density in [g cm^-3] at z=0</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#astropy.cosmology.core.FLRW.h" title="astropy.cosmology.core.FLRW.h"><tt class="xref py py-obj docutils literal"><span class="pre">h</span></tt></a></td>
+<td>Dimensionless Hubble constant: h = H_0 / 100 [km/sec/Mpc]</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.cosmology.core.FLRW.hubble_distance" title="astropy.cosmology.core.FLRW.hubble_distance"><tt class="xref py py-obj docutils literal"><span class="pre">hubble_distance</span></tt></a></td>
+<td>Hubble distance in [Mpc]</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#astropy.cosmology.core.FLRW.hubble_time" title="astropy.cosmology.core.FLRW.hubble_time"><tt class="xref py py-obj docutils literal"><span class="pre">hubble_time</span></tt></a></td>
+<td>Hubble time in [Gyr]</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods Summary</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.cosmology.core.FLRW.H" title="astropy.cosmology.core.FLRW.H"><tt class="xref py py-obj docutils literal"><span class="pre">H</span></tt></a>(z)</td>
+<td>Hubble parameter (km/s/Mpc) at redshift <tt class="xref py py-obj docutils literal"><span class="pre">z</span></tt>.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#astropy.cosmology.core.FLRW.Ode" title="astropy.cosmology.core.FLRW.Ode"><tt class="xref py py-obj docutils literal"><span class="pre">Ode</span></tt></a>(z)</td>
+<td>Return the density parameter for dark energy at redshift <tt class="xref py py-obj docutils literal"><span class="pre">z</span></tt>.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.cosmology.core.FLRW.Ogamma" title="astropy.cosmology.core.FLRW.Ogamma"><tt class="xref py py-obj docutils literal"><span class="pre">Ogamma</span></tt></a>(z)</td>
+<td>Return the density parameter for photons at redshift <tt class="xref py py-obj docutils literal"><span class="pre">z</span></tt>.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#astropy.cosmology.core.FLRW.Ok" title="astropy.cosmology.core.FLRW.Ok"><tt class="xref py py-obj docutils literal"><span class="pre">Ok</span></tt></a>(z)</td>
+<td>Return the equivalent density parameter for curvature at redshift <tt class="xref py py-obj docutils literal"><span class="pre">z</span></tt>.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.cosmology.core.FLRW.Om" title="astropy.cosmology.core.FLRW.Om"><tt class="xref py py-obj docutils literal"><span class="pre">Om</span></tt></a>(z)</td>
+<td>Return the density parameter for non-relativistic matter at redshift <tt class="xref py py-obj docutils literal"><span class="pre">z</span></tt>.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#astropy.cosmology.core.FLRW.Onu" title="astropy.cosmology.core.FLRW.Onu"><tt class="xref py py-obj docutils literal"><span class="pre">Onu</span></tt></a>(z)</td>
+<td>Return the density parameter for massless neutrinos at redshift <tt class="xref py py-obj docutils literal"><span class="pre">z</span></tt>.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.cosmology.core.FLRW.Tcmb" title="astropy.cosmology.core.FLRW.Tcmb"><tt class="xref py py-obj docutils literal"><span class="pre">Tcmb</span></tt></a>(z)</td>
+<td>Return the CMB temperature at redshift <tt class="xref py py-obj docutils literal"><span class="pre">z</span></tt>.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#astropy.cosmology.core.FLRW.absorption_distance" title="astropy.cosmology.core.FLRW.absorption_distance"><tt class="xref py py-obj docutils literal"><span class="pre">absorption_distance</span></tt></a>(z)</td>
+<td>Absorption distance at redshift <tt class="xref py py-obj docutils literal"><span class="pre">z</span></tt>.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.cosmology.core.FLRW.age" title="astropy.cosmology.core.FLRW.age"><tt class="xref py py-obj docutils literal"><span class="pre">age</span></tt></a>(z)</td>
+<td>Age of the universe in Gyr at redshift <tt class="xref py py-obj docutils literal"><span class="pre">z</span></tt>.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#astropy.cosmology.core.FLRW.angular_diameter_distance" title="astropy.cosmology.core.FLRW.angular_diameter_distance"><tt class="xref py py-obj docutils literal"><span class="pre">angular_diameter_distance</span></tt></a>(z)</td>
+<td>Angular diameter distance in Mpc at a given redshift.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.cosmology.core.FLRW.angular_diameter_distance_z1z2" title="astropy.cosmology.core.FLRW.angular_diameter_distance_z1z2"><tt class="xref py py-obj docutils literal"><span class="pre">angular_diameter_distance_z1z2</span></tt></a>(z1,&nbsp;z2)</td>
+<td>Angular diameter distance between objects at 2 redshifts.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#astropy.cosmology.core.FLRW.arcsec_per_kpc_comoving" title="astropy.cosmology.core.FLRW.arcsec_per_kpc_comoving"><tt class="xref py py-obj docutils literal"><span class="pre">arcsec_per_kpc_comoving</span></tt></a>(z)</td>
+<td>Angular separation in arcsec corresponding to a comoving kpc at redshift <tt class="xref py py-obj docutils literal"><span class="pre">z</span></tt>.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.cosmology.core.FLRW.arcsec_per_kpc_proper" title="astropy.cosmology.core.FLRW.arcsec_per_kpc_proper"><tt class="xref py py-obj docutils literal"><span class="pre">arcsec_per_kpc_proper</span></tt></a>(z)</td>
+<td>Angular separation in arcsec corresponding to a proper kpc at redshift <tt class="xref py py-obj docutils literal"><span class="pre">z</span></tt>.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#astropy.cosmology.core.FLRW.comoving_distance" title="astropy.cosmology.core.FLRW.comoving_distance"><tt class="xref py py-obj docutils literal"><span class="pre">comoving_distance</span></tt></a>(z)</td>
+<td>Comoving line-of-sight distance in Mpc at a given redshift.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.cosmology.core.FLRW.comoving_transverse_distance" title="astropy.cosmology.core.FLRW.comoving_transverse_distance"><tt class="xref py py-obj docutils literal"><span class="pre">comoving_transverse_distance</span></tt></a>(z)</td>
+<td>Comoving transverse distance in Mpc at a given redshift.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#astropy.cosmology.core.FLRW.comoving_volume" title="astropy.cosmology.core.FLRW.comoving_volume"><tt class="xref py py-obj docutils literal"><span class="pre">comoving_volume</span></tt></a>(z)</td>
+<td>Comoving volume in cubic Mpc at redshift <tt class="xref py py-obj docutils literal"><span class="pre">z</span></tt>.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.cosmology.core.FLRW.critical_density" title="astropy.cosmology.core.FLRW.critical_density"><tt class="xref py py-obj docutils literal"><span class="pre">critical_density</span></tt></a>(z)</td>
+<td>Critical density in grams per cubic cm at redshift <tt class="xref py py-obj docutils literal"><span class="pre">z</span></tt>.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#astropy.cosmology.core.FLRW.de_density_scale" title="astropy.cosmology.core.FLRW.de_density_scale"><tt class="xref py py-obj docutils literal"><span class="pre">de_density_scale</span></tt></a>(z)</td>
+<td>Evaluates the redshift dependence of the dark energy density.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.cosmology.core.FLRW.distmod" title="astropy.cosmology.core.FLRW.distmod"><tt class="xref py py-obj docutils literal"><span class="pre">distmod</span></tt></a>(z)</td>
+<td>Distance modulus at redshift <tt class="xref py py-obj docutils literal"><span class="pre">z</span></tt>.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#astropy.cosmology.core.FLRW.efunc" title="astropy.cosmology.core.FLRW.efunc"><tt class="xref py py-obj docutils literal"><span class="pre">efunc</span></tt></a>(z)</td>
+<td>Function used to calculate H(z), the Hubble parameter.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.cosmology.core.FLRW.inv_efunc" title="astropy.cosmology.core.FLRW.inv_efunc"><tt class="xref py py-obj docutils literal"><span class="pre">inv_efunc</span></tt></a>(z)</td>
+<td>Inverse of efunc.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#astropy.cosmology.core.FLRW.kpc_comoving_per_arcmin" title="astropy.cosmology.core.FLRW.kpc_comoving_per_arcmin"><tt class="xref py py-obj docutils literal"><span class="pre">kpc_comoving_per_arcmin</span></tt></a>(z)</td>
+<td>Separation in transverse comoving kpc corresponding to an arcminute at redshift <tt class="xref py py-obj docutils literal"><span class="pre">z</span></tt>.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.cosmology.core.FLRW.kpc_proper_per_arcmin" title="astropy.cosmology.core.FLRW.kpc_proper_per_arcmin"><tt class="xref py py-obj docutils literal"><span class="pre">kpc_proper_per_arcmin</span></tt></a>(z)</td>
+<td>Separation in transverse proper kpc corresponding to an arcminute at redshift <tt class="xref py py-obj docutils literal"><span class="pre">z</span></tt>.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#astropy.cosmology.core.FLRW.lookback_time" title="astropy.cosmology.core.FLRW.lookback_time"><tt class="xref py py-obj docutils literal"><span class="pre">lookback_time</span></tt></a>(z)</td>
+<td>Lookback time in Gyr to redshift <tt class="xref py py-obj docutils literal"><span class="pre">z</span></tt>.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.cosmology.core.FLRW.luminosity_distance" title="astropy.cosmology.core.FLRW.luminosity_distance"><tt class="xref py py-obj docutils literal"><span class="pre">luminosity_distance</span></tt></a>(z)</td>
+<td>Luminosity distance in Mpc at redshift <tt class="xref py py-obj docutils literal"><span class="pre">z</span></tt>.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#astropy.cosmology.core.FLRW.scale_factor" title="astropy.cosmology.core.FLRW.scale_factor"><tt class="xref py py-obj docutils literal"><span class="pre">scale_factor</span></tt></a>(z)</td>
+<td>Scale factor at redshift <tt class="xref py py-obj docutils literal"><span class="pre">z</span></tt>.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.cosmology.core.FLRW.w" title="astropy.cosmology.core.FLRW.w"><tt class="xref py py-obj docutils literal"><span class="pre">w</span></tt></a>(z)</td>
+<td>The dark energy equation of state.</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes Documentation</p>
+<dl class="attribute">
+<dt id="astropy.cosmology.core.FLRW.H0">
+<tt class="descname">H0</tt><a class="reference internal" href="../_modules/astropy/cosmology/core.html#FLRW.H0"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astropy.cosmology.core.FLRW.H0" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the Hubble constant in [km/sec/Mpc] at z=0</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.cosmology.core.FLRW.Neff">
+<tt class="descname">Neff</tt><a class="reference internal" href="../_modules/astropy/cosmology/core.html#FLRW.Neff"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astropy.cosmology.core.FLRW.Neff" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of effective neutrino species</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.cosmology.core.FLRW.Ode0">
+<tt class="descname">Ode0</tt><a class="reference internal" href="../_modules/astropy/cosmology/core.html#FLRW.Ode0"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astropy.cosmology.core.FLRW.Ode0" title="Permalink to this definition">¶</a></dt>
+<dd><p>Omega dark energy; dark energy density/critical density at z=0</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.cosmology.core.FLRW.Ogamma0">
+<tt class="descname">Ogamma0</tt><a class="reference internal" href="../_modules/astropy/cosmology/core.html#FLRW.Ogamma0"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astropy.cosmology.core.FLRW.Ogamma0" title="Permalink to this definition">¶</a></dt>
+<dd><p>Omega gamma; the density/critical density of photons at z=0</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.cosmology.core.FLRW.Ok0">
+<tt class="descname">Ok0</tt><a class="reference internal" href="../_modules/astropy/cosmology/core.html#FLRW.Ok0"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astropy.cosmology.core.FLRW.Ok0" title="Permalink to this definition">¶</a></dt>
+<dd><p>Omega curvature; the effective curvature density/critical density
+at z=0</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.cosmology.core.FLRW.Om0">
+<tt class="descname">Om0</tt><a class="reference internal" href="../_modules/astropy/cosmology/core.html#FLRW.Om0"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astropy.cosmology.core.FLRW.Om0" title="Permalink to this definition">¶</a></dt>
+<dd><p>Omega matter; matter density/critical density at z=0</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.cosmology.core.FLRW.Onu0">
+<tt class="descname">Onu0</tt><a class="reference internal" href="../_modules/astropy/cosmology/core.html#FLRW.Onu0"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astropy.cosmology.core.FLRW.Onu0" title="Permalink to this definition">¶</a></dt>
+<dd><p>Omega nu; the density/critical density of neutrinos at z=0</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.cosmology.core.FLRW.Tcmb0">
+<tt class="descname">Tcmb0</tt><a class="reference internal" href="../_modules/astropy/cosmology/core.html#FLRW.Tcmb0"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astropy.cosmology.core.FLRW.Tcmb0" title="Permalink to this definition">¶</a></dt>
+<dd><p>Temperature of the CMB in Kelvin at z=0</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.cosmology.core.FLRW.critical_density0">
+<tt class="descname">critical_density0</tt><a class="reference internal" href="../_modules/astropy/cosmology/core.html#FLRW.critical_density0"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astropy.cosmology.core.FLRW.critical_density0" title="Permalink to this definition">¶</a></dt>
+<dd><p>Critical density in [g cm^-3] at z=0</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.cosmology.core.FLRW.h">
+<tt class="descname">h</tt><a class="reference internal" href="../_modules/astropy/cosmology/core.html#FLRW.h"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astropy.cosmology.core.FLRW.h" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dimensionless Hubble constant: h = H_0 / 100 [km/sec/Mpc]</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.cosmology.core.FLRW.hubble_distance">
+<tt class="descname">hubble_distance</tt><a class="reference internal" href="../_modules/astropy/cosmology/core.html#FLRW.hubble_distance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astropy.cosmology.core.FLRW.hubble_distance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hubble distance in [Mpc]</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.cosmology.core.FLRW.hubble_time">
+<tt class="descname">hubble_time</tt><a class="reference internal" href="../_modules/astropy/cosmology/core.html#FLRW.hubble_time"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astropy.cosmology.core.FLRW.hubble_time" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hubble time in [Gyr]</p>
+</dd></dl>
+
+<p class="rubric">Methods Documentation</p>
+<dl class="method">
+<dt id="astropy.cosmology.core.FLRW.H">
+<tt class="descname">H</tt><big>(</big><em>z</em><big>)</big><a class="reference internal" href="../_modules/astropy/cosmology/core.html#FLRW.H"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/cosmology/core.py#L532" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.cosmology.core.FLRW.H" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hubble parameter (km/s/Mpc) at redshift <tt class="xref py py-obj docutils literal"><span class="pre">z</span></tt>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>z</strong> : array_like</p>
+<blockquote>
+<div><p>Input redshifts.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>H</strong> : ndarray, or float if input scalar</p>
+<blockquote class="last">
+<div><p>Hubble parameter in km/s/Mpc at each input redshift.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.cosmology.core.FLRW.Ode">
+<tt class="descname">Ode</tt><big>(</big><em>z</em><big>)</big><a class="reference internal" href="../_modules/astropy/cosmology/core.html#FLRW.Ode"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/cosmology/core.py#L281" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.cosmology.core.FLRW.Ode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the density parameter for dark energy at redshift <tt class="xref py py-obj docutils literal"><span class="pre">z</span></tt>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>z</strong> : array_like</p>
+<blockquote>
+<div><p>Input redshifts.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>Ode</strong> : ndarray, or float if input scalar</p>
+<blockquote class="last">
+<div><p>The density of non-relativistic matter relative to the critical
+density at each redshift.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.cosmology.core.FLRW.Ogamma">
+<tt class="descname">Ogamma</tt><big>(</big><em>z</em><big>)</big><a class="reference internal" href="../_modules/astropy/cosmology/core.html#FLRW.Ogamma"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/cosmology/core.py#L301" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.cosmology.core.FLRW.Ogamma" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the density parameter for photons at redshift <tt class="xref py py-obj docutils literal"><span class="pre">z</span></tt>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>z</strong> : array_like</p>
+<blockquote>
+<div><p>Input redshifts.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>Ogamma</strong> : ndarray, or float if input scalar</p>
+<blockquote class="last">
+<div><p>The energy density of photons relative to the critical
+density at each redshift.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.cosmology.core.FLRW.Ok">
+<tt class="descname">Ok</tt><big>(</big><em>z</em><big>)</big><a class="reference internal" href="../_modules/astropy/cosmology/core.html#FLRW.Ok"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/cosmology/core.py#L258" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.cosmology.core.FLRW.Ok" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the equivalent density parameter for curvature
+at redshift <tt class="xref py py-obj docutils literal"><span class="pre">z</span></tt>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>z</strong> : array_like</p>
+<blockquote>
+<div><p>Input redshifts.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>Ok</strong> : ndarray, or float if input scalar</p>
+<blockquote class="last">
+<div><p>The equivalent density parameter for curvature at each redshift.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.cosmology.core.FLRW.Om">
+<tt class="descname">Om</tt><big>(</big><em>z</em><big>)</big><a class="reference internal" href="../_modules/astropy/cosmology/core.html#FLRW.Om"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/cosmology/core.py#L238" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.cosmology.core.FLRW.Om" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the density parameter for non-relativistic matter
+at redshift <tt class="xref py py-obj docutils literal"><span class="pre">z</span></tt>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>z</strong> : array_like</p>
+<blockquote>
+<div><p>Input redshifts.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>Om</strong> : ndarray, or float if input scalar</p>
+<blockquote class="last">
+<div><p>The density of non-relativistic matter relative to the critical
+density at each redshift.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.cosmology.core.FLRW.Onu">
+<tt class="descname">Onu</tt><big>(</big><em>z</em><big>)</big><a class="reference internal" href="../_modules/astropy/cosmology/core.html#FLRW.Onu"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/cosmology/core.py#L325" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.cosmology.core.FLRW.Onu" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the density parameter for massless neutrinos at redshift <tt class="xref py py-obj docutils literal"><span class="pre">z</span></tt>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>z</strong> : array_like</p>
+<blockquote>
+<div><p>Input redshifts.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>Onu</strong> : ndarray, or float if input scalar</p>
+<blockquote class="last">
+<div><p>The energy density of photons relative to the critical
+density at each redshift.  Note that this includes only
+their relativistic energy, since they are assumed massless.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.cosmology.core.FLRW.Tcmb">
+<tt class="descname">Tcmb</tt><big>(</big><em>z</em><big>)</big><a class="reference internal" href="../_modules/astropy/cosmology/core.html#FLRW.Tcmb"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/cosmology/core.py#L350" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.cosmology.core.FLRW.Tcmb" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the CMB temperature at redshift <tt class="xref py py-obj docutils literal"><span class="pre">z</span></tt>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>z</strong> : array_like</p>
+<blockquote>
+<div><p>Input redshifts.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>Tcmb</strong> : ndarray, or float if z is scalar</p>
+<blockquote class="last">
+<div><p>The temperature of the CMB in K.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.cosmology.core.FLRW.absorption_distance">
+<tt class="descname">absorption_distance</tt><big>(</big><em>z</em><big>)</big><a class="reference internal" href="../_modules/astropy/cosmology/core.html#FLRW.absorption_distance"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/cosmology/core.py#L805" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.cosmology.core.FLRW.absorption_distance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Absorption distance at redshift <tt class="xref py py-obj docutils literal"><span class="pre">z</span></tt>.</p>
+<p>This is used to calculate the number of objects with some
+cross section of absorption and number density intersecting a
+sightline per unit redshift path.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>z</strong> : array_like</p>
+<blockquote>
+<div><p>Input redshifts.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>d</strong> : ndarray, or float if input scalar</p>
+<blockquote class="last">
+<div><p>Absorption distance (dimensionless) at each input redshift.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">References</p>
+<p>Hogg 1999 Section 11. (astro-ph/9905116)
+Bahcall, John N. and Peebles, P.J.E. 1969, ApJ, 156L, 7B</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.cosmology.core.FLRW.age">
+<tt class="descname">age</tt><big>(</big><em>z</em><big>)</big><a class="reference internal" href="../_modules/astropy/cosmology/core.html#FLRW.age"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/cosmology/core.py#L594" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.cosmology.core.FLRW.age" title="Permalink to this definition">¶</a></dt>
+<dd><p>Age of the universe in Gyr at redshift <tt class="xref py py-obj docutils literal"><span class="pre">z</span></tt>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>z</strong> : array_like</p>
+<blockquote>
+<div><p>Input redshifts.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>t</strong> : ndarray, or float if input scalar</p>
+<blockquote class="last">
+<div><p>The age of the universe in Gyr at each input redshift.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.cosmology.core.FLRW.angular_diameter_distance">
+<tt class="descname">angular_diameter_distance</tt><big>(</big><em>z</em><big>)</big><a class="reference internal" href="../_modules/astropy/cosmology/core.html#FLRW.angular_diameter_distance"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/cosmology/core.py#L692" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.cosmology.core.FLRW.angular_diameter_distance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Angular diameter distance in Mpc at a given redshift.</p>
+<p>This gives the proper (sometimes called &#8216;physical&#8217;) transverse
+distance corresponding to an angle of 1 radian for an object
+at redshift <tt class="xref py py-obj docutils literal"><span class="pre">z</span></tt>.</p>
+<p>Weinberg, 1972, pp 421-424; Weedman, 1986, pp 65-67; Peebles,
+1993, pp 325-327.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>z</strong> : array_like</p>
+<blockquote>
+<div><p>Input redshifts.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>d</strong> : ndarray, or float if input scalar</p>
+<blockquote class="last">
+<div><p>Angular diameter distance in Mpc at each input redshift.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.cosmology.core.FLRW.angular_diameter_distance_z1z2">
+<tt class="descname">angular_diameter_distance_z1z2</tt><big>(</big><em>z1</em>, <em>z2</em><big>)</big><a class="reference internal" href="../_modules/astropy/cosmology/core.html#FLRW.angular_diameter_distance_z1z2"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/cosmology/core.py#L745" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.cosmology.core.FLRW.angular_diameter_distance_z1z2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Angular diameter distance between objects at 2 redshifts.
+Useful for gravitational lensing.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>z1, z2</strong> : array_like, shape (N,)</p>
+<blockquote>
+<div><p>Input redshifts. z2 must be large than z1.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>d</strong> : ndarray, shape (N,) or float if input scalar</p>
+<blockquote>
+<div><p>The angular diameter distance between each input redshift
+pair.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises :</th><td class="field-body"><p class="first"><strong>CosmologyError</strong> :</p>
+<blockquote class="last">
+<div><p>If omega_k is &lt; 0.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>This method only works for flat or open curvature
+(omega_k &gt;= 0).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.cosmology.core.FLRW.arcsec_per_kpc_comoving">
+<tt class="descname">arcsec_per_kpc_comoving</tt><big>(</big><em>z</em><big>)</big><a class="reference internal" href="../_modules/astropy/cosmology/core.html#FLRW.arcsec_per_kpc_comoving"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/cosmology/core.py#L925" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.cosmology.core.FLRW.arcsec_per_kpc_comoving" title="Permalink to this definition">¶</a></dt>
+<dd><p>Angular separation in arcsec corresponding to a comoving kpc
+at redshift <tt class="xref py py-obj docutils literal"><span class="pre">z</span></tt>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>z</strong> : array_like</p>
+<blockquote>
+<div><p>Input redshifts.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>theta</strong> : ndarray, or float if input scalar</p>
+<blockquote class="last">
+<div><p>The angular separation in arcsec corresponding to a comoving kpc
+at each input redshift.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.cosmology.core.FLRW.arcsec_per_kpc_proper">
+<tt class="descname">arcsec_per_kpc_proper</tt><big>(</big><em>z</em><big>)</big><a class="reference internal" href="../_modules/astropy/cosmology/core.html#FLRW.arcsec_per_kpc_proper"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/cosmology/core.py#L944" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.cosmology.core.FLRW.arcsec_per_kpc_proper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Angular separation in arcsec corresponding to a proper kpc at
+redshift <tt class="xref py py-obj docutils literal"><span class="pre">z</span></tt>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>z</strong> : array_like</p>
+<blockquote>
+<div><p>Input redshifts.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>theta</strong> : ndarray, or float if input scalar</p>
+<blockquote class="last">
+<div><p>The angular separation in arcsec corresponding to a proper kpc
+at each input redshift.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.cosmology.core.FLRW.comoving_distance">
+<tt class="descname">comoving_distance</tt><big>(</big><em>z</em><big>)</big><a class="reference internal" href="../_modules/astropy/cosmology/core.html#FLRW.comoving_distance"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/cosmology/core.py#L631" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.cosmology.core.FLRW.comoving_distance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Comoving line-of-sight distance in Mpc at a given
+redshift.</p>
+<p>The comoving distance along the line-of-sight between two
+objects remains constant with time for objects in the Hubble
+flow.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>z</strong> : array_like</p>
+<blockquote>
+<div><p>Input redshifts.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>d</strong> : ndarray, or float if input scalar</p>
+<blockquote class="last">
+<div><p>Comoving distance in Mpc to each input redshift.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.cosmology.core.FLRW.comoving_transverse_distance">
+<tt class="descname">comoving_transverse_distance</tt><big>(</big><em>z</em><big>)</big><a class="reference internal" href="../_modules/astropy/cosmology/core.html#FLRW.comoving_transverse_distance"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/cosmology/core.py#L657" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.cosmology.core.FLRW.comoving_transverse_distance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Comoving transverse distance in Mpc at a given redshift.</p>
+<p>This value is the transverse comoving distance at redshift <tt class="xref py py-obj docutils literal"><span class="pre">z</span></tt>
+corresponding to an angular separation of 1 radian. This is
+the same as the comoving distance if omega_k is zero (as in
+the current concordance lambda CDM model).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>z</strong> : array_like</p>
+<blockquote>
+<div><p>Input redshifts.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>d</strong> : ndarray, or float if input scalar</p>
+<blockquote class="last">
+<div><p>Comoving transverse distance in Mpc at each input redshift.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>This quantity also called the &#8216;proper motion distance&#8217; in some
+texts.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.cosmology.core.FLRW.comoving_volume">
+<tt class="descname">comoving_volume</tt><big>(</big><em>z</em><big>)</big><a class="reference internal" href="../_modules/astropy/cosmology/core.html#FLRW.comoving_volume"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/cosmology/core.py#L855" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.cosmology.core.FLRW.comoving_volume" title="Permalink to this definition">¶</a></dt>
+<dd><p>Comoving volume in cubic Mpc at redshift <tt class="xref py py-obj docutils literal"><span class="pre">z</span></tt>.</p>
+<p>This is the volume of the universe encompassed by redshifts
+less than <tt class="xref py py-obj docutils literal"><span class="pre">z</span></tt>. For the case of omega_k = 0 it is a sphere of
+radius <tt class="xref py py-obj docutils literal"><span class="pre">comoving_distance(z)</span></tt> but it is less intuitive if
+omega_k is not 0.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>z</strong> : array_like</p>
+<blockquote>
+<div><p>Input redshifts.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>V</strong> : ndarray, or float if input scalar</p>
+<blockquote class="last">
+<div><p>Comoving volume in Mpc^3 at each input redshift.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.cosmology.core.FLRW.critical_density">
+<tt class="descname">critical_density</tt><big>(</big><em>z</em><big>)</big><a class="reference internal" href="../_modules/astropy/cosmology/core.html#FLRW.critical_density"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/cosmology/core.py#L615" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.cosmology.core.FLRW.critical_density" title="Permalink to this definition">¶</a></dt>
+<dd><p>Critical density in grams per cubic cm at redshift <tt class="xref py py-obj docutils literal"><span class="pre">z</span></tt>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>z</strong> : array_like</p>
+<blockquote>
+<div><p>Input redshifts.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>rho</strong> : ndarray, or float if input scalar</p>
+<blockquote class="last">
+<div><p>Critical density in g/cm^3 at each input redshift.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.cosmology.core.FLRW.de_density_scale">
+<tt class="descname">de_density_scale</tt><big>(</big><em>z</em><big>)</big><a class="reference internal" href="../_modules/astropy/cosmology/core.html#FLRW.de_density_scale"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/cosmology/core.py#L378" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.cosmology.core.FLRW.de_density_scale" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluates the redshift dependence of the dark energy density.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>z</strong> : array_like</p>
+<blockquote>
+<div><p>Input redshifts.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>I</strong> : ndarray, or float if input scalar</p>
+<blockquote class="last">
+<div><p>The scaling of the energy density of dark energy with redshift.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>The scaling factor, I, is defined by <img class="math" src="../_images/math/e7f54c5173f876b39db84034f177036344cbf1b0.png" alt="\rho(z) = \rho_0 I"/>,
+and is given by</p>
+<div class="math">
+<p><img src="../_images/math/5cb3d72ba545ce80d174461c4ca21c3afbecf897.png" alt="I = \exp \left( 3 \int_{a}^1 \frac{ da^{\prime} }{ a^{\prime} }
+\left[ 1 + w\left( a^{\prime} \right) \right] \right)"/></p>
+</div><p>It will generally helpful for subclasses to overload this method if
+the integral can be done analytically for the particular dark
+energy equation of state that they implement.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.cosmology.core.FLRW.distmod">
+<tt class="descname">distmod</tt><big>(</big><em>z</em><big>)</big><a class="reference internal" href="../_modules/astropy/cosmology/core.html#FLRW.distmod"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/cosmology/core.py#L835" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.cosmology.core.FLRW.distmod" title="Permalink to this definition">¶</a></dt>
+<dd><p>Distance modulus at redshift <tt class="xref py py-obj docutils literal"><span class="pre">z</span></tt>.</p>
+<p>The distance modulus is defined as the (apparent magnitude -
+absolute magnitude) for an object at redshift <tt class="xref py py-obj docutils literal"><span class="pre">z</span></tt>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>z</strong> : array_like</p>
+<blockquote>
+<div><p>Input redshifts.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>distmod</strong> : ndarray, or float if input scalar</p>
+<blockquote class="last">
+<div><p>Distance modulus at each input redshift.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.cosmology.core.FLRW.efunc">
+<tt class="descname">efunc</tt><big>(</big><em>z</em><big>)</big><a class="reference internal" href="../_modules/astropy/cosmology/core.html#FLRW.efunc"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/cosmology/core.py#L428" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.cosmology.core.FLRW.efunc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function used to calculate H(z), the Hubble parameter.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>z</strong> : array_like</p>
+<blockquote>
+<div><p>Input redshifts.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>E</strong> : ndarray, or float if input scalar</p>
+<blockquote class="last">
+<div><p>The redshift scaling of the Hubble constant.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>The return value, E, is defined such that <img class="math" src="../_images/math/7adb5d8eff31ec22579496b08a0380a42ed5447a.png" alt="H(z) = H_0 E"/>.</p>
+<p>It is not necessary to override this method, but if de_density_scale
+takes a particularly simple form, it may be advantageous to.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.cosmology.core.FLRW.inv_efunc">
+<tt class="descname">inv_efunc</tt><big>(</big><em>z</em><big>)</big><a class="reference internal" href="../_modules/astropy/cosmology/core.html#FLRW.inv_efunc"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/cosmology/core.py#L459" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.cosmology.core.FLRW.inv_efunc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inverse of efunc.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>z</strong> : array_like</p>
+<blockquote>
+<div><p>Input redshifts.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>E</strong> : ndarray, or float if input scalar</p>
+<blockquote class="last">
+<div><p>The redshift scaling of the inverse Hubble constant.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.cosmology.core.FLRW.kpc_comoving_per_arcmin">
+<tt class="descname">kpc_comoving_per_arcmin</tt><big>(</big><em>z</em><big>)</big><a class="reference internal" href="../_modules/astropy/cosmology/core.html#FLRW.kpc_comoving_per_arcmin"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/cosmology/core.py#L889" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.cosmology.core.FLRW.kpc_comoving_per_arcmin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Separation in transverse comoving kpc corresponding to an
+arcminute at redshift <tt class="xref py py-obj docutils literal"><span class="pre">z</span></tt>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>z</strong> : array_like</p>
+<blockquote>
+<div><p>Input redshifts.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>d</strong> : ndarray, or float if input scalar</p>
+<blockquote class="last">
+<div><p>The distance in comoving kpc corresponding to an arcmin at each
+input redshift.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.cosmology.core.FLRW.kpc_proper_per_arcmin">
+<tt class="descname">kpc_proper_per_arcmin</tt><big>(</big><em>z</em><big>)</big><a class="reference internal" href="../_modules/astropy/cosmology/core.html#FLRW.kpc_proper_per_arcmin"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/cosmology/core.py#L907" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.cosmology.core.FLRW.kpc_proper_per_arcmin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Separation in transverse proper kpc corresponding to an
+arcminute at redshift <tt class="xref py py-obj docutils literal"><span class="pre">z</span></tt>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>z</strong> : array_like</p>
+<blockquote>
+<div><p>Input redshifts.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>d</strong> : ndarray, or float if input scalar</p>
+<blockquote class="last">
+<div><p>The distance in proper kpc corresponding to an arcmin at each
+input redshift.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.cosmology.core.FLRW.lookback_time">
+<tt class="descname">lookback_time</tt><big>(</big><em>z</em><big>)</big><a class="reference internal" href="../_modules/astropy/cosmology/core.html#FLRW.lookback_time"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/cosmology/core.py#L570" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.cosmology.core.FLRW.lookback_time" title="Permalink to this definition">¶</a></dt>
+<dd><p>Lookback time in Gyr to redshift <tt class="xref py py-obj docutils literal"><span class="pre">z</span></tt>.</p>
+<p>The lookback time is the difference between the age of the
+Universe now and the age at redshift <tt class="xref py py-obj docutils literal"><span class="pre">z</span></tt>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>z</strong> : array_like</p>
+<blockquote>
+<div><p>Input redshifts.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>t</strong> : ndarray, or float if input scalar</p>
+<blockquote class="last">
+<div><p>Lookback time in Gyr to each input redshift.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.cosmology.core.FLRW.luminosity_distance">
+<tt class="descname">luminosity_distance</tt><big>(</big><em>z</em><big>)</big><a class="reference internal" href="../_modules/astropy/cosmology/core.html#FLRW.luminosity_distance"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/cosmology/core.py#L718" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.cosmology.core.FLRW.luminosity_distance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Luminosity distance in Mpc at redshift <tt class="xref py py-obj docutils literal"><span class="pre">z</span></tt>.</p>
+<p>This is the distance to use when converting between the
+bolometric flux from an object at redshift <tt class="xref py py-obj docutils literal"><span class="pre">z</span></tt> and its
+bolometric luminosity.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>z</strong> : array_like</p>
+<blockquote>
+<div><p>Input redshifts.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>d</strong> : ndarray, or float if input scalar</p>
+<blockquote class="last">
+<div><p>Luminosity distance in Mpc at each input redshift.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">References</p>
+<p>Weinberg, 1972, pp 420-424; Weedman, 1986, pp 60-62.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.cosmology.core.FLRW.scale_factor">
+<tt class="descname">scale_factor</tt><big>(</big><em>z</em><big>)</big><a class="reference internal" href="../_modules/astropy/cosmology/core.html#FLRW.scale_factor"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/cosmology/core.py#L548" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.cosmology.core.FLRW.scale_factor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Scale factor at redshift <tt class="xref py py-obj docutils literal"><span class="pre">z</span></tt>.</p>
+<p>The scale factor is defined as <img class="math" src="../_images/math/685446b8a2c8f6dc8f69217c0ec8abb02ba23828.png" alt="a = 1 / (1 + z)"/>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>z</strong> : array_like</p>
+<blockquote>
+<div><p>Input redshifts.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>a</strong> : ndarray, or float if input scalar</p>
+<blockquote class="last">
+<div><p>Scale factor at each input redshift.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.cosmology.core.FLRW.w">
+<tt class="descname">w</tt><big>(</big><em>z</em><big>)</big><a class="reference internal" href="../_modules/astropy/cosmology/core.html#FLRW.w"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/cosmology/core.py#L213" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.cosmology.core.FLRW.w" title="Permalink to this definition">¶</a></dt>
+<dd><p>The dark energy equation of state.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>z</strong> : array_like</p>
+<blockquote>
+<div><p>Input redshifts.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>w</strong> : ndarray, or float if input scalar</p>
+<blockquote class="last">
+<div><p>The dark energy equation of state</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>The dark energy equation of state is defined as
+<img class="math" src="../_images/math/802268ceb41e6461941b1059d6b0f2ce7f00d50a.png" alt="w(z) = P(z)/\rho(z)"/>, where <img class="math" src="../_images/math/9e048a9db04ffc89eec3e0d78777919f12df3aeb.png" alt="P(z)"/> is the
+pressure at redshift z and <img class="math" src="../_images/math/1138adac16ef720028e38d921f11b27a8f430ab7.png" alt="\rho(z)"/> is the density
+at redshift z, both in units where c=1.</p>
+<p>This must be overridden by subclasses.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+
+
+<h3>Page Contents</h3>
+<ul>
+<li><a class="reference internal" href="#">FLRW</a></li>
+</ul>
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+<footer class="footer">
+  <p class="pull-right">
+    <a href="../_sources/_generated/astropy.cosmology.core.FLRW.txt"
+       rel="nofollow">Page Source</a> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright 2011-2013, The Astropy Developers.<br/>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3+. &nbsp;
+    Last built 03 Apr 2013. <br/>
+  </p>
+</footer>
+ <!-- End original user content -->
+
+
+<br>
+<br>
+<br>
+
+
+<style type="text/css">
+  .rtd-badge {
+    position: fixed;
+    display: block;
+    bottom: 5px;
+    height: 40px;
+    text-indent: -9999em;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+  }
+  #version_menu {
+    position: fixed;
+    display: none;
+    bottom: 11px;
+    right: 166px;
+    list-style-type: none;
+    margin: 0;
+  }
+  .footer_popout:hover #version_menu {
+    display: block;
+  }
+  #version_menu li {
+    display: block;
+    float: right;
+  }
+  #version_menu li a {
+    display: block;
+    padding: 6px 10px 4px 10px;
+    margin: 7px 7px 0 0;
+    font-weight: bold;
+    font-size: 14px;
+    height: 20px;
+    line-height: 17px;
+    text-decoration: none;
+    color: #fff;
+    background: #8ca1af url(../images/gradient-light.png) bottom left repeat-x;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 1px #465158;
+    -moz-box-shadow: 0 1px 1px #465158;
+    -webkit-box-shadow: 0 1px 1px #465158;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+  }
+  #version_menu li a:hover {
+    text-decoration: none;
+    background-color: #697983;
+    box-shadow: 0 1px 0px #465158;
+    -moz-box-shadow: 0 1px 0px #465158;
+    -webkit-box-shadow: 0 1px 0px #465158;
+  }
+  .rtd-badge.rtd {
+    background: #3b4449 url(//media.readthedocs.org//images/badge-rtd.png) scroll 0px -46px no-repeat;
+    border: 1px solid #282E32;
+    width: 41px;
+    right: 5px;
+  }
+  .footer_popout:hover .rtd-badge.rtd {
+    background-position: top left;
+    width: 160px;
+  }
+  .rtd-badge.revsys { background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline-sponsored {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys-sm.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 205px;
+    right: 173px;
+  }
+
+</style>
+<div class="rtd_doc_footer">
+  <div class="footer_popout">
+    <a href="//readthedocs.org/projects/astropy/?fromdocs=astropy" class="rtd-badge rtd"> Brought to you by Read the Docs</a>
+    <ul id="version_menu">
+      
+        <li><a href="/en/latest/">latest</a></li>
+      
+        <li><a href="/en/add-mpl-to-rtd-pip-req/">add-mpl-to-rtd-pip-req</a></li>
+      
+        <li><a href="/en/v0.2.1/">v0.2.1</a></li>
+      
+        <li><a href="/en/v0.2/">v0.2</a></li>
+      
+        <li><a href="/en/v0.1/">v0.1</a></li>
+      
+    </ul>
+  </div>
+</div>
+<!-- RTD Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17997319-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+<!-- User Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-30968842-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+  </body>
+</html>

@@ -1,0 +1,240 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>HTML &mdash; Astropy v0.4.2</title>
+    
+    <link rel="stylesheet" href="../_static/bootstrap-astropy.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="https://media.readthedocs.org/css/badge_only.css" type="text/css" />
+    <link rel="stylesheet" href="https://media.readthedocs.org/css/readthedocs-doc-embed.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.4.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/jquery/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/jquery/jquery-migrate-1.2.1.min.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/underscore.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/doctools.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/readthedocs-doc-embed.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="shortcut icon" href="../_static/astropy_logo.ico"/>
+    <link rel="top" title="Astropy v0.4.2" href="../index.html" />
+    <link rel="up" title="ASCII Tables (astropy.io.ascii)" href="../io/ascii/index.html" />
+    <link rel="next" title="InconsistentTableError" href="astropy.io.ascii.InconsistentTableError.html" />
+    <link rel="prev" title="FloatType" href="astropy.io.ascii.FloatType.html" />
+
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,600' rel='stylesheet' type='text/css'/>
+<script type="text/javascript" src="../_static/copybutton.js"></script>
+
+
+<!-- RTD Extra Head -->
+
+
+
+<!-- 
+Read the Docs is acting as the canonical URL for your project. 
+If you want to change it, more info is available in our docs:
+  http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="http://astropy.readthedocs.org/en/latest/api/astropy.io.ascii.HTML.html" />
+
+<script type="text/javascript">
+  // This is included here because other places don't have access to the pagename variable.
+  var READTHEDOCS_DATA = {
+    project: "astropy",
+    version: "v0.4.2",
+    language: "en",
+    page: "api/astropy.io.ascii.HTML",
+    builder: "sphinx",
+    theme: "bootstrap-astropy",
+    docroot: "/docs/",
+    source_suffix: ".rst",
+    api_host: "https://readthedocs.org/",
+    commit: "542718512637738441b4315bc8f1a98ab8499ddd"
+  }
+  // Old variables
+  var doc_version = "v0.4.2";
+  var doc_slug = "astropy";
+  var page_name = "api/astropy.io.ascii.HTML";
+  var html_theme = "bootstrap-astropy";
+</script>
+<!-- RTD Analytics Code -->
+<!-- Included in the header because you don't have a footer block. -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17997319-1']);
+  _gaq.push(['_trackPageview']);
+
+  // User Analytics Code
+  _gaq.push(['user._setAccount', 'UA-30968842-1']);
+  _gaq.push(['user._trackPageview']);
+  // End User Analytics Code
+
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+<!-- end RTD Analytics Code -->
+<!-- end RTD <extrahead> -->
+
+  </head>
+  <body role="document">
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../index.html"><span id="logotext1">astro</span><span id="logotext2">py</span><span id="logotext3">:docs</span></a>
+  <ul>
+    <li><a class="homelink" title="Astropy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../genindex.html">Index</a></li>
+    <li><a title="Module Index" href="../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li class="right">
+	<a href="astropy.io.ascii.InconsistentTableError.html" title="InconsistentTableError">
+	  next &raquo;
+	</a>
+      </li>
+      <li class="right">
+	<a href="astropy.io.ascii.FloatType.html" title="FloatType">
+	  &laquo; previous
+	</a>
+	 |
+      </li>
+      <li>
+	<a href="../index.html">Astropy v0.4.2</a>
+	 &raquo;
+      </li>
+      <li><a href="../io/ascii/index.html" accesskey="U">ASCII Tables (<code class="docutils literal"><span class="pre">astropy.io.ascii</span></code>)</a> &raquo;</li>
+      
+      <li>HTML</li> 
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="html">
+<h1>HTML<a class="headerlink" href="#html" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="astropy.io.ascii.HTML">
+<em class="property">class </em><code class="descclassname">astropy.io.ascii.</code><code class="descname">HTML</code><span class="sig-paren">(</span><em>htmldict={}</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/astropy/io/ascii/html.html#HTML"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.4.x/astropy/io/ascii/html.py#L236" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.io.ascii.HTML" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="astropy.io.ascii.BaseReader.html#astropy.io.ascii.BaseReader" title="astropy.io.ascii.core.BaseReader"><code class="docutils literal"><span class="pre">astropy.io.ascii.BaseReader</span></code></a></p>
+<p>Read and write HTML tables.</p>
+<p>In order to customize input and output, a dict of parameters may
+be passed to this class holding specific customizations.</p>
+<p><strong>htmldict</strong> : Dictionary of parameters for HTML input/output.</p>
+<blockquote>
+<div><ul>
+<li><dl class="first docutils">
+<dt>css <span class="classifier-delimiter">:</span> <span class="classifier">Customized styling</span></dt>
+<dd><p class="first last">If present, this parameter will be included in a &lt;style&gt;
+tag and will define stylistic attributes of the output.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>table_id <span class="classifier-delimiter">:</span> <span class="classifier">ID for the input table</span></dt>
+<dd><p class="first last">If a string, this defines the HTML id of the table to be processed.
+If an integer, this specificies the index of the input table in the
+available tables. Unless this parameter is given, the reader will
+use the first table found in the input file.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>multicol <span class="classifier-delimiter">:</span> <span class="classifier">Use multi-dimensional columns for output</span></dt>
+<dd><p class="first last">The writer will output tuples as elements of multi-dimensional
+columns if this parameter is true, and if not then it will
+use the syntax 1.36583e-13 .. 1.36583e-13 for output. If not
+present, this parameter will be true by default.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+<p>Initialize classes for HTML reading and writing.</p>
+<p class="rubric">Methods Summary</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+</tbody>
+</table>
+<p class="rubric">Methods Documentation</p>
+<dl class="method">
+<dt id="astropy.io.ascii.HTML.read">
+<code class="descname">read</code><span class="sig-paren">(</span><em>table</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/astropy/io/ascii/html.html#HTML.read"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.4.x/astropy/io/ascii/html.py#L289" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.io.ascii.HTML.read" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read the <code class="docutils literal"><span class="pre">table</span></code> in HTML format and return a resulting <code class="docutils literal"><span class="pre">Table</span></code>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.io.ascii.HTML.write">
+<code class="descname">write</code><span class="sig-paren">(</span><em>table</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/astropy/io/ascii/html.html#HTML.write"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.4.x/astropy/io/ascii/html.py#L297" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.io.ascii.HTML.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return data in <code class="docutils literal"><span class="pre">table</span></code> converted to HTML as a list of strings.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Page Contents</h3>
+<ul>
+<li><a class="reference internal" href="#">HTML</a></li>
+</ul>
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+<footer class="footer">
+  <p class="pull-right">
+    <a href="http://github.com/astropy/astropy/tree/v0.4.x/docs/api/astropy.io.ascii.HTML.rst">Edit This Page on Github</a> &nbsp;
+    <a href="../_sources/api/astropy.io.ascii.HTML.txt"
+       rel="nofollow">Page Source</a> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright 2011-2014, The Astropy Developers.<br/>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3.1. &nbsp;
+    Last built 14 Aug 2015. <br/>
+  </p>
+</footer>
+  </body>
+</html>

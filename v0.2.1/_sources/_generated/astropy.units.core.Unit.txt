@@ -1,0 +1,44 @@
+
+
+Unit
+=======================
+
+.. currentmodule:: astropy.units.core
+
+.. autoclass:: Unit
+   :show-inheritance:
+
+   
+     
+   
+
+   
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+   
+      ~Unit.decompose
+
+   
+   
+
+   
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Documentation
+
+   
+   .. automethod:: decompose
+
+   
+   

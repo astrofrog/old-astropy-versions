@@ -1,0 +1,1888 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Full Changelog &mdash; Astropy v0.3.1</title>
+    
+    <link rel="stylesheet" href="_static/bootstrap-astropy.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="https://media.readthedocs.org/css/badge_only.css" type="text/css" />
+    <link rel="stylesheet" href="https://media.readthedocs.org/css/readthedocs-doc-embed.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.3.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/jquery/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/jquery/jquery-migrate-1.2.1.min.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/underscore.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/doctools.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/readthedocs-doc-embed.js"></script>
+    <script type="text/javascript" src="_static/sidebar.js"></script>
+    <link rel="shortcut icon" href="_static/astropy_logo.ico"/>
+    <link rel="top" title="Astropy v0.3.1" href="index.html" />
+    <link rel="prev" title="Release Procedures" href="development/releasing.html" />
+
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,600' rel='stylesheet' type='text/css'>
+
+<!-- RTD Extra Head -->
+
+
+
+<!-- 
+Read the Docs is acting as the canonical URL for your project. 
+If you want to change it, more info is available in our docs:
+  http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="http://astropy.readthedocs.org/en/latest/changelog.html">
+
+<script type="text/javascript">
+  // This is included here because other places don't have access to the pagename variable.
+  var READTHEDOCS_DATA = {
+    project: "astropy",
+    version: "v0.3.1",
+    language: "en",
+    page: "changelog",
+    theme: "bootstrap-astropy",
+    docroot: "/docs/",
+    api_host: "https://readthedocs.org"
+  }
+  // Old variables
+  var doc_version = "v0.3.1";
+  var doc_slug = "astropy";
+  var page_name = "changelog";
+  var html_theme = "bootstrap-astropy";
+</script>
+<!-- RTD Analytics Code -->
+<!-- Included in the header because you don't have a footer block. -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17997319-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+<!-- end RTD Analytics Code -->
+
+
+<!-- User Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-30968842-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+<!-- End User Analytics Code -->
+
+<!-- end RTD <extrahead> -->
+
+  </head>
+  <body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="index.html"><span id="logotext1">astro</span><span id="logotext2">py</span><span id="logotext3">:docs</span></a>
+  <ul>
+    <li><a class="homelink" title="Astropy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="genindex.html">Index</a></li>
+    <li><a title="Module Index" href="py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li class="right">
+	<a href="development/releasing.html" title="Release Procedures">
+	  &laquo; previous
+	</a>
+	
+      </li>
+      <li>
+	<a href="index.html">Astropy v0.3.1</a>
+	 &raquo;
+      </li>
+      
+      <li>Full Changelog</li> 
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="full-changelog">
+<span id="changelog"></span><h1>Full Changelog<a class="headerlink" href="#full-changelog" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2>0.3.1 (2014-03-04)<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="bug-fixes">
+<h3>Bug Fixes<a class="headerlink" href="#bug-fixes" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first"><tt class="docutils literal"><span class="pre">astropy.config</span></tt></p>
+<ul class="simple">
+<li>Fixed a bug where <tt class="docutils literal"><span class="pre">ConfigurationItem.set_temp()</span></tt> does not reset to
+default value when exception is raised within <tt class="docutils literal"><span class="pre">with</span></tt> block. [#2117]</li>
+</ul>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">astropy.convolution</span></tt></p>
+<ul class="simple">
+<li>Fixed a bug where <tt class="docutils literal"><span class="pre">_truncation</span></tt> was left undefined for <tt class="docutils literal"><span class="pre">CustomKernel</span></tt>.
+[#2016]</li>
+<li>Fixed a bug with <tt class="docutils literal"><span class="pre">_normalization</span></tt> when <tt class="docutils literal"><span class="pre">CustomKernel</span></tt> input array
+sums to zero. [#2016]</li>
+</ul>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">astropy.coordinates</span></tt></p>
+<ul class="simple">
+<li>Fixed bug which caused <tt class="xref py py-obj docutils literal"><span class="pre">len()</span></tt> not to work for coordinate objects
+and added a <tt class="xref py py-obj docutils literal"><span class="pre">shape</span></tt> property to get appropriately array-like
+behavior. [#1761, #2014]</li>
+<li><tt class="docutils literal"><span class="pre">astropy.coordinates.transformations.CompositeStaticMatrixTransform</span></tt>
+no longer attempts to reference the undefined variable
+<tt class="docutils literal"><span class="pre">self.matrix</span></tt> during instantiation. [#1944]</li>
+<li>Fixed pickling of <tt class="docutils literal"><span class="pre">Longitude</span></tt>, ensuring <tt class="docutils literal"><span class="pre">wrap_angle</span></tt> is
+preserved [#1961]</li>
+<li>Allow <tt class="xref py py-obj docutils literal"><span class="pre">sep</span></tt> argument in <tt class="xref py py-obj docutils literal"><span class="pre">Angle.to_string</span></tt> to be empty (resulting in no
+separators) [#1989]</li>
+</ul>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">astropy.io.ascii</span></tt></p>
+<ul class="simple">
+<li>Allow passing unicode delimiters when reading or writing tables.
+The delimiter must be convertible to pure ASCII.  [#1949]</li>
+<li>Fix a problem when reading a table and renaming the columns to names
+that already exist. [#1991]</li>
+</ul>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">astropy.io.fits</span></tt></p>
+<ul class="simple">
+<li>Ported all bug fixes from PyFITS 3.2.1.  See the PyFITS changelog at
+<a class="reference external" href="http://pyfits.readthedocs.org/en/v3.2.1/">http://pyfits.readthedocs.org/en/v3.2.1/</a> [#2056]</li>
+</ul>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">astropy.io.misc</span></tt></p>
+<ul class="simple">
+<li>Fixed issues in the HDF5 Table reader/writer functions that occurred on
+Windows. [#2099]</li>
+</ul>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">astropy.io.votable</span></tt></p>
+<ul class="simple">
+<li>The <tt class="xref py py-obj docutils literal"><span class="pre">write_null_values</span></tt> kwarg to <tt class="xref py py-obj docutils literal"><span class="pre">VOTable.to_xml</span></tt>, when set to <a class="reference external" href="http://docs.python.org/library/constants.html#False" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">False</span></tt></a> (the
+default) would produce non-standard VOTable files.  Therefore, this
+functionality has been replaced by a better understanding that knows which
+fields in a VOTable may be left empty (only <tt class="xref py py-obj docutils literal"><span class="pre">char</span></tt>, <a class="reference external" href="http://docs.python.org/library/functions.html#float" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">float</span></tt></a> and <tt class="xref py py-obj docutils literal"><span class="pre">double</span></tt> in
+VOTable 1.1 and 1.2, and all fields in VOTable 1.3).  The kwarg is still
+accepted but it will be ignored, and a warning is emitted.</li>
+<li>Printing out a <a class="reference internal" href="api/astropy.io.votable.tree.Table.html#astropy.io.votable.tree.Table" title="astropy.io.votable.tree.Table"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.io.votable.tree.Table</span></tt></a> object using <a class="reference external" href="http://docs.python.org/library/repr.html#module-repr" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">repr</span></tt></a>
+or <a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">str</span></tt></a> now uses the pretty formatting in <a class="reference internal" href="table/index.html#module-astropy.table" title="astropy.table"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.table</span></tt></a>, so
+it&#8217;s possible to easily preview the contents of a
+<tt class="xref py py-obj docutils literal"><span class="pre">VOTable</span></tt>. [#1766]</li>
+</ul>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">astropy.modeling</span></tt></p>
+<ul class="simple">
+<li>Raise a <tt class="xref py py-obj docutils literal"><span class="pre">NotImplementedError</span></tt> when fitting composite models. [#1915]</li>
+<li>Fixed bug in computation of <tt class="docutils literal"><span class="pre">Gaussian2D</span></tt> model. [#2038]</li>
+</ul>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">astropy.sphinx</span></tt></p>
+<ul class="simple">
+<li>Added slightly more useful debug info for AstropyAutosummary. [#2024]</li>
+</ul>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">astropy.table</span></tt></p>
+<ul class="simple">
+<li>The column string representation for n-dimensional cells with only
+one element has been fixed. [#1522]</li>
+<li>Fix a problem that caused MaskedColumn.__getitem__ to not preserve column
+metadata. [#1471]</li>
+<li>With Numpy prior to version 1.6.2, tables with Unicode columns now
+sort correctly. [#1867]</li>
+<li><a class="reference internal" href="table/index.html#module-astropy.table" title="astropy.table"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.table</span></tt></a> can now print out tables with Unicode columns
+containing non-ascii characters. [#1864]</li>
+<li>Columns can now be named with Unicode strings, as long as they contain only
+ascii characters.  This makes using <a class="reference internal" href="table/index.html#module-astropy.table" title="astropy.table"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.table</span></tt></a> easier on Python 2 when
+<tt class="xref py py-obj docutils literal"><span class="pre">from</span> <span class="pre">__future__</span> <span class="pre">import</span> <span class="pre">unicode_literals</span></tt> is used. [#1864]</li>
+<li>Allow pickling of <tt class="docutils literal"><span class="pre">Table</span></tt>, <tt class="docutils literal"><span class="pre">Column</span></tt>, and <tt class="docutils literal"><span class="pre">MaskedColumn</span></tt> objects. [#792]</li>
+<li>Fix a problem where it was not possible to rename columns after sorting or
+adding a row. [#2039]</li>
+</ul>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">astropy.time</span></tt></p>
+<ul class="simple">
+<li>Fix a problem when converting to one of the formats <tt class="xref py py-obj docutils literal"><span class="pre">unix</span></tt>,
+<tt class="xref py py-obj docutils literal"><span class="pre">cxcsec</span></tt>, <tt class="xref py py-obj docutils literal"><span class="pre">gps</span></tt> or <tt class="xref py py-obj docutils literal"><span class="pre">plot_date</span></tt> when the time scale is <tt class="xref py py-obj docutils literal"><span class="pre">UT1</span></tt>, <tt class="xref py py-obj docutils literal"><span class="pre">TDB</span></tt>
+or <tt class="xref py py-obj docutils literal"><span class="pre">TCB</span></tt> [#1732]</li>
+<li>Fix a bug when computing the TDB to TT offset.  The transform routine was
+using meters instead of kilometers for the Earth vector.  [#1929]</li>
+<li>Ensure that <tt class="docutils literal"><span class="pre">delta_ut1_utc</span></tt> gets calculated when accessed directly,
+instead of failing and giving a rather obscure error message [#1925]</li>
+<li>Increase <tt class="docutils literal"><span class="pre">__array_priority__</span></tt> so that <tt class="docutils literal"><span class="pre">TimeDelta</span></tt> can convert itself
+to a <tt class="docutils literal"><span class="pre">Quantity</span></tt> also in reverse operations [#1940]</li>
+<li>Correct use of UT in TDB calculation [#1938, #1939].</li>
+<li>Correct hop list from TCG to TDB to ensure that conversion is
+possible [#2074]</li>
+</ul>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">astropy.units</span></tt></p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">Quantity</span></tt> initialisation rewritten for speed [#1775]</li>
+<li>Fixed minor string formatting issue for dimensionless quantities. [#1772]</li>
+<li>Fix error for inplace operations on non-contiguous quantities [#1834].</li>
+<li>The definition of the unit <tt class="xref py py-obj docutils literal"><span class="pre">bar</span></tt> has been corrected to <tt class="xref py py-obj docutils literal"><span class="pre">1e5</span>
+<span class="pre">Pascal</span></tt> from <tt class="xref py py-obj docutils literal"><span class="pre">100</span> <span class="pre">Pascal</span></tt> [#1910]</li>
+<li>For units that are close to known units, but not quite, for
+example due to differences in case, the exception will now include
+recommendations. [#1870]</li>
+<li>The generic and FITS unit parsers now accept multiple slashes in
+the unit string.  There are multiple ways to interpret them, but
+the approach taken here is to convert &#8220;m/s/kg&#8221; to &#8220;m s-1 kg-1&#8221;.
+Multiple slashes are accepted, but discouraged, by the FITS
+standard, due to the ambiguity of parsing, so a warning is raised
+when it is encountered. [#1911]</li>
+<li>The use of <tt class="docutils literal"><span class="pre">angstrom</span></tt> (with a lower case <tt class="docutils literal"><span class="pre">a</span></tt>) is now accepted
+in FITS unit strings, since it is in common usage.  However, since
+it is not officially part of the FITS standard, a warning will be
+issued when it is encountered.  [#1911]</li>
+<li>Pickling unrecognized units will not raise a
+<tt class="xref py py-obj docutils literal"><span class="pre">AttributeError</span></tt>. [#2047]</li>
+<li><a class="reference internal" href="units/index.html#module-astropy.units" title="astropy.units"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.units</span></tt></a> now correctly preserves the precision of
+fractional powers. [#2070]</li>
+<li>If a <tt class="docutils literal"><span class="pre">Unit</span></tt> or <tt class="docutils literal"><span class="pre">Quantity</span></tt> is raised to a floating point power
+that is very close to a rational number with a denominator less
+than or equal to 10, it is converted to a <tt class="xref py py-obj docutils literal"><span class="pre">Fraction</span></tt> object to
+preserve its precision through complex unit conversion operations.
+[#2070]</li>
+</ul>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">astropy.utils</span></tt></p>
+<ul class="simple">
+<li>Bug fix for <a class="reference internal" href="api/astropy.utils.timer.RunTimePredictor.html#astropy.utils.timer.RunTimePredictor.do_fit" title="astropy.utils.timer.RunTimePredictor.do_fit"><tt class="xref py py-func docutils literal"><span class="pre">astropy.utils.timer.RunTimePredictor.do_fit()</span></tt></a>. [#1905]</li>
+<li>Fixed <tt class="xref py py-obj docutils literal"><span class="pre">astropy.utils.compat.argparse</span></tt> for Python 3.1. [#2017]</li>
+</ul>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">astropy.wcs</span></tt></p>
+<ul>
+<li><p class="first"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.wcs.Wcs.printwcs</span></tt> will no longer warn that <tt class="xref py py-obj docutils literal"><span class="pre">cdelt</span></tt> is
+being ignored when none was present in the FITS file. [#1845]</p>
+</li>
+<li><p class="first"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.wcs.WCS</span></tt>, <tt class="xref py py-obj docutils literal"><span class="pre">astropy.wcs.WCS.fix</span></tt> and
+<tt class="xref py py-obj docutils literal"><span class="pre">astropy.wcs.find_all_wcs</span></tt> now have a <tt class="xref py py-obj docutils literal"><span class="pre">translate_units</span></tt> keyword
+argument that is passed down to <a class="reference internal" href="api/astropy.wcs.Wcsprm.html#astropy.wcs.Wcsprm.fix" title="astropy.wcs.Wcsprm.fix"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.wcs.Wcsprm.fix</span></tt></a>.  This
+can be used to specify any unsafe translations of units from
+rarely used ones to more commonly used ones.</p>
+<p>Although <tt class="docutils literal"><span class="pre">&quot;S&quot;</span></tt> is commonly used to represent seconds,
+its translation to <tt class="docutils literal"><span class="pre">&quot;s&quot;</span></tt> is potentially unsafe since the
+standard recognizes <tt class="docutils literal"><span class="pre">&quot;S&quot;</span></tt> formally as Siemens, however
+rarely that may be used.  The same applies to <tt class="docutils literal"><span class="pre">&quot;H&quot;</span></tt> for
+hours (Henry), and <tt class="docutils literal"><span class="pre">&quot;D&quot;</span></tt> for days (Debye).</p>
+<p>When these sorts of changes are performed, a warning is emitted
+(but this reporting requires a patched version of wcslib,
+distributed with astropy). [#1854]</p>
+</li>
+<li><p class="first">When a unit is &#8220;fixed&#8221; by <tt class="xref py py-obj docutils literal"><span class="pre">astropy.wcs.WCS.fix</span></tt> or
+<a class="reference internal" href="api/astropy.wcs.Wcsprm.html#astropy.wcs.Wcsprm.unitfix" title="astropy.wcs.Wcsprm.unitfix"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.wcs.Wcsprm.unitfix</span></tt></a>, it now correctly reports the
+<tt class="docutils literal"><span class="pre">CUNIT</span></tt> field that was changed.  (This requires that astropy
+was built with the locally distributed version of wcslib). [#1854]</p>
+</li>
+<li><p class="first"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.wcs.WCS.to_header</span></tt> will now raise a more meaningful
+exception when the WCS information is inavlid or inconsistent in
+some way. [#1854]</p>
+</li>
+<li><p class="first">A new function, <a class="reference internal" href="api/astropy.wcs.get_include.html#astropy.wcs.get_include" title="astropy.wcs.get_include"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.wcs.get_include</span></tt></a>, has been added to get
+the location of the <a class="reference internal" href="wcs/index.html#module-astropy.wcs" title="astropy.wcs"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.wcs</span></tt></a> C header files. [#1755]</p>
+</li>
+<li><p class="first"><a class="reference internal" href="api/astropy.wcs.Wcsprm.html#astropy.wcs.Wcsprm.set" title="astropy.wcs.Wcsprm.set"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.wcs.Wcsprm.set</span></tt></a> is called from within the
+<tt class="xref py py-obj docutils literal"><span class="pre">astropy.wcs.WCS</span></tt> constructor, therefore any invalid information
+in the keywords will be raised from the constructor, rather than
+on a subsequent call to a transformation method. [#1918]</p>
+</li>
+<li><p class="first">Fix a memory corruption bug when using <tt class="xref py py-obj docutils literal"><span class="pre">astropy.wcs.Wcs.sub</span></tt> with
+<tt class="xref py py-obj docutils literal"><span class="pre">WCSSUB_CELESTIAL</span></tt>. [#1960]</p>
+</li>
+<li><p class="first">Fixed the AttributeError exception which was raised when using
+<tt class="xref py py-func docutils literal"><span class="pre">astropy.wcs.WCS.footprint_to_file()</span></tt>. [#1912]</p>
+</li>
+<li><p class="first">Fixed a NameError exception which was raised when using
+<tt class="xref py py-func docutils literal"><span class="pre">astropy.wcs.validate()</span></tt> or the <tt class="xref py py-obj docutils literal"><span class="pre">wcslint</span></tt> script. [#2053]</p>
+</li>
+<li><p class="first">Fixed a bug where named WCSes may be erroneously reported as <tt class="docutils literal"><span class="pre">'</span>
+<span class="pre">'</span></tt> when using <tt class="xref py py-func docutils literal"><span class="pre">astropy.wcs.validate()</span></tt> or the <tt class="xref py py-obj docutils literal"><span class="pre">wcslint</span></tt>
+script. [#2053]</p>
+</li>
+<li><p class="first">Fixed a bug where error messages about incorrect header keywords
+may not be propagated correctly, resulting in a &#8220;NULL error object
+in wcslib&#8221; message. [#2106]</p>
+</li>
+</ul>
+</li>
+<li><p class="first">Misc</p>
+<ul class="simple">
+<li>There are a number of improvements to make <tt class="xref py py-obj docutils literal"><span class="pre">astropy</span></tt> work better
+on big endian platforms, such as MIPS, PPC, s390x and
+SPARC. [#1849]</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="other-changes-and-additions">
+<h3>Other Changes and Additions<a class="headerlink" href="#other-changes-and-additions" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>The doctests in the <tt class="docutils literal"><span class="pre">.rst</span></tt> files in the <tt class="docutils literal"><span class="pre">docs</span></tt> folder are now tested
+along with the other unit tests.  This is in addition to the testing of
+doctests in docstrings that was already being performed.  See
+<tt class="docutils literal"><span class="pre">docs/development/testguide.rst</span></tt> for more information.</li>
+<li>Fix a problem where import fails on Python 3 if setup.py exists
+in current directory. [#1877]</li>
+</ul>
+</div>
+</div>
+<div class="section" id="id2">
+<h2>0.3 (2013-11-20)<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="new-features">
+<h3>New Features<a class="headerlink" href="#new-features" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first">General</p>
+<ul>
+<li><p class="first">A top-level configuration item, <tt class="docutils literal"><span class="pre">unicode_output</span></tt> has been added to
+control whether the Unicode string representation of certain
+objects will contain Unicode characters.  For example, when
+<tt class="docutils literal"><span class="pre">use_unicode</span></tt> is <a class="reference external" href="http://docs.python.org/library/constants.html#False" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">False</span></tt></a> (default):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">astropy</span> <span class="kn">import</span> <span class="n">units</span> <span class="k">as</span> <span class="n">u</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="nb">unicode</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">degree</span><span class="p">))</span>
+<span class="go">deg</span>
+</pre></div>
+</div>
+<p>When <tt class="docutils literal"><span class="pre">use_unicode</span></tt> is <a class="reference external" href="http://docs.python.org/library/constants.html#True" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">True</span></tt></a>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">astropy</span> <span class="kn">import</span> <span class="n">units</span> <span class="k">as</span> <span class="n">u</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="nb">unicode</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">degree</span><span class="p">))</span>
+<span class="go">°</span>
+</pre></div>
+</div>
+<p>See <a class="reference internal" href="development/codeguide.html#handling-unicode"><em>Unicode guidelines</em></a> for more information. [#1441]</p>
+<ul class="simple">
+<li><a class="reference internal" href="api/astropy.utils.misc.find_api_page.html#astropy.utils.misc.find_api_page" title="astropy.utils.misc.find_api_page"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.utils.misc.find_api_page</span></tt></a> is now imported into the top-level.
+This allows usage like <tt class="docutils literal"><span class="pre">astropy.find_api_page(astropy.units.Quantity)</span></tt>.
+[#1779]</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">astropy.convolution</span></tt></p>
+<ul class="simple">
+<li>New class-based system for generating kernels, replacing <tt class="docutils literal"><span class="pre">make_kernel</span></tt>.
+[#1255] The <tt class="docutils literal"><span class="pre">astropy.nddata.convolution</span></tt> sub-package has now been moved
+to <a class="reference internal" href="convolution/index.html#module-astropy.convolution" title="astropy.convolution"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.convolution</span></tt></a>. [#1451]</li>
+</ul>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">astropy.coordinates</span></tt></p>
+<ul class="simple">
+<li>Two classes <tt class="xref py py-obj docutils literal"><span class="pre">astropy.coordinates.Longitude</span></tt> and <tt class="xref py py-obj docutils literal"><span class="pre">astropy.coordinates.Latitude</span></tt>
+have been added.  These are derived from the new <tt class="xref py py-obj docutils literal"><span class="pre">Angle</span></tt> class and used for
+all longitude-like (RA, azimuth, galactic L) and latitude-like coordinates
+(Dec, elevation, galactic B) respectively.  The <tt class="xref py py-obj docutils literal"><span class="pre">Longitude</span></tt> class provides
+auto-wrapping capability and <tt class="xref py py-obj docutils literal"><span class="pre">Latitude</span></tt> performs bounds checking.</li>
+<li><tt class="xref py py-obj docutils literal"><span class="pre">astropy.coordinates.Distance</span></tt> supports conversion to and from distance
+modulii. [#1472]</li>
+<li><tt class="xref py py-obj docutils literal"><span class="pre">astropy.coordinates.SphericalCoordinateBase</span></tt> and derived classes now
+support arrays of coordinates, enabling large speed-ups for some
+operations on multiple coordinates at the same time. These coordinates
+can also be indexed using standard slicing or any Numpy-compatible
+indexing. [#1535, #1615]</li>
+<li>Array coordinates can be matched to other array coordinates, finding the
+closest matches between the two sets of coordinates (see the
+<a class="reference internal" href="api/astropy.coordinates.matching.match_coordinates_3d.html#astropy.coordinates.matching.match_coordinates_3d" title="astropy.coordinates.matching.match_coordinates_3d"><tt class="xref py py-obj docutils literal"><span class="pre">match_coordinates_3d</span></tt></a> and
+<a class="reference internal" href="api/astropy.coordinates.matching.match_coordinates_sky.html#astropy.coordinates.matching.match_coordinates_sky" title="astropy.coordinates.matching.match_coordinates_sky"><tt class="xref py py-obj docutils literal"><span class="pre">match_coordinates_sky</span></tt></a> functions). [#1535]</li>
+</ul>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">astropy.cosmology</span></tt></p>
+<ul class="simple">
+<li>Added support for including massive Neutrinos in the cosmology classes. The
+Planck (2013) cosmology has been updated to use this. [#1364]</li>
+<li>Calculations now use and return <tt class="docutils literal"><span class="pre">Quantity</span></tt> objects where appropriate.
+[#1237]</li>
+</ul>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">astropy.io.ascii</span></tt></p>
+<ul class="simple">
+<li>Added support for writing IPAC format tables [#1152].</li>
+</ul>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">astropy.io.fits</span></tt></p>
+<ul class="simple">
+<li>Added initial support for table columns containing pseudo-unsigned
+integers.  This is currently enabled by using the <tt class="docutils literal"><span class="pre">uint=True</span></tt> option when
+opening files; any table columns with the correct BZERO value will be
+interpreted and returned as arrays of unsigned integers. [#906]</li>
+<li>Upgraded vendored copy of CFITSIO to v3.35, though backwards compatibility
+back to version v3.28 is maintained.</li>
+<li>Added support for reading and writing tables using the Q format for columns.
+The Q format is identical to the P format (variable-length arrays) except
+that it uses 64-bit integers for the data descriptors, allowing more than
+4 GB of variable-length array data in a single table.</li>
+<li>Some refactoring of the table and <tt class="docutils literal"><span class="pre">FITS_rec</span></tt> modules in order to better
+separate the details of the FITS binary and ASCII table data structures from
+the HDU data structures that encapsulate them.  Most of these changes should
+not be apparent to users (but see API Changes below).</li>
+</ul>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">astropy.io.votable</span></tt></p>
+<ul class="simple">
+<li>Updated to support the VOTable 1.3 draft. [#433]</li>
+<li>Added the ability to look up and group elements by their utype attribute.
+[#622]</li>
+<li>The format of the units of a VOTable file can be specified using the
+<tt class="docutils literal"><span class="pre">unit_format</span></tt> parameter.  Note that units are still always written out
+using the CDS format, to ensure compatibility with the standard.</li>
+</ul>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">astropy.modeling</span></tt></p>
+<ul class="simple">
+<li>Added a new framework for representing and evaluating mathematical models
+and for fitting data to models.  See &#8220;What&#8217;s New in Astropy 0.3&#8221; in the
+documentation for further details. [#493]</li>
+</ul>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">astropy.stats</span></tt></p>
+<ul class="simple">
+<li>Added robust statistics functions
+<a class="reference internal" href="api/astropy.stats.funcs.median_absolute_deviation.html#astropy.stats.funcs.median_absolute_deviation" title="astropy.stats.funcs.median_absolute_deviation"><tt class="xref py py-obj docutils literal"><span class="pre">median_absolute_deviation</span></tt></a>,
+<a class="reference internal" href="api/astropy.stats.funcs.biweight_location.html#astropy.stats.funcs.biweight_location" title="astropy.stats.funcs.biweight_location"><tt class="xref py py-obj docutils literal"><span class="pre">biweight_location</span></tt></a>, and
+<a class="reference internal" href="api/astropy.stats.funcs.biweight_midvariance.html#astropy.stats.funcs.biweight_midvariance" title="astropy.stats.funcs.biweight_midvariance"><tt class="xref py py-obj docutils literal"><span class="pre">biweight_midvariance</span></tt></a>. [#621]</li>
+<li>Added <a class="reference internal" href="api/astropy.stats.funcs.signal_to_noise_oir_ccd.html#astropy.stats.funcs.signal_to_noise_oir_ccd" title="astropy.stats.funcs.signal_to_noise_oir_ccd"><tt class="xref py py-obj docutils literal"><span class="pre">signal_to_noise_oir_ccd</span></tt></a> for computing the
+signal to noise ratio for source being observed in the optical/IR using a
+CCD. [#870]</li>
+<li>Add <tt class="docutils literal"><span class="pre">axis=int</span></tt> option to <a class="reference internal" href="api/astropy.stats.funcs.sigma_clip.html#astropy.stats.funcs.sigma_clip" title="astropy.stats.funcs.sigma_clip"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.stats.funcs.sigma_clip</span></tt></a> to allow
+clipping along a given axis for multidimensional data. [#1083]</li>
+</ul>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">astropy.table</span></tt></p>
+<ul class="simple">
+<li>New columns can be added to a table via assignment to a non-existing
+column by name. [#726]</li>
+<li>Added <tt class="docutils literal"><span class="pre">join</span></tt> function to perform a database-like join on two tables. This
+includes support for inner, left, right, and outer joins as well as
+metadata merging.  [#903]</li>
+<li>Added <tt class="docutils literal"><span class="pre">hstack</span></tt> and <tt class="docutils literal"><span class="pre">vstack</span></tt> functions to stack two or more tables.
+[#937]</li>
+<li>Tables now have a <tt class="docutils literal"><span class="pre">.copy</span></tt> method and include support for <tt class="docutils literal"><span class="pre">copy</span></tt> and
+<tt class="docutils literal"><span class="pre">deepcopy</span></tt>. [#1208]</li>
+<li>Added support for selecting and manipulating groups within a table with
+a database style <tt class="docutils literal"><span class="pre">group_by</span></tt> method. [#1424]</li>
+<li>Table <tt class="docutils literal"><span class="pre">read</span></tt> and <tt class="docutils literal"><span class="pre">write</span></tt> functions now include rudimentary support
+reading and writing of FITS tables via the unified reading/writing
+interface. [#591]</li>
+<li>The <tt class="docutils literal"><span class="pre">units</span></tt> and <tt class="docutils literal"><span class="pre">dtypes</span></tt> attributes and keyword arguments in Column,
+MaskedColumn, Row, and Table are now deprecated in favor of the
+single-tense <tt class="docutils literal"><span class="pre">unit</span></tt> and <tt class="docutils literal"><span class="pre">dtype</span></tt>. [#1174]</li>
+<li>Setting a column from a Quantity now correctly sets the unit on the Column
+object. [#732]</li>
+<li>Add <tt class="docutils literal"><span class="pre">remove_row</span></tt> and <tt class="docutils literal"><span class="pre">remove_rows</span></tt> to remove table rows. [#1230]</li>
+<li>Added a new <tt class="docutils literal"><span class="pre">Table.show_in_browser</span></tt> method that opens a web browser
+and displays the table rendered as HTML. [#1342]</li>
+<li>New tables can now be instantiated using a single row from an existing
+table. [#1417]</li>
+</ul>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">astropy.time</span></tt></p>
+<ul class="simple">
+<li>New <tt class="docutils literal"><span class="pre">Time</span></tt> objects can be instantiated from existing <tt class="docutils literal"><span class="pre">Time</span></tt> objects
+(but with different format, scale, etc.) [#889]</li>
+<li>Added a <tt class="docutils literal"><span class="pre">Time.now</span></tt> classmethod that returns the current UTC time,
+similarly to Python&#8217;s <tt class="docutils literal"><span class="pre">datetime.now</span></tt>. [#1061]</li>
+<li>Update internal time manipulations so that arithmetic with Time and
+TimeDelta objects maintains sub-nanosecond precision over a time span
+longer than the age of the universe. [#1189]</li>
+<li>Use <tt class="docutils literal"><span class="pre">astropy.utils.iers</span></tt> to provide <tt class="docutils literal"><span class="pre">delta_ut1_utc</span></tt>, so that
+automatic calculation of UT1 becomes possible. [#1145]</li>
+<li>Add <tt class="docutils literal"><span class="pre">datetime</span></tt> format which allows converting to and from standard
+library <tt class="docutils literal"><span class="pre">datetime.datetime</span></tt> objects. [#860]</li>
+<li>Add <tt class="docutils literal"><span class="pre">plot_date</span></tt> format which allows converting to and from the date
+representation used when plotting dates with matplotlib via the
+<tt class="docutils literal"><span class="pre">matplotlib.pyplot.plot_date</span></tt> function. [#860]</li>
+<li>Add <tt class="docutils literal"><span class="pre">gps</span></tt> format (seconds since 1980-01-01 00:00:00 UTC,
+including leap seconds) [#1164]</li>
+<li>Add array indexing to Time objects [#1132]</li>
+<li>Allow for arithmetic of multi-element and single-element Time and TimeDelta
+objects. [#1081]</li>
+<li>Allow multiplication and division of TimeDelta objects by
+constants and arrays, as well as changing sign (negation) and
+taking the absolute value of TimeDelta objects. [#1082]</li>
+<li>Allow comparisons of Time and TimeDelta objects. [#1171]</li>
+<li>Support interaction of Time and Quantity objects that represent a time
+interval. [#1431]</li>
+</ul>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">astropy.units</span></tt></p>
+<ul class="simple">
+<li>Added parallax equivalency for length-angle. [#985]</li>
+<li>Added mass-energy equivalency. [#1333]</li>
+<li>Added a new-style format method which will use format specifiers
+(like <tt class="docutils literal"><span class="pre">0.03f</span></tt>) in new-style format strings for the Quantity&#8217;s value.
+Specifiers which can&#8217;t be applied to the value will fall back to the
+entire string representation of the quantity. [#1383]</li>
+<li>Added support for complex number values in quantities. [#1384]</li>
+<li>Added new spectroscopic equivalencies for velocity conversions
+(relativistic, optical, and radio conventions are supported) [#1200]</li>
+<li>The <tt class="docutils literal"><span class="pre">spectral</span></tt> equivalency now also handles wave number.</li>
+<li>The <tt class="docutils literal"><span class="pre">spectral_density</span></tt> equivalency now also accepts a Quantity for the
+frequency or wavelength. It also handles additional flux units.</li>
+<li>Added Brightness Temperature (antenna gain) equivalency for conversion
+between <img class="math" src="_images/math/448acda25892600fa0730fc77a20586aec4e3f33.png" alt="T_B"/> and flux density. [#1327]</li>
+<li>Added percent unit, and allowed any string containing just a number to be
+interpreted as a scaled dimensionless unit. [#1409]</li>
+<li>New-style format strings can be used to set the unit output format.  For
+example, <tt class="docutils literal"><span class="pre">&quot;{0:latex}&quot;.format(u.km)</span></tt> will print with the latex formatter.
+[#1462]</li>
+<li>The <tt class="docutils literal"><span class="pre">Unit.is_equivalent</span></tt> method can now take a tuple. In this case, the
+method returns <tt class="docutils literal"><span class="pre">True</span></tt> if the unit is equivalent to any of the units
+listed in the tuple. [#1521]</li>
+<li><tt class="xref py py-obj docutils literal"><span class="pre">def_unit</span></tt> can now take a 2-tuple of names of the form (short, long), where
+each entry is a list.  This allows for handling strange units that might
+have multiple short names. [#1543]</li>
+<li>Added <tt class="docutils literal"><span class="pre">dimensionless_angles</span></tt> equivalency, which allows conversion of any
+power of radian to dimensionless. [#1161]</li>
+<li>Added the ability to enable set of units, or equivalencies that are used by
+default.  Also provided context managers for these cases. [#1268]</li>
+<li>Imperial units are disabled by default. [#1593, #1662]</li>
+<li>Added an <tt class="docutils literal"><span class="pre">astropy.units.add_enabled_units</span></tt> context manager, which allows
+creating a temporary context with additional units temporarily enabled in
+the global units namespace. [#1662]</li>
+<li><tt class="docutils literal"><span class="pre">Unit</span></tt> instances now have <tt class="docutils literal"><span class="pre">.si</span></tt> and <tt class="docutils literal"><span class="pre">.cgs</span></tt> properties a la
+<tt class="docutils literal"><span class="pre">Quantity</span></tt>.  These serve as shortcuts for <tt class="docutils literal"><span class="pre">Unit.to_system(cgs)[0]</span></tt>
+etc. [#1610]</li>
+</ul>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">astropy.vo</span></tt></p>
+<ul class="simple">
+<li>New package added to support Virtual Observatory Simple Cone Search query
+and service validation. [#552]</li>
+</ul>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">astropy.wcs</span></tt></p>
+<ul class="simple">
+<li>Fixed attribute error in <tt class="docutils literal"><span class="pre">astropy.wcs.Wcsprm</span></tt> (lattype-&gt;lattyp) [#1463]</li>
+<li>Included a new command-line script called <tt class="docutils literal"><span class="pre">wcslint</span></tt> and accompanying API
+for validating the WCS in a given FITS file or header. [#580]</li>
+<li>Upgraded included version of WCSLIB to 4.19.</li>
+</ul>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">astropy.utils</span></tt></p>
+<ul class="simple">
+<li>Added a new set of utilities in <tt class="docutils literal"><span class="pre">astropy.utils.timer</span></tt> for analyzing the
+runtime of functions and making runtime predections for larger inputs.
+[#743]</li>
+<li><tt class="docutils literal"><span class="pre">ProgressBar</span></tt> and <tt class="docutils literal"><span class="pre">Spinner</span></tt> classes can now be used directly to return
+generator expressions. [#771]</li>
+<li>Added <tt class="docutils literal"><span class="pre">astropy.utils.iers</span></tt> which allows reading in of IERS A or IERS B
+bulletins and interpolation in UT1-UTC.</li>
+<li>Added a function <tt class="docutils literal"><span class="pre">astropy.utils.find_api_page</span></tt>&#8211;given a class or object
+from the <tt class="docutils literal"><span class="pre">astropy</span></tt> package, this will open that class&#8217;s API documentation
+in a web browser. [#663]</li>
+<li>Data download functions such as <tt class="docutils literal"><span class="pre">download_file</span></tt> now accept a
+<tt class="docutils literal"><span class="pre">show_progress</span></tt> argument to suppress console output, and a <tt class="docutils literal"><span class="pre">timeout</span></tt>
+argument. [#865, #1258]</li>
+</ul>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">astropy.extern.six</span></tt></p>
+<ul class="simple">
+<li>Added <a class="reference external" href="https://pypi.python.org/pypi/six/">six</a> for python2/python3
+compatibility</li>
+</ul>
+</li>
+<li><p class="first">Astropy now uses the ERFA library instead of the IAU SOFA library for
+fundamental time transformation routines.  The ERFA library is derived, with
+permission, from the IAU SOFA library but is distributed under a BSD license.
+See <tt class="docutils literal"><span class="pre">license/ERFA.rst</span></tt> for details. [#1293]</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">astropy.logger</span></tt></p>
+<ul class="simple">
+<li>The Astropy logger now no longer catches exceptions by default, and also
+only captures warnings emitted by Astropy itself (prior to this change,
+following an import of Astropy, any warning got re-directed through the
+Astropy logger). Logging to the Astropy log file has also been disabled by
+default. However, users of Astropy 0.2 will likely still see the previous
+behavior with Astropy 0.3 for exceptions and logging to file since the
+default configuration file installed by 0.2 set the exception logging to be
+on by default. To get the new behavior, set the <tt class="docutils literal"><span class="pre">log_exceptions</span></tt> and
+<tt class="docutils literal"><span class="pre">log_to_file</span></tt> configuration items to <tt class="docutils literal"><span class="pre">False</span></tt> in the <tt class="docutils literal"><span class="pre">astropy.cfg</span></tt>
+file. [#1331]</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="api-changes">
+<h3>API Changes<a class="headerlink" href="#api-changes" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first">General</p>
+<ul class="simple">
+<li>The configuration option <tt class="docutils literal"><span class="pre">utils.console.use_unicode</span></tt> has been
+moved to the top level and renamed to <tt class="docutils literal"><span class="pre">unicode_output</span></tt>.  It now
+not only affects console widgets, such as progress bars, but also
+controls whether calling <a class="reference external" href="http://docs.python.org/library/functions.html#unicode" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">unicode</span></tt></a> on certain classes will return a
+string containing unicode characters.</li>
+</ul>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">astropy.coordinates</span></tt></p>
+<ul class="simple">
+<li>The <tt class="xref py py-obj docutils literal"><span class="pre">astropy.coordinates.Angle</span></tt> class is now a subclass of
+<tt class="xref py py-obj docutils literal"><span class="pre">astropy.units.Quantity</span></tt>. This means it has all of the methods of a
+<a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.8)"><tt class="xref py py-obj docutils literal"><span class="pre">numpy.ndarray</span></tt></a>. [#1006]</li>
+<li>The <tt class="xref py py-obj docutils literal"><span class="pre">astropy.coordinates.Distance</span></tt> class is now a subclass of
+<tt class="xref py py-obj docutils literal"><span class="pre">astropy.units.Quantity</span></tt>. This means it has all of the methods of a
+<a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.8)"><tt class="xref py py-obj docutils literal"><span class="pre">numpy.ndarray</span></tt></a>. [#1472]<ul>
+<li>All angular units are now supported, not just <tt class="xref py py-obj docutils literal"><span class="pre">radian</span></tt>, <tt class="xref py py-obj docutils literal"><span class="pre">degree</span></tt>
+and <tt class="xref py py-obj docutils literal"><span class="pre">hour</span></tt>, but now <tt class="xref py py-obj docutils literal"><span class="pre">arcsecond</span></tt> and <tt class="xref py py-obj docutils literal"><span class="pre">arcminute</span></tt> as well.  The
+object will retain its native unit, so when printing out a value
+initially provided in hours, its <tt class="xref py py-obj docutils literal"><span class="pre">to_string()</span></tt> will, by default,
+also be expressed in hours.</li>
+<li>The <tt class="xref py py-obj docutils literal"><span class="pre">Angle</span></tt> class now supports arrays of angles.</li>
+<li>To be consistent with <tt class="xref py py-obj docutils literal"><span class="pre">units.Unit</span></tt>, <tt class="xref py py-obj docutils literal"><span class="pre">Angle.format</span></tt> has been deprecated
+and renamed to <tt class="xref py py-obj docutils literal"><span class="pre">Angle.to_string</span></tt>.</li>
+<li>To be consistent with <a class="reference internal" href="units/index.html#module-astropy.units" title="astropy.units"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.units</span></tt></a>, all plural forms of unit names
+have been removed.  Therefore, the following properties of
+<tt class="xref py py-obj docutils literal"><span class="pre">astropy.coordinates.Angle</span></tt> should be renamed:<ul>
+<li><tt class="docutils literal"><span class="pre">radians</span></tt> -&gt; <tt class="docutils literal"><span class="pre">radian</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">degrees</span></tt> -&gt; <tt class="docutils literal"><span class="pre">degree</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">hours</span></tt> -&gt; <tt class="docutils literal"><span class="pre">hour</span></tt></li>
+</ul>
+</li>
+<li>Multiplication and division of two <tt class="xref py py-obj docutils literal"><span class="pre">Angle</span></tt> objects used to raise
+<tt class="xref py py-obj docutils literal"><span class="pre">NotImplementedError</span></tt>.  Now they raise <tt class="xref py py-obj docutils literal"><span class="pre">TypeError</span></tt>.</li>
+</ul>
+</li>
+<li>The <tt class="xref py py-obj docutils literal"><span class="pre">astropy.coordinates.Angle</span></tt> class no longer has a <tt class="docutils literal"><span class="pre">bounds</span></tt> attribute
+so there is no bounds-checking or auto-wrapping at this level.  This allows
+<tt class="docutils literal"><span class="pre">Angle</span></tt> objects to be used in arbitrary arithmetic expressions
+(e.g. coordinate distance computation).</li>
+<li>The <tt class="xref py py-obj docutils literal"><span class="pre">astropy.coordinates.RA`and</span> <span class="pre">`astropy.coordinates.Dec</span></tt> classes have
+been removed and replaced with <tt class="xref py py-obj docutils literal"><span class="pre">astropy.coordinates.Longitude</span></tt> and
+<tt class="xref py py-obj docutils literal"><span class="pre">astropy.coordinates.Latitude</span></tt> respectively.  These are now used for
+the components of Galactic and Horizontal (Alt-Az) coordinates as well
+instead of plain <tt class="xref py py-obj docutils literal"><span class="pre">Angle</span></tt> objects.</li>
+<li><tt class="xref py py-obj docutils literal"><span class="pre">astropy.coordinates.angles.rotation_matrix</span></tt> and
+<tt class="xref py py-obj docutils literal"><span class="pre">astropy.coordinates.angles.angle_axis</span></tt> now take a <tt class="xref py py-obj docutils literal"><span class="pre">unit</span></tt> kwarg
+instead of <tt class="xref py py-obj docutils literal"><span class="pre">degrees</span></tt> kwarg to specify the units of the angles.
+<tt class="xref py py-obj docutils literal"><span class="pre">rotation_matrix</span></tt> will also take the unit from the given <tt class="xref py py-obj docutils literal"><span class="pre">Angle</span></tt>
+object if no unit is provided.</li>
+<li>The <tt class="docutils literal"><span class="pre">AngularSeparation</span></tt> class has been removed.  The output of the
+coordinates <tt class="xref py py-obj docutils literal"><span class="pre">separation()</span></tt> method is now an <tt class="xref py py-obj docutils literal"><span class="pre">astropy.coordinates.Angle</span></tt>.
+[#1007]</li>
+<li>The coordinate classes have been renamed in a way that remove the <tt class="docutils literal"><span class="pre">Coordinates</span></tt>
+at the end of the class names.  E.g., <tt class="xref py py-obj docutils literal"><span class="pre">ICRSCoordinates</span></tt> from previous versions is
+now called <tt class="xref py py-obj docutils literal"><span class="pre">ICRS</span></tt>. [#1614]</li>
+<li><tt class="xref py py-obj docutils literal"><span class="pre">HorizontalCoordinates</span></tt> are now named <tt class="xref py py-obj docutils literal"><span class="pre">AltAz</span></tt>, to reflect more common terminology.</li>
+</ul>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">astropy.cosmology</span></tt></p>
+<ul class="simple">
+<li>The Planck (2013) cosmology will likely give slightly different (and more
+accurate) results due to the inclusion of Neutrino masses. [#1364]</li>
+<li>Cosmology class properties now return <tt class="docutils literal"><span class="pre">Quantity</span></tt> objects instead of
+simple floating-point values. [#1237]</li>
+<li>The names of cosmology instances are now truly optional, and are set to
+<tt class="docutils literal"><span class="pre">None</span></tt> rather than the name of the class if the user does not provide
+them.  [#1705]</li>
+</ul>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">astropy.io.ascii</span></tt></p>
+<ul class="simple">
+<li>In the <tt class="docutils literal"><span class="pre">read</span></tt> method of <tt class="docutils literal"><span class="pre">astropy.io.ascii</span></tt>, empty column values in an
+ASCII table are now treated as missing values instead of the previous
+treatment as a zero-length string &#8220;&#8221;.  This now corresponds to the behavior
+of other table readers like <tt class="docutils literal"><span class="pre">numpy.genfromtxt</span></tt>.  To restore the previous
+behavior set <tt class="docutils literal"><span class="pre">fill_values=None</span></tt> in the call to <tt class="docutils literal"><span class="pre">ascii.read()</span></tt>. [#919]</li>
+<li>The <tt class="docutils literal"><span class="pre">read</span></tt> and <tt class="docutils literal"><span class="pre">write</span></tt> methods of <tt class="docutils literal"><span class="pre">astropy.io.ascii</span></tt> now have a
+<tt class="docutils literal"><span class="pre">format</span></tt> argument for specifying the file format.  This is the preferred
+way to choose the format instead of the <tt class="docutils literal"><span class="pre">Reader</span></tt> and <tt class="docutils literal"><span class="pre">Writer</span></tt>
+arguments. [#961]</li>
+<li>The <tt class="docutils literal"><span class="pre">include_names</span></tt> and <tt class="docutils literal"><span class="pre">exclude_names</span></tt> arguments were removed from
+the <tt class="docutils literal"><span class="pre">BaseHeader</span></tt> initializer, and now instead handled by the reader and
+writer classes directly. [#1350]</li>
+<li>Allow numeric and otherwise unusual column names when reading a table
+where the <tt class="docutils literal"><span class="pre">format</span></tt> argument is specified, but other format details such
+as the delimiter or quote character are being guessed. [#1692]</li>
+<li>When reading an ASCII table using the <tt class="docutils literal"><span class="pre">Table.read()</span></tt> method, the default
+has changed from <tt class="docutils literal"><span class="pre">guess=False</span></tt> to <tt class="docutils literal"><span class="pre">guess=True</span></tt> to allow auto-detection
+of file format.  This matches the default behavior of <tt class="docutils literal"><span class="pre">ascii.read()</span></tt>.</li>
+</ul>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">astropy.io.fits</span></tt></p>
+<ul class="simple">
+<li>The <tt class="docutils literal"><span class="pre">astropy.io.fits.new_table</span></tt> function is marked &#8220;pending deprecation&#8221;.
+This does not mean it will be removed outright or that its functionality
+has changed.  It will likely be replaced in the future for a function with
+similar, if not subtly different functionality.  A better, if not slightly
+more verbose approach is to use <tt class="docutils literal"><span class="pre">pyfits.FITS_rec.from_columns</span></tt> to create
+a new <tt class="docutils literal"><span class="pre">FITS_rec</span></tt> table&#8211;this has the same interface as
+<tt class="docutils literal"><span class="pre">pyfits.new_table</span></tt>.  The difference is that it returns a plan
+<tt class="docutils literal"><span class="pre">FITS_rec</span></tt> array, and not an HDU instance.  This <tt class="docutils literal"><span class="pre">FITS_rec</span></tt> object can
+then be used as the data argument in the constructors for <tt class="docutils literal"><span class="pre">BinTableHDU</span></tt>
+(for binary tables) or <tt class="docutils literal"><span class="pre">TableHDU</span></tt> (for ASCII tables).  This is analogous
+to creating an <tt class="docutils literal"><span class="pre">ImageHDU</span></tt> by passing in an image array.
+<tt class="docutils literal"><span class="pre">pyfits.FITS_rec.from_columns</span></tt> is just a simpler way of creating a
+FITS-compatible recarray from a FITS column specification.</li>
+<li>The <tt class="docutils literal"><span class="pre">updateHeader</span></tt>, <tt class="docutils literal"><span class="pre">updateHeaderData</span></tt>, and <tt class="docutils literal"><span class="pre">updateCompressedData</span></tt>
+methods of the <tt class="docutils literal"><span class="pre">CompDataHDU</span></tt> class are pending deprecation and moved to
+internal methods.  The operation of these methods depended too much on
+internal state to be used safely by users; instead they are invoked
+automatically in the appropriate places when reading/writing compressed
+image HDUs.</li>
+<li>The <tt class="docutils literal"><span class="pre">CompDataHDU.compData</span></tt> attribute is pending deprecation in favor of
+the clearer and more PEP-8 compatible <tt class="docutils literal"><span class="pre">CompDataHDU.compressed_data</span></tt>.</li>
+<li>The constructor for <tt class="docutils literal"><span class="pre">CompDataHDU</span></tt> has been changed to accept new keyword
+arguments.  The new keyword arguments are essentially the same, but are in
+underscore_separated format rather than camelCase format.  The old
+arguments are still pending deprecation.</li>
+<li>The internal attributes of HDU classes <tt class="docutils literal"><span class="pre">_hdrLoc</span></tt>, <tt class="docutils literal"><span class="pre">_datLoc</span></tt>, and
+<tt class="docutils literal"><span class="pre">_datSpan</span></tt> have been replaced with <tt class="docutils literal"><span class="pre">_header_offset</span></tt>, <tt class="docutils literal"><span class="pre">_data_offset</span></tt>,
+and <tt class="docutils literal"><span class="pre">_data_size</span></tt> respectively.  The old attribute names are still pending
+deprecation.  This should only be of interest to advanced users who have
+created their own HDU subclasses.</li>
+<li>The following previously deprecated functions and methods have been removed
+entirely: <tt class="docutils literal"><span class="pre">createCard</span></tt>, <tt class="docutils literal"><span class="pre">createCardFromString</span></tt>, <tt class="docutils literal"><span class="pre">upperKey</span></tt>,
+<tt class="docutils literal"><span class="pre">ColDefs.data</span></tt>, <tt class="docutils literal"><span class="pre">setExtensionNameCaseSensitive</span></tt>, <tt class="docutils literal"><span class="pre">_File.getfile</span></tt>,
+<tt class="docutils literal"><span class="pre">_TableBaseHDU.get_coldefs</span></tt>, <tt class="docutils literal"><span class="pre">Header.has_key</span></tt>, <tt class="docutils literal"><span class="pre">Header.ascardlist</span></tt>.</li>
+<li>Interfaces that were pending deprecation are now fully deprecated.  These
+include: <tt class="docutils literal"><span class="pre">create_card</span></tt>, <tt class="docutils literal"><span class="pre">create_card_from_string</span></tt>, <tt class="docutils literal"><span class="pre">upper_key</span></tt>,
+<tt class="docutils literal"><span class="pre">Header.get_history</span></tt>, and <tt class="docutils literal"><span class="pre">Header.get_comment</span></tt>.</li>
+<li>The <tt class="docutils literal"><span class="pre">.name</span></tt> attribute on HDUs is now directly tied to the HDU&#8217;s header, so
+that if <tt class="docutils literal"><span class="pre">.header['EXTNAME']</span></tt> changes so does <tt class="docutils literal"><span class="pre">.name</span></tt> and vice-versa.</li>
+</ul>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">astropy.io.registry</span></tt></p>
+<ul class="simple">
+<li>Identifier functions for reading/writing Table and NDData objects should
+now accept <tt class="docutils literal"><span class="pre">(origin,</span> <span class="pre">*args,</span> <span class="pre">**kwargs)</span></tt> instead of <tt class="docutils literal"><span class="pre">(origin,</span> <span class="pre">args,</span>
+<span class="pre">kwargs)</span></tt>. [#591]</li>
+<li>Added a new <tt class="docutils literal"><span class="pre">astropy.io.registry.get_formats</span></tt> function for listing
+registered I/O formats and details about the their readers/writers. [#1669]</li>
+</ul>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">astropy.io.votable</span></tt></p>
+<ul class="simple">
+<li>Added a new option <tt class="docutils literal"><span class="pre">use_names_over_ids</span></tt> option to use when converting
+from VOTable objects to Astropy Tables. This can prevent a situation where
+column names are not preserved when converting from a VOTable. [#609]</li>
+</ul>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">astropy.nddata</span></tt></p>
+<ul class="simple">
+<li>The <tt class="xref py py-obj docutils literal"><span class="pre">astropy.nddata.convolution</span></tt> sub-package has now been moved to
+<a class="reference internal" href="convolution/index.html#module-astropy.convolution" title="astropy.convolution"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.convolution</span></tt></a>, and the <tt class="xref py py-obj docutils literal"><span class="pre">make_kernel</span></tt> function has been removed.
+(the kernel classes should be used instead) [#1451]</li>
+</ul>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">astropy.stats.funcs</span></tt></p>
+<ul class="simple">
+<li>For <tt class="docutils literal"><span class="pre">sigma_clip</span></tt>, the <tt class="docutils literal"><span class="pre">maout</span></tt> optional parameter has been removed, and
+the function now always returns a masked array.  A new boolean parameter
+<tt class="docutils literal"><span class="pre">copy</span></tt> can be used to indicated whether the input data should be copied
+(<tt class="docutils literal"><span class="pre">copy=True</span></tt>, default) or used by reference (<tt class="docutils literal"><span class="pre">copy=False</span></tt>) in the
+output masked array. [#1083]</li>
+</ul>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">astropy.table</span></tt></p>
+<ul class="simple">
+<li>The first argument to the <tt class="docutils literal"><span class="pre">Column</span></tt> and <tt class="docutils literal"><span class="pre">MaskedColumn</span></tt> classes is now
+the data array&#8211;the <tt class="docutils literal"><span class="pre">name</span></tt> argument has been changed to an optional
+keyword argument. [#840]</li>
+<li>Added support for instantiating a <tt class="docutils literal"><span class="pre">Table</span></tt> from a list of dict, each one
+representing a single row with the keys mapping to column names. [#901]</li>
+<li>The plural &#8216;units&#8217; and &#8216;dtypes&#8217; have been switched to &#8216;unit&#8217; and &#8216;dtype&#8217;
+where appropriate. The original attributes are still present in this
+version as deprecated attributes, but will be removed in the next version.
+[#1174]</li>
+<li>The <tt class="docutils literal"><span class="pre">copy</span></tt> methods of <tt class="docutils literal"><span class="pre">Column</span></tt> and <tt class="docutils literal"><span class="pre">MaskedColumn</span></tt> were changed so
+that the first argument is now <tt class="docutils literal"><span class="pre">order='C'</span></tt>.  This is required for
+compatibility with Numpy 1.8 which is currently in development. [#1250]</li>
+<li>Comparing a column (with == or !=) to a scalar, an array, or another column
+now always returns a boolean Numpy array (which is a masked array if either
+of the arguments in the comparison was masked). This is in contrast to the
+previous behavior, which in some cases returned a boolean Numpy array, and
+in some cases returned a boolean Column object. [#1446]</li>
+</ul>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">astropy.time</span></tt></p>
+<ul class="simple">
+<li>For consistency with <tt class="docutils literal"><span class="pre">Quantity</span></tt>, the attributes <tt class="docutils literal"><span class="pre">val</span></tt> and
+<tt class="docutils literal"><span class="pre">is_scalar</span></tt> have been renamed to <tt class="docutils literal"><span class="pre">value</span></tt> and <tt class="docutils literal"><span class="pre">isscalar</span></tt>,
+respectively, and the attribute <tt class="docutils literal"><span class="pre">vals</span></tt> has been dropped. [#767]</li>
+<li>The double-float64 internal representation of time is used more
+efficiently to enable better accuracy. [#366]</li>
+<li>Format and scale arguments are now allowed to be case-insensitive. [#1128]</li>
+</ul>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">astropy.units</span></tt></p>
+<ul class="simple">
+<li>The <tt class="docutils literal"><span class="pre">Quantity</span></tt> class now inherits from the Numpy array class, and
+includes the following API changes [#929]:<ul>
+<li>Using <tt class="docutils literal"><span class="pre">float(...)</span></tt>, <tt class="docutils literal"><span class="pre">int(...)</span></tt>, and <tt class="docutils literal"><span class="pre">long(...)</span></tt> on a quantity will
+now only work if the quantity is dimensionless and unscaled.</li>
+<li>All Numpy ufuncs should now treat units correctly (or raise an exception
+if not supported), rather than extract the value of quantities and
+operate on this, emitting a warning about the implicit loss of units.</li>
+<li>When using relevant Numpy ufuncs on dimensionless quantities (e.g.
+<tt class="docutils literal"><span class="pre">np.exp(h</span> <span class="pre">*</span> <span class="pre">nu</span> <span class="pre">/</span> <span class="pre">(k_B</span> <span class="pre">*</span> <span class="pre">T))</span></tt>), or combining dimensionless quantities
+with Python scalars or plain Numpy arrays <tt class="docutils literal"><span class="pre">1</span> <span class="pre">+</span> <span class="pre">v</span> <span class="pre">/</span> <span class="pre">c</span></tt>, the
+dimensionless Quantity will automatically be converted to an unscaled
+dimensionless Quantity.</li>
+<li>When initializing a quantity from a value with no unit, it is now set to
+be dimensionless and unscaled by default. When initializing a Quantity
+from another Quantity and with no unit specified in the initializer, the
+unit is now taken from the unit of the Quantity being initialized from.</li>
+</ul>
+</li>
+<li>Strings are no longer allowed as the values for Quantities. [#1005]</li>
+<li>Quantities are always comparable with zero regardless of their units.
+[#1254]</li>
+<li>The exception <tt class="docutils literal"><span class="pre">astropy.units.UnitsException</span></tt> has been renamed to
+<tt class="docutils literal"><span class="pre">astropy.units.UnitsError</span></tt> to be more consistent with the naming
+of built-in Python exceptions. [#1406]</li>
+<li>Multiplication with and division by a string now always returns a Unit
+(rather than a Quantity when the string was first) [#1408]</li>
+<li>Imperial units are disabled by default.</li>
+</ul>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">astropy.wcs</span></tt></p>
+<ul>
+<li><p class="first">For those including the <tt class="docutils literal"><span class="pre">astropy.wcs</span></tt> C headers in their project, they
+should now include it as:</p>
+<blockquote>
+<div><p>#include &#8220;astropy_wcs/astropy_wcs_api.h&#8221;</p>
+</div></blockquote>
+<p>instead of:</p>
+<blockquote>
+<div><p>#include &#8220;astropy_wcs_api.h&#8221;</p>
+</div></blockquote>
+<p>[#1631]</p>
+</li>
+</ul>
+</li>
+<li><p class="first">The <tt class="docutils literal"><span class="pre">--enable-legacy</span></tt> option for <tt class="docutils literal"><span class="pre">setup.py</span></tt> has been removed. [#1493]</p>
+</li>
+</ul>
+</div>
+<div class="section" id="id3">
+<h3>Bug Fixes<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first"><tt class="docutils literal"><span class="pre">astropy.io.ascii</span></tt></p>
+<ul class="simple">
+<li>The <tt class="docutils literal"><span class="pre">write()</span></tt> function was ignoring the <tt class="docutils literal"><span class="pre">fill_values</span></tt> argument. [#910]</li>
+<li>Fixed an issue in <tt class="docutils literal"><span class="pre">DefaultSplitter.join</span></tt> where the delimiter attribute
+was ignored when writing the CSV. [#1020]</li>
+<li>Fixed writing of IPAC tables containing null values. [#1366]</li>
+<li>When a table with no header row was read without specifying the format and
+using the <tt class="docutils literal"><span class="pre">names</span></tt> argument, then the first row could be dropped. [#1692]</li>
+</ul>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">astropy.io.fits</span></tt></p>
+<blockquote>
+<div><ul class="simple">
+<li>Binary tables containing compressed images may, optionally, contain other
+columns unrelated to the tile compression convention. Although this is an
+uncommon use case, it is permitted by the standard.</li>
+<li>Reworked some of the file I/O routines to allow simpler, more consistent
+mapping between OS-level file modes (&#8216;rb&#8217;, &#8216;wb&#8217;, &#8216;ab&#8217;, etc.) and the more
+&#8220;PyFITS-specific&#8221; modes used by PyFITS like &#8220;readonly&#8221; and &#8220;update&#8221;.  That
+is, if reading a FITS file from an open file object, it doesn&#8217;t matter as
+much what &#8220;mode&#8221; it was opened in so long as it has the right capabilities
+(read/write/etc.)  Also works around bugs in the Python io module in 2.6+
+with regard to file modes.</li>
+<li>Fixed a long-standing issue where writing binary tables did not correctly
+write the TFORMn keywords for variable-length array columns (they omitted
+the max array length parameter of the format).  This was thought fixed in
+an earlier version, but it was only fixed for compressed image HDUs and
+not for binary tables in general.</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">astropy.nddata</span></tt></p>
+<ul class="simple">
+<li>Fixed crash when trying to multiple or divide <tt class="docutils literal"><span class="pre">NDData</span></tt> objects with
+uncertainties. [#1547]</li>
+</ul>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">astropy.table</span></tt></p>
+<ul class="simple">
+<li>Using a list of strings to index a table now correctly returns a new table
+with the columns named in the list. [#1454]</li>
+<li>Inequality operators now work properly with <tt class="docutils literal"><span class="pre">Column</span></tt> objects. [#1685]</li>
+</ul>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">astropy.time</span></tt></p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">Time</span></tt> scale and format attributes are now shown when calling <tt class="docutils literal"><span class="pre">dir()</span></tt>
+on a <tt class="docutils literal"><span class="pre">Time</span></tt> object. [#1130]</li>
+</ul>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">astropy.wcs</span></tt></p>
+<ul class="simple">
+<li>Fixed assignment to string-like WCS attributes on Python 3. [#956]</li>
+</ul>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">astropy.units</span></tt></p>
+<ul class="simple">
+<li>Fixed a bug that caused the order of multiplication/division of plain
+Numpy arrays with Quantities to matter (i.e. if the plain array comes
+first the units were not preserved in the output). [#899]</li>
+<li>Directly instantiated <tt class="docutils literal"><span class="pre">CompositeUnits</span></tt> were made printable without
+crashing. [#1576]</li>
+</ul>
+</li>
+<li><p class="first">Misc</p>
+<ul class="simple">
+<li>Fixed various modules that hard-coded <tt class="docutils literal"><span class="pre">sys.stdout</span></tt> as default arguments
+to functions at import time, rather than using the runtime value of
+<tt class="docutils literal"><span class="pre">sys.stdout</span></tt>. [#1648]</li>
+<li>Minor documentation fixes and enhancements [#922, #1034, #1210, #1217,
+#1491, #1492, #1498, #1582, #1608, #1621, #1646, #1670, #1756]</li>
+<li>Fixed a crash that could sometimes occur when running the test suite on
+systems with platform names containing non-ASCII characters. [#1698]</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="id4">
+<h3>Other Changes and Additions<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>General<ul>
+<li>Astropy now follows the PSF Code of Conduct. [#1216]</li>
+<li>Astropy&#8217;s test suite now tests all doctests in inline docstrings.  Support
+for running doctests in the reST documentation is planned to follow in
+v0.3.1.</li>
+<li>Astropy&#8217;s test suite can be run on multiple CPUs in parallel, often
+greatly improving runtime, using the <tt class="docutils literal"><span class="pre">--parallel</span></tt> option. [#1040]</li>
+<li>A warning is now issued when using Astropy with Numpy &lt; 1.5&#8211;much of
+Astropy may still work in this case but it shouldn&#8217;t be expected to
+either. [#1479]</li>
+<li>Added automatic download/build/installation of Numpy during Astropy
+installation if not already found. [#1483]</li>
+<li>Handling of metadata for the <tt class="docutils literal"><span class="pre">NDData</span></tt> and <tt class="docutils literal"><span class="pre">Table</span></tt> classes has been
+unified by way of a common <tt class="docutils literal"><span class="pre">MetaData</span></tt> descriptor&#8211;it allows instantiating
+an object with metadata of any mapping type, and subsequently prevents
+replacing the mapping stored in the <tt class="docutils literal"><span class="pre">.meta</span></tt> attribute (only direct
+updates to that object are allowed). [#1686]</li>
+</ul>
+</li>
+<li><tt class="docutils literal"><span class="pre">astropy.coordinates</span></tt><ul>
+<li>Angles containing out of bounds minutes or seconds (eg. 60) can be
+parsed&#8211;the value modulo 60 is used with carry to the hours/minutes, and a
+warning is issued rather than raising an exception. [#990]</li>
+</ul>
+</li>
+<li><tt class="docutils literal"><span class="pre">astropy.io.fits</span></tt><ul>
+<li>The new compression code also adds support for the ZQUANTIZ and ZDITHER0
+keywords added in more recent versions of this FITS Tile Compression spec.
+This includes support for lossless compression with GZIP. (#198) By default
+no dithering is used, but the <tt class="docutils literal"><span class="pre">SUBTRACTIVE_DITHER_1</span></tt> and
+<tt class="docutils literal"><span class="pre">SUBTRACTIVE_DITHER_2</span></tt> methods can be enabled by passing the correct
+constants to the <tt class="docutils literal"><span class="pre">quantize_method</span></tt> argument to the <tt class="docutils literal"><span class="pre">CompImageHDU</span></tt>
+constructor.  A seed can be manually specified, or automatically generated
+using either the system clock or checksum-based methods via the
+<tt class="docutils literal"><span class="pre">dither_seed</span></tt> argument.  See the documentation for <tt class="docutils literal"><span class="pre">CompImageHDU</span></tt> for
+more details.</li>
+<li>Images compressed with the Tile Compression standard can now be larger than
+4 GB through support of the Q format.</li>
+<li>All HDUs now have a <tt class="docutils literal"><span class="pre">.ver</span></tt> <tt class="docutils literal"><span class="pre">.level</span></tt> attribute that returns the value of
+the EXTVAL and EXTLEVEL keywords from that HDU&#8217;s header, if the exist.
+This was added for consistency with the <tt class="docutils literal"><span class="pre">.name</span></tt> attribute which returns
+the EXTNAME value from the header.</li>
+<li>Then <tt class="docutils literal"><span class="pre">Column</span></tt> and <tt class="docutils literal"><span class="pre">ColDefs</span></tt> classes have new <tt class="docutils literal"><span class="pre">.dtype</span></tt> attributes
+which give the Numpy dtype for the column data in the first case, and the
+full Numpy compound dtype for each table row in the latter case.</li>
+<li>There was an issue where new tables created defaulted the values in all
+string columns to &#8216;0.0&#8217;.  Now string columns are filled with empty strings
+by default&#8211;this seems a less surprising default, but it may cause
+differences with tables created with older versions of PyFITS or Astropy.</li>
+</ul>
+</li>
+<li><tt class="docutils literal"><span class="pre">astropy.io.misc</span></tt><ul>
+<li>The HDF5 reader can now refer to groups in the path as well as datasets;
+if given a group, the first dataset in that group is read. [#1159]</li>
+</ul>
+</li>
+<li><tt class="docutils literal"><span class="pre">astropy.nddata</span></tt><ul>
+<li><tt class="docutils literal"><span class="pre">NDData</span></tt> objects have more helpful, though still rudimentary <tt class="docutils literal"><span class="pre">__str__`</span>
+<span class="pre">and</span> <span class="pre">``__repr__</span></tt> displays. [#1313]</li>
+</ul>
+</li>
+<li><tt class="docutils literal"><span class="pre">astropy.units</span></tt><ul>
+<li>Added &#8216;cycle&#8217; unit. [#1160]</li>
+<li>Extended units supported by the CDS formatter/parser. [#1468]</li>
+<li>Added unicode an LaTeX symbols for liter. [#1618]</li>
+</ul>
+</li>
+<li><tt class="docutils literal"><span class="pre">astropy.wcs</span></tt><ul>
+<li>Redundant SCAMP distortion parameters are removed with SIP distortions are
+also present. [#1278]</li>
+<li>Added iterative implementation of <tt class="docutils literal"><span class="pre">all_world2pix</span></tt> that can be reliably
+inverted. [#1281]</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="id5">
+<h2>0.2.5 (2013-10-25)<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id6">
+<h3>Bug Fixes<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">astropy.coordinates</span></tt><ul>
+<li>Fixed incorrect string formatting of Angles using <tt class="docutils literal"><span class="pre">precision=0</span></tt>. [#1319]</li>
+<li>Fixed string formatting of Angles using <tt class="docutils literal"><span class="pre">decimal=True</span></tt> which ignored the
+<tt class="docutils literal"><span class="pre">precision</span></tt> argument. [#1323]</li>
+<li>Fixed parsing of format strings using appropriate unicode characters
+instead of the ASCII <tt class="docutils literal"><span class="pre">-</span></tt> for minus signs. [#1429]</li>
+</ul>
+</li>
+<li><tt class="docutils literal"><span class="pre">astropy.io.ascii</span></tt><ul>
+<li>Fixed a crash in the IPAC table reader when the <tt class="docutils literal"><span class="pre">include/exclude_names</span></tt>
+option is set. [#1348]</li>
+<li>Fixed writing AASTex tables to honor the <tt class="docutils literal"><span class="pre">tabletype</span></tt> option. [#1372]</li>
+</ul>
+</li>
+<li><tt class="docutils literal"><span class="pre">astropy.io.fits</span></tt><ul>
+<li>Improved round-tripping and preservation of manually assigned column
+attributes (<tt class="docutils literal"><span class="pre">TNULLn</span></tt>, <tt class="docutils literal"><span class="pre">TSCALn</span></tt>, etc.) in table HDU headers. (Note: This
+issue was previously reported as fixed in Astropy v0.2.2 by mistake; it is
+not fixed until v0.3.) [#996]</li>
+<li>Fixed a bug that could cause a segfault when trying to decompress an
+compressed HDU whose contents are truncated (due to a corrupt file, for
+example). This still causes a Python traceback but better that than a
+segfault. [#1332]</li>
+<li>Newly created <tt class="docutils literal"><span class="pre">CompImageHDU</span></tt> HDUs use the correct value of the
+<tt class="docutils literal"><span class="pre">DEFAULT_COMPRESSION_TYPE</span></tt> module-level constant instead of hard-coding
+&#8220;RICE_1&#8221; in the header.</li>
+<li>Fixed a corner case where when extra memory is allocated to compress an
+image, it could lead to unnecessary in-memory copying of the compressed
+image data and a possible memory leak through Numpy.</li>
+<li>Fixed a bug where assigning from an mmap&#8217;d array in one FITS file over
+the old (also mmap&#8217;d) array in another FITS file failed to update the
+destination file. Corresponds to PyFITS issue 25.</li>
+<li>Some miscellaneous documentation fixes.</li>
+</ul>
+</li>
+<li><tt class="docutils literal"><span class="pre">astropy.io.votable</span></tt><ul>
+<li>Added a warning for when a VOTable 1.2 file contains no <tt class="docutils literal"><span class="pre">RESOURCES</span></tt>
+elements (at least one should be present). [#1337]</li>
+<li>Fixed a test failure specific to MIPS architecture caused by an errant
+floating point warning. [#1179]</li>
+</ul>
+</li>
+<li><tt class="docutils literal"><span class="pre">astropy.nddata.convolution</span></tt><ul>
+<li>Prevented in-place modification of the input arrays to <tt class="docutils literal"><span class="pre">convolve()</span></tt>.
+[#1153]</li>
+</ul>
+</li>
+<li><tt class="docutils literal"><span class="pre">astropy.table</span></tt><ul>
+<li>Added HTML escaping for string values in tables when outputting the table
+as HTML. [#1347]</li>
+<li>Added a workaround in a bug in Numpy that could cause a crash when
+accessing a table row in a masked table containing <tt class="docutils literal"><span class="pre">dtype=object</span></tt>
+columns. [#1229]</li>
+<li>Fixed an issue similar to the one in #1229, but specific to unmasked
+tables. [#1403]</li>
+</ul>
+</li>
+<li><tt class="docutils literal"><span class="pre">astropy.units</span></tt><ul>
+<li>Improved error handling for unparseable units and fixed parsing CDS units
+without mantissas in the exponent. [#1288]</li>
+<li>Added a physical type for spectral flux density. [#1410]</li>
+<li>Normalized conversions that should result in a scale of exactly 1.0 to
+round off slight floating point imprecisions. [#1407]</li>
+<li>Added support in the CDS unit parser/formatter for unusual unit prefixes
+that are nonetheless required to be supported by that convention. [#1426]</li>
+<li>Fixed the parsing of <tt class="docutils literal"><span class="pre">sqrt()</span></tt> in unit format strings which was returning
+<tt class="docutils literal"><span class="pre">unit</span> <span class="pre">**</span> <span class="pre">2</span></tt> instead of <tt class="docutils literal"><span class="pre">unit</span> <span class="pre">**</span> <span class="pre">0.5</span></tt>. [#1458]</li>
+</ul>
+</li>
+<li><tt class="docutils literal"><span class="pre">astropy.wcs</span></tt><ul>
+<li>When passing a single array to the wcs transformation functions,
+(<tt class="xref py py-obj docutils literal"><span class="pre">astropy.wcs.Wcs.all_pix2world</span></tt>, etc.), its second dimension must
+now exactly match the number of dimensions in the
+transformation. [#1395]</li>
+<li>Improved error message when incorrect arguments are passed to
+<tt class="docutils literal"><span class="pre">WCS.wcs_world2pix</span></tt>. [#1394]</li>
+<li>Fixed a crash when trying to read WCS from FITS headers on Python 3.3
+in Windows. [#1363]</li>
+<li>Only headers that are required as part of the WCSLIB C API are installed
+by the package, per request of system packagers. [#1666]</li>
+</ul>
+</li>
+<li>Misc<ul>
+<li>Fixed crash when the <tt class="docutils literal"><span class="pre">COLUMNS</span></tt> environment variable is set to a
+non-integer value. [#1291]</li>
+<li>Fixed a bug in <tt class="docutils literal"><span class="pre">ProgressBar.map</span></tt> where <tt class="docutils literal"><span class="pre">multiprocess=True</span></tt> could cause
+it to hang on waiting for the process pool to be destroyed. [#1381]</li>
+<li>Fixed a crash on Python 3.2 when affiliated packages try to use the
+<tt class="docutils literal"><span class="pre">astropy.utils.data.get_pkg_data_*</span></tt> functions. [#1256]</li>
+<li>Fixed a minor path normalization issue that could occur on Windows in
+<tt class="docutils literal"><span class="pre">astropy.utils.data.get_pkg_data_filename</span></tt>. [#1444]</li>
+<li>Fixed an annoyance where configuration items intended only for testing
+showed up in users&#8217; astropy.cfg files. [#1477]</li>
+<li>Prevented crashes in exception logging in unusual cases where no traceback
+is associated with the exception. [#1518]</li>
+<li>Fixed a crash when running the tests in unusual environments where
+<tt class="docutils literal"><span class="pre">sys.stdout.encoding</span></tt> is <tt class="docutils literal"><span class="pre">None</span></tt>. [#1530]</li>
+<li>Miscellaneous documentation fixes and improvements [#1308, #1317, #1377,
+#1393, #1362, #1516]</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="id7">
+<h3>Other Changes and Additions<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Astropy installation now requests setuptools &gt;= 0.7 during build/installation
+if neither distribute or setuptools &gt;= 0.7 is already installed.  In other
+words, if <tt class="docutils literal"><span class="pre">import</span> <span class="pre">setuptools</span></tt> fails, <tt class="docutils literal"><span class="pre">ez_setup.py</span></tt> is used to bootstrap
+the latest setuptools (rather than using <tt class="docutils literal"><span class="pre">distribute_setup.py</span></tt> to bootstrap
+the now obsolete distribute package). [#1197]</li>
+<li>When importing Astropy from a source checkout without having built the
+extension modules first an <tt class="docutils literal"><span class="pre">ImportError</span></tt> is raised rather than a
+<tt class="docutils literal"><span class="pre">SystemExit</span></tt> exception. [#1269]</li>
+</ul>
+</div>
+</div>
+<div class="section" id="id8">
+<h2>0.2.4 (2013-07-24)<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id9">
+<h3>Bug Fixes<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">astropy.coordinates</span></tt><ul>
+<li>Fixed the angle parser to support parsing the string &#8220;1 degree&#8221;. [#1168]</li>
+</ul>
+</li>
+<li><tt class="docutils literal"><span class="pre">astropy.cosmology</span></tt><ul>
+<li>Fixed a crash in the <tt class="docutils literal"><span class="pre">comoving_volume</span></tt> method on non-flat cosmologies
+when passing it an array of redshifts.</li>
+</ul>
+</li>
+<li><tt class="docutils literal"><span class="pre">astropy.io.ascii</span></tt><ul>
+<li>Fixed a bug that prevented saving changes to the comment symbol when
+writing changes to a table. [#1167]</li>
+</ul>
+</li>
+<li><tt class="docutils literal"><span class="pre">astropy.io.fits</span></tt><ul>
+<li>Added a workaround for a bug in 64-bit OSX that could cause truncation when
+writing files greater than 2^32 bytes in size. [#839]</li>
+</ul>
+</li>
+<li><tt class="docutils literal"><span class="pre">astropy.io.votable</span></tt><ul>
+<li>Fixed incorrect reading of tables containing multiple <tt class="docutils literal"><span class="pre">&lt;RESOURCE&gt;</span></tt>
+elements. [#1223]</li>
+</ul>
+</li>
+<li><tt class="docutils literal"><span class="pre">astropy.table</span></tt><ul>
+<li>Fixed a bug where <tt class="docutils literal"><span class="pre">Table.remove_column</span></tt> and <tt class="docutils literal"><span class="pre">Table.rename_column</span></tt>
+could cause a masked table to lose its masking. [#1120]</li>
+<li>Fixed bugs where subclasses of <tt class="docutils literal"><span class="pre">Table</span></tt> did not preserver their class in
+certain operations. [#1142]</li>
+<li>Fixed a bug where slicing a masked table did not preserve the mask. [#1187]</li>
+</ul>
+</li>
+<li><tt class="docutils literal"><span class="pre">astropy.units</span></tt><ul>
+<li>Fixed a bug where the <tt class="docutils literal"><span class="pre">.si</span></tt> and <tt class="docutils literal"><span class="pre">.cgs</span></tt> properties of dimensionless
+<tt class="docutils literal"><span class="pre">Quantity</span></tt> objects raised a <tt class="docutils literal"><span class="pre">ZeroDivisionError</span></tt>. [#1150]</li>
+<li>Fixed a bug where multiple subsequent calls to the <tt class="docutils literal"><span class="pre">.decompose()</span></tt> method
+on array quantities applied a scale factor each time. [#1163]</li>
+</ul>
+</li>
+<li>Misc<ul>
+<li>Fixed an installation crash that could occur sometimes on Debian/Ubuntu
+and other *NIX systems where <tt class="docutils literal"><span class="pre">pkg_resources</span></tt> can be installed without
+installing <tt class="docutils literal"><span class="pre">setuptools</span></tt>. [#1150]</li>
+<li>Updated the <tt class="docutils literal"><span class="pre">distribute_setup.py</span></tt> bootstrapper to use setuptools &gt;= 0.7
+when installing on systems that don&#8217;t already have an up to date version
+of distribute/setuptools. [#1180]</li>
+<li>Changed the <tt class="docutils literal"><span class="pre">version.py</span></tt> template so that Astropy affiliated packages can
+(and they should) use their own <tt class="docutils literal"><span class="pre">cython_version.py</span></tt> and
+<tt class="docutils literal"><span class="pre">utils._compiler</span></tt> modules where appropriate. This issue only pertains to
+affiliated package maintainers. [#1198]</li>
+<li>Fixed a corner case where the default config file generation could crash
+if building with matplotlib but <em>not</em> Sphinx installed in a virtualenv.
+[#1225]</li>
+<li>Fixed a crash that could occur in the logging module on systems that
+don&#8217;t have a default preferred encoding (in particular this happened
+in some versions of PyCharm). [#1244]</li>
+<li>The Astropy log now supports passing non-string objects (and calling
+<tt class="docutils literal"><span class="pre">str()</span></tt> on them by default) to the logging methods, in line with Python&#8217;s
+standard logging API. [#1267]</li>
+<li>Minor documentation fixes [#582, #696, #1154, #1194, #1212, #1213, #1246,
+#1252]</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="id10">
+<h3>Other Changes and Additions<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">astropy.cosmology</span></tt><ul>
+<li>Added a new <tt class="docutils literal"><span class="pre">Plank13</span></tt> object representing the Plank 2013 results. [#895]</li>
+</ul>
+</li>
+<li><tt class="docutils literal"><span class="pre">astropy.units</span></tt><ul>
+<li>Performance improvements in initialization of <tt class="docutils literal"><span class="pre">Quantity</span></tt> objects with
+a large number of elements. [#1231]</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="id11">
+<h2>0.2.3 (2013-05-30)<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id12">
+<h3>Bug Fixes<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">astropy.time</span></tt><ul>
+<li>Fixed inaccurate handling of leap seconds when converting from UTC to UNIX
+timestamps. [#1118]</li>
+<li>Tightened required accuracy in many of the time conversion tests. [#1121]</li>
+</ul>
+</li>
+<li>Misc<ul>
+<li>Fixed a regression that was introduced in v0.2.2 by the fix to issue #992
+that was preventing installation of Astropy affiliated packages that use
+Astropy&#8217;s setup framework. [#1124]</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="id13">
+<h2>0.2.2 (2013-05-21)<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id14">
+<h3>Bug Fixes<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">astropy.io</span></tt><ul>
+<li>Fixed issues in both the <tt class="docutils literal"><span class="pre">fits</span></tt> and <tt class="docutils literal"><span class="pre">votable</span></tt> sub-packages where array
+byte order was not being handled consistently, leading to possible crashes
+especially on big-endian systems. [#1003]</li>
+</ul>
+</li>
+<li><tt class="docutils literal"><span class="pre">astropy.io.fits</span></tt><ul>
+<li>When an error occurs opening a file in fitsdiff the exception message will
+now at least mention which file had the error.</li>
+<li>Fixed a couple cases where creating a new table using TDIMn in some of the
+columns could cause a crash.</li>
+<li>Slightly refactored how tables containing variable-length array columns are
+handled to add two improvements: Fixes an issue where accessing the data
+after a call to the <a class="reference internal" href="io/fits/api/files.html#astropy.io.fits.getdata" title="astropy.io.fits.getdata"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.io.fits.getdata</span></tt></a> convenience function caused
+an exception, and allows the VLA data to be read from an existing mmap of
+the FITS file.</li>
+<li>Fixed a bug on Python 3 where attempting to open a non-existent file on
+Python 3 caused a seemingly unrelated traceback.</li>
+<li>Fixed an issue in the tests that caused some tests to fail if Astropy is
+installed with read-only permissions.</li>
+<li>Fixed a bug where instantiating a <tt class="docutils literal"><span class="pre">BinTableHDU</span></tt> from a numpy array
+containing boolean fields converted all the values to <tt class="docutils literal"><span class="pre">False</span></tt>.</li>
+<li>Fixed an issue where passing an array of integers into the constructor of
+<tt class="docutils literal"><span class="pre">Column()</span></tt> when the column type is floats of the same byte width caused
+the column array to become garbled.</li>
+<li>Fixed inconsistent behavior in creating CONTINUE cards from byte strings
+versus unicode strings in Python 2&#8211;CONTINUE cards can now be created
+properly from unicode strings (so long as they are convertable to ASCII).</li>
+<li>Fixed a bug in parsing HIERARCH keywords that do not have a space after the
+first equals sign (before the value).</li>
+<li>Prevented extra leading whitespace on HIERARCH keywords from being treated
+as part of the keyword.</li>
+<li>Fixed a bug where HIERARCH keywords containing lower-case letters was
+mistakenly marked as invalid during header validation along with an
+ancillary issue where the <tt class="docutils literal"><span class="pre">Header.index()</span></tt> method id not work correctly
+with HIERARCH keywords containing lower-case letters.</li>
+<li>Disallowed assigning NaN and Inf floating point values as header values,
+since the FITS standard does not define a way to represent them in. Because
+this is undefined, the previous behavior did not make sense and produced
+invalid FITS files. [#954]</li>
+<li>Fixed an obscure issue that can occur on systems that don&#8217;t have flush to
+memory-mapped files implemented (namely GNU Hurd). [#968]</li>
+</ul>
+</li>
+<li><tt class="docutils literal"><span class="pre">astropy.io.votable</span></tt><ul>
+<li>Stopped deprecation warnings from the <tt class="docutils literal"><span class="pre">astropy.io.votable</span></tt> package that
+could occur during setup. [#970]</li>
+<li>Fixed an issue where INFO elements were being incorrectly dropped when
+occurring inside a TABLE element. [#1000]</li>
+<li>Fixed obscure test failures on MIPS platforms. [#1010]</li>
+</ul>
+</li>
+<li><tt class="docutils literal"><span class="pre">astropy.nddata.convolution</span></tt><ul>
+<li>Fixed an issue in <tt class="docutils literal"><span class="pre">make_kernel()</span></tt> when using an Airy function kernel.
+Also removed the superfluous &#8216;brickwall&#8217; option. [#939]</li>
+</ul>
+</li>
+<li><tt class="docutils literal"><span class="pre">astropy.table</span></tt><ul>
+<li>Fixed a crash that could occur when adding a row to an empty (rowless)
+table with masked columns. [#973]</li>
+<li>Made it possible to assign to one table row from the value of another row,
+effectively making it easier to copy rows, for example. [#1019]</li>
+</ul>
+</li>
+<li><tt class="docutils literal"><span class="pre">astropy.time</span></tt><ul>
+<li>Added appropriate <tt class="docutils literal"><span class="pre">__copy__</span></tt> and <tt class="docutils literal"><span class="pre">__deepcopy__</span></tt> behavior; this
+omission caused a seemingly unrelated error in FK5 coordinate separation.
+[#891]</li>
+</ul>
+</li>
+<li><tt class="docutils literal"><span class="pre">astropy.units</span></tt><ul>
+<li>Fixed an issue where the <tt class="docutils literal"><span class="pre">isiterable()</span></tt> utility returned <tt class="docutils literal"><span class="pre">True</span></tt> for
+quantities with scalar values.  Added an <tt class="docutils literal"><span class="pre">__iter__</span></tt> method for the
+<tt class="docutils literal"><span class="pre">Quantity</span></tt> class and fixed <tt class="docutils literal"><span class="pre">isiterable()</span></tt> to catch false positives.
+[#878]</li>
+<li>Fixed previously undefined behavior when multiplying a unit by a string.
+[#949]</li>
+<li>Added &#8216;time&#8217; as a physical type&#8211;this was a simple omission. [#959]</li>
+<li>Fixed issues with pickling unit objects so as to play nicer with the
+multiprocessing module. [#974]</li>
+<li>Made it more difficult to accidentally override existing units with a new
+unit of the same name. [#1070]</li>
+<li>Added several more physical types and units that were previously omitted,
+including &#8216;mass density&#8217;, &#8216;specific volume&#8217;, &#8216;molar volume&#8217;, &#8216;momentum&#8217;,
+&#8216;angular momentum&#8217;, &#8216;angular speed&#8217;, &#8216;angular acceleration&#8217;, &#8216;electric
+current&#8217;, &#8216;electric current density&#8217;, &#8216;electric field strength&#8217;, &#8216;electric
+flux density&#8217;, &#8216;electric charge density&#8217;, &#8216;permittivity&#8217;, &#8216;electromagnetic
+field strength&#8217;, &#8216;radiant intensity&#8217;, &#8216;data quantity&#8217;, &#8216;bandwidth&#8217;; and
+&#8216;knots&#8217;, &#8216;nautical miles&#8217;, &#8216;becquerels&#8217;, and &#8216;curies&#8217; respectively. [#1072]</li>
+</ul>
+</li>
+<li>Misc<ul>
+<li>Fixed a permission error that could occur when running <tt class="docutils literal"><span class="pre">astropy.test()</span></tt>
+on Python 3 when Astropy is installed as root. [#811]</li>
+<li>Made it easier to filter warnings from the <tt class="docutils literal"><span class="pre">convolve()</span></tt> function and
+from <tt class="docutils literal"><span class="pre">Quantity</span></tt> objects. [#853]</li>
+<li>Fixed a crash that could occur in Python 3 when generation of the default
+config file fails during setup. [#952]</li>
+<li>Fixed an unrelated error message that could occur when trying to import
+astropy from a source checkout without having build the extension modules
+first. This issue was claimed to be fixed in v0.2.1, but the fix itself had
+a bug. [#971]</li>
+<li>Fixed a crash that could occur when running the <tt class="docutils literal"><span class="pre">build_sphinx</span></tt> setup
+command in Python 3. [#977]</li>
+<li>Added a more helpful error message when trying to run the
+<tt class="docutils literal"><span class="pre">setup.py</span> <span class="pre">build_sphinx</span></tt> command when Sphinx is not installed. [#1027]</li>
+<li>Minor documentation fixes and restructuring.
+[#935, #967, #978, #1004, #1028, #1047]</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="id15">
+<h3>Other Changes and Additions<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Some performance improvements to the <tt class="docutils literal"><span class="pre">astropy.units</span></tt> package, in particular
+improving the time it takes to import the sub-package. [#1015]</li>
+</ul>
+</div>
+</div>
+<div class="section" id="id16">
+<h2>0.2.1 (2013-04-03)<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id17">
+<h3>Bug Fixes<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">astropy.coordinates</span></tt><ul>
+<li>Fixed encoding errors that could occur when formatting coordinate objects
+in code using <tt class="docutils literal"><span class="pre">from</span> <span class="pre">__future__</span> <span class="pre">import</span> <span class="pre">unicode_literals</span></tt>. [#817]</li>
+<li>Fixed a bug where the minus sign was dropped when string formatting dms
+coordinates with -0 degrees. [#875]</li>
+</ul>
+</li>
+<li><tt class="docutils literal"><span class="pre">astropy.io.fits</span></tt><ul>
+<li>Properly supports the ZQUANTIZ keyword used to support quantization
+level&#8211;this includes working support for lossless GZIP compression of
+images.</li>
+<li>Fixed support for opening gzipped FITS files in a writeable mode. [#256]</li>
+<li>Added a more helpful exception message when trying to read invalid values
+from a table when the required <tt class="docutils literal"><span class="pre">TNULLn</span></tt> keyword is missing. [#309]</li>
+<li>More refactoring of the tile compression handling to work around a
+potential memory access violation that was particularly prevalent on
+Windows. [#507]</li>
+<li>Fixed an integer size mismatch in the compression module that could affect
+32-bit systems. [#786]</li>
+<li>Fixed malformatting of the <tt class="docutils literal"><span class="pre">TFORMn</span></tt> keywords when writing compressed
+image tables (they omitted the max array length parameter from the
+variable-length array format).</li>
+<li>Fixed a crash that could occur when writing a table containing multi-
+dimensional array columns from an existing file into a new file.</li>
+<li>Fixed a bug in fitsdiff that reported two header keywords containing NaN
+as having different values.</li>
+</ul>
+</li>
+<li><tt class="docutils literal"><span class="pre">astropy.io.votable</span></tt><ul>
+<li>Fixed links to the <tt class="docutils literal"><span class="pre">astropy.io.votable</span></tt> documentation in the VOTable
+validator output. [#806]</li>
+<li>When reading VOTables containing integers that are out of range for their
+column type, display a warning rather than raising an exception. [#825]</li>
+<li>Changed the default string format for floating point values for better
+round-tripping. [#856]</li>
+<li>Fixed opening VOTables through the <tt class="docutils literal"><span class="pre">Table.read()</span></tt> interface for tables
+that have no names. [#927]</li>
+<li>Fixed creation of VOTables from an Astropy table that does not have a data
+mask. [#928]</li>
+<li>Minor documentation fixes. [#932]</li>
+</ul>
+</li>
+<li><tt class="docutils literal"><span class="pre">astropy.nddata.convolution</span></tt><ul>
+<li>Added better handling of <tt class="docutils literal"><span class="pre">inf</span></tt> values to the <tt class="docutils literal"><span class="pre">convolve_fft</span></tt> family of
+functions. [#893]</li>
+</ul>
+</li>
+<li><tt class="docutils literal"><span class="pre">astropy.table</span></tt><ul>
+<li>Fixed silent failure to assign values to a row on multiple columns. [#764]</li>
+<li>Fixed various buggy behavior when viewing a table after sorting by one of
+its columns. [#829]</li>
+<li>Fixed using <tt class="docutils literal"><span class="pre">numpy.where()</span></tt> with table indexing. [#838]</li>
+<li>Fixed a bug where opening a remote table with <tt class="docutils literal"><span class="pre">Table.read()</span></tt> could cause
+the entire table to be downloaded twice. [#845]</li>
+<li>Fixed a bug where <tt class="docutils literal"><span class="pre">MaskedColumn</span></tt> no longer worked if the column being
+masked is renamed. [#916]</li>
+</ul>
+</li>
+<li><tt class="docutils literal"><span class="pre">astropy.units</span></tt><ul>
+<li>Added missing capability for array <tt class="docutils literal"><span class="pre">Quantity</span></tt>s to be initializable by
+a list of <tt class="docutils literal"><span class="pre">Quantity</span></tt>s. [#835]</li>
+<li>Fixed the definition of year and lightyear to be in terms of Julian year
+per the IAU definition. [#861]</li>
+<li>&#8220;degree&#8221; was removed from the list of SI base units. [#863]</li>
+</ul>
+</li>
+<li><tt class="docutils literal"><span class="pre">astropy.wcs</span></tt><ul>
+<li>Fixed <tt class="docutils literal"><span class="pre">TypeError</span></tt> when calling <tt class="docutils literal"><span class="pre">WCS.to_header_string()</span></tt>. [#822]</li>
+<li>Added new method <tt class="xref py py-obj docutils literal"><span class="pre">WCS.all_world2pix</span></tt> for converting from world coordinates
+to pixel space, including inversion of the astrometric distortion
+correction. [#1066, #1281]</li>
+</ul>
+</li>
+<li>Misc<ul>
+<li>Fixed a minor issue when installing with <tt class="docutils literal"><span class="pre">./setup.py</span> <span class="pre">develop</span></tt> on a fresh
+git clone.  This is likely only of interest to developers on Astropy.
+[#725]</li>
+<li>Fixes a crash with <tt class="docutils literal"><span class="pre">ImportError:</span> <span class="pre">No</span> <span class="pre">module</span> <span class="pre">named</span> <span class="pre">'astropy.version'</span></tt> when
+running setup.py from a source checkout for the first time on OSX with
+Python 3.3. [#820]</li>
+<li>Fixed an installation issue where running <tt class="docutils literal"><span class="pre">./setup.py</span> <span class="pre">install</span></tt> or when
+installing with pip the <tt class="docutils literal"><span class="pre">.astropy</span></tt> directory gets created in the home
+directory of the user running the command.  The user&#8217;s <tt class="docutils literal"><span class="pre">.astropy</span></tt>
+directory should only be created when they use Astropy, not when they
+install it. [#867]</li>
+<li>Fixed an exception when creating a <tt class="docutils literal"><span class="pre">ProgressBar</span></tt> with a &#8220;total&#8221; of 0.
+[#752]</li>
+<li>Added better documentation of behavior that can occur when trying to import
+the astropy package from within a source checkout without first building
+the extension modules. [#795, #864]</li>
+<li>Added link to the installation instructions in the README. [#797]</li>
+<li>Catches segfaults in xmllint which can occur sometimes and is otherwise out
+of our control. [#803]</li>
+<li>Minor changes to the documentation template. [#805]</li>
+<li>Fixed a minor exception handling bug in <tt class="docutils literal"><span class="pre">download_file()</span></tt>. [#808]</li>
+<li>Added cleanup of any temporary files if an error occurs in
+<tt class="docutils literal"><span class="pre">download_file()</span></tt>. [#857]</li>
+<li>Filesystem free space is checked for before attempting to download a file
+with <tt class="docutils literal"><span class="pre">download_file()</span></tt>. [#858]</li>
+<li>Fixed package data locating to work across symlinks&#8211;required to work with
+some OS packaging layouts. [#827]</li>
+<li>Fixed a bug when building Cython extensions where hidden files containing
+<tt class="docutils literal"><span class="pre">.pyx</span></tt> extensions could cause the build to crash. This can be an issue
+with software and filesystems that autogenerate hidden files. [#834]</li>
+<li>Fixed bug that could cause a &#8220;script&#8221; called README.rst to be installed
+in a bin directory. [#852]</li>
+<li>Fixed some miscellaneous and mostly rare reference leaks caught by
+cpychecker. [#914]</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="id18">
+<h3>Other Changes and Additions<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Added logo and branding for Windows binary installers. [#741]</li>
+<li>Upgraded included version libexpat to 2.1.0. [#781]</li>
+<li>~25% performance improvement in unit composition/decomposition. [#836]</li>
+<li>Added previously missing LaTeX formatting for <tt class="docutils literal"><span class="pre">L_sun</span></tt> and <tt class="docutils literal"><span class="pre">R_sun</span></tt>. [#841]</li>
+<li><tt class="docutils literal"><span class="pre">ConfigurationItem</span></tt>s now have a more useful and informative <tt class="docutils literal"><span class="pre">__repr__</span></tt>
+and improved documentation for how to use them. [#855]</li>
+<li>Added a friendlier error message when trying to import astropy from a source
+checkout without first building the extension modules inplace. [#864]</li>
+<li><tt class="docutils literal"><span class="pre">py.test</span></tt> now outputs more system information for help in debugging issues
+from users. [#869]</li>
+<li>Added unit definitions &#8220;mas&#8221; and &#8220;uas&#8221; for &#8220;milliarcsecond&#8221; and
+&#8220;microarcsecond&#8221; respectively. [#892]</li>
+</ul>
+</div>
+</div>
+<div class="section" id="id19">
+<h2>0.2 (2013-02-19)<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id20">
+<h3>New Features<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h3>
+<p>This is a brief overview of the new features included in Astropy 0.2&#8211;please
+see the &#8220;What&#8217;s New&#8221; section of the documentation for more details.</p>
+<ul>
+<li><p class="first"><tt class="docutils literal"><span class="pre">astropy.coordinates</span></tt></p>
+<ul class="simple">
+<li>This new subpackage contains a representation of celestial coordinates,
+and provides a wide range of related functionality.  While
+fully-functional, it is a work in progress and parts of the API may
+change in subsequent releases.</li>
+</ul>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">astropy.cosmology</span></tt></p>
+<ul class="simple">
+<li>Update to include cosmologies with variable dark energy equations of state.
+(This introduces some API incompatibilities with the older Cosmology
+objects).</li>
+<li>Added parameters for relativistic species (photons, neutrinos) to the
+astropy.cosmology classes. The current treatment assumes that neutrinos are
+massless. [#365]</li>
+<li>Add a WMAP9 object using the final (9-year) WMAP parameters from
+Hinshaw et al. 2013. It has also been made the default cosmology.
+[#629, #724]</li>
+</ul>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">astropy.table</span></tt> I/O infrastructure for custom readers/writers
+implemented. [#305]</p>
+<ul class="simple">
+<li>Added support for reading/writing HDF5 files [#461]</li>
+<li>Added support for masked tables with missing or invalid data [#451]</li>
+</ul>
+</li>
+<li><p class="first">New <tt class="docutils literal"><span class="pre">astropy.time</span></tt> sub-package. [#332]</p>
+</li>
+<li><p class="first">New <tt class="docutils literal"><span class="pre">astropy.units</span></tt> sub-package that includes a class for units
+(<tt class="docutils literal"><span class="pre">astropy.units.Unit</span></tt>) and scalar quantities that have units
+(<tt class="docutils literal"><span class="pre">astropy.units.Quantity</span></tt>). [#370, #445]</p>
+<p>This has the following effects on other sub-packages:</p>
+<ul class="simple">
+<li>In <tt class="docutils literal"><span class="pre">astropy.wcs</span></tt>, the <tt class="docutils literal"><span class="pre">wcs.cunit</span></tt> list now takes and returns
+<tt class="docutils literal"><span class="pre">astropy.units.Unit</span></tt> objects. [#379]</li>
+<li>In <tt class="docutils literal"><span class="pre">astropy.nddata</span></tt>, units are now stored as <tt class="docutils literal"><span class="pre">astropy.units.Unit</span></tt>
+objects. [#382]</li>
+<li>In <tt class="docutils literal"><span class="pre">astropy.table</span></tt>, units on columns are now stored as
+<tt class="docutils literal"><span class="pre">astropy.units.Unit</span></tt> objects. [#380]</li>
+<li>In <tt class="docutils literal"><span class="pre">astropy.constants</span></tt>, constants are now stored as
+<tt class="docutils literal"><span class="pre">astropy.units.Quantity</span></tt> objects. [#529]</li>
+</ul>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">astropy.io.ascii</span></tt></p>
+<ul class="simple">
+<li>Improved integration with the <tt class="docutils literal"><span class="pre">astropy.table</span></tt> Table class so that
+table and column metadata (e.g. keywords, units, description,
+formatting) are directly available in the output table object.  The
+CDS, DAOphot, and IPAC format readers now provide this type of
+integrated metadata.</li>
+<li>Changed to using <a class="reference internal" href="table/index.html#module-astropy.table" title="astropy.table"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.table</span></tt></a> masked tables instead of NumPy
+masked arrays for tables with missing values.</li>
+<li>Added SExtractor table reader to <tt class="docutils literal"><span class="pre">astropy.io.ascii</span></tt> [#420]</li>
+<li>Removed the Memory reader class which was used to convert data input
+passed to the <tt class="docutils literal"><span class="pre">write</span></tt> function into an internal table.  Instead
+<tt class="docutils literal"><span class="pre">write</span></tt> instantiates an astropy Table object using the data
+input to <tt class="docutils literal"><span class="pre">write</span></tt>.</li>
+<li>Removed the NumpyOutputter as the output of reading a table is now
+always a <tt class="docutils literal"><span class="pre">Table</span></tt> object.</li>
+<li>Removed the option of supplying a function as a column output
+formatter.</li>
+<li>Added a new <tt class="docutils literal"><span class="pre">strip_whitespace</span></tt> keyword argument to the <tt class="docutils literal"><span class="pre">write</span></tt>
+function.  This controls whether whitespace is stripped from
+the left and right sides of table elements before writing.
+Default is True.</li>
+<li>Fixed a bug in reading IPAC tables with null values.</li>
+</ul>
+</li>
+<li><p class="first">Generalized I/O infrastructure so that <tt class="docutils literal"><span class="pre">astropy.nddata</span></tt> can also have
+custom readers/writers [#659]</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">astropy.wcs</span></tt></p>
+<ul class="simple">
+<li>From updating the the underlying wcslib 4.16:<ul>
+<li>When <tt class="xref py py-obj docutils literal"><span class="pre">astropy.wcs.WCS</span></tt> constructs a default coordinate
+representation it will give it the special name &#8220;DEFAULTS&#8221;, and
+will not report &#8220;Found one coordinate representation&#8221;.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="id21">
+<h3>Other Changes and Additions<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>A configuration file with all options set to their defaults is now generated
+when astropy is installed.  This file will be pulled in as the users&#8217;
+astropy configuration file the first time they <tt class="docutils literal"><span class="pre">import</span> <span class="pre">astropy</span></tt>.  [#498]</li>
+<li>Astropy doc themes moved into <tt class="docutils literal"><span class="pre">astropy.sphinx</span></tt> to allow affiliated packages
+to access them.</li>
+<li>Added expanded documentation for the <tt class="docutils literal"><span class="pre">astropy.cosmology</span></tt> sub-package.
+[#272]</li>
+<li>Added option to disable building of &#8220;legacy&#8221; packages (pyfits, vo, etc.).</li>
+<li>The value of the astronomical unit (au) has been updated to that adopted by
+IAU 2012 Resolution B2, and the values of the pc and kpc constants have been
+updated to reflect this. [#368]</li>
+<li>Added links to the documentation pages to directly edit the documentation on
+GitHub. [#347]</li>
+<li>Several updates merged from <tt class="docutils literal"><span class="pre">pywcs</span></tt> into <tt class="docutils literal"><span class="pre">astropy.wcs</span></tt> [#384]:<ul>
+<li>Improved the reading of distortion images.</li>
+<li>Added a new option to choose whether or not to write SIP coefficients.</li>
+<li>Uses the <tt class="docutils literal"><span class="pre">relax</span></tt> option by default so that non-standard keywords are
+allowed. [#585]</li>
+</ul>
+</li>
+<li>Added HTML representation of tables in IPython notebook [#409]</li>
+<li>Rewrote CFITSIO-based backend for handling tile compression of FITS files.
+It now uses a standard CFITSIO instead of heavily modified pieces of CFITSIO
+as before.  Astropy ships with its own copy of CFITSIO v3.30, but system
+packagers may choose instead to strip this out in favor of a
+system-installed version of CFITSIO.  This corresponds to PyFITS ticket 169.
+[#318]</li>
+<li>Moved <tt class="xref py py-obj docutils literal"><span class="pre">astropy.config.data</span></tt> to <a class="reference internal" href="utils/index.html#module-astropy.utils.data" title="astropy.utils.data"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.utils.data</span></tt></a> and re-factored the I/O
+routines to separate out the generic I/O code that can be used to open any
+file or resource from the code used to access Astropy-related data. The
+&#8216;core&#8217; I/O routine is now <tt class="xref py py-obj docutils literal"><span class="pre">get_readable_fileobj</span></tt>, which can be used to
+access any local as well as remote data, supports caching, and can
+decompress gzip and bzip2 files on-the-fly. [#425]</li>
+<li>Added a classmethod to
+<a class="reference internal" href="api/astropy.coordinates.coordsystems.SphericalCoordinatesBase.html#astropy.coordinates.coordsystems.SphericalCoordinatesBase" title="astropy.coordinates.coordsystems.SphericalCoordinatesBase"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.coordinates.coordsystems.SphericalCoordinatesBase</span></tt></a> that performs a
+name resolve query using Sesame to retrieve coordinates for the requested
+object. This works for any subclass of <tt class="xref py py-obj docutils literal"><span class="pre">SphericalCoordinatesBase</span></tt>, but
+requires an internet connection. [#556]</li>
+<li><tt class="docutils literal"><span class="pre">astropy.nddata.convolution</span></tt> removed requirement of PyFFTW3; uses Numpy&#8217;s
+FFT by default instead with the added ability to specify an FFT
+implementation to use. [#660]</li>
+</ul>
+</div>
+<div class="section" id="id22">
+<h3>Bug Fixes<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">astropy.io.ascii</span></tt><ul>
+<li>Fixed crash when pprinting a row with INDEF values. [#511]</li>
+<li>Fixed failure when reading DAOphot files with empty keyword values. [#666]</li>
+</ul>
+</li>
+<li><tt class="docutils literal"><span class="pre">astropy.io.fits</span></tt><ul>
+<li>Improved handling of scaled images and pseudo-unsigned integer images in
+compressed image HDUs.  They now work more transparently like normal image
+HDUs with support for the <tt class="docutils literal"><span class="pre">do_not_scale_image_data</span></tt> and <tt class="docutils literal"><span class="pre">uint</span></tt> options,
+as well as <tt class="docutils literal"><span class="pre">scale_back</span></tt> and <tt class="docutils literal"><span class="pre">save_backup</span></tt>.  The <tt class="docutils literal"><span class="pre">.scale()</span></tt> method
+works better too. Corresponds to PyFITS ticket 88.</li>
+<li>Permits non-string values for the EXTNAME keyword when reading in a file,
+rather than throwing an exception due to the malformatting.  Added
+verification for the format of the EXTNAME keyword when writing.
+Corresponds to PyFITS ticket 96.</li>
+<li>Added support for EXTNAME and EXTVER in PRIMARY HDUs.  That is, if EXTNAME
+is specified in the header, it will also be reflected in the <tt class="docutils literal"><span class="pre">.name</span></tt>
+attribute and in <tt class="docutils literal"><span class="pre">fits.info()</span></tt>.  These keywords used to be verboten in
+PRIMARY HDUs, but the latest version of the FITS standard allows them.
+Corresponds to PyFITS ticket 151.</li>
+<li>HCOMPRESS can again be used to compress data cubes (and higher-dimensional
+arrays) so long as the tile size is effectively 2-dimensional. In fact,
+compatible tile sizes will automatically be used even if they&#8217;re not
+explicitly specified. Corresponds to PyFITS ticket 171.</li>
+<li>Fixed a bug that could cause a deadlock in the filesystem on OSX when
+reading the data from certain types of FITS files. This only occurred
+when used in conjunction with Numpy 1.7. [#369]</li>
+<li>Added support for the optional <tt class="docutils literal"><span class="pre">endcard</span></tt> parameter in the
+<tt class="docutils literal"><span class="pre">Header.fromtextfile()</span></tt> and <tt class="docutils literal"><span class="pre">Header.totextfile()</span></tt> methods.  Although
+<tt class="docutils literal"><span class="pre">endcard=False</span></tt> was a reasonable default assumption, there are still text
+dumps of FITS headers that include the END card, so this should have been
+more flexible. Corresponds to PyFITS ticket 176.</li>
+<li>Fixed a crash when running fitsdiff on two empty (that is, zero row) tables.
+Corresponds to PyFITS ticket 178.</li>
+<li>Fixed an issue where opening a FITS file containing a random group HDU in
+update mode could result in an unnecessary rewriting of the file even if
+no changes were made. This corresponds to PyFITS ticket 179.</li>
+<li>Fixed a crash when generating diff reports from diffs using the
+<tt class="docutils literal"><span class="pre">ignore_comments</span></tt> options. Corresponds to PyFITS ticket 181.</li>
+<li>Fixed some bugs with WCS Paper IV record-valued keyword cards:<ul>
+<li>Cards that looked kind of like RVKCs but were not intended to be were
+over-permissively treated as such&#8211;commentary keywords like COMMENT and
+HISTORY were particularly affected. Corresponds to PyFITS ticket 183.</li>
+<li>Looking up a card in a header by its standard FITS keyword only should
+always return the raw value of that card.  That way cards containing
+values that happen to valid RVKCs but were not intended to be will still
+be treated like normal cards. Corresponds to PyFITS ticket 184.</li>
+<li>Looking up a RVKC in a header with only part of the field-specifier (for
+example &#8220;DP1.AXIS&#8221; instead of &#8220;DP1.AXIS.1&#8221;) was implicitly treated as a
+wildcard lookup. Corresponds to PyFITS ticket 184.</li>
+</ul>
+</li>
+<li>Fixed a crash when diffing two FITS files where at least one contains a
+compressed image HDU which was not recognized as an image instead of a
+table. Corresponds to PyFITS ticket 187.</li>
+<li>Fixed a bug where opening a file containing compressed image HDUs in
+&#8216;update&#8217; mode and then immediately closing it without making any changes
+caused the file to be rewritten unnecessarily.</li>
+<li>Fixed two memory leaks that could occur when writing compressed image data,
+or in some cases when opening files containing compressed image HDUs in
+&#8216;update&#8217; mode.</li>
+<li>Fixed a bug where <tt class="docutils literal"><span class="pre">ImageHDU.scale(option='old')</span></tt> wasn&#8217;t working at
+all&#8211;it was not restoring the image to its original BSCALE and BZERO
+values.</li>
+<li>Fixed a bug when writing out files containing zero-width table columns,
+where the TFIELDS keyword would be updated incorrectly, leaving the table
+largely unreadable.</li>
+<li>Fixed a minor string formatting issue.</li>
+<li>Fixed bugs in the backwards compatibility layer for the <tt class="docutils literal"><span class="pre">CardList.index</span></tt>
+and <tt class="docutils literal"><span class="pre">CardList.count</span></tt> methods. Corresponds to PyFITS ticket 190.</li>
+<li>Improved <tt class="docutils literal"><span class="pre">__repr__</span></tt> and text file representation of cards with long
+values that are split into CONTINUE cards. Corresponds to PyFITS ticket
+193.</li>
+<li>Fixed a crash when trying to assign a long (&gt; 72 character) value to blank
+(&#8216;&#8217;) keywords. This also changed how blank keywords are represented&#8211;there
+are still exactly 8 spaces before any commentary content can begin; this
+<em>may</em> affect the exact display of header cards that assumed there could be
+fewer spaces in a blank keyword card before the content begins. However,
+the current approach is more in line with the requirements of the FITS
+standard. Corresponds to PyFITS ticket 194.</li>
+</ul>
+</li>
+<li><tt class="docutils literal"><span class="pre">astropy.io.votable</span></tt><ul>
+<li>The <tt class="xref py py-obj docutils literal"><span class="pre">Table</span></tt> class now maintains a single array object which is a
+Numpy masked array.  For variable-length columns, the object that
+is stored there is also a Numpy masked array.</li>
+<li>Changed the <tt class="docutils literal"><span class="pre">pedantic</span></tt> configuration option to be <tt class="docutils literal"><span class="pre">False</span></tt> by default
+due to the vast proliferation of non-compliant VO Tables. [#296]</li>
+<li>Renamed <tt class="xref py py-obj docutils literal"><span class="pre">astropy.io.vo</span></tt> to <a class="reference internal" href="io/votable/index.html#module-astropy.io.votable" title="astropy.io.votable"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.io.votable</span></tt></a>.</li>
+</ul>
+</li>
+<li><tt class="docutils literal"><span class="pre">astropy.table</span></tt><ul>
+<li>Added a workaround for an upstream bug in Numpy 1.6.2 that could cause
+a maximum recursion depth RuntimeError when printing table rows. [#341]</li>
+</ul>
+</li>
+<li><tt class="docutils literal"><span class="pre">astropy.wcs</span></tt><ul>
+<li>Updated to wcslib 4.15 [#418]</li>
+<li>Fixed a problem with handling FITS headers on locales that do not use
+dot as a decimal separator. This required an upstream fix to wcslib which
+is included in wcslib 4.14. [#313]</li>
+</ul>
+</li>
+<li>Fixed some tests that could fail due to missing/incorrect logging
+configuration&#8211;ensures that tests don&#8217;t have any impact on the default log
+location or contents. [#291]</li>
+<li>Various minor documentation fixes [#293 and others]</li>
+<li>Fixed a bug where running the tests with the <tt class="docutils literal"><span class="pre">py.test</span></tt> command still tried
+to replace the system-installed pytest with the one bundled with Astropy.
+[#454]</li>
+<li>Improved multiprocessing compatibility for file downloads. [#615]</li>
+<li>Fixed handling of Cython modules when building from a source checkout of a
+tagged release version. [#594]</li>
+<li>Added a workaround for a bug in Sphinx that could occur when using the
+<tt class="docutils literal"><span class="pre">:tocdepth:</span></tt> directive. [#595]</li>
+<li>Minor VOTable fixes [#596]</li>
+<li>Fixed how <tt class="docutils literal"><span class="pre">setup.py</span></tt> uses <tt class="docutils literal"><span class="pre">distribute_setup.py</span></tt> to prevent possible
+<tt class="docutils literal"><span class="pre">VersionConflict</span></tt> errors when an older version of distribute is already
+installed on the user&#8217;s system. [#616][#640]</li>
+<li>Changed use of <tt class="docutils literal"><span class="pre">log.warn</span></tt> in the logging module to <tt class="docutils literal"><span class="pre">log.warning</span></tt> since
+the former is deprecated. [#624]</li>
+</ul>
+</div>
+</div>
+<div class="section" id="id23">
+<h2>0.1 (2012-06-19)<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Initial release.</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"><h3>Page Contents</h3>
+<ul>
+<li><a class="reference internal" href="#">Full Changelog</a><ul>
+<li><a class="reference internal" href="#id1">0.3.1 (2014-03-04)</a><ul>
+<li><a class="reference internal" href="#bug-fixes">Bug Fixes</a></li>
+<li><a class="reference internal" href="#other-changes-and-additions">Other Changes and Additions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id2">0.3 (2013-11-20)</a><ul>
+<li><a class="reference internal" href="#new-features">New Features</a></li>
+<li><a class="reference internal" href="#api-changes">API Changes</a></li>
+<li><a class="reference internal" href="#id3">Bug Fixes</a></li>
+<li><a class="reference internal" href="#id4">Other Changes and Additions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id5">0.2.5 (2013-10-25)</a><ul>
+<li><a class="reference internal" href="#id6">Bug Fixes</a></li>
+<li><a class="reference internal" href="#id7">Other Changes and Additions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id8">0.2.4 (2013-07-24)</a><ul>
+<li><a class="reference internal" href="#id9">Bug Fixes</a></li>
+<li><a class="reference internal" href="#id10">Other Changes and Additions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id11">0.2.3 (2013-05-30)</a><ul>
+<li><a class="reference internal" href="#id12">Bug Fixes</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id13">0.2.2 (2013-05-21)</a><ul>
+<li><a class="reference internal" href="#id14">Bug Fixes</a></li>
+<li><a class="reference internal" href="#id15">Other Changes and Additions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id16">0.2.1 (2013-04-03)</a><ul>
+<li><a class="reference internal" href="#id17">Bug Fixes</a></li>
+<li><a class="reference internal" href="#id18">Other Changes and Additions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id19">0.2 (2013-02-19)</a><ul>
+<li><a class="reference internal" href="#id20">New Features</a></li>
+<li><a class="reference internal" href="#id21">Other Changes and Additions</a></li>
+<li><a class="reference internal" href="#id22">Bug Fixes</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id23">0.1 (2012-06-19)</a></li>
+</ul>
+</li>
+</ul>
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+<footer class="footer">
+  <p class="pull-right">
+    <a href="http://github.com/astropy/astropy/tree/v0.3.x/docs/changelog.rst">Edit This Page on Github</a> &nbsp;
+    <a href="_sources/changelog.txt"
+       rel="nofollow">Page Source</a> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright 2011-2013, The Astropy Developers.<br/>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2. &nbsp;
+    Last built 05 Mar 2014. <br/>
+  </p>
+</footer>
+  </body>
+</html>

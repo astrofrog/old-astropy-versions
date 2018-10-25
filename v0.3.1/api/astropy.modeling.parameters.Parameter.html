@@ -1,0 +1,355 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Parameter &mdash; Astropy v0.3.1</title>
+    
+    <link rel="stylesheet" href="../_static/bootstrap-astropy.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="https://media.readthedocs.org/css/badge_only.css" type="text/css" />
+    <link rel="stylesheet" href="https://media.readthedocs.org/css/readthedocs-doc-embed.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.3.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/jquery/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/jquery/jquery-migrate-1.2.1.min.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/underscore.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/doctools.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/readthedocs-doc-embed.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="shortcut icon" href="../_static/astropy_logo.ico"/>
+    <link rel="top" title="Astropy v0.3.1" href="../index.html" />
+    <link rel="up" title="Models And Fitting (astropy.modeling)" href="../modeling/index.html" />
+    <link rel="next" title="Parametric1DModel" href="astropy.modeling.core.Parametric1DModel.html" />
+    <link rel="prev" title="ModelDefinitionError" href="astropy.modeling.core.ModelDefinitionError.html" />
+
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,600' rel='stylesheet' type='text/css'>
+
+<!-- RTD Extra Head -->
+
+
+
+<!-- 
+Read the Docs is acting as the canonical URL for your project. 
+If you want to change it, more info is available in our docs:
+  http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="http://astropy.readthedocs.org/en/latest/api/astropy.modeling.parameters.Parameter.html">
+
+<script type="text/javascript">
+  // This is included here because other places don't have access to the pagename variable.
+  var READTHEDOCS_DATA = {
+    project: "astropy",
+    version: "v0.3.1",
+    language: "en",
+    page: "api/astropy.modeling.parameters.Parameter",
+    theme: "bootstrap-astropy",
+    docroot: "/docs/",
+    api_host: "https://readthedocs.org"
+  }
+  // Old variables
+  var doc_version = "v0.3.1";
+  var doc_slug = "astropy";
+  var page_name = "api/astropy.modeling.parameters.Parameter";
+  var html_theme = "bootstrap-astropy";
+</script>
+<!-- RTD Analytics Code -->
+<!-- Included in the header because you don't have a footer block. -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17997319-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+<!-- end RTD Analytics Code -->
+
+
+<!-- User Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-30968842-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+<!-- End User Analytics Code -->
+
+<!-- end RTD <extrahead> -->
+
+  </head>
+  <body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../index.html"><span id="logotext1">astro</span><span id="logotext2">py</span><span id="logotext3">:docs</span></a>
+  <ul>
+    <li><a class="homelink" title="Astropy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../genindex.html">Index</a></li>
+    <li><a title="Module Index" href="../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li class="right">
+	<a href="astropy.modeling.core.Parametric1DModel.html" title="Parametric1DModel">
+	  next &raquo;
+	</a>
+      </li>
+      <li class="right">
+	<a href="astropy.modeling.core.ModelDefinitionError.html" title="ModelDefinitionError">
+	  &laquo; previous
+	</a>
+	 |
+      </li>
+      <li>
+	<a href="../index.html">Astropy v0.3.1</a>
+	 &raquo;
+      </li>
+      <li><a href="../modeling/index.html" accesskey="U">Models And Fitting (<tt class="docutils literal"><span class="pre">astropy.modeling</span></tt>)</a> &raquo;</li>
+      
+      <li>Parameter</li> 
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="parameter">
+<h1>Parameter<a class="headerlink" href="#parameter" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="astropy.modeling.parameters.Parameter">
+<em class="property">class </em><tt class="descclassname">astropy.modeling.parameters.</tt><tt class="descname">Parameter</tt><big>(</big><em>name</em>, <em>description=''</em>, <em>default=None</em>, <em>getter=None</em>, <em>setter=None</em>, <em>fixed=False</em>, <em>tied=False</em>, <em>min=None</em>, <em>max=None</em>, <em>model=None</em><big>)</big><a class="reference internal" href="../_modules/astropy/modeling/parameters.html#Parameter"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.3.x/astropy/modeling/parameters.py#L54" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.modeling.parameters.Parameter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>Wraps individual parameters.</p>
+<p>This class represents a model&#8217;s parameter (in a somewhat broad sense).  It
+acts as both a descriptor that can be assigned to a class attribute to
+describe the parameters accepted by an individual model (this is called an
+&#8220;unbound parameter&#8221;), or it can act as a proxy for the parameter values on
+an individual model instance (called a &#8220;bound parameter&#8221;).</p>
+<p>Parameter instances never store the actual value of the parameter
+directly.  Rather, each instance of a model stores its own parameters
+as either hidden attributes or (in the case of
+<a class="reference internal" href="astropy.modeling.core.ParametricModel.html#astropy.modeling.core.ParametricModel" title="astropy.modeling.core.ParametricModel"><tt class="xref py py-obj docutils literal"><span class="pre">ParametricModel</span></tt></a>) in an array.  A <em>bound</em>
+Parameter simply wraps the value in a Parameter proxy which provides some
+additional information about the parameter such as its constraints.</p>
+<p><em>Unbound</em> Parameters are not associated with any specific model instance,
+and are merely used by model classes to determine the names of their
+parameters and other information about each parameter such as their default
+values and default constraints.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>name</strong> : str</p>
+<blockquote>
+<div><p>parameter name</p>
+</div></blockquote>
+<p><strong>default</strong> : float or array</p>
+<blockquote>
+<div><p>default value to use for this parameter</p>
+</div></blockquote>
+<p><strong>getter</strong> : callable</p>
+<blockquote>
+<div><p>a function that wraps the raw (internal) value of the parameter
+when returning the value through the parameter proxy (eg. a
+parameter may be stored internally as radians but returned to the
+user as degrees)</p>
+</div></blockquote>
+<p><strong>setter</strong> : callable</p>
+<blockquote>
+<div><p>a function that wraps any values assigned to this parameter; should
+be the inverse of getter</p>
+</div></blockquote>
+<p><strong>fixed</strong> : bool</p>
+<blockquote>
+<div><p>if True the parameter is not varied during fitting</p>
+</div></blockquote>
+<p><strong>tied</strong> : callable or False</p>
+<blockquote>
+<div><p>if callable is supplied it provides a way to link the value of this
+parameter to another parameter (or some other arbitrary function)</p>
+</div></blockquote>
+<p><strong>min</strong> : float</p>
+<blockquote>
+<div><p>the lower bound of a parameter</p>
+</div></blockquote>
+<p><strong>max</strong> : float</p>
+<blockquote>
+<div><p>the upper bound of a parameter</p>
+</div></blockquote>
+<p><strong>model</strong> : object</p>
+<blockquote class="last">
+<div><p>an instance of a Model class; this should only be used internally for
+creating bound Parameters</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes Summary</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.modeling.parameters.Parameter.bounds" title="astropy.modeling.parameters.Parameter.bounds"><tt class="xref py py-obj docutils literal"><span class="pre">bounds</span></tt></a></td>
+<td>The minimum and maximum values of a parameter as a tuple</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#astropy.modeling.parameters.Parameter.default" title="astropy.modeling.parameters.Parameter.default"><tt class="xref py py-obj docutils literal"><span class="pre">default</span></tt></a></td>
+<td>Parameter default value</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.modeling.parameters.Parameter.fixed" title="astropy.modeling.parameters.Parameter.fixed"><tt class="xref py py-obj docutils literal"><span class="pre">fixed</span></tt></a></td>
+<td>Boolean indicating if the parameter is kept fixed during fitting.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#astropy.modeling.parameters.Parameter.max" title="astropy.modeling.parameters.Parameter.max"><tt class="xref py py-obj docutils literal"><span class="pre">max</span></tt></a></td>
+<td>A value used as an upper bound when fitting a parameter</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.modeling.parameters.Parameter.min" title="astropy.modeling.parameters.Parameter.min"><tt class="xref py py-obj docutils literal"><span class="pre">min</span></tt></a></td>
+<td>A value used as a lower bound when fitting a parameter</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#astropy.modeling.parameters.Parameter.name" title="astropy.modeling.parameters.Parameter.name"><tt class="xref py py-obj docutils literal"><span class="pre">name</span></tt></a></td>
+<td>Parameter name</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.modeling.parameters.Parameter.shape" title="astropy.modeling.parameters.Parameter.shape"><tt class="xref py py-obj docutils literal"><span class="pre">shape</span></tt></a></td>
+<td>The shape of this parameter&#8217;s value array.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#astropy.modeling.parameters.Parameter.size" title="astropy.modeling.parameters.Parameter.size"><tt class="xref py py-obj docutils literal"><span class="pre">size</span></tt></a></td>
+<td>The size of this parameter&#8217;s value array.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.modeling.parameters.Parameter.tied" title="astropy.modeling.parameters.Parameter.tied"><tt class="xref py py-obj docutils literal"><span class="pre">tied</span></tt></a></td>
+<td>Indicates that this parameter is linked to another one.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#astropy.modeling.parameters.Parameter.value" title="astropy.modeling.parameters.Parameter.value"><tt class="xref py py-obj docutils literal"><span class="pre">value</span></tt></a></td>
+<td>The unadorned value proxied by this parameter</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes Documentation</p>
+<dl class="attribute">
+<dt id="astropy.modeling.parameters.Parameter.bounds">
+<tt class="descname">bounds</tt><a class="reference internal" href="../_modules/astropy/modeling/parameters.html#Parameter.bounds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astropy.modeling.parameters.Parameter.bounds" title="Permalink to this definition">¶</a></dt>
+<dd><p>The minimum and maximum values of a parameter as a tuple</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.modeling.parameters.Parameter.default">
+<tt class="descname">default</tt><a class="reference internal" href="../_modules/astropy/modeling/parameters.html#Parameter.default"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astropy.modeling.parameters.Parameter.default" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parameter default value</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.modeling.parameters.Parameter.fixed">
+<tt class="descname">fixed</tt><a class="reference internal" href="../_modules/astropy/modeling/parameters.html#Parameter.fixed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astropy.modeling.parameters.Parameter.fixed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Boolean indicating if the parameter is kept fixed during fitting.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.modeling.parameters.Parameter.max">
+<tt class="descname">max</tt><a class="reference internal" href="../_modules/astropy/modeling/parameters.html#Parameter.max"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astropy.modeling.parameters.Parameter.max" title="Permalink to this definition">¶</a></dt>
+<dd><p>A value used as an upper bound when fitting a parameter</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.modeling.parameters.Parameter.min">
+<tt class="descname">min</tt><a class="reference internal" href="../_modules/astropy/modeling/parameters.html#Parameter.min"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astropy.modeling.parameters.Parameter.min" title="Permalink to this definition">¶</a></dt>
+<dd><p>A value used as a lower bound when fitting a parameter</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.modeling.parameters.Parameter.name">
+<tt class="descname">name</tt><a class="reference internal" href="../_modules/astropy/modeling/parameters.html#Parameter.name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astropy.modeling.parameters.Parameter.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parameter name</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.modeling.parameters.Parameter.shape">
+<tt class="descname">shape</tt><a class="reference internal" href="../_modules/astropy/modeling/parameters.html#Parameter.shape"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astropy.modeling.parameters.Parameter.shape" title="Permalink to this definition">¶</a></dt>
+<dd><p>The shape of this parameter&#8217;s value array.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.modeling.parameters.Parameter.size">
+<tt class="descname">size</tt><a class="reference internal" href="../_modules/astropy/modeling/parameters.html#Parameter.size"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astropy.modeling.parameters.Parameter.size" title="Permalink to this definition">¶</a></dt>
+<dd><p>The size of this parameter&#8217;s value array.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.modeling.parameters.Parameter.tied">
+<tt class="descname">tied</tt><a class="reference internal" href="../_modules/astropy/modeling/parameters.html#Parameter.tied"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astropy.modeling.parameters.Parameter.tied" title="Permalink to this definition">¶</a></dt>
+<dd><p>Indicates that this parameter is linked to another one.</p>
+<p>A callable which provides the relationship of the two parameters.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.modeling.parameters.Parameter.value">
+<tt class="descname">value</tt><a class="reference internal" href="../_modules/astropy/modeling/parameters.html#Parameter.value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astropy.modeling.parameters.Parameter.value" title="Permalink to this definition">¶</a></dt>
+<dd><p>The unadorned value proxied by this parameter</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"><h3>Page Contents</h3>
+<ul>
+<li><a class="reference internal" href="#">Parameter</a></li>
+</ul>
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+<footer class="footer">
+  <p class="pull-right">
+    <a href="http://github.com/astropy/astropy/tree/v0.3.x/docs/api/astropy.modeling.parameters.Parameter.rst">Edit This Page on Github</a> &nbsp;
+    <a href="../_sources/api/astropy.modeling.parameters.Parameter.txt"
+       rel="nofollow">Page Source</a> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright 2011-2013, The Astropy Developers.<br/>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2. &nbsp;
+    Last built 05 Mar 2014. <br/>
+  </p>
+</footer>
+  </body>
+</html>

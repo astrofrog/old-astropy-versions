@@ -1,0 +1,8 @@
+
+
+IllegalSecondError
+=============================================
+
+.. currentmodule:: astropy.coordinates.errors
+
+.. autoexception:: IllegalSecondError

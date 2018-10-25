@@ -1,0 +1,946 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>astropy.modeling.fitting &mdash; Astropy v0.3.1</title>
+    
+    <link rel="stylesheet" href="../../../_static/bootstrap-astropy.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="https://media.readthedocs.org/css/badge_only.css" type="text/css" />
+    <link rel="stylesheet" href="https://media.readthedocs.org/css/readthedocs-doc-embed.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.3.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/jquery/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/jquery/jquery-migrate-1.2.1.min.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/underscore.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/doctools.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/readthedocs-doc-embed.js"></script>
+    <script type="text/javascript" src="../../../_static/sidebar.js"></script>
+    <link rel="shortcut icon" href="../../../_static/astropy_logo.ico"/>
+    <link rel="top" title="Astropy v0.3.1" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" />
+
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,600' rel='stylesheet' type='text/css'>
+
+<!-- RTD Extra Head -->
+
+
+
+<!-- 
+Read the Docs is acting as the canonical URL for your project. 
+If you want to change it, more info is available in our docs:
+  http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="http://astropy.readthedocs.org/en/latest/_modules/astropy/modeling/fitting.html">
+
+<script type="text/javascript">
+  // This is included here because other places don't have access to the pagename variable.
+  var READTHEDOCS_DATA = {
+    project: "astropy",
+    version: "v0.3.1",
+    language: "en",
+    page: "_modules/astropy/modeling/fitting",
+    theme: "bootstrap-astropy",
+    docroot: "/docs/",
+    api_host: "https://readthedocs.org"
+  }
+  // Old variables
+  var doc_version = "v0.3.1";
+  var doc_slug = "astropy";
+  var page_name = "_modules/astropy/modeling/fitting";
+  var html_theme = "bootstrap-astropy";
+</script>
+<!-- RTD Analytics Code -->
+<!-- Included in the header because you don't have a footer block. -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17997319-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+<!-- end RTD Analytics Code -->
+
+
+<!-- User Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-30968842-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+<!-- End User Analytics Code -->
+
+<!-- end RTD <extrahead> -->
+
+  </head>
+  <body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../../../index.html"><span id="logotext1">astro</span><span id="logotext2">py</span><span id="logotext3">:docs</span></a>
+  <ul>
+    <li><a class="homelink" title="Astropy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../../../genindex.html">Index</a></li>
+    <li><a title="Module Index" href="../../../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li>
+	<a href="../../../index.html">Astropy v0.3.1</a>
+	 &raquo;
+      </li>
+      <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li>
+      
+       
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for astropy.modeling.fitting</h1><div class="highlight"><pre>
+<span class="c"># Licensed under a 3-clause BSD style license - see LICENSE.rst</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module provides wrappers, called Fitters, around some Numpy and Scipy</span>
+<span class="sd">fitting functions. All Fitters take an instance of `~astropy.modeling.core.ParametricModel`</span>
+<span class="sd">as input and define a ``__call__`` method which fits the model to the data and changes the</span>
+<span class="sd">model&#39;s parameters attribute. The idea is to make this extensible and allow</span>
+<span class="sd">users to easily add other fitters.</span>
+
+<span class="sd">Linear fitting is done using Numpy&#39;s `~numpy.linalg.lstsq` function.</span>
+<span class="sd">There are currently two non-linear fitters which use `~scipy.optimize.leastsq` and</span>
+<span class="sd">`~scipy.optimize.slsqp` functions in scipy.optimize.\</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">division</span>
+
+<span class="kn">import</span> <span class="nn">abc</span>
+<span class="kn">import</span> <span class="nn">numbers</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="nb">reduce</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">..logger</span> <span class="kn">import</span> <span class="n">log</span>
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">poly_map_domain</span>
+<span class="kn">from</span> <span class="nn">..utils.exceptions</span> <span class="kn">import</span> <span class="n">AstropyUserWarning</span>
+<span class="kn">from</span> <span class="nn">.core</span> <span class="kn">import</span> <span class="n">_CompositeModel</span>
+
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;LinearLSQFitter&#39;</span><span class="p">,</span> <span class="s">&#39;NonLinearLSQFitter&#39;</span><span class="p">,</span> <span class="s">&#39;SLSQPFitter&#39;</span><span class="p">,</span>
+           <span class="s">&#39;JointFitter&#39;</span><span class="p">,</span> <span class="s">&#39;Fitter&#39;</span><span class="p">]</span>
+
+
+
+<span class="n">DEFAULT_MAXITER</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">DEFAULT_EPS</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">eps</span><span class="p">)</span>
+<span class="n">DEFAULT_MAX_BOUND</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">**</span> <span class="mi">12</span>
+<span class="n">DEFAULT_MIN_BOUND</span> <span class="o">=</span> <span class="o">-</span><span class="mi">10</span> <span class="o">**</span> <span class="mi">12</span>
+
+
+<span class="k">def</span> <span class="nf">_convert_input</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;x and y should have the same shape&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">z</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">farg</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">z</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;x, y and z should have the same shape&quot;</span><span class="p">)</span>
+        <span class="n">farg</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">farg</span>
+
+
+<span class="k">class</span> <span class="nc">ModelsError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Base class for model exceptions&quot;&quot;&quot;</span>
+
+
+<span class="k">class</span> <span class="nc">ModelLinearityError</span><span class="p">(</span><span class="n">ModelsError</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Raised when a linear model is passed to a non-linear fitter and vice versa.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+
+<span class="k">class</span> <span class="nc">UnsupportedConstraintError</span><span class="p">(</span><span class="n">ModelsError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Raised when a fitter does not support a type of constraint.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="Fitter"><a class="viewcode-back" href="../../../api/astropy.modeling.fitting.Fitter.html#astropy.modeling.fitting.Fitter">[docs]</a><span class="k">class</span> <span class="nc">Fitter</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Base class for all fitters.</span>
+
+<span class="sd">    The purpose of this class is to manage constraints.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">__metaclass__</span> <span class="o">=</span> <span class="n">abc</span><span class="o">.</span><span class="n">ABCMeta</span>
+
+    <span class="c"># The base Fitter does not support any constraints by default; individual</span>
+    <span class="c"># fitters should explicitly set this list to the specific constraints</span>
+    <span class="c"># it supports</span>
+    <span class="c"># May contain any of &#39;bounds&#39;, &#39;eqcons&#39;, &#39;ineqcons&#39;, &#39;fixed&#39;, or &#39;tied&#39;</span>
+    <span class="n">supported_constraints</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_weights</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="k">def</span> <span class="nf">_validate_constraints</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="s">&#39;{0} cannot handle {{0}} constraints.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="nb">any</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">fixed</span><span class="o">.</span><span class="n">values</span><span class="p">())</span> <span class="ow">and</span>
+                <span class="s">&#39;fixed&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">supported_constraints</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">UnsupportedConstraintError</span><span class="p">(</span>
+                    <span class="n">message</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s">&#39;fixed parameter&#39;</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="nb">any</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">tied</span><span class="o">.</span><span class="n">values</span><span class="p">())</span> <span class="ow">and</span>
+                <span class="s">&#39;tied&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">supported_constraints</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">UnsupportedConstraintError</span><span class="p">(</span>
+                    <span class="n">message</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s">&#39;tied parameter&#39;</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="nb">any</span><span class="p">([</span><span class="nb">tuple</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="o">!=</span> <span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">bounds</span><span class="o">.</span><span class="n">values</span><span class="p">()])</span> <span class="ow">and</span>
+                <span class="s">&#39;bounds&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">supported_constraints</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">UnsupportedConstraintError</span><span class="p">(</span>
+                    <span class="n">message</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s">&#39;bound parameter&#39;</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="n">eqcons</span> <span class="ow">and</span> <span class="s">&#39;eqcons&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">supported_constraints</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">UnsupportedConstraintError</span><span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s">&#39;equality&#39;</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">ineqcons</span> <span class="ow">and</span>
+                <span class="s">&#39;ineqcons&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">supported_constraints</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">UnsupportedConstraintError</span><span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s">&#39;inequality&#39;</span><span class="p">))</span>
+
+    <span class="c"># TODO</span>
+    <span class="c"># @property</span>
+    <span class="c"># def covar(self):</span>
+    <span class="c">#     return None</span>
+
+    <span class="nd">@abc.abstractmethod</span>
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This method performs the actual fitting and modifies the parameter list</span>
+<span class="sd">        of a model.</span>
+
+<span class="sd">        Fitter subclasses should implement this method.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;Subclasses should implement this&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_fitter_to_model_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">fps</span><span class="p">):</span>
+        <span class="n">_fit_params</span><span class="p">,</span> <span class="n">_fit_param_indices</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">_model_to_fit_params</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">fixed</span><span class="o">.</span><span class="n">values</span><span class="p">())</span> <span class="ow">or</span> <span class="nb">any</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">tied</span><span class="o">.</span><span class="n">values</span><span class="p">()):</span>
+            <span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">_fit_param_indices</span><span class="p">]</span> <span class="o">=</span> <span class="n">fps</span>
+            <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">param_names</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="n">tied</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">False</span><span class="p">:</span>
+                    <span class="n">value</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">tied</span><span class="p">[</span><span class="n">name</span><span class="p">](</span><span class="n">model</span><span class="p">)</span>
+                    <span class="n">slice_</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">_param_metrics</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">slice_</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="k">elif</span> <span class="nb">any</span><span class="p">([</span><span class="nb">tuple</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="o">!=</span> <span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">bounds</span><span class="o">.</span><span class="n">values</span><span class="p">()]):</span>
+            <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">par</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">param_names</span><span class="p">,</span> <span class="n">_fit_params</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="n">bounds</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">!=</span> <span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">):</span>
+                    <span class="n">b</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">bounds</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                        <span class="n">par</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">par</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">bounds</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+                    <span class="k">if</span> <span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                        <span class="n">par</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">par</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">bounds</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+                    <span class="nb">setattr</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">par</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">model</span><span class="o">.</span><span class="n">parameters</span> <span class="o">=</span> <span class="n">fps</span>
+
+</div>
+<div class="viewcode-block" id="LinearLSQFitter"><a class="viewcode-back" href="../../../api/astropy.modeling.fitting.LinearLSQFitter.html#astropy.modeling.fitting.LinearLSQFitter">[docs]</a><span class="k">class</span> <span class="nc">LinearLSQFitter</span><span class="p">(</span><span class="n">Fitter</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A class performing a linear least square fitting.</span>
+
+<span class="sd">    Uses `numpy.linalg.lstsq` to do the fitting.</span>
+<span class="sd">    Given a model and data, fits the model to the data and changes the</span>
+<span class="sd">    model&#39;s parameters. Keeps a dictionary of auxiliary fitting information.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    model : an instance of `~astropy.modeling.core.ParametricModel`</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ModelLinearityError</span>
+<span class="sd">        A nonlinear model is passed to a linear fitter</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">supported_constraints</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;fixed&#39;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">LinearLSQFitter</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fit_info</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;residuals&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+                         <span class="s">&#39;rank&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+                         <span class="s">&#39;singular_values&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+                         <span class="s">&#39;params&#39;</span><span class="p">:</span> <span class="bp">None</span>
+                         <span class="p">}</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_deriv_with_constraints</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">param_indices</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">y</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">deriv</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">*</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">deriv</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">*</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="n">col_deriv</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">d</span><span class="p">[</span><span class="n">param_indices</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">d</span><span class="p">[:,</span> <span class="n">param_indices</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">_map_domain_window</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Maps domain into window for a polynomial model which has these</span>
+<span class="sd">        attributes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">y</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s">&#39;domain&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">model</span><span class="o">.</span><span class="n">domain</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">model</span><span class="o">.</span><span class="n">domain</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">x</span><span class="o">.</span><span class="n">max</span><span class="p">()]</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s">&#39;window&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">model</span><span class="o">.</span><span class="n">window</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">model</span><span class="o">.</span><span class="n">window</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="k">return</span> <span class="n">poly_map_domain</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">domain</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">window</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s">&#39;x_domain&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">model</span><span class="o">.</span><span class="n">x_domain</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">model</span><span class="o">.</span><span class="n">x_domain</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">x</span><span class="o">.</span><span class="n">max</span><span class="p">()]</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s">&#39;y_domain&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">model</span><span class="o">.</span><span class="n">y_domain</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">model</span><span class="o">.</span><span class="n">y_domain</span> <span class="o">=</span> <span class="p">[</span><span class="n">y</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">y</span><span class="o">.</span><span class="n">max</span><span class="p">()]</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s">&#39;x_window&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">model</span><span class="o">.</span><span class="n">x_window</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">model</span><span class="o">.</span><span class="n">x_window</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">]</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s">&#39;y_window&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">model</span><span class="o">.</span><span class="n">y_window</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">model</span><span class="o">.</span><span class="n">y_window</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">]</span>
+
+            <span class="n">xnew</span> <span class="o">=</span> <span class="n">poly_map_domain</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">x_domain</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">x_window</span><span class="p">)</span>
+            <span class="n">ynew</span> <span class="o">=</span> <span class="n">poly_map_domain</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">y_domain</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">y_window</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">xnew</span><span class="p">,</span> <span class="n">ynew</span>
+
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">rcond</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Fit data to this model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        model : `ParametricModel`</span>
+<span class="sd">            model to fit to x, y, z</span>
+<span class="sd">        x : array</span>
+<span class="sd">            input coordinates</span>
+<span class="sd">        y : array</span>
+<span class="sd">            input coordinates</span>
+<span class="sd">        z : array (optional)</span>
+<span class="sd">            input coordinates</span>
+<span class="sd">        weights : array (optional)</span>
+<span class="sd">            weights</span>
+<span class="sd">        rcond :  float, optional</span>
+<span class="sd">            Cut-off ratio for small singular values of `a`.</span>
+<span class="sd">            Singular values are set to zero if they are smaller than `rcond`</span>
+<span class="sd">            times the largest singular value of `a`.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        ------</span>
+<span class="sd">        model_copy : `ParametricModel`</span>
+<span class="sd">            a copy of the input model with parameters set by the fitter</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">model</span><span class="o">.</span><span class="n">fittable</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Model must be a subclass of ParametricModel&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">model</span><span class="o">.</span><span class="n">linear</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ModelLinearityError</span><span class="p">(</span><span class="s">&#39;Model is not linear in parameters, &#39;</span>
+                                      <span class="s">&#39;linear fit methods should not be used.&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_validate_constraints</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+        <span class="n">multiple</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="n">model_copy</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">fitparam_indices</span> <span class="o">=</span> <span class="n">model_copy</span><span class="o">.</span><span class="n">_model_to_fit_params</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_weights</span> <span class="o">=</span> <span class="n">weights</span>
+        <span class="k">if</span> <span class="n">model_copy</span><span class="o">.</span><span class="n">n_inputs</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">z</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Expected x, y and z for a 2 dimensional model.&quot;</span><span class="p">)</span>
+
+        <span class="n">farg</span> <span class="o">=</span> <span class="n">_convert_input</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">farg</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">farg</span>
+            <span class="k">if</span> <span class="n">y</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="k">assert</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">model_copy</span><span class="o">.</span><span class="n">param_dim</span><span class="p">,</span> <span class="p">(</span>
+                    <span class="s">&quot;Number of data sets (Y array is expected to equal &quot;</span>
+                    <span class="s">&quot;the number of parameter sets&quot;</span><span class="p">)</span>
+            <span class="c"># map domain into window</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">model_copy</span><span class="p">,</span> <span class="s">&#39;domain&#39;</span><span class="p">):</span>
+                <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_map_domain_window</span><span class="p">(</span><span class="n">model_copy</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">model_copy</span><span class="o">.</span><span class="n">fixed</span><span class="o">.</span><span class="n">values</span><span class="p">()):</span>
+                <span class="n">lhs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_deriv_with_constraints</span><span class="p">(</span><span class="n">model_copy</span><span class="p">,</span>
+                                                   <span class="n">fitparam_indices</span><span class="p">,</span>
+                                                   <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">lhs</span> <span class="o">=</span> <span class="n">model_copy</span><span class="o">.</span><span class="n">deriv</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">*</span><span class="n">model_copy</span><span class="o">.</span><span class="n">parameters</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="n">rhs</span> <span class="o">=</span> <span class="n">y</span>
+                <span class="n">multiple</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">rhs</span> <span class="o">=</span> <span class="n">y</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">farg</span>
+            <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">z</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;x and z should have equal last dimensions&quot;</span><span class="p">)</span>
+
+            <span class="c"># map domain into window</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">model_copy</span><span class="p">,</span> <span class="s">&#39;x_domain&#39;</span><span class="p">):</span>
+                <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_map_domain_window</span><span class="p">(</span><span class="n">model_copy</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">model_copy</span><span class="o">.</span><span class="n">fixed</span><span class="o">.</span><span class="n">values</span><span class="p">()):</span>
+                <span class="n">lhs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_deriv_with_constraints</span><span class="p">(</span><span class="n">model_copy</span><span class="p">,</span>
+                                                   <span class="n">fitparam_indices</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">lhs</span> <span class="o">=</span> <span class="n">model_copy</span><span class="o">.</span><span class="n">deriv</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">*</span><span class="n">model_copy</span><span class="o">.</span><span class="n">parameters</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">z</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+                <span class="n">rhs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">i</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">z</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
+                <span class="n">multiple</span> <span class="o">=</span> <span class="n">z</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">rhs</span> <span class="o">=</span> <span class="n">z</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+        <span class="c"># If the derivative is defined along rows (as with non-linear models)</span>
+        <span class="k">if</span> <span class="n">model_copy</span><span class="o">.</span><span class="n">col_deriv</span><span class="p">:</span>
+            <span class="n">lhs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">lhs</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+        <span class="k">if</span> <span class="n">weights</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">weights</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;x and weights should have the same length&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">rhs</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="n">lhs</span> <span class="o">*=</span> <span class="n">weights</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
+                <span class="n">rhs</span> <span class="o">*=</span> <span class="n">weights</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">lhs</span> <span class="o">*=</span> <span class="n">weights</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
+                <span class="n">rhs</span> <span class="o">*=</span> <span class="n">weights</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">multiple</span> <span class="ow">and</span> <span class="n">model_copy</span><span class="o">.</span><span class="n">param_dim</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Attempting to fit a 1D data set to a model &quot;</span>
+                             <span class="s">&quot;with multiple parameter sets&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">rcond</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">rcond</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span><span class="o">.</span><span class="n">eps</span>
+
+        <span class="n">scl</span> <span class="o">=</span> <span class="p">(</span><span class="n">lhs</span> <span class="o">*</span> <span class="n">lhs</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">lacoef</span><span class="p">,</span> <span class="n">resids</span><span class="p">,</span> <span class="n">rank</span><span class="p">,</span> <span class="n">sval</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">lstsq</span><span class="p">(</span><span class="n">lhs</span> <span class="o">/</span> <span class="n">scl</span><span class="p">,</span> <span class="n">rhs</span><span class="p">,</span> <span class="n">rcond</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">fit_info</span><span class="p">[</span><span class="s">&#39;residuals&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">resids</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fit_info</span><span class="p">[</span><span class="s">&#39;rank&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rank</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fit_info</span><span class="p">[</span><span class="s">&#39;singular_values&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sval</span>
+
+        <span class="c"># If y.n_inputs &gt; model.n_inputs we are doing a simultanious 1D fitting</span>
+        <span class="c"># of several 1D arrays. Otherwise the model is 2D.</span>
+        <span class="c"># if y.n_inputs &gt; self.model.n_inputs:</span>
+        <span class="k">if</span> <span class="n">multiple</span> <span class="ow">and</span> <span class="n">model_copy</span><span class="o">.</span><span class="n">param_dim</span> <span class="o">!=</span> <span class="n">multiple</span><span class="p">:</span>
+            <span class="n">model_copy</span><span class="o">.</span><span class="n">param_dim</span> <span class="o">=</span> <span class="n">multiple</span>
+        <span class="c"># TODO: Changing the model&#39;s param_dim needs to be handled more</span>
+        <span class="c"># carefully; for now it&#39;s not actually allowed</span>
+        <span class="n">lacoef</span> <span class="o">=</span> <span class="p">(</span><span class="n">lacoef</span><span class="o">.</span><span class="n">T</span> <span class="o">/</span> <span class="n">scl</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fit_info</span><span class="p">[</span><span class="s">&#39;params&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lacoef</span>
+        <span class="c"># TODO: Only Polynomial models currently have an _order attribute;</span>
+        <span class="c"># maybe change this to read isinstance(model, PolynomialBase)</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">model_copy</span><span class="p">,</span> <span class="s">&#39;_order&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">rank</span> <span class="o">!=</span> <span class="n">model_copy</span><span class="o">.</span><span class="n">_order</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;The fit may be poorly conditioned</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span>
+                          <span class="n">AstropyUserWarning</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fitter_to_model_params</span><span class="p">(</span><span class="n">model_copy</span><span class="p">,</span> <span class="n">lacoef</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
+        <span class="k">return</span> <span class="n">model_copy</span>
+
+</div>
+<div class="viewcode-block" id="NonLinearLSQFitter"><a class="viewcode-back" href="../../../api/astropy.modeling.fitting.NonLinearLSQFitter.html#astropy.modeling.fitting.NonLinearLSQFitter">[docs]</a><span class="k">class</span> <span class="nc">NonLinearLSQFitter</span><span class="p">(</span><span class="n">Fitter</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A class performing non-linear least squares fitting using the</span>
+<span class="sd">    Levenberg-Marquardt algorithm implemented in `scipy.optimize.leastsq`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    model : a fittable `~astropy.modeling.core.ParametricModel`</span>
+<span class="sd">        model to fit to data</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ModelLinearityError</span>
+<span class="sd">        A linear model is passed to a nonlinear fitter</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">supported_constraints</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;fixed&#39;</span><span class="p">,</span> <span class="s">&#39;tied&#39;</span><span class="p">,</span> <span class="s">&#39;bounds&#39;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">fit_info</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;nfev&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+                         <span class="s">&#39;fvec&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+                         <span class="s">&#39;fjac&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+                         <span class="s">&#39;ipvt&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+                         <span class="s">&#39;qtf&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+                         <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+                         <span class="s">&#39;ierr&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+                         <span class="s">&#39;status&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">}</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">NonLinearLSQFitter</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+
+<div class="viewcode-block" id="NonLinearLSQFitter.errorfunc"><a class="viewcode-back" href="../../../api/astropy.modeling.fitting.NonLinearLSQFitter.html#astropy.modeling.fitting.NonLinearLSQFitter.errorfunc">[docs]</a>    <span class="k">def</span> <span class="nf">errorfunc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fps</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fitter_to_model_params</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">fps</span><span class="p">)</span>
+        <span class="n">meas</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_weights</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">ravel</span><span class="p">(</span><span class="n">model</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span> <span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">-</span> <span class="n">meas</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">ravel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_weights</span> <span class="o">*</span> <span class="p">(</span><span class="n">model</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span> <span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">-</span> <span class="n">meas</span><span class="p">))</span>
+
+    <span class="c"># @property</span>
+    <span class="c"># def covar(self):</span>
+    <span class="c">#     &quot;&quot;&quot;</span>
+    <span class="c">#     Calculate the covariance matrix (doesn&#39;t take into account</span>
+    <span class="c">#     constraints).</span>
+    <span class="c">#     &quot;&quot;&quot;</span>
+
+        <span class="c"># NOTE: Not currently used; won&#39;t work with Fitter implementation where</span>
+        <span class="c"># models are not tied to fitters</span>
+
+        <span class="c"># n = len(self.model.parameters)</span>
+        <span class="c">#  construct the permutation matrix</span>
+        <span class="c"># P = np.take(np.eye(n), self.fit_info[&#39;ipvt&#39;] - 1, 0)</span>
+        <span class="c">#  construct the R matrix as in JP = QR</span>
+        <span class="c"># r = np.triu(self.fit_info[&#39;fjac&#39;].T[:n, :])</span>
+        <span class="c"># r_pt = np.dot(r, P.T)</span>
+        <span class="c"># p_rt = np.dot(P, r.T)</span>
+        <span class="c"># try:</span>
+        <span class="c">#     return np.dual.inv(np.dot(p_rt, r_pt))</span>
+        <span class="c"># except:</span>
+        <span class="c">#     log.info(&quot;Could not construct a covariance matrix&quot;)</span>
+        <span class="c">#     return None</span>
+</div>
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                 <span class="n">maxiter</span><span class="o">=</span><span class="n">DEFAULT_MAXITER</span><span class="p">,</span>
+                 <span class="n">epsilon</span><span class="o">=</span><span class="n">DEFAULT_EPS</span><span class="p">,</span> <span class="n">estimate_jacobian</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Fit data to this model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        model : `ParametricModel`</span>
+<span class="sd">            model to fit to x, y, z</span>
+<span class="sd">        x : array</span>
+<span class="sd">           input coordinates</span>
+<span class="sd">        y : array</span>
+<span class="sd">           input coordinates</span>
+<span class="sd">        z : array (optional)</span>
+<span class="sd">           input coordinates</span>
+<span class="sd">        weights : array (optional</span>
+<span class="sd">           weights</span>
+<span class="sd">        maxiter : int</span>
+<span class="sd">            maximum number of iterations</span>
+<span class="sd">        epsilon : float</span>
+<span class="sd">            A suitable step length for the forward-difference</span>
+<span class="sd">            approximation of the Jacobian (if model.fjac=None). If</span>
+<span class="sd">            epsfcn is less than the machine precision, it is</span>
+<span class="sd">            assumed that the relative errors in the functions are</span>
+<span class="sd">            of the order of the machine precision.</span>
+<span class="sd">        estimate_jacobian : bool</span>
+<span class="sd">            If False (default) and if the model has a deriv method,</span>
+<span class="sd">            it will be used. Otherwise the Jacobian will be estimated.</span>
+<span class="sd">            If True, the Jacobian will be estimated in any case.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        ------</span>
+<span class="sd">        model_copy : `ParametricModel`</span>
+<span class="sd">            a copy of the input model with parameters set by the fitter</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">_CompositeModel</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;Fitting of composite models is not implemented in astropy v.0.3.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">model</span><span class="o">.</span><span class="n">fittable</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Model must be a subclass of ParametricModel&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_validate_constraints</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+        <span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">optimize</span>
+        <span class="n">model_copy</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">farg</span> <span class="o">=</span> <span class="p">(</span><span class="n">model_copy</span><span class="p">,</span> <span class="p">)</span> <span class="o">+</span> <span class="n">_convert_input</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_weights</span> <span class="o">=</span> <span class="n">weights</span>
+        <span class="k">if</span> <span class="n">model_copy</span><span class="o">.</span><span class="n">param_dim</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="c"># only single data sets ca be fitted</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;NonLinearLSQFitter can only fit one &quot;</span>
+                             <span class="s">&quot;data set at a time&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">model_copy</span><span class="o">.</span><span class="n">deriv</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="n">estimate_jacobian</span><span class="p">:</span>
+            <span class="n">dfunc</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">dfunc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wrap_deriv</span>
+        <span class="n">init_values</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">model_copy</span><span class="o">.</span><span class="n">_model_to_fit_params</span><span class="p">()</span>
+        <span class="n">fitparams</span><span class="p">,</span> <span class="n">status</span><span class="p">,</span> <span class="n">dinfo</span><span class="p">,</span> <span class="n">mess</span><span class="p">,</span> <span class="n">ierr</span> <span class="o">=</span> <span class="n">optimize</span><span class="o">.</span><span class="n">leastsq</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">errorfunc</span><span class="p">,</span> <span class="n">init_values</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">farg</span><span class="p">,</span> <span class="n">Dfun</span><span class="o">=</span><span class="n">dfunc</span><span class="p">,</span>
+            <span class="n">col_deriv</span><span class="o">=</span><span class="n">model_copy</span><span class="o">.</span><span class="n">col_deriv</span><span class="p">,</span> <span class="n">maxfev</span><span class="o">=</span><span class="n">maxiter</span><span class="p">,</span> <span class="n">epsfcn</span><span class="o">=</span><span class="n">epsilon</span><span class="p">,</span>
+            <span class="n">full_output</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fitter_to_model_params</span><span class="p">(</span><span class="n">model_copy</span><span class="p">,</span> <span class="n">fitparams</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fit_info</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">dinfo</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fit_info</span><span class="p">[</span><span class="s">&#39;status&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">status</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fit_info</span><span class="p">[</span><span class="s">&#39;message&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mess</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fit_info</span><span class="p">[</span><span class="s">&#39;ierr&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ierr</span>
+        <span class="k">if</span> <span class="n">ierr</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;The fit may be unsuccessful; check &quot;</span>
+                          <span class="s">&quot;fit_info[&#39;message&#39;] for more information.&quot;</span><span class="p">,</span>
+                          <span class="n">AstropyUserWarning</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">model_copy</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_wrap_deriv</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Wraps the method calculating the Jacobian of the function to account</span>
+<span class="sd">        for model constraints.</span>
+
+<span class="sd">        Currently the only fitter that uses a derivative is the</span>
+<span class="sd">        `NonLinearLSQFitter`. This wrapper may need to be revised when other</span>
+<span class="sd">        fitters using function derivative are added or when the statistic is</span>
+<span class="sd">        separated from the fitting routines.</span>
+
+<span class="sd">        `~scipy.optimize.leastsq` expects the function derivative to have the</span>
+<span class="sd">        above signature (parlist, (argtuple)). In order to accomodate model</span>
+<span class="sd">        constraints, instead of using p directly, we set the parameter list in</span>
+<span class="sd">        this function.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">fixed</span><span class="o">.</span><span class="n">values</span><span class="p">())</span> <span class="ow">or</span> <span class="nb">any</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">tied</span><span class="o">.</span><span class="n">values</span><span class="p">()):</span>
+
+            <span class="k">if</span> <span class="n">z</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">full_deriv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">deriv</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">*</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">full_deriv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">deriv</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">*</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">))</span>
+
+            <span class="n">pars</span> <span class="o">=</span> <span class="p">[</span><span class="nb">getattr</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">param_names</span><span class="p">]</span>
+            <span class="n">fixed</span> <span class="o">=</span> <span class="p">[</span><span class="n">par</span><span class="o">.</span><span class="n">fixed</span> <span class="k">for</span> <span class="n">par</span> <span class="ow">in</span> <span class="n">pars</span><span class="p">]</span>
+            <span class="n">tied</span> <span class="o">=</span> <span class="p">[</span><span class="n">par</span><span class="o">.</span><span class="n">tied</span> <span class="k">for</span> <span class="n">par</span> <span class="ow">in</span> <span class="n">pars</span><span class="p">]</span>
+            <span class="n">tied</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">([</span><span class="n">par</span><span class="o">.</span><span class="n">tied</span> <span class="o">!=</span> <span class="bp">False</span> <span class="k">for</span> <span class="n">par</span> <span class="ow">in</span> <span class="n">pars</span><span class="p">],</span> <span class="bp">True</span><span class="p">,</span> <span class="n">tied</span><span class="p">))</span>
+            <span class="n">fix_and_tie</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_or</span><span class="p">(</span><span class="n">fixed</span><span class="p">,</span> <span class="n">tied</span><span class="p">)</span>
+            <span class="n">ind</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_not</span><span class="p">(</span><span class="n">fix_and_tie</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">model</span><span class="o">.</span><span class="n">col_deriv</span><span class="p">:</span>
+                <span class="n">full_deriv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">full_deriv</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+                <span class="n">residues</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">full_deriv</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">ind</span><span class="p">)])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">residues</span> <span class="o">=</span> <span class="n">full_deriv</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">ind</span><span class="p">)]</span>
+
+            <span class="k">return</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ravel</span><span class="p">(</span><span class="n">_</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">residues</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">z</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">model</span><span class="o">.</span><span class="n">deriv</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">*</span><span class="n">params</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ravel</span><span class="p">(</span><span class="n">_</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">deriv</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">*</span><span class="n">params</span><span class="p">)]</span>
+
+</div>
+<div class="viewcode-block" id="SLSQPFitter"><a class="viewcode-back" href="../../../api/astropy.modeling.fitting.SLSQPFitter.html#astropy.modeling.fitting.SLSQPFitter">[docs]</a><span class="k">class</span> <span class="nc">SLSQPFitter</span><span class="p">(</span><span class="n">Fitter</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Sequential Least Squares Programming optimization algorithm.</span>
+
+<span class="sd">    The algorithm is described in [1]_. It supports tied and fixed</span>
+<span class="sd">    parameters, as well as bounded constraints. Uses</span>
+<span class="sd">    `scipy.optimize.fmin_slsqp`.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ModelLinearityError</span>
+<span class="sd">        A linear model is passed to a nonlinear fitter</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [1] http://www.netlib.org/toms/733</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">supported_constraints</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;bounds&#39;</span><span class="p">,</span> <span class="s">&#39;eqcons&#39;</span><span class="p">,</span> <span class="s">&#39;ineqcons&#39;</span><span class="p">,</span> <span class="s">&#39;fixed&#39;</span><span class="p">,</span> <span class="s">&#39;tied&#39;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">SLSQPFitter</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fit_info</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">&#39;final_func_val&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+            <span class="s">&#39;numiter&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+            <span class="s">&#39;exit_mode&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+            <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="bp">None</span>
+        <span class="p">}</span>
+
+<div class="viewcode-block" id="SLSQPFitter.errorfunc"><a class="viewcode-back" href="../../../api/astropy.modeling.fitting.SLSQPFitter.html#astropy.modeling.fitting.SLSQPFitter.errorfunc">[docs]</a>    <span class="k">def</span> <span class="nf">errorfunc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fps</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the sum of the squared residuals</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        fps : list</span>
+<span class="sd">            parameters returned by the fitter</span>
+<span class="sd">        args : list</span>
+<span class="sd">            input coordinates</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">meas</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fitter_to_model_params</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">fps</span><span class="p">)</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">-</span> <span class="n">meas</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_weights</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">res</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_weights</span> <span class="o">*</span> <span class="n">res</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+</div>
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">verblevel</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                 <span class="n">maxiter</span><span class="o">=</span><span class="n">DEFAULT_MAXITER</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="n">DEFAULT_EPS</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Fit data to this model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        model : `ParametricModel`</span>
+<span class="sd">            model to fit to x, y, z</span>
+<span class="sd">        x : array</span>
+<span class="sd">            input coordinates</span>
+<span class="sd">        y : array</span>
+<span class="sd">            input coordinates</span>
+<span class="sd">        z : array (optional)</span>
+<span class="sd">            input coordinates</span>
+<span class="sd">        weights : array (optional)</span>
+<span class="sd">            weights</span>
+<span class="sd">        verblevel : int</span>
+<span class="sd">            0-silent</span>
+<span class="sd">            1-print summary upon completion,</span>
+<span class="sd">            2-print summary after each iteration</span>
+<span class="sd">        maxiter : int</span>
+<span class="sd">            maximum number of iterations</span>
+<span class="sd">        epsilon : float</span>
+<span class="sd">            the step size for finite-difference derivative estimates</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        ------</span>
+<span class="sd">        model_copy : `ParametricModel`</span>
+<span class="sd">            a copy of the input model with parameters set by the fitter</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">_CompositeModel</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;Fitting of composite models is not implemented in astropy v.0.3.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">model</span><span class="o">.</span><span class="n">fittable</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Model must be a subclass of ParametricModel&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="n">linear</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&#39;Model is linear in parameters; &#39;</span>
+                          <span class="s">&#39;consider using linear fitting methods.&#39;</span><span class="p">,</span>
+                          <span class="n">AstropyUserWarning</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_validate_constraints</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+        <span class="n">model_copy</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">optimize</span>
+
+        <span class="n">farg</span> <span class="o">=</span> <span class="n">_convert_input</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+        <span class="n">farg</span> <span class="o">=</span> <span class="p">(</span><span class="n">model_copy</span><span class="p">,</span> <span class="p">)</span> <span class="o">+</span> <span class="n">farg</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_weights</span> <span class="o">=</span> <span class="n">weights</span>
+        <span class="k">if</span> <span class="n">model_copy</span><span class="o">.</span><span class="n">param_dim</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="c"># for now only single data sets ca be fitted</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;NonLinearLSQFitter can only fit &quot;</span>
+                             <span class="s">&quot;one data set at a time&quot;</span><span class="p">)</span>
+
+        <span class="n">p0</span><span class="p">,</span> <span class="n">param_indices</span> <span class="o">=</span> <span class="n">model_copy</span><span class="o">.</span><span class="n">_model_to_fit_params</span><span class="p">()</span>
+        <span class="n">pars</span> <span class="o">=</span> <span class="p">[</span><span class="nb">getattr</span><span class="p">(</span><span class="n">model_copy</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">model_copy</span><span class="o">.</span><span class="n">param_names</span><span class="p">]</span>
+        <span class="n">bounds</span> <span class="o">=</span> <span class="p">[</span><span class="n">par</span><span class="o">.</span><span class="n">bounds</span> <span class="k">for</span> <span class="n">par</span> <span class="ow">in</span> <span class="n">pars</span> <span class="k">if</span> <span class="n">par</span><span class="o">.</span><span class="n">fixed</span> <span class="o">!=</span> <span class="bp">True</span> <span class="ow">and</span> <span class="n">par</span><span class="o">.</span><span class="n">tied</span> <span class="o">==</span> <span class="bp">False</span><span class="p">]</span>
+
+        <span class="n">bounds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">bounds</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">bounds</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT_MIN_BOUND</span>
+            <span class="k">if</span> <span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT_MAX_BOUND</span>
+        <span class="c"># older versions of scipy require this array to be float</span>
+        <span class="n">bounds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">bounds</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+        <span class="n">eqcons</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">model_copy</span><span class="o">.</span><span class="n">eqcons</span><span class="p">)</span>
+        <span class="n">ineqcons</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">model_copy</span><span class="o">.</span><span class="n">ineqcons</span><span class="p">)</span>
+        <span class="n">fitparams</span><span class="p">,</span> <span class="n">final_func_val</span><span class="p">,</span> <span class="n">numiter</span><span class="p">,</span> <span class="n">exit_mode</span><span class="p">,</span> <span class="n">mess</span> <span class="o">=</span> \
+            <span class="n">optimize</span><span class="o">.</span><span class="n">fmin_slsqp</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">errorfunc</span><span class="p">,</span> <span class="n">p0</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">farg</span><span class="p">,</span> <span class="n">disp</span><span class="o">=</span><span class="n">verblevel</span><span class="p">,</span> <span class="n">full_output</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+            <span class="n">bounds</span><span class="o">=</span><span class="n">bounds</span><span class="p">,</span> <span class="n">eqcons</span><span class="o">=</span><span class="n">eqcons</span><span class="p">,</span> <span class="n">ieqcons</span><span class="o">=</span><span class="n">ineqcons</span><span class="p">,</span> <span class="nb">iter</span><span class="o">=</span><span class="n">maxiter</span><span class="p">,</span>
+            <span class="n">acc</span><span class="o">=</span><span class="mf">1.E-6</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="n">DEFAULT_EPS</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fitter_to_model_params</span><span class="p">(</span><span class="n">model_copy</span><span class="p">,</span> <span class="n">fitparams</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fit_info</span><span class="p">[</span><span class="s">&#39;final_func_val&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">final_func_val</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fit_info</span><span class="p">[</span><span class="s">&#39;numiter&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">numiter</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fit_info</span><span class="p">[</span><span class="s">&#39;exit_mode&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">exit_mode</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fit_info</span><span class="p">[</span><span class="s">&#39;message&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mess</span>
+
+        <span class="k">if</span> <span class="n">exit_mode</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;The fit may be unsuccessful; check &quot;</span>
+                          <span class="s">&quot;fit_info[&#39;message&#39;] for more information.&quot;</span><span class="p">,</span>
+                          <span class="n">AstropyUserWarning</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">model_copy</span>
+
+</div>
+<div class="viewcode-block" id="JointFitter"><a class="viewcode-back" href="../../../api/astropy.modeling.fitting.JointFitter.html#astropy.modeling.fitting.JointFitter">[docs]</a><span class="k">class</span> <span class="nc">JointFitter</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Fit models which share a parameter.</span>
+
+<span class="sd">    For example, fit two gaussians to two data sets but keep</span>
+<span class="sd">    the FWHM the same.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    models : list</span>
+<span class="sd">        a list of model instances</span>
+<span class="sd">    jointparameters : list</span>
+<span class="sd">        a list of joint parameters</span>
+<span class="sd">    initvals : list</span>
+<span class="sd">        a list of initial values</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">models</span><span class="p">,</span> <span class="n">jointparameters</span><span class="p">,</span> <span class="n">initvals</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">models</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">models</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initvals</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">initvals</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">jointparams</span> <span class="o">=</span> <span class="n">jointparameters</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_verify_input</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">jointparams</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">m</span><span class="o">.</span><span class="n">set_joint_parameters</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jointparams</span><span class="p">[</span><span class="n">m</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fitparams</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model_to_fit_params</span><span class="p">()</span>
+
+        <span class="c"># a list of model.n_inputs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">modeldims</span> <span class="o">=</span> <span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">n_inputs</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">models</span><span class="p">]</span>
+        <span class="c"># sum all model dimensions</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ndim</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">modeldims</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_model_to_fit_params</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">fparams</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">fparams</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">initvals</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">model</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">models</span><span class="p">:</span>
+            <span class="n">params</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">pname</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">joint</span><span class="p">:</span>
+                <span class="n">slc</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">_param_metrics</span><span class="p">[</span><span class="n">pname</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">del</span> <span class="n">params</span><span class="p">[</span><span class="n">slc</span><span class="p">]</span>
+            <span class="n">fparams</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">fparams</span>
+
+<div class="viewcode-block" id="JointFitter.errorfunc"><a class="viewcode-back" href="../../../api/astropy.modeling.fitting.JointFitter.html#astropy.modeling.fitting.JointFitter.errorfunc">[docs]</a>    <span class="k">def</span> <span class="nf">errorfunc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fps</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        fps : list</span>
+<span class="sd">            the fitted parameters - result of an one iteration of the</span>
+<span class="sd">            fitting algorithm</span>
+<span class="sd">        args : dict</span>
+<span class="sd">            tuple of measured and input coordinates</span>
+<span class="sd">            args is always passed as a tuple from optimize.leastsq</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">lstsqargs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+        <span class="n">fitted</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">fitparams</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">fps</span><span class="p">)</span>
+        <span class="n">numjp</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">initvals</span><span class="p">)</span>
+        <span class="c"># make a separate list of the joint fitted parameters</span>
+        <span class="n">jointfitparams</span> <span class="o">=</span> <span class="n">fitparams</span><span class="p">[:</span><span class="n">numjp</span><span class="p">]</span>
+        <span class="k">del</span> <span class="n">fitparams</span><span class="p">[:</span><span class="n">numjp</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">model</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">models</span><span class="p">:</span>
+            <span class="n">margs</span> <span class="o">=</span> <span class="n">lstsqargs</span><span class="p">[:</span><span class="n">model</span><span class="o">.</span><span class="n">n_inputs</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="k">del</span> <span class="n">lstsqargs</span><span class="p">[:</span><span class="n">model</span><span class="o">.</span><span class="n">n_inputs</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="c"># separate each model separately fitted parameters</span>
+            <span class="n">numfp</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">_parameters</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">joint</span><span class="p">)</span>
+            <span class="n">mfparams</span> <span class="o">=</span> <span class="n">fitparams</span><span class="p">[:</span><span class="n">numfp</span><span class="p">]</span>
+
+            <span class="k">del</span> <span class="n">fitparams</span><span class="p">[:</span><span class="n">numfp</span><span class="p">]</span>
+            <span class="c"># recreate the model parameters</span>
+            <span class="n">mparams</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">pname</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">param_names</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">pname</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">joint</span><span class="p">:</span>
+                    <span class="n">index</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">joint</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">pname</span><span class="p">)</span>
+                    <span class="c"># should do this with slices in case the</span>
+                    <span class="c"># parameter is not a number</span>
+                    <span class="n">mparams</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">jointfitparams</span><span class="p">[</span><span class="n">index</span><span class="p">]])</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">slc</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">_param_metrics</span><span class="p">[</span><span class="n">pname</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="n">plen</span> <span class="o">=</span> <span class="n">slc</span><span class="o">.</span><span class="n">stop</span> <span class="o">-</span> <span class="n">slc</span><span class="o">.</span><span class="n">start</span>
+                    <span class="n">mparams</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">mfparams</span><span class="p">[:</span><span class="n">plen</span><span class="p">])</span>
+                    <span class="k">del</span> <span class="n">mfparams</span><span class="p">[:</span><span class="n">plen</span><span class="p">]</span>
+            <span class="n">modelfit</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="n">margs</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="o">*</span><span class="n">mparams</span><span class="p">)</span>
+            <span class="n">fitted</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">modelfit</span> <span class="o">-</span> <span class="n">margs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">ravel</span><span class="p">(</span><span class="n">fitted</span><span class="p">)</span>
+</div>
+    <span class="k">def</span> <span class="nf">_verify_input</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">assert</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">models</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">assert</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jointparams</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">jointparams</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">assert</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jointparams</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">initvals</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Fit data to these models keeping some of the pramaters common to the</span>
+<span class="sd">        two models.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">optimize</span>
+
+        <span class="k">assert</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="nb">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">y</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">modeldims</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fitparams</span><span class="p">[:],</span> <span class="n">_</span> <span class="o">=</span> <span class="n">optimize</span><span class="o">.</span><span class="n">leastsq</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">errorfunc</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fitparams</span><span class="p">,</span>
+                                              <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">)</span>
+
+        <span class="n">fparams</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fitparams</span><span class="p">[:]</span>
+        <span class="n">numjp</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">initvals</span><span class="p">)</span>
+        <span class="c"># make a separate list of the joint fitted parameters</span>
+        <span class="n">jointfitparams</span> <span class="o">=</span> <span class="n">fparams</span><span class="p">[:</span><span class="n">numjp</span><span class="p">]</span>
+        <span class="k">del</span> <span class="n">fparams</span><span class="p">[:</span><span class="n">numjp</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">model</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">models</span><span class="p">:</span>
+            <span class="c"># extract each model&#39;s fitted parameters</span>
+            <span class="n">numfp</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">_parameters</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">joint</span><span class="p">)</span>
+            <span class="n">mfparams</span> <span class="o">=</span> <span class="n">fparams</span><span class="p">[:</span><span class="n">numfp</span><span class="p">]</span>
+
+            <span class="k">del</span> <span class="n">fparams</span><span class="p">[:</span><span class="n">numfp</span><span class="p">]</span>
+            <span class="c"># recreate the model parameters</span>
+            <span class="n">mparams</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">pname</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">param_names</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">pname</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">joint</span><span class="p">:</span>
+                    <span class="n">index</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">joint</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">pname</span><span class="p">)</span>
+                    <span class="c"># should do this with slices in case the parameter</span>
+                    <span class="c"># is not a number</span>
+                    <span class="n">mparams</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">jointfitparams</span><span class="p">[</span><span class="n">index</span><span class="p">]])</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">slc</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">_param_metrics</span><span class="p">[</span><span class="n">pname</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="n">plen</span> <span class="o">=</span> <span class="n">slc</span><span class="o">.</span><span class="n">stop</span> <span class="o">-</span> <span class="n">slc</span><span class="o">.</span><span class="n">start</span>
+                    <span class="n">mparams</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">mfparams</span><span class="p">[:</span><span class="n">plen</span><span class="p">])</span>
+                    <span class="k">del</span> <span class="n">mfparams</span><span class="p">[:</span><span class="n">plen</span><span class="p">]</span>
+            <span class="n">model</span><span class="o">.</span><span class="n">parameters</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">mparams</span><span class="p">)</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"><h3>Page Contents</h3>
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+<footer class="footer">
+  <p class="pull-right"> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright 2011-2013, The Astropy Developers.<br/>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2. &nbsp;
+    Last built 05 Mar 2014. <br/>
+  </p>
+</footer>
+  </body>
+</html>

@@ -1,0 +1,543 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+
+    <title>What’s New in Astropy 0.2 &mdash; Astropy v0.2.1</title>
+<!-- RTD <head> -->
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/underscore.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/doctools.js"></script>
+
+<script type="text/javascript">
+  // This is included here for Javascript that doesn't have access to the templates.
+  var doc_version = "v0.2.1";
+  var doc_slug = "astropy";
+</script>
+
+<script type="text/javascript" src="//media.readthedocs.org/javascript/rtd.js"></script>
+<!-- end RTD <head> -->
+
+    
+    <link rel="stylesheet" href="../_static/bootstrap-astropy.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.2.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="shortcut icon" href="../_static/astropy_logo.ico"/>
+    <link rel="top" title="Astropy v0.2.1" href="../index.html" />
+    <link rel="up" title="Major Release History" href="index.html" />
+    <link rel="next" title="What’s New in Astropy 0.1" href="0.1.html" />
+    <link rel="prev" title="Major Release History" href="index.html" /> 
+  </head>
+  <body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../index.html"></a>
+  <ul>
+    <li><a class="homelink" title="AstroPy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../genindex.html">Index</a></li>
+    <li><a title="Python Module Index" href="../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li class="right">
+	<a href="0.1.html" title="What’s New in Astropy 0.1">
+	  next &raquo;
+	</a>
+      </li>
+      <li class="right">
+	<a href="index.html" title="Major Release History">
+	  &laquo; previous
+	</a>
+	 |
+      </li>
+      <li>
+	<a href="../index.html">Astropy v0.2.1</a>
+	 &raquo;
+      </li>
+      <li><a href="index.html" accesskey="U">Major Release History</a> &raquo;</li>
+      
+      <li>What&#8217;s New in Astropy 0.2</li> 
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="what-s-new-in-astropy-0-2">
+<span id="whatsnew-0-2"></span><h1>What&#8217;s New in Astropy 0.2<a class="headerlink" href="#what-s-new-in-astropy-0-2" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="ascii-table-i-o">
+<h2>ASCII table I/O<a class="headerlink" href="#ascii-table-i-o" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="../io/ascii/index.html#io-ascii"><em>astropy.io.ascii</em></a> subpackage allows reading and writing of
+table data in ASCII format.  A number of improvements have been made to this
+package, some of which break compatibility with the original <a class="reference external" href="https://asciitable.readthedocs.org/">asciitable</a> package.</p>
+<p>The biggest change is full integration with the <a class="reference internal" href="../table/index.html#astropy-table"><em>Table</em></a> class
+so that table and column metadata (e.g. keywords, units, description,
+formatting) are directly available in the output table object.  The CDS,
+DAOphot, and IPAC format readers now provide this type of integrated metadata.
+Missing value support is now provided using <a class="reference internal" href="../table/index.html#astropy-table"><em>masked tables</em></a>
+instead of NumPy masked arrays.</p>
+<p>There is an important change in way that input data are parsed in the
+<a class="reference internal" href="../_generated/astropy.io.ascii.ui.write.html#astropy.io.ascii.ui.write" title="astropy.io.ascii.ui.write"><tt class="xref py py-func docutils literal"><span class="pre">write()</span></tt></a> function.  In version 0.1 of <tt class="xref py py-obj docutils literal"><span class="pre">astropy</span></tt>, a
+list of lists was interpreted to be a <em>list of data rows</em>, corresponding to the
+behavior in <a class="reference external" href="https://asciitable.readthedocs.org/">asciitable</a>.  Starting from
+version 0.2, a list of lists is interpreted as a <em>list of data columns</em>.  This corresponds
+to the behavior of the <a class="reference internal" href="../_generated/astropy.table.table.Table.html#astropy.table.table.Table" title="astropy.table.table.Table"><tt class="xref py py-class docutils literal"><span class="pre">Table</span></tt></a> class.</p>
+<p>Finally, a reader class to read SExtractor table outputs is now available.</p>
+</div>
+<div class="section" id="coordinates">
+<h2>Coordinates<a class="headerlink" href="#coordinates" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="../coordinates/index.html#astropy-coordinates"><em>astropy.coordinates</em></a> subpackage was added in Astropy 0.2, and
+adds a framework for defining celestial and other astronomical coordinate
+systems, as well as transformations between them. A few simple usage examples
+include:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">astropy.coordinates</span> <span class="kn">as</span> <span class="nn">coord</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">coord</span><span class="o">.</span><span class="n">ICRSCoordinates</span><span class="p">(</span><span class="n">ra</span><span class="o">=</span><span class="mf">10.68458</span><span class="p">,</span> <span class="n">dec</span><span class="o">=</span><span class="mf">41.26917</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">degree</span><span class="p">,</span> <span class="n">u</span><span class="o">.</span><span class="n">degree</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">ra</span>
+<span class="go">&lt;RA 10.68458 deg&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">galactic</span>
+<span class="go">&lt;GalacticCoordinates l=121.17430 deg, b=-21.57280 deg&gt;</span>
+</pre></div>
+</div>
+<p>Currently a limited set of standard coordinate systems are included, but more will be
+added in the next release.  There is also an
+<a class="reference internal" href="../coordinates/sgr-example.html#sgr-example"><em>example of creating a custom coordinate system</em></a>  in the documentation.</p>
+<p>The package also includes a representation of angles (<a class="reference internal" href="../_generated/astropy.coordinates.angles.Angle.html#astropy.coordinates.angles.Angle" title="astropy.coordinates.angles.Angle"><tt class="xref py py-class docutils literal"><span class="pre">Angle</span></tt></a>)
+that may be useful in other contexts. It also supports distances in
+celestial coordinates, which allows a complete mapping to 3D coordinates:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">coord</span><span class="o">.</span><span class="n">ICRSCoordinates</span><span class="p">(</span><span class="s">&#39;00h42m44.3s +41d16m9s&#39;</span><span class="p">,</span> <span class="n">distance</span><span class="o">=</span><span class="n">Distance</span><span class="p">(</span><span class="mi">770</span><span class="p">,</span> <span class="n">u</span><span class="o">.</span><span class="n">kpc</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">cartesian</span>
+<span class="go">&lt;CartesianPoints (568.712888217, 107.300935969, 507.889909249) kpc&gt;</span>
+</pre></div>
+</div>
+<p>The package also supports a simple interface for retrieving coordinates for an object by
+name using the <a class="reference external" href="http://cds.u-strasbg.fr/cgi-bin/Sesame">Sesame Name Resolver</a> . This works
+on all subclasses of <a class="reference internal" href="../_generated/astropy.coordinates.coordsystems.SphericalCoordinatesBase.html#astropy.coordinates.coordsystems.SphericalCoordinatesBase" title="astropy.coordinates.coordsystems.SphericalCoordinatesBase"><tt class="xref py py-class docutils literal"><span class="pre">SphericalCoordinatesBase</span></tt></a>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">coord</span><span class="o">.</span><span class="n">ICRSCoordinates</span><span class="o">.</span><span class="n">from_name</span><span class="p">(</span><span class="s">&quot;M42&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">ra</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">dec</span>
+<span class="go">(&lt;RA 83.82208 deg&gt;, &lt;Dec -5.39111 deg&gt;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">coord</span><span class="o">.</span><span class="n">GalacticCoordinates</span><span class="o">.</span><span class="n">from_name</span><span class="p">(</span><span class="s">&quot;M42&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">l</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">b</span>
+<span class="go">(&lt;Angle -150.98622 deg&gt;, &lt;Angle -19.38162 deg&gt;)</span>
+</pre></div>
+</div>
+<p>For more details about this feature, see
+<a class="reference internal" href="../_generated/astropy.coordinates.name_resolve.get_icrs_coordinates.html#astropy.coordinates.name_resolve.get_icrs_coordinates" title="astropy.coordinates.name_resolve.get_icrs_coordinates"><tt class="xref py py-func docutils literal"><span class="pre">get_icrs_coordinates()</span></tt></a> and
+<a class="reference internal" href="../_generated/astropy.coordinates.coordsystems.SphericalCoordinatesBase.html#astropy.coordinates.coordsystems.SphericalCoordinatesBase.from_name" title="astropy.coordinates.coordsystems.SphericalCoordinatesBase.from_name"><tt class="xref py py-meth docutils literal"><span class="pre">from_name()</span></tt></a>.</p>
+<p>Note that this subpackage is still under heavy development, and likely will
+undergo significant changes in the next few versions.</p>
+</div>
+<div class="section" id="cosmology">
+<h2>Cosmology<a class="headerlink" href="#cosmology" title="Permalink to this headline">¶</a></h2>
+<p>There have been several improvements to <a class="reference internal" href="../cosmology/index.html#astropy-cosmology"><em>astropy.cosmology</em></a> subpackage, some of which required minor API
+changes. Contributions to the energy density from photons and
+neutrinos are now taken into account, and so cosmological quantities
+should be accurate all the way up to z ~ 1100, corresponding to the
+CMB surface of last scattering. There are also new classes to
+represent flat cosmologies, optionally with a time-varying dark energy
+parameter <tt class="docutils literal"><span class="pre">w</span></tt> using the popular parameterisations by <a class="reference external" href="http://adsabs.harvard.edu/abs/2003PhRvL..90i1301L">Linder 2003</a>.</p>
+<p>There are two API changes:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Previously the <tt class="docutils literal"><span class="pre">Om</span></tt>, <tt class="docutils literal"><span class="pre">Ol</span></tt> and <tt class="docutils literal"><span class="pre">Ok</span></tt> attributes of a
+<tt class="xref py py-obj docutils literal"><span class="pre">Cosmology</span></tt> class referred to densities at z = 0. These have been
+renamed to <tt class="docutils literal"><span class="pre">Om0</span></tt>, <tt class="docutils literal"><span class="pre">Ol0</span></tt>, and <tt class="docutils literal"><span class="pre">Ok0</span></tt>. <tt class="docutils literal"><span class="pre">Om</span></tt>, <tt class="docutils literal"><span class="pre">Ol</span></tt> and
+<tt class="docutils literal"><span class="pre">Ok</span></tt> are now methods that give the relevant density as a
+function of redshift. This change makes their behaviour consistent
+with that of the Hubble parameter attribute and method (<tt class="docutils literal"><span class="pre">H0</span></tt> and
+<tt class="docutils literal"><span class="pre">H</span></tt>).</li>
+<li>The <tt class="xref py py-obj docutils literal"><span class="pre">FLRWCosmology</span></tt> class has been renamed to
+<a class="reference internal" href="../_generated/astropy.cosmology.core.FLRW.html#astropy.cosmology.core.FLRW" title="astropy.cosmology.core.FLRW"><tt class="xref py py-class docutils literal"><span class="pre">FLRW</span></tt></a>.</li>
+</ul>
+</div></blockquote>
+<p>So while in version 0.1 you could define a flat cosmology in following way:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">astropy.cosmology</span> <span class="kn">import</span> <span class="n">FLRWCosmology</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cosmo</span> <span class="o">=</span> <span class="n">FLRWCosmology</span><span class="p">(</span><span class="n">H0</span><span class="o">=</span><span class="mi">70</span><span class="p">,</span> <span class="n">Om</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">Ol</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Now you would do the same thing using:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">astropy.cosmology</span> <span class="kn">import</span> <span class="n">FlatLambdaCDM</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cosmo</span> <span class="o">=</span> <span class="n">FlatLambdaCDM</span><span class="p">(</span><span class="n">H0</span><span class="o">=</span><span class="mi">70</span><span class="p">,</span> <span class="n">Om0</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The convenience functions
+<a class="reference internal" href="../_generated/astropy.cosmology.funcs.kpc_proper_per_arcmin.html#astropy.cosmology.funcs.kpc_proper_per_arcmin" title="astropy.cosmology.funcs.kpc_proper_per_arcmin"><tt class="xref py py-func docutils literal"><span class="pre">kpc_proper_per_arcmin()</span></tt></a>,
+<a class="reference internal" href="../_generated/astropy.cosmology.funcs.kpc_comoving_per_arcmin.html#astropy.cosmology.funcs.kpc_comoving_per_arcmin" title="astropy.cosmology.funcs.kpc_comoving_per_arcmin"><tt class="xref py py-func docutils literal"><span class="pre">kpc_comoving_per_arcmin()</span></tt></a>,
+<a class="reference internal" href="../_generated/astropy.cosmology.funcs.arcsec_per_kpc_proper.html#astropy.cosmology.funcs.arcsec_per_kpc_proper" title="astropy.cosmology.funcs.arcsec_per_kpc_proper"><tt class="xref py py-func docutils literal"><span class="pre">arcsec_per_kpc_proper()</span></tt></a> and
+<a class="reference internal" href="../_generated/astropy.cosmology.funcs.arcsec_per_kpc_comoving.html#astropy.cosmology.funcs.arcsec_per_kpc_comoving" title="astropy.cosmology.funcs.arcsec_per_kpc_comoving"><tt class="xref py py-func docutils literal"><span class="pre">arcsec_per_kpc_comoving()</span></tt></a> are now all
+available as methods of the <tt class="xref py py-class docutils literal"><span class="pre">Cosmology</span></tt>
+object.</p>
+<p>Finally, a new set of cosmological parameters from the 9 year WMAP
+results (<tt class="xref py py-obj docutils literal"><span class="pre">astropy.cosmology.WMAP9</span></tt>) has been added from the recently
+submitted paper by <a class="reference external" href="http://arxiv.org/abs/1212.5226">Hinshaw et
+al.</a>. Since this paper has not yet
+been refereed, convenience functions still use the 7 year WMAP results
+if you don&#8217;t explicitly specify a cosmology.</p>
+</div>
+<div class="section" id="data-tables">
+<h2>Data Tables<a class="headerlink" href="#data-tables" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="../table/index.html#astropy-table"><em>astropy.table</em></a> subpackage was first introduced for
+preview in Astropy 0.1 and provides functionality for storing and manipulating
+heterogenous tables of data in a way that is familiar to numpy users.  Some key
+features include:</p>
+<ul class="simple">
+<li>Modify a table by adding or removing columns, changing column names,
+or adding new rows of data.</li>
+<li>Include table and column metadata as flexible data structures.</li>
+<li>Specify a description, units and output formatting for columns.</li>
+<li>Interactively scroll through long tables similar to using <tt class="docutils literal"><span class="pre">more</span></tt>.</li>
+</ul>
+<p>Astropy 0.2 brings the addition of integrated support for missing values via
+the Numpy <a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/maskedarray.html">masked array</a> class.  This
+feature requires Numpy version 1.5 or greater because of issues
+with masked arrays in previous versions.</p>
+<p>The <a class="reference internal" href="../_generated/astropy.table.table.Table.html#astropy.table.table.Table" title="astropy.table.table.Table"><tt class="xref py py-class docutils literal"><span class="pre">Table</span></tt></a> class now connects to the new <a class="reference internal" href="#i-o-framework">I/O
+framework</a> read and write methods.  For example, assume you have a table
+of magnitudes called <tt class="docutils literal"><span class="pre">mags</span></tt> with columns <tt class="docutils literal"><span class="pre">B</span></tt> and <tt class="docutils literal"><span class="pre">V</span></tt>.  You can add a new
+column <tt class="docutils literal"><span class="pre">B-V</span></tt> and write out to an ASCII table with:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">BV</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">mags</span><span class="p">[</span><span class="s">&#39;B&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">mags</span><span class="p">[</span><span class="s">&#39;V&#39;</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="s">&#39;B-V&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mags</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="n">BV</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mags</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;mags_BV.dat&#39;</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s">&#39;ascii&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="i-o-framework">
+<h2>I/O framework<a class="headerlink" href="#i-o-framework" title="Permalink to this headline">¶</a></h2>
+<p>This version sees the introduction of a framework that makes it easy to read
+in or write out data objects. This can be used for
+<a class="reference internal" href="../_generated/astropy.table.table.Table.html#astropy.table.table.Table" title="astropy.table.table.Table"><tt class="xref py py-class docutils literal"><span class="pre">Table</span></tt></a> and <a class="reference internal" href="../_generated/astropy.nddata.nddata.NDData.html#astropy.nddata.nddata.NDData" title="astropy.nddata.nddata.NDData"><tt class="xref py py-class docutils literal"><span class="pre">NDData</span></tt></a>
+objects, by doing e.g.:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">astropy.table</span> <span class="kn">import</span> <span class="n">Table</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span> <span class="o">=</span> <span class="n">Table</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s">&#39;my_table.xml&#39;</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s">&#39;vo&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;my_table.hdf5&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>At this time, this framework supports ASCII tables, HDF5 tables, and VO
+tables, and will be extended to support FITS tables and datasets in the next
+version. Users can also register their own file formats directly, in case
+these are not present in Astropy. More information about how to read/write
+<a class="reference internal" href="../_generated/astropy.table.table.Table.html#astropy.table.table.Table" title="astropy.table.table.Table"><tt class="xref py py-class docutils literal"><span class="pre">Table</span></tt></a> objects using the built-in formats is
+available in <a class="reference internal" href="../table/io.html#table-io"><em>Reading and writing Table objects</em></a>, and more information about the I/O framework and
+how to register new file formats can be found in <a class="reference internal" href="../io/registry.html#io-registry"><em>I/O Registry (astropy.io.registry)</em></a>.</p>
+</div>
+<div class="section" id="time">
+<h2>Time<a class="headerlink" href="#time" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="../time/index.html#astropy-time"><em>astropy.time</em></a> package is new in Astropy 0.2 and
+provides functionality for manipulating times and dates.  Specific emphasis is
+placed on supporting time scales (e.g. UTC, TAI, UT1) and time representations
+(e.g. JD, MJD, ISO 8601) that are used in astronomy.  The underlying
+computations are mostly done with the C language <a class="reference external" href="http://www.iausofa.org/index.html">SOFA</a> time and calendar
+routines.  A simple example follows:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">astropy.time</span> <span class="kn">import</span> <span class="n">Time</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">times</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;1999-01-01 00:00:00.123456789&#39;</span><span class="p">,</span> <span class="s">&#39;2010-01-01 00:00:00&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span> <span class="o">=</span> <span class="n">Time</span><span class="p">(</span><span class="n">times</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s">&#39;iso&#39;</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="s">&#39;utc&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">format</span></tt> argument specifies how to interpret <a class="reference internal" href="../time/index.html#time-format"><em>Time Format</em></a> of the
+input values, e.g. ISO or JD or Unix time.  The <tt class="docutils literal"><span class="pre">scale</span></tt> argument specifies
+the <a class="reference internal" href="../time/index.html#time-scale"><em>Time Scale</em></a> for the values, e.g. UTC or TT or UT1.  Converting to
+another time <tt class="docutils literal"><span class="pre">format</span></tt> or time <tt class="docutils literal"><span class="pre">scale</span></tt> is a snap:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">jd</span>  <span class="c"># Get an array of JD times</span>
+<span class="go">array([ 2451179.50000143,  2455197.5       ])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">tt</span>  <span class="c"># Get a new Time object with values in the TT time scale</span>
+<span class="go">&lt;Time object: scale=&#39;tt&#39; format=&#39;iso&#39; vals=[&#39;1999-01-01 00:01:04.307&#39; &#39;2010-01-01 00:01:06.184&#39;]&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="units-and-quantities">
+<h2>Units and quantities<a class="headerlink" href="#units-and-quantities" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference internal" href="../units/index.html#astropy-units"><em>Units (astropy.units)</em></a> handles defining and converting between physical
+units, and performing arithmetic with physical quantities (numbers
+with associated units).</p>
+<p>Units can be converted to one another:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">astropy</span> <span class="kn">import</span> <span class="n">units</span> <span class="k">as</span> <span class="n">u</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c"># Convert from parsec to meter</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="o">.</span><span class="n">pc</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">m</span><span class="p">)</span>
+<span class="go">3.0856776e+16</span>
+</pre></div>
+</div>
+<p>It also handles equivalencies that hold true in certain contexts, such
+as that between wavelength and frequency:</p>
+<div class="highlight-python"><pre># Wavelength to frequency doesn't normally work
+&gt;&gt;&gt; u.nm.to(u.Hz, [1000, 2000])
+UnitsException: 'nm' (length) and 'Hz' (frequency) are not convertible
+# ...but by passing an equivalency unit (spectral()), it does...
+&gt;&gt;&gt; u.nm.to(u.Hz, [1000, 2000], equivalencies=u.spectral())
+array([  2.99792458e+14,   1.49896229e+14])</pre>
+</div>
+<p>Also included in the <tt class="xref py py-obj docutils literal"><span class="pre">astropy.units</span></tt> package is the
+<a class="reference internal" href="../_generated/astropy.units.quantity.Quantity.html#astropy.units.quantity.Quantity" title="astropy.units.quantity.Quantity"><tt class="xref py py-obj docutils literal"><span class="pre">Quantity</span></tt></a> object, which represents a
+numerical value with an associated unit. These objects support
+arithmetic with other numbers and <a class="reference internal" href="../_generated/astropy.units.quantity.Quantity.html#astropy.units.quantity.Quantity" title="astropy.units.quantity.Quantity"><tt class="xref py py-obj docutils literal"><span class="pre">Quantity</span></tt></a>
+objects and preserve units:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">astropy</span> <span class="kn">import</span> <span class="n">units</span> <span class="k">as</span> <span class="n">u</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="mf">15.1</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">meter</span> <span class="o">/</span> <span class="p">(</span><span class="mf">32.0</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">second</span><span class="p">)</span>
+<span class="go">&lt;Quantity 0.471875 m / (s)&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="mf">3.0</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">kilometer</span> <span class="o">/</span> <span class="p">(</span><span class="mf">130.51</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">meter</span><span class="o">/</span><span class="n">u</span><span class="o">.</span><span class="n">second</span><span class="p">)</span>
+<span class="go">&lt;Quantity 0.0229867443108 km s / (m)&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="mf">3.0</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">kilometer</span> <span class="o">/</span> <span class="p">(</span><span class="mf">130.51</span><span class="o">*</span><span class="n">u</span><span class="o">.</span><span class="n">meter</span><span class="o">/</span><span class="n">u</span><span class="o">.</span><span class="n">second</span><span class="p">))</span><span class="o">.</span><span class="n">simplify_units</span><span class="p">()</span>
+<span class="go">&lt;Quantity 22.9867443108 s&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="votable-xml-support">
+<h2>VOTable XML support<a class="headerlink" href="#votable-xml-support" title="Permalink to this headline">¶</a></h2>
+<p>The name of the VOTable XML handling package has changed from
+<tt class="xref py py-obj docutils literal"><span class="pre">astropy.io.vo</span></tt> to <a class="reference internal" href="../io/votable/index.html#module-astropy.io.votable" title="astropy.io.votable"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.io.votable</span></tt></a>.</p>
+<p>The <tt class="xref py py-obj docutils literal"><span class="pre">unit</span></tt> attribute is now an <tt class="xref py py-obj docutils literal"><span class="pre">astropy.units.Unit</span></tt> object, so unit
+conversions can easily be supported.  The CDS unit format used by
+VOTable XML is now fully supported as a result.</p>
+<p>Masked values are now handled by a single array, rather than a pair of
+arrays.</p>
+<p>The <tt class="xref py py-obj docutils literal"><span class="pre">precision</span></tt> and <tt class="xref py py-obj docutils literal"><span class="pre">width</span></tt> attributes of each field are now handled
+correctly as per the VOTable XML specification.  This may result in
+the output changing.</p>
+<p>Each <tt class="xref py py-obj docutils literal"><span class="pre">TABLE</span></tt> section of a <tt class="xref py py-obj docutils literal"><span class="pre">VOTable</span></tt> XML file can be converted to/from
+an <tt class="xref py py-obj docutils literal"><span class="pre">astropy.table.Table</span></tt> object, which allows much easier editing of
+the columns than a regular Numpy structured array.</p>
+<p>A standalone <tt class="xref py py-obj docutils literal"><span class="pre">volint</span></tt> script is available to validate the contents of
+VOTable XML files.</p>
+<p>The default setting for <tt class="xref py py-obj docutils literal"><span class="pre">pedantic</span></tt> mode can be set using a
+configuration parameter (<tt class="xref py py-obj docutils literal"><span class="pre">astropy.io.vo.PEDANTIC</span></tt>).</p>
+</div>
+<div class="section" id="wcs">
+<h2>WCS<a class="headerlink" href="#wcs" title="Permalink to this headline">¶</a></h2>
+<p>When reading FITS headers, the default value of <tt class="xref py py-obj docutils literal"><span class="pre">relax</span></tt> is <a class="reference external" href="http://docs.python.org/library/constants.html#True" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">True</span></tt></a>, in
+order to accept all non-standard keywords that <tt class="xref py py-obj docutils literal"><span class="pre">wcslib</span></tt> understands.
+This should make <a class="reference internal" href="../wcs/index.html#module-astropy.wcs" title="astropy.wcs"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.wcs</span></tt></a> handle more FITS files by default, but
+may introduce a change in behavior in some edge cases.  Likewise for
+writing FITS headers, the default value of <tt class="xref py py-obj docutils literal"><span class="pre">relax</span></tt> is <tt class="xref py py-obj docutils literal"><span class="pre">WCSHDO_safe</span></tt>,
+meaning it will write all non-standard exceptions that are considered
+safe and unambiguous.  This should make the FITS files produced by
+<a class="reference internal" href="../wcs/index.html#module-astropy.wcs" title="astropy.wcs"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.wcs</span></tt></a> supported by a larger range of third-party tools, but
+may introduce changes in behavior in some edge cases.</p>
+<p>The WCS transformation functions, when provided for a separate array
+for each input axis, will now broadcast the arrays correctly and
+return the output in the broadcasted shape.  This makes using a
+constant for one of the axes possible.</p>
+<p>The units in a WCS object (<tt class="xref py py-obj docutils literal"><span class="pre">CUNITij</span></tt>) are now <tt class="xref py py-obj docutils literal"><span class="pre">astropy.units.Unit</span></tt>
+objects, so operations on those units may be performed.</p>
+<p>The included version of <tt class="xref py py-obj docutils literal"><span class="pre">wcslib</span></tt> has been upgraded to version 4.16.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+
+
+<h3>Page Contents</h3>
+<ul>
+<li><a class="reference internal" href="#">What&#8217;s New in Astropy 0.2</a><ul>
+<li><a class="reference internal" href="#ascii-table-i-o">ASCII table I/O</a></li>
+<li><a class="reference internal" href="#coordinates">Coordinates</a></li>
+<li><a class="reference internal" href="#cosmology">Cosmology</a></li>
+<li><a class="reference internal" href="#data-tables">Data Tables</a></li>
+<li><a class="reference internal" href="#i-o-framework">I/O framework</a></li>
+<li><a class="reference internal" href="#time">Time</a></li>
+<li><a class="reference internal" href="#units-and-quantities">Units and quantities</a></li>
+<li><a class="reference internal" href="#votable-xml-support">VOTable XML support</a></li>
+<li><a class="reference internal" href="#wcs">WCS</a></li>
+</ul>
+</li>
+</ul>
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+<footer class="footer">
+  <p class="pull-right">
+    <a href="http://github.com/astropy/astropy/tree/v0.2.1/docs/whatsnew/0.2.rst">Edit This Page on Github</a> &nbsp;
+    <a href="../_sources/whatsnew/0.2.txt"
+       rel="nofollow">Page Source</a> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright 2011-2013, The Astropy Developers.<br/>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3+. &nbsp;
+    Last built 03 Apr 2013. <br/>
+  </p>
+</footer>
+ <!-- End original user content -->
+
+
+<br>
+<br>
+<br>
+
+
+<style type="text/css">
+  .rtd-badge {
+    position: fixed;
+    display: block;
+    bottom: 5px;
+    height: 40px;
+    text-indent: -9999em;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+  }
+  #version_menu {
+    position: fixed;
+    display: none;
+    bottom: 11px;
+    right: 166px;
+    list-style-type: none;
+    margin: 0;
+  }
+  .footer_popout:hover #version_menu {
+    display: block;
+  }
+  #version_menu li {
+    display: block;
+    float: right;
+  }
+  #version_menu li a {
+    display: block;
+    padding: 6px 10px 4px 10px;
+    margin: 7px 7px 0 0;
+    font-weight: bold;
+    font-size: 14px;
+    height: 20px;
+    line-height: 17px;
+    text-decoration: none;
+    color: #fff;
+    background: #8ca1af url(../images/gradient-light.png) bottom left repeat-x;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 1px #465158;
+    -moz-box-shadow: 0 1px 1px #465158;
+    -webkit-box-shadow: 0 1px 1px #465158;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+  }
+  #version_menu li a:hover {
+    text-decoration: none;
+    background-color: #697983;
+    box-shadow: 0 1px 0px #465158;
+    -moz-box-shadow: 0 1px 0px #465158;
+    -webkit-box-shadow: 0 1px 0px #465158;
+  }
+  .rtd-badge.rtd {
+    background: #3b4449 url(//media.readthedocs.org//images/badge-rtd.png) scroll 0px -46px no-repeat;
+    border: 1px solid #282E32;
+    width: 41px;
+    right: 5px;
+  }
+  .footer_popout:hover .rtd-badge.rtd {
+    background-position: top left;
+    width: 160px;
+  }
+  .rtd-badge.revsys { background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline-sponsored {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys-sm.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 205px;
+    right: 173px;
+  }
+
+</style>
+<div class="rtd_doc_footer">
+  <div class="footer_popout">
+    <a href="//readthedocs.org/projects/astropy/?fromdocs=astropy" class="rtd-badge rtd"> Brought to you by Read the Docs</a>
+    <ul id="version_menu">
+      
+        <li><a href="/en/latest/">latest</a></li>
+      
+        <li><a href="/en/add-mpl-to-rtd-pip-req/">add-mpl-to-rtd-pip-req</a></li>
+      
+        <li><a href="/en/v0.2.1/">v0.2.1</a></li>
+      
+        <li><a href="/en/v0.2/">v0.2</a></li>
+      
+        <li><a href="/en/v0.1/">v0.1</a></li>
+      
+    </ul>
+  </div>
+</div>
+<!-- RTD Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17997319-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+<!-- User Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-30968842-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+  </body>
+</html>

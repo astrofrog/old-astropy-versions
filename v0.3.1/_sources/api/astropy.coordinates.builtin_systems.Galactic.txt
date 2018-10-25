@@ -1,0 +1,46 @@
+
+
+Galactic
+============================================
+
+.. currentmodule:: astropy.coordinates.builtin_systems
+
+.. autoclass:: Galactic
+   :show-inheritance:
+
+   
+     
+   
+
+   
+   
+
+   .. rubric:: Attributes Summary
+
+   .. autosummary::
+   
+      ~Galactic.b
+      ~Galactic.l
+
+   
+   
+
+   
+   
+   
+
+   
+   
+
+   .. rubric:: Attributes Documentation
+
+   
+   .. autoattribute:: b
+   .. autoattribute:: l
+
+   
+   
+
+   
+   
+   

@@ -1,0 +1,390 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+
+    <title>Convolution &mdash; Astropy v0.2.1</title>
+<!-- RTD <head> -->
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/underscore.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/doctools.js"></script>
+
+<script type="text/javascript">
+  // This is included here for Javascript that doesn't have access to the templates.
+  var doc_version = "v0.2.1";
+  var doc_slug = "astropy";
+</script>
+
+<script type="text/javascript" src="//media.readthedocs.org/javascript/rtd.js"></script>
+<!-- end RTD <head> -->
+
+    
+    <link rel="stylesheet" href="../_static/bootstrap-astropy.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.2.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="shortcut icon" href="../_static/astropy_logo.ico"/>
+    <link rel="top" title="Astropy v0.2.1" href="../index.html" />
+    <link rel="up" title="N-dimensional datasets (astropy.nddata)" href="index.html" />
+    <link rel="next" title="Subclassing NDData and NDUncertainty" href="subclassing.html" />
+    <link rel="prev" title="NDData overview" href="nddata.html" /> 
+  </head>
+  <body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../index.html"></a>
+  <ul>
+    <li><a class="homelink" title="AstroPy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../genindex.html">Index</a></li>
+    <li><a title="Python Module Index" href="../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li class="right">
+	<a href="subclassing.html" title="Subclassing NDData and NDUncertainty">
+	  next &raquo;
+	</a>
+      </li>
+      <li class="right">
+	<a href="nddata.html" title="NDData overview">
+	  &laquo; previous
+	</a>
+	 |
+      </li>
+      <li>
+	<a href="../index.html">Astropy v0.2.1</a>
+	 &raquo;
+      </li>
+      <li><a href="index.html" accesskey="U">N-dimensional datasets (<tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">astropy.nddata</span></tt>)</a> &raquo;</li>
+      
+      <li>Convolution</li> 
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="convolution">
+<h1>Convolution<a class="headerlink" href="#convolution" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p><tt class="docutils literal"><span class="pre">astropy.nddata</span></tt> includes a convolution function that offers
+improvements compared to the scipy <tt class="docutils literal"><span class="pre">astropy.ndimage</span></tt> convolution
+routines, including:</p>
+<ul class="simple">
+<li>Proper treatment of NaN values</li>
+<li>A single function for 1-D, 2-D, and 3-D convolution</li>
+<li>Improved options for the treatment of edges</li>
+<li>Both direct and Fast Fourier Transform (FFT) versions</li>
+</ul>
+<p>The following thumbnails show the difference between Scipy&#8217;s and
+Astropy&#8217;s convolve functions on an Astronomical image that contains NaN
+values. Scipy&#8217;s function essentially returns NaN for all pixels that are
+within a kernel of any NaN value, which is often not the desired result.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="35%" />
+<col width="31%" />
+<col width="34%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Original</td>
+<td>Scipy <tt class="docutils literal"><span class="pre">convolve</span></tt></td>
+<td>Astropy <tt class="docutils literal"><span class="pre">convolve</span></tt></td>
+</tr>
+<tr class="row-even"><td><img alt="original" src="../_images/original.png" /></td>
+<td><img alt="scipy" src="../_images/scipy.png" /></td>
+<td><img alt="astropy" src="../_images/astropy.png" /></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
+<p>Two convolution functions are provided.  They are imported as:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">astropy.nddata</span> <span class="kn">import</span> <span class="n">convolve</span><span class="p">,</span> <span class="n">convolve_fft</span>
+</pre></div>
+</div>
+<p>and are both used as:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">result</span> <span class="o">=</span> <span class="n">convolve</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">kernel</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">convolve_fft</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">kernel</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><a class="reference internal" href="../_generated/astropy.nddata.convolution.convolve.convolve.html#astropy.nddata.convolution.convolve.convolve" title="astropy.nddata.convolution.convolve.convolve"><tt class="xref py py-obj docutils literal"><span class="pre">convolve</span></tt></a> is implemented as a direct
+convolution algorithm, while <a class="reference internal" href="../_generated/astropy.nddata.convolution.convolve.convolve_fft.html#astropy.nddata.convolution.convolve.convolve_fft" title="astropy.nddata.convolution.convolve.convolve_fft"><tt class="xref py py-obj docutils literal"><span class="pre">convolve_fft</span></tt></a>
+uses an FFT.  Thus, the former is better for small kernels, while the latter
+is much more efficient for larger kernels.</p>
+<p>The input images and kernels should be lists or Numpy arrays with either both 1, 2, or 3 dimensions (and the number of dimensions should be the same for the image and kernel). The result is a Numpy array with the same dimensions as the input image.</p>
+<p>The <tt class="docutils literal"><span class="pre">convolve</span></tt> function takes an optional <tt class="docutils literal"><span class="pre">boundary=</span></tt> argument describing how to perform the convolution at the edge of the array. The values for <tt class="docutils literal"><span class="pre">boundary</span></tt> can be:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">None</span></tt>: set the result values to zero where the kernel extends beyond the edge of the array (default)</li>
+<li><tt class="docutils literal"><span class="pre">'fill'</span></tt>: set values outside the array boundary to a constant. If this option is specified, the constant should be specified using the <tt class="docutils literal"><span class="pre">fill_value=</span></tt> argument, which defaults to zero.</li>
+<li><tt class="docutils literal"><span class="pre">'wrap'</span></tt>: assume that the boundaries are periodic</li>
+<li><tt class="docutils literal"><span class="pre">'extend'</span></tt> : set values outside the array to the nearest array value</li>
+</ul>
+<p>By default, the kernel is not normalized. To normalize it prior to convolution, use:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">result</span> <span class="o">=</span> <span class="n">convolve</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">normalize_kernel</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
+<p>Smooth a 1D array with a custom kernel and no boundary treatment:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">convolve</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">])</span>
+<span class="go">array([ 0. ,  3.4,  5. ,  5.6,  5.6,  5.2,  0. ])</span>
+</pre></div>
+</div>
+<p>As above, but using the &#8216;extend&#8217; algorithm for boundaries:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">convolve</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">],</span> <span class="n">boundary</span><span class="o">=</span><span class="s">&#39;extend&#39;</span><span class="p">)</span>
+<span class="go">array([ 1.6,  3.6,  5. ,  5.6,  5.6,  6.8,  7.8])</span>
+</pre></div>
+</div>
+<p>If a NaN value is present in the original array, it will be interpolated using the kernel:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">convolve</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">],</span> <span class="n">boundary</span><span class="o">=</span><span class="s">&#39;extend&#39;</span><span class="p">)</span>
+<span class="go">array([ 1.6,  3.6,  5. ,  5.9,  6.5,  7.1,  7.8])</span>
+</pre></div>
+</div>
+<p>Kernels and arrays can be specified either as lists or as Numpy arrays. The following examples show how to construct a 1-d array as a list:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">kernel</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">convolve</span><span class="p">(</span><span class="n">spectrum</span><span class="p">,</span> <span class="n">kernel</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>a 2-d array as a list:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">kernel</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> \
+<span class="go">              [1, 2, 1], \</span>
+<span class="go">              [0, 1, 0]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">convolve</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">kernel</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>and a 3-d array as a list:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">kernel</span> <span class="o">=</span> <span class="p">[[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span> \
+<span class="go">              [[0, 1, 0], [2, 3, 2], [0, 1, 0]], \</span>
+<span class="go">              [[0, 0, 0], [0, 2, 0], [0, 0, 0]]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">convolve</span><span class="p">(</span><span class="n">cube</span><span class="p">,</span> <span class="n">kernel</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can also use <a class="reference internal" href="../_generated/astropy.nddata.convolution.make_kernel.make_kernel.html#astropy.nddata.convolution.make_kernel.make_kernel" title="astropy.nddata.convolution.make_kernel.make_kernel"><tt class="xref py py-obj docutils literal"><span class="pre">make_kernel</span></tt></a>
+to generate common n-dimensional kernels:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">make_kernel</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="mi">1</span><span class="p">,</span> <span class="s">&#39;boxcar&#39;</span><span class="p">)</span>
+<span class="go">array([[ 0.  0.  0.]</span>
+<span class="go">       [ 0.  1.  0.]</span>
+<span class="go">       [ 0.  0.  0.]])</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+
+
+<h3>Page Contents</h3>
+<ul>
+<li><a class="reference internal" href="#">Convolution</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#usage">Usage</a></li>
+<li><a class="reference internal" href="#examples">Examples</a></li>
+</ul>
+</li>
+</ul>
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+<footer class="footer">
+  <p class="pull-right">
+    <a href="http://github.com/astropy/astropy/tree/v0.2.1/docs/nddata/convolution.rst">Edit This Page on Github</a> &nbsp;
+    <a href="../_sources/nddata/convolution.txt"
+       rel="nofollow">Page Source</a> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright 2011-2013, The Astropy Developers.<br/>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3+. &nbsp;
+    Last built 03 Apr 2013. <br/>
+  </p>
+</footer>
+ <!-- End original user content -->
+
+
+<br>
+<br>
+<br>
+
+
+<style type="text/css">
+  .rtd-badge {
+    position: fixed;
+    display: block;
+    bottom: 5px;
+    height: 40px;
+    text-indent: -9999em;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+  }
+  #version_menu {
+    position: fixed;
+    display: none;
+    bottom: 11px;
+    right: 166px;
+    list-style-type: none;
+    margin: 0;
+  }
+  .footer_popout:hover #version_menu {
+    display: block;
+  }
+  #version_menu li {
+    display: block;
+    float: right;
+  }
+  #version_menu li a {
+    display: block;
+    padding: 6px 10px 4px 10px;
+    margin: 7px 7px 0 0;
+    font-weight: bold;
+    font-size: 14px;
+    height: 20px;
+    line-height: 17px;
+    text-decoration: none;
+    color: #fff;
+    background: #8ca1af url(../images/gradient-light.png) bottom left repeat-x;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 1px #465158;
+    -moz-box-shadow: 0 1px 1px #465158;
+    -webkit-box-shadow: 0 1px 1px #465158;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+  }
+  #version_menu li a:hover {
+    text-decoration: none;
+    background-color: #697983;
+    box-shadow: 0 1px 0px #465158;
+    -moz-box-shadow: 0 1px 0px #465158;
+    -webkit-box-shadow: 0 1px 0px #465158;
+  }
+  .rtd-badge.rtd {
+    background: #3b4449 url(//media.readthedocs.org//images/badge-rtd.png) scroll 0px -46px no-repeat;
+    border: 1px solid #282E32;
+    width: 41px;
+    right: 5px;
+  }
+  .footer_popout:hover .rtd-badge.rtd {
+    background-position: top left;
+    width: 160px;
+  }
+  .rtd-badge.revsys { background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline-sponsored {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys-sm.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 205px;
+    right: 173px;
+  }
+
+</style>
+<div class="rtd_doc_footer">
+  <div class="footer_popout">
+    <a href="//readthedocs.org/projects/astropy/?fromdocs=astropy" class="rtd-badge rtd"> Brought to you by Read the Docs</a>
+    <ul id="version_menu">
+      
+        <li><a href="/en/latest/">latest</a></li>
+      
+        <li><a href="/en/add-mpl-to-rtd-pip-req/">add-mpl-to-rtd-pip-req</a></li>
+      
+        <li><a href="/en/v0.2.1/">v0.2.1</a></li>
+      
+        <li><a href="/en/v0.2/">v0.2</a></li>
+      
+        <li><a href="/en/v0.1/">v0.1</a></li>
+      
+    </ul>
+  </div>
+</div>
+<!-- RTD Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17997319-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+<!-- User Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-30968842-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+  </body>
+</html>

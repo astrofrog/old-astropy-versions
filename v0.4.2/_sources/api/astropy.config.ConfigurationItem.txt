@@ -1,0 +1,44 @@
+
+
+ConfigurationItem
+================================
+
+.. currentmodule:: astropy.config
+
+.. autoclass:: ConfigurationItem
+   :show-inheritance:
+
+   
+     
+   
+
+   
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+   
+      ~ConfigurationItem.save
+
+   
+   
+
+   
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Documentation
+
+   
+   .. automethod:: save
+
+   
+   

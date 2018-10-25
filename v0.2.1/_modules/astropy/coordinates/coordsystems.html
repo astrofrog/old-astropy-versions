@@ -1,0 +1,808 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+
+    <title>astropy.coordinates.coordsystems &mdash; Astropy v0.2.1</title>
+<!-- RTD <head> -->
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/underscore.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/doctools.js"></script>
+
+<script type="text/javascript">
+  // This is included here for Javascript that doesn't have access to the templates.
+  var doc_version = "v0.2.1";
+  var doc_slug = "astropy";
+</script>
+
+<script type="text/javascript" src="//media.readthedocs.org/javascript/rtd.js"></script>
+<!-- end RTD <head> -->
+
+    
+    <link rel="stylesheet" href="../../../_static/bootstrap-astropy.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.2.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/sidebar.js"></script>
+    <link rel="shortcut icon" href="../../../_static/astropy_logo.ico"/>
+    <link rel="top" title="Astropy v0.2.1" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../../../index.html"></a>
+  <ul>
+    <li><a class="homelink" title="AstroPy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../../../genindex.html">Index</a></li>
+    <li><a title="Python Module Index" href="../../../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li>
+	<a href="../../../index.html">Astropy v0.2.1</a>
+	 &raquo;
+      </li>
+      <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li>
+      
+       
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for astropy.coordinates.coordsystems</h1><div class="highlight"><pre>
+<span class="c"># Licensed under a 3-clause BSD style license - see LICENSE.rst</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module contains the base classes and frameworks for coordinate objects.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABCMeta</span><span class="p">,</span> <span class="n">abstractproperty</span><span class="p">,</span> <span class="n">abstractmethod</span>
+
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">units</span> <span class="k">as</span> <span class="n">u</span>
+<span class="kn">from</span> <span class="nn">.angles</span> <span class="kn">import</span> <span class="n">RA</span><span class="p">,</span> <span class="n">Dec</span><span class="p">,</span> <span class="n">Angle</span><span class="p">,</span> <span class="n">AngularSeparation</span>
+<span class="kn">from</span> <span class="nn">.distances</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;SphericalCoordinatesBase&#39;</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="SphericalCoordinatesBase"><a class="viewcode-back" href="../../../_generated/astropy.coordinates.coordsystems.SphericalCoordinatesBase.html#astropy.coordinates.coordsystems.SphericalCoordinatesBase">[docs]</a><span class="k">class</span> <span class="nc">SphericalCoordinatesBase</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Abstract superclass for all coordinate classes representing points</span>
+<span class="sd">    in three dimensions.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Subclasses must implement `__init__`, and define the `latangle` and</span>
+<span class="sd">    `lonangle` properties.  They may also override the `equinox`</span>
+<span class="sd">    property, or leave it unaltered to indicate the coordinates are</span>
+<span class="sd">    equinoxless.</span>
+
+<span class="sd">    `_initialize_latlon` is provided to implement typical</span>
+<span class="sd">    initialization features, and should be called from a subclass&#39;</span>
+<span class="sd">    `__init__`.  See the classes in</span>
+<span class="sd">    `astropy.coordinates.builtin_systems` for examples of this.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">__metaclass__</span> <span class="o">=</span> <span class="n">ABCMeta</span>
+
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Subclasses must override this, but they should also call this to set up</span>
+<span class="sd">        internal state.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_distance</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cartpoint</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">latangle</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">latangle</span> <span class="ow">and</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">lonangle</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">lonangle</span> <span class="ow">and</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">distance</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">distance</span> <span class="ow">and</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">equinox</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">equinox</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">False</span>
+
+    <span class="n">_init_docstring_param_templ</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;coordstr : str</span>
+<span class="s">        A single string with the coordinates.  Cannot be used with</span>
+<span class="s">        `{latnm}` and `{lonnm}` nor `x`/`y`/`z`.</span>
+<span class="s">    {lonnm} : `~astropy.coordinates.angle.Angle`, float, int, str</span>
+<span class="s">        This must be given with `{latnm}`.</span>
+<span class="s">    {latnm} : `~astropy.coordinates.angle.Angle`, float, int, str</span>
+<span class="s">        This must be given with `{lonnm}`.</span>
+<span class="s">    distance : `~astropy.coordinates.coordsystems.Distance`, optional</span>
+<span class="s">        This may be given with `{latnm}` and `{lonnm}` or `coordstr`</span>
+<span class="s">        and not `x`, `y`, or `z`.  If not given, `None` (unit sphere)</span>
+<span class="s">        will be assumed.</span>
+<span class="s">    x : number</span>
+<span class="s">        The first cartesian coordinate. Must be given with `y` and `z`</span>
+<span class="s">        and not with `{lonnm}` or `{latnm}` nor `coordstr`.</span>
+<span class="s">    y : number</span>
+<span class="s">        The second cartesian coordinate. Must be given with `x` and `z`</span>
+<span class="s">        and not with `{lonnm}` or `{latnm}` nor `coordstr`.</span>
+<span class="s">    z : number</span>
+<span class="s">        The third cartesian coordinate. Must be given with `x` and `y`</span>
+<span class="s">        and not with `{lonnm}` or `{latnm}` nor `coordstr`.</span>
+<span class="s">    cartpoint : `~astropy.coordinates.distance.CartesianPoints`</span>
+<span class="s">        A cartesian point with the coordinates.  Cannot be used with</span>
+<span class="s">        any other arguments.</span>
+<span class="s">    unit</span>
+<span class="s">        The `unit` parameter&#39;s interpretation depends on what other</span>
+<span class="s">        parameters are given:</span>
+
+<span class="s">        * If `{lonnm}` and `{latnm}` or `coordstr` are given:</span>
+<span class="s">            `unit` must be a length-2 sequence specifying the units of</span>
+<span class="s">            `{lonnm}` and `{latnm}`, respectively. They can be either</span>
+<span class="s">            `~astropy.units.UnitBase` objects or strings that will be</span>
+<span class="s">            converted using `~astropy.units.Unit`.  They can also be</span>
+<span class="s">            None to attempt to automatically interpret the units (see</span>
+<span class="s">            `~astropy.coordinates.angles.Angle` for details.) If `unit`</span>
+<span class="s">            is just `None`, this will be interpreted the same as</span>
+<span class="s">            ``(None, None)``.</span>
+
+<span class="s">        * If `x`, `y`, and `z` are given:</span>
+<span class="s">            `unit` must be a single unit with dimensions of length&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">_initialize_latlon</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lonname</span><span class="p">,</span> <span class="n">latname</span><span class="p">,</span> <span class="n">useradec</span><span class="p">,</span> <span class="n">initargs</span><span class="p">,</span> <span class="n">initkwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Subclasses should use this to initialize standard lat/lon-style</span>
+<span class="sd">        coordinates.</span>
+
+<span class="sd">        This recognizes both the lat/lon style and the cartesian form.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        lonname : str</span>
+<span class="sd">            The name of the longitude-like coordinate attribute</span>
+<span class="sd">        latname : str</span>
+<span class="sd">            The name of the latitude-like coordinate attribute</span>
+<span class="sd">        useradec : bool</span>
+<span class="sd">            If True, the `RA` and `Dec` classes will be used for the</span>
+<span class="sd">            angles.  Otherwise, a basic `Angle` will be used.</span>
+<span class="sd">        initargs : list</span>
+<span class="sd">            The ``*args`` from the initializer</span>
+<span class="sd">        initkwargs : dict</span>
+<span class="sd">            The ``**kwargs`` from the initializer</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">initkwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">initkwargs</span><span class="p">)</span>  <span class="c"># copy</span>
+        <span class="n">nargs</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">initargs</span><span class="p">)</span>
+        <span class="n">sclsnm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span>
+
+        <span class="k">if</span> <span class="n">nargs</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">initargs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">CartesianPoints</span><span class="p">):</span>
+                <span class="n">initkwargs</span><span class="p">[</span><span class="s">&#39;cartpoint&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">initargs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">initkwargs</span><span class="p">[</span><span class="s">&#39;coordstr&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">initargs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">nargs</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">lonname</span> <span class="ow">in</span> <span class="n">initkwargs</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&quot;{0} got multiple values for keyword argument &quot;</span>
+                                <span class="s">&quot;&#39;{1}&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sclsnm</span><span class="p">,</span> <span class="n">lonname</span><span class="p">))</span>
+            <span class="n">initkwargs</span><span class="p">[</span><span class="n">lonname</span><span class="p">]</span> <span class="o">=</span> <span class="n">initargs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">nargs</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">latname</span> <span class="ow">in</span> <span class="n">initkwargs</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&quot;{0} got multiple values for keyword argument &quot;</span>
+                                <span class="s">&quot;&#39;{1}&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sclsnm</span><span class="p">,</span> <span class="n">latname</span><span class="p">))</span>
+            <span class="n">initkwargs</span><span class="p">[</span><span class="n">latname</span><span class="p">]</span> <span class="o">=</span> <span class="n">initargs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">nargs</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&#39;{0} takes up to 2 positional arguments &#39;</span>
+                            <span class="s">&#39;({1} given)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sclsnm</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">initargs</span><span class="p">)))</span>
+
+        <span class="n">unit</span> <span class="o">=</span> <span class="n">initkwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;unit&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+        <span class="n">coordstr</span> <span class="o">=</span> <span class="n">initkwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;coordstr&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+        <span class="n">lonval</span> <span class="o">=</span> <span class="n">initkwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">lonname</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+        <span class="n">latval</span> <span class="o">=</span> <span class="n">initkwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">latname</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+        <span class="n">distval</span> <span class="o">=</span> <span class="n">initkwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;distance&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+        <span class="n">cartpoint</span> <span class="o">=</span> <span class="n">initkwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;cartpoint&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">initkwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;x&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">initkwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;y&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">initkwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;z&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">initkwargs</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&#39;{0} got unexpected keyword argument&#39;</span>
+                            <span class="s">&#39; {1}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sclsnm</span><span class="p">,</span> <span class="n">initkwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+
+        <span class="n">angleinit</span> <span class="o">=</span> <span class="p">((</span><span class="n">lonval</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">latval</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">)</span> <span class="ow">or</span>
+                     <span class="n">coordstr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">)</span>
+        <span class="n">cartinit</span> <span class="o">=</span> <span class="p">((</span><span class="n">x</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">y</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">z</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">)</span> <span class="ow">or</span>
+                    <span class="n">cartpoint</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">angleinit</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">cartinit</span><span class="p">:</span>
+            <span class="c"># lat/lon-style initialization</span>
+            <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">cartpoint</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Cannot give both angular and cartesian &#39;</span>
+                                     <span class="s">&#39;coordinates while initializing &#39;</span> <span class="o">+</span> <span class="n">sclsnm</span><span class="p">)</span>
+
+            <span class="k">try</span><span class="p">:</span>
+                <span class="c"># this raises a TypeError if `unit` is not None or iterable</span>
+                <span class="n">units</span> <span class="o">=</span> <span class="p">[</span><span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">]</span> <span class="k">if</span> <span class="n">unit</span> <span class="ow">is</span> <span class="bp">None</span> <span class="k">else</span> <span class="nb">list</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Must give a sequence of 2 units or None &#39;</span>
+                                 <span class="s">&#39;while initializing {0}. Instead got a &#39;</span>
+                                 <span class="s">&#39;non-sequence {1}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sclsnm</span><span class="p">,</span> <span class="n">unit</span><span class="p">))</span>
+
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">units</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">units</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                        <span class="n">units</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">Unit</span><span class="p">(</span><span class="n">units</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                    <span class="k">if</span> <span class="n">units</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                        <span class="n">units</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">Unit</span><span class="p">(</span><span class="n">units</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Could not convert units to unit objects &#39;</span>
+                                     <span class="s">&#39;while initializing &#39;</span> <span class="o">+</span> <span class="n">sclsnm</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Must give a sequence of 2 units or None &#39;</span>
+                             <span class="s">&#39;while initializing {0}. Instead got a sequence &#39;</span>
+                             <span class="s">&#39;of {1}.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sclsnm</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">units</span><span class="p">)))</span>
+
+            <span class="k">if</span> <span class="n">coordstr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="c"># need to try to parse the coordinate from a single argument</span>
+                <span class="c"># populates latval and lonval variables, which then get made</span>
+                <span class="c"># into coordinates below</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">coordstr</span><span class="p">,</span> <span class="nb">basestring</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="s">&quot;,&quot;</span> <span class="ow">in</span> <span class="n">coordstr</span><span class="p">:</span>
+                        <span class="n">lonval</span><span class="p">,</span> <span class="n">latval</span> <span class="o">=</span> <span class="n">coordstr</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot;,&quot;</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">coosplit</span> <span class="o">=</span> <span class="n">coordstr</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">coosplit</span><span class="p">)</span> <span class="o">==</span> <span class="mi">6</span><span class="p">:</span>
+                            <span class="n">lonval</span> <span class="o">=</span> <span class="s">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">coosplit</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">])</span>
+                            <span class="n">latval</span> <span class="o">=</span> <span class="s">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">coosplit</span><span class="p">[</span><span class="mi">3</span><span class="p">:])</span>
+                        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">coosplit</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                            <span class="n">lonval</span><span class="p">,</span> <span class="n">latval</span> <span class="o">=</span> <span class="n">coosplit</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s">&quot;Could not parse {lonname}/{latname} values &quot;</span>
+                                   <span class="s">&quot;from the string provided: &#39;{coordstr}&#39;.&quot;</span><span class="p">)</span>
+                            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">lonname</span><span class="o">=</span><span class="n">lonname</span><span class="p">,</span>
+                                                        <span class="n">latname</span><span class="o">=</span><span class="n">latname</span><span class="p">,</span>
+                                                        <span class="n">coordstr</span><span class="o">=</span><span class="n">coordstr</span><span class="p">))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;A {0} cannot be created with a single value of type &quot;</span>
+                                     <span class="s">&quot;&#39;{1}&#39;, must be a string.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sclsnm</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">coordstr</span><span class="p">)</span><span class="o">.</span><span class="n">__name__</span><span class="p">))</span>
+
+            <span class="c"># now actually create the angle objects</span>
+            <span class="k">if</span> <span class="n">useradec</span><span class="p">:</span>
+                <span class="n">lonang</span> <span class="o">=</span> <span class="n">RA</span><span class="p">(</span><span class="n">lonval</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="n">units</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="n">latang</span> <span class="o">=</span> <span class="n">Dec</span><span class="p">(</span><span class="n">latval</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="n">units</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lonval</span><span class="p">,</span> <span class="n">RA</span><span class="p">):</span>
+                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&#39;Cannot provide an RA object to non-RA/Dec system {0}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sclsnm</span><span class="p">))</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">latval</span><span class="p">,</span> <span class="n">Dec</span><span class="p">):</span>
+                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&#39;Cannot provide a Dec object to non-RA/Dec system {0}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sclsnm</span><span class="p">))</span>
+                <span class="n">lonang</span> <span class="o">=</span> <span class="n">Angle</span><span class="p">(</span><span class="n">lonval</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="n">units</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="n">latang</span> <span class="o">=</span> <span class="n">Angle</span><span class="p">(</span><span class="n">latval</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="n">units</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+            <span class="n">dist</span> <span class="o">=</span> <span class="bp">None</span> <span class="k">if</span> <span class="n">distval</span> <span class="ow">is</span> <span class="bp">None</span> <span class="k">else</span> <span class="n">Distance</span><span class="p">(</span><span class="n">distval</span><span class="p">)</span>  <span class="c"># copy</span>
+
+        <span class="k">elif</span> <span class="n">cartinit</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">angleinit</span><span class="p">:</span>
+            <span class="c"># cartesian-style initialization</span>
+            <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="p">[</span><span class="n">coordstr</span><span class="p">,</span> <span class="n">lonval</span><span class="p">,</span> <span class="n">latval</span><span class="p">,</span> <span class="n">distval</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Cannot give both angular and cartesian &#39;</span>
+                                     <span class="s">&#39;coordinates while initializing &#39;</span> <span class="o">+</span> <span class="n">sclsnm</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">cartpoint</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">unit</span><span class="p">]:</span>
+                    <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Cannot give both a CartesianPoints &#39;</span>
+                                         <span class="s">&#39;and x/y/z/unit parameters while &#39;</span>
+                                         <span class="s">&#39;initializing &#39;</span> <span class="o">+</span> <span class="n">sclsnm</span><span class="p">)</span>
+                <span class="n">x</span> <span class="o">=</span> <span class="n">cartpoint</span><span class="o">.</span><span class="n">x</span>
+                <span class="n">y</span> <span class="o">=</span> <span class="n">cartpoint</span><span class="o">.</span><span class="n">y</span>
+                <span class="n">z</span> <span class="o">=</span> <span class="n">cartpoint</span><span class="o">.</span><span class="n">z</span>
+                <span class="n">unit</span> <span class="o">=</span> <span class="n">cartpoint</span><span class="o">.</span><span class="n">unit</span>
+            <span class="n">r</span><span class="p">,</span> <span class="n">latval</span><span class="p">,</span> <span class="n">lonval</span> <span class="o">=</span> <span class="n">cartesian_to_spherical</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">useradec</span><span class="p">:</span>
+                <span class="n">lonang</span> <span class="o">=</span> <span class="n">RA</span><span class="p">(</span><span class="n">lonval</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="n">u</span><span class="o">.</span><span class="n">radian</span><span class="p">)</span>
+                <span class="n">latang</span> <span class="o">=</span> <span class="n">Dec</span><span class="p">(</span><span class="n">latval</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="n">u</span><span class="o">.</span><span class="n">radian</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">lonang</span> <span class="o">=</span> <span class="n">Angle</span><span class="p">(</span><span class="n">lonval</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="n">u</span><span class="o">.</span><span class="n">radian</span><span class="p">)</span>
+                <span class="n">latang</span> <span class="o">=</span> <span class="n">Angle</span><span class="p">(</span><span class="n">latval</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="n">u</span><span class="o">.</span><span class="n">radian</span><span class="p">)</span>
+
+            <span class="n">dist</span> <span class="o">=</span> <span class="bp">None</span> <span class="k">if</span> <span class="n">unit</span> <span class="ow">is</span> <span class="bp">None</span> <span class="k">else</span> <span class="n">Distance</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">unit</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&#39;Must initialize {coordnm} with &#39;</span>
+                            <span class="s">&#39;{latname}/{lonname}/(distance) or x/y/z &#39;</span>
+                            <span class="s">&#39;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">coordnm</span><span class="o">=</span><span class="n">sclsnm</span><span class="p">,</span> <span class="n">latname</span><span class="o">=</span><span class="n">latname</span><span class="p">,</span>
+                                      <span class="n">lonname</span><span class="o">=</span><span class="n">lonname</span><span class="p">))</span>
+
+        <span class="c"># now actually set the values</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lonname</span><span class="p">,</span> <span class="n">lonang</span><span class="p">)</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">latname</span><span class="p">,</span> <span class="n">latang</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_distance</span> <span class="o">=</span> <span class="n">dist</span>
+
+    <span class="nd">@abstractproperty</span>
+<div class="viewcode-block" id="SphericalCoordinatesBase.latangle"><a class="viewcode-back" href="../../../_generated/astropy.coordinates.coordsystems.SphericalCoordinatesBase.html#astropy.coordinates.coordsystems.SphericalCoordinatesBase.latangle">[docs]</a>    <span class="k">def</span> <span class="nf">latangle</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The latitudinal/elevation angle for these coordinates as an</span>
+<span class="sd">        `~astropy.coorinates.angles.Angle` object.</span>
+
+<span class="sd">        .. note ::</span>
+<span class="sd">            This should be overridden in subclasses as a read-only property that</span>
+<span class="sd">            just returns an attribute a way to abstract the exact choice of</span>
+<span class="sd">            names for the coordiantes. E.g., `ICRSCoordinates` implements this</span>
+<span class="sd">            by doing ``return self.ra``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+</div>
+    <span class="nd">@abstractproperty</span>
+<div class="viewcode-block" id="SphericalCoordinatesBase.lonangle"><a class="viewcode-back" href="../../../_generated/astropy.coordinates.coordsystems.SphericalCoordinatesBase.html#astropy.coordinates.coordsystems.SphericalCoordinatesBase.lonangle">[docs]</a>    <span class="k">def</span> <span class="nf">lonangle</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The longitudinal/azimuthal angle for these coordinates as an</span>
+<span class="sd">        `~astropy.coorinates.angles.Angle` object.</span>
+
+<span class="sd">        .. note ::</span>
+<span class="sd">            This should be overridden in subclasses as a read-only property that</span>
+<span class="sd">            just returns an attribute a way to abstract the exact choice of</span>
+<span class="sd">            names for the coordinates. E.g., `ICRSCoordinates` implements this</span>
+<span class="sd">            by doing ``return self.dec``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="SphericalCoordinatesBase.equinox"><a class="viewcode-back" href="../../../_generated/astropy.coordinates.coordsystems.SphericalCoordinatesBase.html#astropy.coordinates.coordsystems.SphericalCoordinatesBase.equinox">[docs]</a>    <span class="k">def</span> <span class="nf">equinox</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The equinox of this system, or None to indicate no equinox specified.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">None</span>
+</div>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">distance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The radial distance for this coordinate object as an</span>
+<span class="sd">        `~astropy.coordinates.coordsystems.Distance` object.</span>
+
+<span class="sd">        If set as a tuple, the tuple will be passed into the</span>
+<span class="sd">        `~astropy.coordinates.coordsystems.Distance` constructor.</span>
+
+<span class="sd">        Alternatively, this may be `None`, indicating an unknown/not given</span>
+<span class="sd">        distance. Where necessary, this object will be interpreted as angles on</span>
+<span class="sd">        the unit sphere.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_distance</span>
+
+    <span class="nd">@distance.setter</span>
+<div class="viewcode-block" id="SphericalCoordinatesBase.distance"><a class="viewcode-back" href="../../../_generated/astropy.coordinates.coordsystems.SphericalCoordinatesBase.html#astropy.coordinates.coordsystems.SphericalCoordinatesBase.distance">[docs]</a>    <span class="k">def</span> <span class="nf">distance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">val</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_distance</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_distance</span> <span class="o">=</span> <span class="n">Distance</span><span class="p">(</span><span class="o">*</span><span class="n">val</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">Distance</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_distance</span> <span class="o">=</span> <span class="n">val</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">u</span><span class="o">.</span><span class="n">Quantity</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_distance</span> <span class="o">=</span> <span class="n">Distance</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="s">&#39;Spherical coordinate distance must be a Distance object, a &#39;</span>
+                <span class="s">&#39;tuple that can be used to instantiate a Distance object, or &#39;</span>
+                <span class="s">&#39;None.&#39;</span><span class="p">)</span>
+
+        <span class="c"># must clear the old cached cartesian point, or it won&#39;t get updated</span>
+        <span class="c"># for the new distance</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cartpoint</span> <span class="o">=</span> <span class="bp">None</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="SphericalCoordinatesBase.x"><a class="viewcode-back" href="../../../_generated/astropy.coordinates.coordsystems.SphericalCoordinatesBase.html#astropy.coordinates.coordsystems.SphericalCoordinatesBase.x">[docs]</a>    <span class="k">def</span> <span class="nf">x</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_make_cart</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cartpoint</span><span class="o">.</span><span class="n">x</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="SphericalCoordinatesBase.y"><a class="viewcode-back" href="../../../_generated/astropy.coordinates.coordsystems.SphericalCoordinatesBase.html#astropy.coordinates.coordsystems.SphericalCoordinatesBase.y">[docs]</a>    <span class="k">def</span> <span class="nf">y</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_make_cart</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cartpoint</span><span class="o">.</span><span class="n">y</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="SphericalCoordinatesBase.z"><a class="viewcode-back" href="../../../_generated/astropy.coordinates.coordsystems.SphericalCoordinatesBase.html#astropy.coordinates.coordsystems.SphericalCoordinatesBase.z">[docs]</a>    <span class="k">def</span> <span class="nf">z</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_make_cart</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cartpoint</span><span class="o">.</span><span class="n">z</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="SphericalCoordinatesBase.cartesian"><a class="viewcode-back" href="../../../_generated/astropy.coordinates.coordsystems.SphericalCoordinatesBase.html#astropy.coordinates.coordsystems.SphericalCoordinatesBase.cartesian">[docs]</a>    <span class="k">def</span> <span class="nf">cartesian</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_make_cart</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cartpoint</span>
+</div>
+    <span class="k">def</span> <span class="nf">_make_cart</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">override</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">override</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cartpoint</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_distance</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">r</span> <span class="o">=</span> <span class="mi">1</span>
+                <span class="n">runit</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_distance</span><span class="o">.</span><span class="n">_value</span>
+                <span class="n">runit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_distance</span><span class="o">.</span><span class="n">_unit</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">spherical_to_cartesian</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">latangle</span><span class="o">.</span><span class="n">radians</span><span class="p">,</span>
+                                                <span class="bp">self</span><span class="o">.</span><span class="n">lonangle</span><span class="o">.</span><span class="n">radians</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_cartpoint</span> <span class="o">=</span> <span class="n">CartesianPoints</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">runit</span><span class="p">)</span>
+
+<div class="viewcode-block" id="SphericalCoordinatesBase.separation"><a class="viewcode-back" href="../../../_generated/astropy.coordinates.coordsystems.SphericalCoordinatesBase.html#astropy.coordinates.coordsystems.SphericalCoordinatesBase.separation">[docs]</a>    <span class="k">def</span> <span class="nf">separation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Computes on-sky separation between this coordinate and another.</span>
+
+<span class="sd">        See the `~astropy.coordinates.angles.AngularSeparation` docstring</span>
+<span class="sd">        for further details on the actual calculation.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        other : `~astropy.coordinates.coordsystems.SphericalCoordinatesBase`</span>
+<span class="sd">            The coordinate system to get the separation to.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        sep : `~astropy.coordinates.angles.AngularSeparation`</span>
+<span class="sd">            The on-sky separation between this and the `other` coordinate.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">other_in_self_system</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">transform_to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">)</span>
+
+        <span class="n">lat1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">latangle</span><span class="o">.</span><span class="n">radians</span>
+        <span class="n">lat2</span> <span class="o">=</span> <span class="n">other_in_self_system</span><span class="o">.</span><span class="n">latangle</span><span class="o">.</span><span class="n">radians</span>
+        <span class="n">lon1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lonangle</span><span class="o">.</span><span class="n">radians</span>
+        <span class="n">lon2</span> <span class="o">=</span> <span class="n">other_in_self_system</span><span class="o">.</span><span class="n">lonangle</span><span class="o">.</span><span class="n">radians</span>
+        <span class="k">return</span> <span class="n">AngularSeparation</span><span class="p">(</span><span class="n">lat1</span><span class="p">,</span> <span class="n">lon1</span><span class="p">,</span> <span class="n">lat2</span><span class="p">,</span> <span class="n">lon2</span><span class="p">,</span> <span class="n">u</span><span class="o">.</span><span class="n">radian</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="SphericalCoordinatesBase.separation_3d"><a class="viewcode-back" href="../../../_generated/astropy.coordinates.coordsystems.SphericalCoordinatesBase.html#astropy.coordinates.coordsystems.SphericalCoordinatesBase.separation_3d">[docs]</a>    <span class="k">def</span> <span class="nf">separation_3d</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Computes three dimensional separation between this coordinate</span>
+<span class="sd">        and another.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        other : `~astropy.coordinates.coordsystems.SphericalCoordinatesBase`</span>
+<span class="sd">            The coordinate system to get the distance to.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        sep : `~astropy.coordinates.coordsystems.Distance`</span>
+<span class="sd">            The real-space distance between these two coordinates.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If this or the other coordinate do not have distances.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_distance</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;This object does not have a distance; cannot &#39;</span>
+                             <span class="s">&#39;compute 3d separation.&#39;</span><span class="p">)</span>
+
+        <span class="c"># do this first just in case the conversion somehow creates a distance</span>
+        <span class="n">other_in_self_system</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">transform_to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">other_in_self_system</span><span class="o">.</span><span class="n">_distance</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;The other object does not have a distance; &#39;</span>
+                             <span class="s">&#39;cannot compute 3d separation.&#39;</span><span class="p">)</span>
+
+        <span class="n">dscale</span> <span class="o">=</span> <span class="n">other_in_self_system</span><span class="o">.</span><span class="n">_distance</span><span class="o">.</span><span class="n">_unit</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_distance</span><span class="o">.</span><span class="n">_unit</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">dx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">other_in_self_system</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">dscale</span>
+        <span class="n">dy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">other_in_self_system</span><span class="o">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">dscale</span>
+        <span class="n">dz</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span> <span class="o">-</span> <span class="n">other_in_self_system</span><span class="o">.</span><span class="n">z</span> <span class="o">*</span> <span class="n">dscale</span>
+
+        <span class="n">distval</span> <span class="o">=</span> <span class="p">(</span><span class="n">dx</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">dy</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">dz</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">**</span> <span class="mf">0.5</span>
+        <span class="k">return</span> <span class="n">Distance</span><span class="p">(</span><span class="n">distval</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_distance</span><span class="o">.</span><span class="n">_unit</span><span class="p">)</span>
+
+    <span class="c">#&lt;------------transformation-related stuff here--------------------&gt;</span></div>
+<div class="viewcode-block" id="SphericalCoordinatesBase.transform_to"><a class="viewcode-back" href="../../../_generated/astropy.coordinates.coordsystems.SphericalCoordinatesBase.html#astropy.coordinates.coordsystems.SphericalCoordinatesBase.transform_to">[docs]</a>    <span class="k">def</span> <span class="nf">transform_to</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tosys</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Transform this coordinate to a new system.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        tosys : class</span>
+<span class="sd">            The system to transform this coordinate into.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        transcoord</span>
+<span class="sd">            A new object with this coordinate represented in the `tosys` system.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If there is no possible transformation route.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+        <span class="kn">from</span> <span class="nn">.transformations</span> <span class="kn">import</span> <span class="n">master_transform_graph</span>
+        <span class="kn">from</span> <span class="nn">.errors</span> <span class="kn">import</span> <span class="n">ConvertError</span>
+
+        <span class="k">if</span> <span class="n">tosys</span> <span class="ow">is</span> <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+        <span class="n">trans</span> <span class="o">=</span> <span class="n">master_transform_graph</span><span class="o">.</span><span class="n">get_transform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">,</span> <span class="n">tosys</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">trans</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ConvertError</span><span class="p">(</span><span class="s">&#39;Cannot transform from {0} to &#39;</span>
+                               <span class="s">&#39;{1}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">,</span> <span class="n">tosys</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">trans</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="SphericalCoordinatesBase.is_transformable_to"><a class="viewcode-back" href="../../../_generated/astropy.coordinates.coordsystems.SphericalCoordinatesBase.html#astropy.coordinates.coordsystems.SphericalCoordinatesBase.is_transformable_to">[docs]</a>    <span class="k">def</span> <span class="nf">is_transformable_to</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tosys</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Determines if this coordinate can be transformed to a particular system.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        tosys : class</span>
+<span class="sd">            The system to transform this coordinate into.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        transformable : bool or str</span>
+<span class="sd">            True if this can be trasnformed to `tosys`, False if not. The</span>
+<span class="sd">            string &#39;same&#39; if `tosys` is the same system as this object</span>
+<span class="sd">            (i.e. no transformation is needed).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">.transformations</span> <span class="kn">import</span> <span class="n">master_transform_graph</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">is</span> <span class="n">tosys</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s">&#39;same&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">trans</span> <span class="o">=</span> <span class="n">master_transform_graph</span><span class="o">.</span><span class="n">get_transform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">,</span> <span class="n">tosys</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">trans</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span>
+</div>
+    <span class="k">def</span> <span class="nf">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Overrides getattr to return coordinates that this can be transformed</span>
+<span class="sd">        to, based on the alias name in the master transform graph.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">.transformations</span> <span class="kn">import</span> <span class="n">master_transform_graph</span>
+
+        <span class="n">nmsys</span> <span class="o">=</span> <span class="n">master_transform_graph</span><span class="o">.</span><span class="n">lookup_name</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span> <span class="ow">is</span> <span class="n">nmsys</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span>
+        <span class="k">if</span> <span class="n">nmsys</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_transformable_to</span><span class="p">(</span><span class="n">nmsys</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_to</span><span class="p">(</span><span class="n">nmsys</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="s">&quot;&#39;{0}&#39; object has no attribute &#39;{1}&#39;, nor a transform.&quot;</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="n">name</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">__dir__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Overriding the builtin `dir` behavior allows us to add the</span>
+<span class="sd">        transforms available by aliases.  This also allows ipython</span>
+<span class="sd">        tab-completion to know about the transforms.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">.transformations</span> <span class="kn">import</span> <span class="n">master_transform_graph</span>
+
+        <span class="c"># the stuff `dir` normally gives</span>
+        <span class="n">dir_items</span> <span class="o">=</span> <span class="nb">dir</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dict__</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+
+        <span class="c"># determine the aliases that this can be transformed to.</span>
+        <span class="k">for</span> <span class="n">alias</span> <span class="ow">in</span> <span class="n">master_transform_graph</span><span class="o">.</span><span class="n">get_aliases</span><span class="p">():</span>
+            <span class="n">tosys</span> <span class="o">=</span> <span class="n">master_transform_graph</span><span class="o">.</span><span class="n">lookup_name</span><span class="p">(</span><span class="n">alias</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_transformable_to</span><span class="p">(</span><span class="n">tosys</span><span class="p">):</span>
+                <span class="n">dir_items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">alias</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">dir_items</span><span class="p">))</span>
+
+    <span class="c"># Name resolve</span>
+    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="SphericalCoordinatesBase.from_name"><a class="viewcode-back" href="../../../_generated/astropy.coordinates.coordsystems.SphericalCoordinatesBase.html#astropy.coordinates.coordsystems.SphericalCoordinatesBase.from_name">[docs]</a>    <span class="k">def</span> <span class="nf">from_name</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Given a name, query the CDS name resolver to attempt to retrieve</span>
+<span class="sd">        coordinate information for that object. The search database, sesame</span>
+<span class="sd">        url, and  query timeout can be set through configuration items in</span>
+<span class="sd">        `astropy.coordinates.name_resolve` -- see docstring for</span>
+<span class="sd">        `astropy.coordinates.name_resolve.get_icrs_coordinates` for more</span>
+<span class="sd">        information.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        name : str</span>
+<span class="sd">            The name of the object to get coordinates for, e.g. m42.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        coord : SphericalCoordinatesBase</span>
+<span class="sd">            Instance of a Coordinates class, specified by the class this is</span>
+<span class="sd">            called on, e.g. if `GalacticCoordinates.from_name(&#39;m42&#39;)`, will</span>
+<span class="sd">            get an instance of `GalacticCoordinates` representing the</span>
+<span class="sd">            position of M42.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="kn">from</span> <span class="nn">.name_resolve</span> <span class="kn">import</span> <span class="n">get_icrs_coordinates</span>
+
+        <span class="n">icrs</span> <span class="o">=</span> <span class="n">get_icrs_coordinates</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">cls</span> <span class="o">==</span> <span class="n">icrs</span><span class="o">.</span><span class="n">__class__</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">icrs</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">icrs</span><span class="o">.</span><span class="n">transform_to</span><span class="p">(</span><span class="n">cls</span><span class="p">)</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+
+
+<h3>Page Contents</h3>
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+<footer class="footer">
+  <p class="pull-right"> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright 2011-2013, The Astropy Developers.<br/>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3+. &nbsp;
+    Last built 03 Apr 2013. <br/>
+  </p>
+</footer>
+ <!-- End original user content -->
+
+
+<br>
+<br>
+<br>
+
+
+<style type="text/css">
+  .rtd-badge {
+    position: fixed;
+    display: block;
+    bottom: 5px;
+    height: 40px;
+    text-indent: -9999em;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+  }
+  #version_menu {
+    position: fixed;
+    display: none;
+    bottom: 11px;
+    right: 166px;
+    list-style-type: none;
+    margin: 0;
+  }
+  .footer_popout:hover #version_menu {
+    display: block;
+  }
+  #version_menu li {
+    display: block;
+    float: right;
+  }
+  #version_menu li a {
+    display: block;
+    padding: 6px 10px 4px 10px;
+    margin: 7px 7px 0 0;
+    font-weight: bold;
+    font-size: 14px;
+    height: 20px;
+    line-height: 17px;
+    text-decoration: none;
+    color: #fff;
+    background: #8ca1af url(../images/gradient-light.png) bottom left repeat-x;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 1px #465158;
+    -moz-box-shadow: 0 1px 1px #465158;
+    -webkit-box-shadow: 0 1px 1px #465158;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+  }
+  #version_menu li a:hover {
+    text-decoration: none;
+    background-color: #697983;
+    box-shadow: 0 1px 0px #465158;
+    -moz-box-shadow: 0 1px 0px #465158;
+    -webkit-box-shadow: 0 1px 0px #465158;
+  }
+  .rtd-badge.rtd {
+    background: #3b4449 url(//media.readthedocs.org//images/badge-rtd.png) scroll 0px -46px no-repeat;
+    border: 1px solid #282E32;
+    width: 41px;
+    right: 5px;
+  }
+  .footer_popout:hover .rtd-badge.rtd {
+    background-position: top left;
+    width: 160px;
+  }
+  .rtd-badge.revsys { background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline-sponsored {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys-sm.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 205px;
+    right: 173px;
+  }
+
+</style>
+<div class="rtd_doc_footer">
+  <div class="footer_popout">
+    <a href="//readthedocs.org/projects/astropy/?fromdocs=astropy" class="rtd-badge rtd"> Brought to you by Read the Docs</a>
+    <ul id="version_menu">
+      
+        <li><a href="/en/latest/">latest</a></li>
+      
+        <li><a href="/en/add-mpl-to-rtd-pip-req/">add-mpl-to-rtd-pip-req</a></li>
+      
+        <li><a href="/en/v0.2.1/">v0.2.1</a></li>
+      
+        <li><a href="/en/v0.2/">v0.2</a></li>
+      
+        <li><a href="/en/v0.1/">v0.1</a></li>
+      
+    </ul>
+  </div>
+</div>
+<!-- RTD Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17997319-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+<!-- User Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-30968842-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+  </body>
+</html>

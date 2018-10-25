@@ -1,0 +1,669 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+
+    <title>Configuration system (astropy.config) &mdash; Astropy v0.2.1</title>
+<!-- RTD <head> -->
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/underscore.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/doctools.js"></script>
+
+<script type="text/javascript">
+  // This is included here for Javascript that doesn't have access to the templates.
+  var doc_version = "v0.2.1";
+  var doc_slug = "astropy";
+</script>
+
+<script type="text/javascript" src="//media.readthedocs.org/javascript/rtd.js"></script>
+<!-- end RTD <head> -->
+
+    
+    <link rel="stylesheet" href="../_static/bootstrap-astropy.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.2.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="shortcut icon" href="../_static/astropy_logo.ico"/>
+    <link rel="top" title="Astropy v0.2.1" href="../index.html" />
+    <link rel="next" title="get_cache_dir" href="../_generated/astropy.config.paths.get_cache_dir.html" />
+    <link rel="prev" title="XMLWriter" href="../_generated/astropy.utils.xml.writer.XMLWriter.html" /> 
+  </head>
+  <body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../index.html"></a>
+  <ul>
+    <li><a class="homelink" title="AstroPy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../genindex.html">Index</a></li>
+    <li><a title="Python Module Index" href="../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li class="right">
+	<a href="../_generated/astropy.config.paths.get_cache_dir.html" title="get_cache_dir">
+	  next &raquo;
+	</a>
+      </li>
+      <li class="right">
+	<a href="../_generated/astropy.utils.xml.writer.XMLWriter.html" title="XMLWriter">
+	  &laquo; previous
+	</a>
+	 |
+      </li>
+      <li>
+	<a href="../index.html">Astropy v0.2.1</a>
+	 &raquo;
+      </li>
+      
+      <li>Configuration system (<tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">astropy.config</span></tt>)</li> 
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="configuration-system-astropy-config">
+<span id="astropy-config"></span><h1>Configuration system (<a class="reference internal" href="#module-astropy.config" title="astropy.config"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.config</span></tt></a>)<a class="headerlink" href="#configuration-system-astropy-config" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>The astropy configuration system is designed to give users control of various
+parameters used in astropy or affiliated packages without delving into the
+source code to make those changes.</p>
+</div>
+<div class="section" id="getting-started">
+<h2>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h2>
+<p>The Astropy configuration options are most easily set by modifying the
+configuration file.  It will be automatically generated with all the
+default values the first time you import Astropy.  You can find the
+exact location by doing:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">astropy.config</span> <span class="kn">import</span> <span class="n">get_config_dir</span>
+
+<span class="k">print</span> <span class="n">get_config_dir</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>And you should see the location of your configuration directory. The standard
+scheme generally puts your configuration directory in <tt class="docutils literal"><span class="pre">$HOME/.astropy/config</span></tt>,
+but if you&#8217;ve set the environment variable <tt class="xref py py-obj docutils literal"><span class="pre">XDG_CONFIG_HOME</span></tt> and the
+<tt class="docutils literal"><span class="pre">$XDG_CONFIG_HOME/astropy</span></tt> directory exists, it will instead be there.</p>
+<p>Once you&#8217;ve found the configuration file, open it with your favorite editor.
+It should have all of the sections you might want, with descriptions and the
+type of the value that is accepted.  Feel free to edit this as you wish, and
+any of these changes will be reflected when you next start Astropy.  Or, if you
+want to see your changes immediately in your current Astropy session, just do:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">astropy.config</span> <span class="kn">import</span> <span class="n">reload_config</span>
+
+<span class="n">reload_config</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If for whatever reason your <tt class="docutils literal"><span class="pre">$HOME/.astropy</span></tt> directory is not accessible
+(i.e., you have astropy running somehow as root but you are not the root
+user), the best solution is to set the <tt class="xref py py-obj docutils literal"><span class="pre">XDG_CONFIG_HOME</span></tt> and
+<tt class="xref py py-obj docutils literal"><span class="pre">XDG_CACHE_HOME</span></tt> environment variables pointing to directories, and create
+an <tt class="docutils literal"><span class="pre">astropy</span></tt> directory inside each of those.  Both the configuration and
+data download systems will then use those directories and never try to
+access the <tt class="docutils literal"><span class="pre">$HOME/.astropy</span></tt> directory.</p>
+</div>
+</div>
+<div class="section" id="using-config">
+<h2>Using <tt class="xref py py-obj docutils literal"><span class="pre">config</span></tt><a class="headerlink" href="#using-config" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="accessing-values">
+<h3>Accessing Values<a class="headerlink" href="#accessing-values" title="Permalink to this headline">¶</a></h3>
+<p>The value of a configuration object can be accessed by calling the
+object as a function.  For instance to get the default URL for
+astropy remote data do:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">astropy.utils.data</span> <span class="kn">import</span> <span class="n">DATAURL</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">DATAURL</span><span class="p">()</span>
+<span class="go">&#39;http://data.astropy.org/&#39;</span>
+</pre></div>
+</div>
+<p>To interactively see more information about a configuration object there are
+two options:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">DATAURL</span>
+<span class="go">&lt;ConfigurationItem: name=&#39;dataurl&#39; value=&#39;http://data.astropy.org/&#39; at 0x1032c4290&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">DATAURL</span>
+<span class="go">ConfigurationItem: dataurl</span>
+<span class="go">  cfgtype=&#39;string&#39;</span>
+<span class="go">  defaultvalue=&#39;http://data.astropy.org/&#39;</span>
+<span class="go">  description=&#39;URL for astropy remote data site.&#39;</span>
+<span class="go">  module=astropy.utils.data</span>
+<span class="go">  value=&#39;http://data.astropy.org/&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="changing-values-at-run-time">
+<h3>Changing Values at Run-time<a class="headerlink" href="#changing-values-at-run-time" title="Permalink to this headline">¶</a></h3>
+<p>The configuration system is most conveniently used by modifying
+configuration files as described above. Values can also, however, be
+modified in an active python session using the
+<a class="reference internal" href="../_generated/astropy.config.configuration.ConfigurationItem.html#astropy.config.configuration.ConfigurationItem.set" title="astropy.config.configuration.ConfigurationItem.set"><tt class="xref py py-meth docutils literal"><span class="pre">set()</span></tt></a> method. A run-time
+<tt class="xref py py-obj docutils literal"><span class="pre">ConfigurationItem</span></tt> object can be used to make these changes. These items
+are found in the same module as the configuration section they are in,
+and usually have the same name as in the configuration files, but in all
+caps. Alternatively, they may be located with the
+<tt class="xref py py-func docutils literal"><span class="pre">get_config_items()</span></tt> function.</p>
+<p>For example, if there is a part of your configuration file that looks like:</p>
+<div class="highlight-python"><pre>[utils.data]
+
+# URL for astropy remote data site.
+dataurl = http://data.astropy.org/
+
+# Time to wait for remote data query (in seconds).
+remote_timeout = 3.0</pre>
+</div>
+<p>You should be able to modify the values at run-time this way:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">astropy.utils.data</span> <span class="kn">import</span> <span class="n">DATAURL</span><span class="p">,</span> <span class="n">REMOTE_TIMEOUT</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">DATAURL</span><span class="p">()</span>
+<span class="go">&#39;http://data.astropy.org/&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">DATAURL</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s">&#39;http://astropydata.mywebsite.com&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">DATAURL</span><span class="p">()</span>
+<span class="go">&#39;http://astropydata.mywebsite.com&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">REMOTE_TIMEOUT</span><span class="p">()</span>
+<span class="go">3.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">REMOTE_TIMEOUT</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="mf">4.5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">REMOTE_TIMEOUT</span><span class="p">()</span>
+<span class="go">4.5</span>
+</pre></div>
+</div>
+<p>Or alternatively:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">astropy.config</span> <span class="kn">import</span> <span class="n">get_config</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">items</span> <span class="o">=</span> <span class="n">get_config</span><span class="p">(</span><span class="s">&#39;astropy.utils.data&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">items</span><span class="p">[</span><span class="s">&#39;dataurl&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s">&#39;http://astropydata.mywebsite.com&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">items</span><span class="p">[</span><span class="s">&#39;remote_timeout&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s">&#39;4.5&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Note that this will <em>not</em> permanently change these values in the configuration
+files - just for the current session.  To change the configuration files,
+after you&#8217;ve made your changes, you can do:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">DATAURL</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">REMOTE_TIMEOUT</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Or to save all modifications to configuration items in <a class="reference internal" href="../utils/index.html#module-astropy.utils.data" title="astropy.utils.data"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.utils.data</span></tt></a>
+(which includes the changes made above), do:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">astropy.config</span> <span class="kn">import</span> <span class="n">save_config</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">save_config</span><span class="p">(</span><span class="s">&#39;astropy.utils.data&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="reloading-configuration">
+<h3>Reloading Configuration<a class="headerlink" href="#reloading-configuration" title="Permalink to this headline">¶</a></h3>
+<p>Instead of modifying the variables in python, you can also modify the
+configuration files and then reload them.  For example, if you modify the
+configuration file to say:</p>
+<div class="highlight-python"><pre>[utils.data]
+
+# URL for astropy remote data site.
+dataurl = http://myotherdata.mywebsite.com/
+
+# Time to wait for remote data query (in seconds).
+remote_timeout = 6.3</pre>
+</div>
+<p>And then run the following commands:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">DATAURL</span><span class="o">.</span><span class="n">reload</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">REMOTE_TIMEOUT</span><span class="o">.</span><span class="n">reload</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>This should update the variables with the values from the configuration file:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">DATAURL</span><span class="p">()</span>
+<span class="go">&#39;http://myotherdata.mywebsite.com/&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">REMOTE_TIMEOUT</span><span class="p">()</span>
+<span class="go">6.3</span>
+</pre></div>
+</div>
+<p>Or if you want to reload all astropy configuration at once, use the
+<a class="reference internal" href="../_generated/astropy.config.configuration.reload_config.html#astropy.config.configuration.reload_config" title="astropy.config.configuration.reload_config"><tt class="xref py py-obj docutils literal"><span class="pre">reload_config</span></tt></a> function:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">config</span><span class="o">.</span><span class="n">reload_config</span><span class="p">(</span><span class="s">&#39;astropy&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="developer-usage">
+<h3>Developer Usage<a class="headerlink" href="#developer-usage" title="Permalink to this headline">¶</a></h3>
+<p>Configuration items should be used wherever an option or setting is
+needed that is either tied to a system configuration or should persist
+across sessions of astropy or an affiliated package. Admittedly, this is
+only a guideline, as the precise cases where a configuration item is
+preferred over, say, a keyword option for a function is somewhat personal
+preference. It is the preferred form of persistent configuration,
+however, and astropy packages must all use it (and it is recommended for
+affiliated packages).</p>
+<p>The Reference guide below describes the full interface for a
+<tt class="xref py py-obj docutils literal"><span class="pre">ConfigurationItem</span></tt> - this is a guide for <em>typical</em> developer usage. In
+almost all cases, a configuration item should be defined and used in the
+following manner:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="sd">&quot;&quot;&quot; This is the docstring at the beginning of a module</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">astropy.config</span> <span class="kn">import</span> <span class="n">ConfigurationItem</span>
+
+<span class="n">SOME_SETTING</span> <span class="o">=</span> <span class="n">ConfigurationItem</span><span class="p">(</span><span class="s">&#39;some_setting&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s">&#39;A description.&#39;</span><span class="p">)</span>
+<span class="n">ANOTHER_SETTING</span> <span class="o">=</span> <span class="n">ConfigurationItem</span><span class="p">(</span><span class="s">&#39;another_set&#39;</span><span class="p">,</span> <span class="s">&#39;a string val&#39;</span><span class="p">,</span>
+                                   <span class="s">&#39;A longer description of what this does.&#39;</span><span class="p">)</span>
+
+<span class="o">...</span> <span class="n">implementation</span> <span class="o">...</span>
+<span class="k">def</span> <span class="nf">some_func</span><span class="p">():</span>
+    <span class="c">#to get the value of these options, I might do:</span>
+    <span class="n">something</span> <span class="o">=</span> <span class="n">SOME_SETTING</span><span class="p">()</span> <span class="o">+</span> <span class="mi">2</span>
+    <span class="k">return</span> <span class="n">ANOTHER_SETTING</span><span class="p">()</span> <span class="o">+</span> <span class="s">&#39; Also, I added text.&#39;</span>
+</pre></div>
+</div>
+<p>It is highly recommended that any configuration items be placed at the
+top of a module like this, as they can then be easily found when viewing
+the source code and the automated tools to generate the default
+configuration files can also locate these items.</p>
+<div class="section" id="item-types-and-validation">
+<h4>Item Types and Validation<a class="headerlink" href="#item-types-and-validation" title="Permalink to this headline">¶</a></h4>
+<p>If not otherwise specified, a <tt class="xref py py-obj docutils literal"><span class="pre">ConfigurationItem</span></tt> gets its type from the type of
+the <tt class="xref py py-obj docutils literal"><span class="pre">defaultvalue</span></tt> it is given when it is created.  The item can only be set
+to be an object of this type.  Hence:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">SOME_SETTING</span> <span class="o">=</span> <span class="n">ConfigurationItem</span><span class="p">(</span><span class="s">&#39;some_setting&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s">&#39;A description.&#39;</span><span class="p">)</span>
+<span class="n">SOME_SETTING</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="mf">1.2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>will fail, because <tt class="docutils literal"><span class="pre">1.2</span></tt> is a float and <tt class="docutils literal"><span class="pre">1</span></tt> is an int.</p>
+<p>Note that if you want the configuration item to be limited to a particular set
+of specific options, you should pass in a list as the <tt class="xref py py-obj docutils literal"><span class="pre">defaultvalue</span></tt> option.
+The first entry in the list will be taken as the default, and the list as a whole
+gives all the valid options.  For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">AN_OPTION</span> <span class="o">=</span> <span class="n">ConfigurationItem</span><span class="p">(</span><span class="s">&#39;an_option&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">,</span> <span class="s">&#39;c&#39;</span><span class="p">],</span> <span class="s">&quot;This option can be &#39;a&#39;, &#39;b&#39;, or &#39;c&#39;&quot;</span><span class="p">)</span>
+<span class="n">AN_OPTION</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s">&#39;b&#39;</span><span class="p">)</span>  <span class="c"># succeeds</span>
+<span class="n">AN_OPTION</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s">&#39;c&#39;</span><span class="p">)</span>  <span class="c"># succeeds</span>
+<span class="n">AN_OPTION</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s">&#39;d&#39;</span><span class="p">)</span>  <span class="c"># fails!</span>
+<span class="n">AN_OPTION</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>  <span class="c"># fails!</span>
+</pre></div>
+</div>
+<p>Finally, a ConfigurationItem can be explicitly give a type via the <tt class="xref py py-obj docutils literal"><span class="pre">cfgtype</span></tt> option:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">AN_INT_SETTING</span> <span class="o">=</span> <span class="n">ConfigurationItem</span><span class="p">(</span><span class="s">&#39;an_int_setting&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s">&#39;A description.&#39;</span><span class="p">,</span> <span class="n">cfgtype</span><span class="o">=</span><span class="s">&#39;integer&#39;</span><span class="p">)</span>
+<span class="n">AN_INT_SETTING</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>  <span class="c"># works fine</span>
+<span class="n">AN_INT_SETTING</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="mf">4.2</span><span class="p">)</span>  <span class="c">#fails!</span>
+</pre></div>
+</div>
+<p>If the default value&#8217;s type doesn&#8217;t match <tt class="xref py py-obj docutils literal"><span class="pre">cfgtype</span></tt>, the <tt class="xref py py-obj docutils literal"><span class="pre">ConfigurationItem</span></tt> cannot be created:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">AN_INT_SETTING</span> <span class="o">=</span> <span class="n">ConfigurationItem</span><span class="p">(</span><span class="s">&#39;an_int_setting&#39;</span><span class="p">,</span> <span class="mf">4.2</span><span class="p">,</span> <span class="s">&#39;A description.&#39;</span><span class="p">,</span> <span class="n">cfgtype</span><span class="o">=</span><span class="s">&#39;integer&#39;</span><span class="p">)</span>
+<span class="go">VdtTypeError: the value &quot;4.2&quot; is of the wrong type.</span>
+</pre></div>
+</div>
+<p>hence the default behavior (of automatically determining <tt class="xref py py-obj docutils literal"><span class="pre">cfgtype</span></tt>) is usually what
+you want.  The main exception is when you want your configuration item to be a list.
+The default behavior will treat that as a list of <em>options</em> unless you explicitly
+tell it that the <tt class="xref py py-obj docutils literal"><span class="pre">ConfigurationItem</span></tt> itself is supposed to be a list:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">A_LIST_SETTING</span> <span class="o">=</span> <span class="n">ConfigurationItem</span><span class="p">(</span><span class="n">a_list_setting</span><span class="s">&#39;, [1, 2, 3], &#39;</span><span class="n">A</span> <span class="n">description</span><span class="o">.</span><span class="s">&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">A_LIST_SETTING</span><span class="p">()</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">A_LIST_SETTING</span> <span class="o">=</span> <span class="n">ConfigurationItem</span><span class="p">(</span><span class="n">a_list_setting</span><span class="s">&#39;, [1, 2, 3], &#39;</span><span class="n">A</span> <span class="n">description</span><span class="o">.</span><span class="s">&#39;, cfgtype=&#39;</span><span class="nb">list</span><span class="s">&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">A_LIST_SETTING</span><span class="p">()</span>
+<span class="go">[1, 2, 3]</span>
+</pre></div>
+</div>
+<p>Details of all the valid <tt class="xref py py-obj docutils literal"><span class="pre">cfgtype</span></tt> items can be found in the
+<a class="reference external" href="http://www.voidspace.org.uk/python/validate.html#the-standard-functions">validation section of the configobj  manual</a>.
+We simply list the valid values here for quick reference:</p>
+<ul class="simple">
+<li>&#8216;integer&#8217;</li>
+<li>&#8216;float&#8217;</li>
+<li>&#8216;boolean&#8217;</li>
+<li>&#8216;string&#8217;</li>
+<li>&#8216;ip_addr&#8217;</li>
+<li>&#8216;list&#8217;</li>
+<li>&#8216;tuple&#8217;</li>
+<li>&#8216;int_list&#8217;</li>
+<li>&#8216;float_list&#8217;</li>
+<li>&#8216;bool_list&#8217;</li>
+<li>&#8216;string_list&#8217;</li>
+<li>&#8216;ip_addr_list&#8217;</li>
+<li>&#8216;mixed_list&#8217;</li>
+<li>&#8216;option&#8217;</li>
+<li>&#8216;pass&#8217;</li>
+</ul>
+</div>
+<div class="section" id="usage-tips">
+<h4>Usage Tips<a class="headerlink" href="#usage-tips" title="Permalink to this headline">¶</a></h4>
+<p>There are a couple important gotchas to remember about using configuration
+items in your code. First, it is tempting to do something like:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">SOME_SETTING</span> <span class="o">=</span> <span class="n">ConfigurationItem</span><span class="p">(</span><span class="s">&#39;SOME_SETTING&#39;</span> <span class="p">,</span><span class="mi">1</span> <span class="p">,</span><span class="s">&#39;A description.&#39;</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">some_func</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">SOME_SETTING</span> <span class="o">+</span> <span class="mi">2</span>  <span class="c"># WRONG, you wanted SOME_SETTING() + 2</span>
+</pre></div>
+</div>
+<p>but this is incorrect, because <tt class="docutils literal"><span class="pre">SOME_SETTING</span></tt> instead of
+<tt class="docutils literal"><span class="pre">SOME_SETTING()</span></tt> will yield a <tt class="xref py py-obj docutils literal"><span class="pre">ConfigurationItem</span></tt> object, instead of the
+<em>value</em> of that item (an integer, in this case).</p>
+<p>The second point to keep in mind is that <tt class="xref py py-obj docutils literal"><span class="pre">ConfigurationItem</span></tt> objects can
+be changed at runtime by users. So you always read their values instead
+of just storing their initial value to some other variable (or used as a
+default for a function). For example, the following will work, but is
+incorrect usage:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">SOME_SETTING</span> <span class="o">=</span> <span class="n">ConfigurationItem</span><span class="p">(</span><span class="s">&#39;SOME_SETTING&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s">&#39;A description.&#39;</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">some_func</span><span class="p">(</span><span class="n">val</span><span class="o">=</span><span class="n">SOME_SETTING</span><span class="p">()):</span>
+    <span class="k">return</span> <span class="n">val</span> <span class="o">+</span> <span class="mi">2</span>
+</pre></div>
+</div>
+<p>This works fine as long as the user doesn&#8217;t change its value during
+runtime, but if they do, the function won&#8217;t know about the change:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">some_func</span><span class="p">()</span>
+<span class="go">3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">SOME_SETTING</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">some_func</span><span class="p">()</span>  <span class="c"># naively should return 5, because 3 + 2 = 5</span>
+<span class="go">3</span>
+</pre></div>
+</div>
+<p>There are two ways around this.  The typical/intended way is:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">some_func</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The `SOME_SETTING` configuration item influences this output</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">SOME_SETTING</span><span class="p">()</span> <span class="o">+</span> <span class="mi">2</span>
+</pre></div>
+</div>
+<p>Or, if the option needs to be available as a function parameter:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">some_func</span><span class="p">(</span><span class="n">val</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    If not specified, `val` is set by the `SOME_SETTING` configuration item.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">SOME_SETTING</span><span class="p">()</span> <span class="k">if</span> <span class="n">val</span> <span class="ow">is</span> <span class="bp">None</span> <span class="k">else</span> <span class="n">val</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference internal" href="../logging.html"><em>Logging system</em></a> (overview of <a class="reference internal" href="../logging.html#module-astropy.logger" title="astropy.logger"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.logger</span></tt></a>)</p>
+</div>
+<div class="section" id="reference-api">
+<h2>Reference/API<a class="headerlink" href="#reference-api" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-astropy.config">
+<span id="astropy-config-module"></span><h3>astropy.config Module<a class="headerlink" href="#module-astropy.config" title="Permalink to this headline">¶</a></h3>
+<p>This module contains configuration and setup utilities for the
+<tt class="xref py py-obj docutils literal"><span class="pre">astropy</span></tt> project. This includes all functionality related to the
+affiliated package index.</p>
+<div class="section" id="functions">
+<h4>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../_generated/astropy.config.paths.get_cache_dir.html#astropy.config.paths.get_cache_dir" title="astropy.config.paths.get_cache_dir"><tt class="xref py py-obj docutils literal"><span class="pre">get_cache_dir</span></tt></a>()</td>
+<td>Determines the Astropy cache directory name and creates the directory if it doesn&#8217;t exist.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../_generated/astropy.config.configuration.get_config.html#astropy.config.configuration.get_config" title="astropy.config.configuration.get_config"><tt class="xref py py-obj docutils literal"><span class="pre">get_config</span></tt></a>([packageormod,&nbsp;reload])</td>
+<td>Gets the configuration object or section associated with a particular package or module.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../_generated/astropy.config.paths.get_config_dir.html#astropy.config.paths.get_config_dir" title="astropy.config.paths.get_config_dir"><tt class="xref py py-obj docutils literal"><span class="pre">get_config_dir</span></tt></a>([create])</td>
+<td>Determines the Astropy configuration directory name and creates the directory if it doesn&#8217;t exist.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../_generated/astropy.config.configuration.reload_config.html#astropy.config.configuration.reload_config" title="astropy.config.configuration.reload_config"><tt class="xref py py-obj docutils literal"><span class="pre">reload_config</span></tt></a>([packageormod])</td>
+<td>Reloads configuration settings from a configuration file for the root package of the requested package/module.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../_generated/astropy.config.configuration.save_config.html#astropy.config.configuration.save_config" title="astropy.config.configuration.save_config"><tt class="xref py py-obj docutils literal"><span class="pre">save_config</span></tt></a>([packageormod,&nbsp;filename])</td>
+<td>Saves all configuration settings to the configuration file for the root package of the requested package/module.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="classes">
+<h4>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../_generated/astropy.config.configuration.ConfigurationItem.html#astropy.config.configuration.ConfigurationItem" title="astropy.config.configuration.ConfigurationItem"><tt class="xref py py-obj docutils literal"><span class="pre">ConfigurationItem</span></tt></a>(name[,&nbsp;defaultvalue,&nbsp;...])</td>
+<td>A setting and associated value stored in the astropy configuration files.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../_generated/astropy.config.configuration.ConfigurationMissingWarning.html#astropy.config.configuration.ConfigurationMissingWarning" title="astropy.config.configuration.ConfigurationMissingWarning"><tt class="xref py py-obj docutils literal"><span class="pre">ConfigurationMissingWarning</span></tt></a></td>
+<td>A Warning that is issued when the configuration directory cannot be accessed (usually due to a permissions problem).</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../_generated/astropy.config.configuration.InvalidConfigurationItemWarning.html#astropy.config.configuration.InvalidConfigurationItemWarning" title="astropy.config.configuration.InvalidConfigurationItemWarning"><tt class="xref py py-obj docutils literal"><span class="pre">InvalidConfigurationItemWarning</span></tt></a></td>
+<td>A Warning that is issued when the configuration value specified in the astropy configuration file does not match the type expected for that configuration value.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+
+
+<h3>Page Contents</h3>
+<ul>
+<li><a class="reference internal" href="#">Configuration system (<tt class="docutils literal"><span class="pre">astropy.config</span></tt>)</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#getting-started">Getting Started</a></li>
+<li><a class="reference internal" href="#using-config">Using <tt class="docutils literal"><span class="pre">config</span></tt></a><ul>
+<li><a class="reference internal" href="#accessing-values">Accessing Values</a></li>
+<li><a class="reference internal" href="#changing-values-at-run-time">Changing Values at Run-time</a></li>
+<li><a class="reference internal" href="#reloading-configuration">Reloading Configuration</a></li>
+<li><a class="reference internal" href="#developer-usage">Developer Usage</a><ul>
+<li><a class="reference internal" href="#item-types-and-validation">Item Types and Validation</a></li>
+<li><a class="reference internal" href="#usage-tips">Usage Tips</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#see-also">See Also</a></li>
+<li><a class="reference internal" href="#reference-api">Reference/API</a><ul>
+<li><a class="reference internal" href="#module-astropy.config">astropy.config Module</a><ul>
+<li><a class="reference internal" href="#functions">Functions</a><ul>
+</ul>
+</li>
+<li><a class="reference internal" href="#classes">Classes</a><ul>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+<footer class="footer">
+  <p class="pull-right">
+    <a href="http://github.com/astropy/astropy/tree/v0.2.1/docs/configs/index.rst">Edit This Page on Github</a> &nbsp;
+    <a href="../_sources/configs/index.txt"
+       rel="nofollow">Page Source</a> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright 2011-2013, The Astropy Developers.<br/>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3+. &nbsp;
+    Last built 03 Apr 2013. <br/>
+  </p>
+</footer>
+ <!-- End original user content -->
+
+
+<br>
+<br>
+<br>
+
+
+<style type="text/css">
+  .rtd-badge {
+    position: fixed;
+    display: block;
+    bottom: 5px;
+    height: 40px;
+    text-indent: -9999em;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+  }
+  #version_menu {
+    position: fixed;
+    display: none;
+    bottom: 11px;
+    right: 166px;
+    list-style-type: none;
+    margin: 0;
+  }
+  .footer_popout:hover #version_menu {
+    display: block;
+  }
+  #version_menu li {
+    display: block;
+    float: right;
+  }
+  #version_menu li a {
+    display: block;
+    padding: 6px 10px 4px 10px;
+    margin: 7px 7px 0 0;
+    font-weight: bold;
+    font-size: 14px;
+    height: 20px;
+    line-height: 17px;
+    text-decoration: none;
+    color: #fff;
+    background: #8ca1af url(../images/gradient-light.png) bottom left repeat-x;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 1px #465158;
+    -moz-box-shadow: 0 1px 1px #465158;
+    -webkit-box-shadow: 0 1px 1px #465158;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+  }
+  #version_menu li a:hover {
+    text-decoration: none;
+    background-color: #697983;
+    box-shadow: 0 1px 0px #465158;
+    -moz-box-shadow: 0 1px 0px #465158;
+    -webkit-box-shadow: 0 1px 0px #465158;
+  }
+  .rtd-badge.rtd {
+    background: #3b4449 url(//media.readthedocs.org//images/badge-rtd.png) scroll 0px -46px no-repeat;
+    border: 1px solid #282E32;
+    width: 41px;
+    right: 5px;
+  }
+  .footer_popout:hover .rtd-badge.rtd {
+    background-position: top left;
+    width: 160px;
+  }
+  .rtd-badge.revsys { background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline-sponsored {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys-sm.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 205px;
+    right: 173px;
+  }
+
+</style>
+<div class="rtd_doc_footer">
+  <div class="footer_popout">
+    <a href="//readthedocs.org/projects/astropy/?fromdocs=astropy" class="rtd-badge rtd"> Brought to you by Read the Docs</a>
+    <ul id="version_menu">
+      
+        <li><a href="/en/latest/">latest</a></li>
+      
+        <li><a href="/en/add-mpl-to-rtd-pip-req/">add-mpl-to-rtd-pip-req</a></li>
+      
+        <li><a href="/en/v0.2.1/">v0.2.1</a></li>
+      
+        <li><a href="/en/v0.2/">v0.2</a></li>
+      
+        <li><a href="/en/v0.1/">v0.1</a></li>
+      
+    </ul>
+  </div>
+</div>
+<!-- RTD Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17997319-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+<!-- User Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-30968842-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+  </body>
+</html>

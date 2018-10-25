@@ -1,0 +1,27 @@
+
+
+Latitude
+===================================
+
+.. currentmodule:: astropy.coordinates.angles
+
+.. autoclass:: Latitude
+   :show-inheritance:
+
+   
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   

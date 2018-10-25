@@ -1,0 +1,229 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Param &mdash; Astropy v0.3.1</title>
+    
+    <link rel="stylesheet" href="../_static/bootstrap-astropy.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="https://media.readthedocs.org/css/badge_only.css" type="text/css" />
+    <link rel="stylesheet" href="https://media.readthedocs.org/css/readthedocs-doc-embed.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.3.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/jquery/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/jquery/jquery-migrate-1.2.1.min.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/underscore.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/doctools.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/readthedocs-doc-embed.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="shortcut icon" href="../_static/astropy_logo.ico"/>
+    <link rel="top" title="Astropy v0.3.1" href="../index.html" />
+    <link rel="up" title="VOTable XML handling (astropy.io.votable)" href="../io/votable/index.html" />
+    <link rel="next" title="CooSys" href="astropy.io.votable.tree.CooSys.html" />
+    <link rel="prev" title="Field" href="astropy.io.votable.tree.Field.html" />
+
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,600' rel='stylesheet' type='text/css'>
+
+<!-- RTD Extra Head -->
+
+
+
+<!-- 
+Read the Docs is acting as the canonical URL for your project. 
+If you want to change it, more info is available in our docs:
+  http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="http://astropy.readthedocs.org/en/latest/api/astropy.io.votable.tree.Param.html">
+
+<script type="text/javascript">
+  // This is included here because other places don't have access to the pagename variable.
+  var READTHEDOCS_DATA = {
+    project: "astropy",
+    version: "v0.3.1",
+    language: "en",
+    page: "api/astropy.io.votable.tree.Param",
+    theme: "bootstrap-astropy",
+    docroot: "/docs/",
+    api_host: "https://readthedocs.org"
+  }
+  // Old variables
+  var doc_version = "v0.3.1";
+  var doc_slug = "astropy";
+  var page_name = "api/astropy.io.votable.tree.Param";
+  var html_theme = "bootstrap-astropy";
+</script>
+<!-- RTD Analytics Code -->
+<!-- Included in the header because you don't have a footer block. -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17997319-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+<!-- end RTD Analytics Code -->
+
+
+<!-- User Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-30968842-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+<!-- End User Analytics Code -->
+
+<!-- end RTD <extrahead> -->
+
+  </head>
+  <body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../index.html"><span id="logotext1">astro</span><span id="logotext2">py</span><span id="logotext3">:docs</span></a>
+  <ul>
+    <li><a class="homelink" title="Astropy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../genindex.html">Index</a></li>
+    <li><a title="Module Index" href="../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li class="right">
+	<a href="astropy.io.votable.tree.CooSys.html" title="CooSys">
+	  next &raquo;
+	</a>
+      </li>
+      <li class="right">
+	<a href="astropy.io.votable.tree.Field.html" title="Field">
+	  &laquo; previous
+	</a>
+	 |
+      </li>
+      <li>
+	<a href="../index.html">Astropy v0.3.1</a>
+	 &raquo;
+      </li>
+      <li><a href="../io/votable/index.html" accesskey="U">VOTable XML handling (<tt class="docutils literal"><span class="pre">astropy.io.votable</span></tt>)</a> &raquo;</li>
+      
+      <li>Param</li> 
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="id1">
+<h1>Param<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="astropy.io.votable.tree.Param">
+<em class="property">class </em><tt class="descclassname">astropy.io.votable.tree.</tt><tt class="descname">Param</tt><big>(</big><em>votable</em>, <em>ID=None</em>, <em>name=None</em>, <em>value=None</em>, <em>datatype=None</em>, <em>arraysize=None</em>, <em>ucd=None</em>, <em>unit=None</em>, <em>width=None</em>, <em>precision=None</em>, <em>utype=None</em>, <em>type=None</em>, <em>id=None</em>, <em>config=None</em>, <em>pos=None</em>, <em>**extra</em><big>)</big><a class="reference internal" href="../_modules/astropy/io/votable/tree.html#Param"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.3.x/astropy/io/votable/tree.py#L1506" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.io.votable.tree.Param" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="astropy.io.votable.tree.Field.html#astropy.io.votable.tree.Field" title="astropy.io.votable.tree.Field"><tt class="xref py py-class docutils literal"><span class="pre">astropy.io.votable.tree.Field</span></tt></a></p>
+<p><a class="reference external" href="http://www.ivoa.net/Documents/REC/VOTable/VOTable-20040811.html#ToC24">PARAM</a> element: constant-valued columns in the data.</p>
+<p><a class="reference internal" href="#astropy.io.votable.tree.Param" title="astropy.io.votable.tree.Param"><tt class="xref py py-class docutils literal"><span class="pre">Param</span></tt></a> objects are a subclass of <a class="reference internal" href="astropy.io.votable.tree.Field.html#astropy.io.votable.tree.Field" title="astropy.io.votable.tree.Field"><tt class="xref py py-class docutils literal"><span class="pre">Field</span></tt></a>, and have
+all of its methods and members.  Additionally, it defines <a class="reference internal" href="#astropy.io.votable.tree.Param.value" title="astropy.io.votable.tree.Param.value"><tt class="xref py py-attr docutils literal"><span class="pre">value</span></tt></a>.</p>
+<p class="rubric">Attributes Summary</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.io.votable.tree.Param.value" title="astropy.io.votable.tree.Param.value"><tt class="xref py py-obj docutils literal"><span class="pre">value</span></tt></a></td>
+<td>[<em>required</em>] The constant value of the parameter.  Its type is</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods Summary</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.io.votable.tree.Param.to_xml" title="astropy.io.votable.tree.Param.to_xml"><tt class="xref py py-obj docutils literal"><span class="pre">to_xml</span></tt></a>(w,&nbsp;**kwargs)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes Documentation</p>
+<dl class="attribute">
+<dt id="astropy.io.votable.tree.Param.value">
+<tt class="descname">value</tt><a class="reference internal" href="../_modules/astropy/io/votable/tree.html#Param.value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astropy.io.votable.tree.Param.value" title="Permalink to this definition">¶</a></dt>
+<dd><p>[<em>required</em>] The constant value of the parameter.  Its type is
+determined by the <a class="reference internal" href="astropy.io.votable.tree.Field.html#astropy.io.votable.tree.Field.datatype" title="astropy.io.votable.tree.Field.datatype"><tt class="xref py py-attr docutils literal"><span class="pre">datatype</span></tt></a> member.</p>
+</dd></dl>
+
+<p class="rubric">Methods Documentation</p>
+<dl class="method">
+<dt id="astropy.io.votable.tree.Param.to_xml">
+<tt class="descname">to_xml</tt><big>(</big><em>w</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/astropy/io/votable/tree.html#Param.to_xml"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.3.x/astropy/io/votable/tree.py#L1550" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.io.votable.tree.Param.to_xml" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"><h3>Page Contents</h3>
+<ul>
+<li><a class="reference internal" href="#">Param</a></li>
+</ul>
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+<footer class="footer">
+  <p class="pull-right">
+    <a href="http://github.com/astropy/astropy/tree/v0.3.x/docs/api/astropy.io.votable.tree.Param.rst">Edit This Page on Github</a> &nbsp;
+    <a href="../_sources/api/astropy.io.votable.tree.Param.txt"
+       rel="nofollow">Page Source</a> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright 2011-2013, The Astropy Developers.<br/>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2. &nbsp;
+    Last built 05 Mar 2014. <br/>
+  </p>
+</footer>
+  </body>
+</html>

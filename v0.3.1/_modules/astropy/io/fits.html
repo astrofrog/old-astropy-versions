@@ -1,0 +1,235 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>astropy.io.fits &mdash; Astropy v0.3.1</title>
+    
+    <link rel="stylesheet" href="../../../_static/bootstrap-astropy.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="https://media.readthedocs.org/css/badge_only.css" type="text/css" />
+    <link rel="stylesheet" href="https://media.readthedocs.org/css/readthedocs-doc-embed.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.3.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/jquery/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/jquery/jquery-migrate-1.2.1.min.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/underscore.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/doctools.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/readthedocs-doc-embed.js"></script>
+    <script type="text/javascript" src="../../../_static/sidebar.js"></script>
+    <link rel="shortcut icon" href="../../../_static/astropy_logo.ico"/>
+    <link rel="top" title="Astropy v0.3.1" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" />
+
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,600' rel='stylesheet' type='text/css'>
+
+<!-- RTD Extra Head -->
+
+
+
+<!-- 
+Read the Docs is acting as the canonical URL for your project. 
+If you want to change it, more info is available in our docs:
+  http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="http://astropy.readthedocs.org/en/latest/_modules/astropy/io/fits.html">
+
+<script type="text/javascript">
+  // This is included here because other places don't have access to the pagename variable.
+  var READTHEDOCS_DATA = {
+    project: "astropy",
+    version: "v0.3.1",
+    language: "en",
+    page: "_modules/astropy/io/fits",
+    theme: "bootstrap-astropy",
+    docroot: "/docs/",
+    api_host: "https://readthedocs.org"
+  }
+  // Old variables
+  var doc_version = "v0.3.1";
+  var doc_slug = "astropy";
+  var page_name = "_modules/astropy/io/fits";
+  var html_theme = "bootstrap-astropy";
+</script>
+<!-- RTD Analytics Code -->
+<!-- Included in the header because you don't have a footer block. -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17997319-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+<!-- end RTD Analytics Code -->
+
+
+<!-- User Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-30968842-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+<!-- End User Analytics Code -->
+
+<!-- end RTD <extrahead> -->
+
+  </head>
+  <body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../../../index.html"><span id="logotext1">astro</span><span id="logotext2">py</span><span id="logotext3">:docs</span></a>
+  <ul>
+    <li><a class="homelink" title="Astropy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../../../genindex.html">Index</a></li>
+    <li><a title="Module Index" href="../../../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li>
+	<a href="../../../index.html">Astropy v0.3.1</a>
+	 &raquo;
+      </li>
+      <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li>
+      
+       
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for astropy.io.fits</h1><div class="highlight"><pre>
+<span class="c"># Licensed under a 3-clause BSD style license - see PYFITS.rst</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">A package for reading and writing FITS files and manipulating their</span>
+<span class="sd">contents.</span>
+
+<span class="sd">A module for reading and writing Flexible Image Transport System</span>
+<span class="sd">(FITS) files.  This file format was endorsed by the International</span>
+<span class="sd">Astronomical Union in 1999 and mandated by NASA as the standard format</span>
+<span class="sd">for storing high energy astrophysics data.  For details of the FITS</span>
+<span class="sd">standard, see the NASA/Science Office of Standards and Technology</span>
+<span class="sd">publication, NOST 100-2.0.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">py3compat</span>
+
+<span class="kn">from</span> <span class="nn">...config</span> <span class="kn">import</span> <span class="n">ConfigurationItem</span>
+
+<span class="c"># Set module-global boolean variables</span>
+<span class="c"># TODO: Make it possible to set these variables via environment variables</span>
+<span class="c"># again, once support for that is added to Astropy</span>
+<span class="n">ENABLE_RECORD_VALUED_KEYWORD_CARDS</span> <span class="o">=</span> <span class="n">ConfigurationItem</span><span class="p">(</span>
+    <span class="s">&#39;enabled_record_valued_keyword_cards&#39;</span><span class="p">,</span> <span class="bp">True</span><span class="p">,</span>
+    <span class="s">&#39;If True, enable support for record-valued keywords as described by &#39;</span>
+    <span class="s">&#39;FITS WCS Paper IV. Otherwise they are treated as normal keywords.&#39;</span><span class="p">)</span>
+
+<span class="n">EXTENSION_NAME_CASE_SENSITIVE</span> <span class="o">=</span> <span class="n">ConfigurationItem</span><span class="p">(</span>
+    <span class="s">&#39;extension_name_case_sensitive&#39;</span><span class="p">,</span> <span class="bp">False</span><span class="p">,</span>
+    <span class="s">&#39;If True, extension names (i.e. the EXTNAME keyword) should be &#39;</span>
+    <span class="s">&#39;treated as case-sensitive.&#39;</span><span class="p">)</span>
+
+<span class="n">STRIP_HEADER_WHITESPACE</span> <span class="o">=</span> <span class="n">ConfigurationItem</span><span class="p">(</span>
+    <span class="s">&#39;strip_header_whitespace&#39;</span><span class="p">,</span> <span class="bp">True</span><span class="p">,</span>
+    <span class="s">&#39;If True, automatically remove trailing whitespace for string values in &#39;</span>
+    <span class="s">&#39;headers.  Otherwise the values are returned verbatim, with all &#39;</span>
+    <span class="s">&#39;whitespace intact.&#39;</span><span class="p">)</span>
+
+<span class="n">USE_MEMMAP</span> <span class="o">=</span> <span class="n">ConfigurationItem</span><span class="p">(</span>
+    <span class="s">&#39;use_memmap&#39;</span><span class="p">,</span> <span class="bp">True</span><span class="p">,</span>
+    <span class="s">&#39;If True, use memory-mapped file access to read/write the data in &#39;</span>
+    <span class="s">&#39;FITS files. This generally provides better performance, especially &#39;</span>
+    <span class="s">&#39;for large files, but may affect performance in I/O-heavy &#39;</span>
+    <span class="s">&#39;applications.&#39;</span><span class="p">)</span>
+
+
+<span class="c"># Public API compatibility imports</span>
+<span class="c"># These need to come after the global config variables, as some of the</span>
+<span class="c"># submodules use them</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">card</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">column</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">convenience</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">hdu</span>
+<span class="kn">from</span> <span class="nn">.card</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.column</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.convenience</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.diff</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.fitsrec</span> <span class="kn">import</span> <span class="n">FITS_record</span><span class="p">,</span> <span class="n">FITS_rec</span>
+<span class="kn">from</span> <span class="nn">.hdu</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="kn">from</span> <span class="nn">.hdu.groups</span> <span class="kn">import</span> <span class="n">GroupData</span>
+<span class="kn">from</span> <span class="nn">.hdu.hdulist</span> <span class="kn">import</span> <span class="n">fitsopen</span> <span class="k">as</span> <span class="nb">open</span>
+<span class="kn">from</span> <span class="nn">.hdu.image</span> <span class="kn">import</span> <span class="n">Section</span>
+<span class="kn">from</span> <span class="nn">.hdu.table</span> <span class="kn">import</span> <span class="n">new_table</span>
+<span class="kn">from</span> <span class="nn">.header</span> <span class="kn">import</span> <span class="n">Header</span>
+<span class="kn">from</span> <span class="nn">.verify</span> <span class="kn">import</span> <span class="n">VerifyError</span>
+
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">(</span><span class="n">card</span><span class="o">.</span><span class="n">__all__</span> <span class="o">+</span> <span class="n">column</span><span class="o">.</span><span class="n">__all__</span> <span class="o">+</span> <span class="n">convenience</span><span class="o">.</span><span class="n">__all__</span> <span class="o">+</span>
+           <span class="n">hdu</span><span class="o">.</span><span class="n">__all__</span> <span class="o">+</span>
+           <span class="p">[</span><span class="s">&#39;FITS_record&#39;</span><span class="p">,</span> <span class="s">&#39;FITS_rec&#39;</span><span class="p">,</span> <span class="s">&#39;GroupData&#39;</span><span class="p">,</span> <span class="s">&#39;open&#39;</span><span class="p">,</span> <span class="s">&#39;Section&#39;</span><span class="p">,</span>
+            <span class="s">&#39;new_table&#39;</span><span class="p">,</span> <span class="s">&#39;Header&#39;</span><span class="p">,</span> <span class="s">&#39;VerifyError&#39;</span><span class="p">,</span>
+            <span class="s">&#39;EXTENSION_NAME_CASE_SENSITIVE&#39;</span><span class="p">,</span> <span class="s">&#39;USE_MEMMAP&#39;</span><span class="p">,</span>
+            <span class="s">&#39;ENABLE_RECORD_VALUED_KEYWORD_CARDS&#39;</span><span class="p">])</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"><h3>Page Contents</h3>
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+<footer class="footer">
+  <p class="pull-right"> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright 2011-2013, The Astropy Developers.<br/>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2. &nbsp;
+    Last built 05 Mar 2014. <br/>
+  </p>
+</footer>
+  </body>
+</html>

@@ -1,0 +1,67 @@
+
+
+Gaussian1D
+=============================================
+
+.. currentmodule:: astropy.modeling.functional_models
+
+.. autoclass:: Gaussian1D
+   :show-inheritance:
+
+   
+     
+   
+
+   
+   
+
+   .. rubric:: Attributes Summary
+
+   .. autosummary::
+   
+      ~Gaussian1D.amplitude
+      ~Gaussian1D.mean
+      ~Gaussian1D.param_names
+      ~Gaussian1D.stddev
+
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+   
+      ~Gaussian1D.deriv
+      ~Gaussian1D.eval
+
+   
+   
+
+   
+   
+
+   .. rubric:: Attributes Documentation
+
+   
+   .. autoattribute:: amplitude
+   .. autoattribute:: mean
+   .. autoattribute:: param_names
+   .. autoattribute:: stddev
+
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Documentation
+
+   
+   .. automethod:: deriv
+   .. automethod:: eval
+
+   
+   

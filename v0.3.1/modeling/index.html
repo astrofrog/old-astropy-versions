@@ -1,0 +1,946 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Models And Fitting (astropy.modeling) &mdash; Astropy v0.3.1</title>
+    
+    <link rel="stylesheet" href="../_static/bootstrap-astropy.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="https://media.readthedocs.org/css/badge_only.css" type="text/css" />
+    <link rel="stylesheet" href="https://media.readthedocs.org/css/readthedocs-doc-embed.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.3.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/jquery/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/jquery/jquery-migrate-1.2.1.min.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/underscore.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/doctools.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/readthedocs-doc-embed.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="shortcut icon" href="../_static/astropy_logo.ico"/>
+    <link rel="top" title="Astropy v0.3.1" href="../index.html" />
+    <link rel="next" title="Parameters" href="parameters.html" />
+    <link rel="prev" title="Wcsprm" href="../api/astropy.wcs.Wcsprm.html" />
+
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,600' rel='stylesheet' type='text/css'>
+
+<!-- RTD Extra Head -->
+
+
+
+<!-- 
+Read the Docs is acting as the canonical URL for your project. 
+If you want to change it, more info is available in our docs:
+  http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="http://astropy.readthedocs.org/en/latest/modeling/">
+
+<script type="text/javascript">
+  // This is included here because other places don't have access to the pagename variable.
+  var READTHEDOCS_DATA = {
+    project: "astropy",
+    version: "v0.3.1",
+    language: "en",
+    page: "modeling/index",
+    theme: "bootstrap-astropy",
+    docroot: "/docs/",
+    api_host: "https://readthedocs.org"
+  }
+  // Old variables
+  var doc_version = "v0.3.1";
+  var doc_slug = "astropy";
+  var page_name = "modeling/index";
+  var html_theme = "bootstrap-astropy";
+</script>
+<!-- RTD Analytics Code -->
+<!-- Included in the header because you don't have a footer block. -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17997319-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+<!-- end RTD Analytics Code -->
+
+
+<!-- User Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-30968842-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+<!-- End User Analytics Code -->
+
+<!-- end RTD <extrahead> -->
+
+  </head>
+  <body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../index.html"><span id="logotext1">astro</span><span id="logotext2">py</span><span id="logotext3">:docs</span></a>
+  <ul>
+    <li><a class="homelink" title="Astropy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../genindex.html">Index</a></li>
+    <li><a title="Module Index" href="../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li class="right">
+	<a href="parameters.html" title="Parameters">
+	  next &raquo;
+	</a>
+      </li>
+      <li class="right">
+	<a href="../api/astropy.wcs.Wcsprm.html" title="Wcsprm">
+	  &laquo; previous
+	</a>
+	 |
+      </li>
+      <li>
+	<a href="../index.html">Astropy v0.3.1</a>
+	 &raquo;
+      </li>
+      
+      <li>Models And Fitting (<tt class="docutils literal"><span class="pre">astropy.modeling</span></tt>)</li> 
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="models-and-fitting-astropy-modeling">
+<span id="astropy-modeling"></span><h1>Models And Fitting (<a class="reference internal" href="#module-astropy.modeling" title="astropy.modeling"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.modeling</span></tt></a>)<a class="headerlink" href="#models-and-fitting-astropy-modeling" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference internal" href="#module-astropy.modeling" title="astropy.modeling"><tt class="xref py py-obj docutils literal"><span class="pre">modeling</span></tt></a> provides a framework for representing models and
+performing model evaluation and fitting. It supports 1D and 2D models
+and fitting with parameter constraints.</p>
+<p>It is <a class="reference internal" href="design.html#modeling-design"><em>designed</em></a> to be easily extensible and flexible.
+Models do not reference fitting algorithms explicitly (though exceptions are
+sometimes necessary) and new fitting algorithms may be added without changing
+the existing models.  In addition models can be combined in different ways
+using a machinery that allows assigning outputs from one model into the
+appropriate input of another in a flexible way,
+<a class="reference internal" href="../api/astropy.modeling.core.LabeledInput.html#astropy.modeling.core.LabeledInput" title="astropy.modeling.core.LabeledInput"><tt class="xref py py-obj docutils literal"><span class="pre">LabeledInput</span></tt></a>.  The goal is to eventually provide a
+rich toolset of models and fitters such that most users will not need to define
+new model classes, nor special purpose fitting routines (but not making that
+hard to do if it is necessary).</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last"><a class="reference internal" href="#module-astropy.modeling" title="astropy.modeling"><tt class="xref py py-obj docutils literal"><span class="pre">modeling</span></tt></a> is currently a work-in-progress, and thus it is
+likely there will be significant API changes in later versions of
+Astropy. If you have specific ideas for how it might be improved,
+feel free to let us know on the <a class="reference external" href="http://groups.google.com/group/astropy-dev">astropy-dev mailing list</a> or at
+<a class="reference external" href="http://feedback.astropy.org">http://feedback.astropy.org</a></p>
+</div>
+</div>
+<div class="section" id="getting-started">
+<h2>Getting started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h2>
+<p>The examples here use the predefined models and assume the following modules
+have been imported:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">astropy.modeling</span> <span class="kn">import</span> <span class="n">models</span><span class="p">,</span> <span class="n">fitting</span>
+</pre></div>
+</div>
+<div class="section" id="using-models">
+<h3>Using Models<a class="headerlink" href="#using-models" title="Permalink to this headline">¶</a></h3>
+<p>The <a class="reference internal" href="#module-astropy.modeling" title="astropy.modeling"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.modeling</span></tt></a> package defines a number of models that live inside
+<tt class="xref py py-obj docutils literal"><span class="pre">astropy.modeling.models</span></tt> and behave like parametrized functions:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">astropy.modeling</span> <span class="kn">import</span> <span class="n">models</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Gaussian1D</span><span class="p">(</span><span class="n">amplitude</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span> <span class="n">mean</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">stddev</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+<span class="go">Model: Gaussian1D</span>
+<span class="go">n_inputs:   1</span>
+<span class="go">Degree: N/A</span>
+<span class="go">Parameter sets: 1</span>
+<span class="go">Parameters:</span>
+<span class="go">           amplitude: Parameter(&#39;amplitude&#39;, value=1.2)</span>
+<span class="go">           mean: Parameter(&#39;mean&#39;, value=0.9000...)</span>
+<span class="go">           stddev: Parameter(&#39;stddev&#39;, value=0.5)</span>
+</pre></div>
+</div>
+<p>Model parameters can be accessed as attributes:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span><span class="o">.</span><span class="n">amplitude</span>
+<span class="go">Parameter(&#39;amplitude&#39;, value=1.2)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span><span class="o">.</span><span class="n">mean</span>
+<span class="go">Parameter(&#39;mean&#39;, value=0.9000...)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span><span class="o">.</span><span class="n">stddev</span>
+<span class="go">Parameter(&#39;stddev&#39;, value=0.5)</span>
+</pre></div>
+</div>
+<p>and can also be set using the attributes:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span><span class="o">.</span><span class="n">amplitude</span> <span class="o">=</span> <span class="mf">0.8</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span><span class="o">.</span><span class="n">amplitude</span>
+<span class="go">Parameter(&#39;amplitude&#39;, value=0.8000...)</span>
+</pre></div>
+</div>
+<p>Models can be evaluated by calling them as functions:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="go">0.22242984036255528</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
+<span class="go">array([ 0.58091923,  0.71746405,  0.7929204 ,  0.78415894,  0.69394278,</span>
+<span class="go">        0.54952605,  0.3894018 ])</span>
+</pre></div>
+</div>
+<p>Models can therefore already be useful to evaluate common functions,
+independent of the fitting part of the package.</p>
+</div>
+<div class="section" id="simple-1d-model-fitting">
+<h3>Simple 1D model fitting<a class="headerlink" href="#simple-1d-model-fitting" title="Permalink to this headline">¶</a></h3>
+<p>In this section, we look at a simple example of fitting a Gaussian to a
+simulated dataset. We use the <a class="reference internal" href="../api/astropy.modeling.functional_models.Gaussian1D.html#astropy.modeling.functional_models.Gaussian1D" title="astropy.modeling.functional_models.Gaussian1D"><tt class="xref py py-class docutils literal"><span class="pre">Gaussian1D</span></tt></a>
+and <a class="reference internal" href="../api/astropy.modeling.functional_models.Trapezoid1D.html#astropy.modeling.functional_models.Trapezoid1D" title="astropy.modeling.functional_models.Trapezoid1D"><tt class="xref py py-class docutils literal"><span class="pre">Trapezoid1D</span></tt></a> models and the
+<a class="reference internal" href="../api/astropy.modeling.fitting.NonLinearLSQFitter.html#astropy.modeling.fitting.NonLinearLSQFitter" title="astropy.modeling.fitting.NonLinearLSQFitter"><tt class="xref py py-class docutils literal"><span class="pre">NonLinearLSQFitter</span></tt></a> fitter to
+fit the data:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">astropy.modeling</span> <span class="kn">import</span> <span class="n">models</span><span class="p">,</span> <span class="n">fitting</span>
+
+<span class="c"># Generate fake data</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">5.</span><span class="p">,</span> <span class="mf">5.</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="mf">1.3</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="mf">0.8</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+<span class="c"># Fit the data using a box model</span>
+<span class="n">t_init</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Trapezoid1D</span><span class="p">(</span><span class="n">amplitude</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span> <span class="n">x_0</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span> <span class="n">slope</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">f1</span> <span class="o">=</span> <span class="n">fitting</span><span class="o">.</span><span class="n">NonLinearLSQFitter</span><span class="p">()</span>
+<span class="n">t</span> <span class="o">=</span> <span class="n">f1</span><span class="p">(</span><span class="n">t_init</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="c"># Fit the data using a Gaussian</span>
+<span class="n">g_init</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Gaussian1D</span><span class="p">(</span><span class="n">amplitude</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span> <span class="n">mean</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">stddev</span><span class="o">=</span><span class="mf">1.</span><span class="p">)</span>
+<span class="n">f2</span> <span class="o">=</span> <span class="n">fitting</span><span class="o">.</span><span class="n">NonLinearLSQFitter</span><span class="p">()</span>
+<span class="n">g</span> <span class="o">=</span> <span class="n">f2</span><span class="p">(</span><span class="n">g_init</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="c"># Plot the data with the best-fit model</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="s">&#39;ko&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">t</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="s">&#39;b-&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">&#39;Trapezoid&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">g</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="s">&#39;r-&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">&#39;Gaussian&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">&#39;Position&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&#39;Flux&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>(<a class="reference external" href="../modeling/index-1.py">Source code</a>, <a class="reference external" href="../modeling/index-1.png">png</a>, <a class="reference external" href="../modeling/index-1.hires.png">hires.png</a>, <a class="reference external" href="../modeling/index-1.pdf">pdf</a>)</p>
+<div class="figure">
+<img alt="../_images/index-11.png" src="../_images/index-11.png" />
+</div>
+<p>As shown above, once instantiated, the fitter class can be used as a function
+that takes the initial model (<tt class="docutils literal"><span class="pre">t_init</span></tt> or <tt class="docutils literal"><span class="pre">g_init</span></tt>) and the data values
+(<tt class="docutils literal"><span class="pre">x</span></tt> and <tt class="docutils literal"><span class="pre">y</span></tt>), and returns a fitted model (<tt class="docutils literal"><span class="pre">t</span></tt> or <tt class="docutils literal"><span class="pre">g</span></tt>).</p>
+</div>
+<div class="section" id="simple-2d-model-fitting">
+<h3>Simple 2D model fitting<a class="headerlink" href="#simple-2d-model-fitting" title="Permalink to this headline">¶</a></h3>
+<p>Similarly to the 1-d example, we can create a simulated 2-d data dataset, and fit a polynomial model to it. This could be used for example to fit the background in an image.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">astropy.modeling</span> <span class="kn">import</span> <span class="n">models</span><span class="p">,</span> <span class="n">fitting</span>
+
+<span class="c"># Generate fake data</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mgrid</span><span class="p">[:</span><span class="mi">128</span><span class="p">,</span> <span class="p">:</span><span class="mi">128</span><span class="p">]</span>
+<span class="n">z</span> <span class="o">=</span> <span class="mf">2.</span> <span class="o">*</span> <span class="n">x</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">-</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">x</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="mf">1.5</span> <span class="o">*</span> <span class="n">x</span> <span class="o">*</span> <span class="n">y</span> <span class="o">-</span> <span class="mf">1.</span>
+<span class="n">z</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">z</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">*</span> <span class="mf">50000.</span>
+
+<span class="c"># Fit the data using astropy.modeling</span>
+<span class="n">p_init</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Polynomial2D</span><span class="p">(</span><span class="n">degree</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">f</span> <span class="o">=</span> <span class="n">fitting</span><span class="o">.</span><span class="n">NonLinearLSQFitter</span><span class="p">()</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">p_init</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+
+<span class="c"># Plot the data with the best-fit model</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mf">2.5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s">&#39;nearest&#39;</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=-</span><span class="mf">1e4</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mf">5e4</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&quot;Data&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">p</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="n">interpolation</span><span class="o">=</span><span class="s">&#39;nearest&#39;</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=-</span><span class="mf">1e4</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mf">5e4</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&quot;Model&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">z</span> <span class="o">-</span> <span class="n">p</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="n">interpolation</span><span class="o">=</span><span class="s">&#39;nearest&#39;</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=-</span><span class="mf">1e4</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mf">5e4</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&quot;Residual&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>(<a class="reference external" href="../modeling/index-2.py">Source code</a>, <a class="reference external" href="../modeling/index-2.png">png</a>, <a class="reference external" href="../modeling/index-2.hires.png">hires.png</a>, <a class="reference external" href="../modeling/index-2.pdf">pdf</a>)</p>
+<div class="figure">
+<img alt="../_images/index-2.png" src="../_images/index-2.png" />
+</div>
+<p>A list of models is provided in the <a class="reference internal" href="#reference-api">Reference/API</a> section. The fitting
+framework includes many useful features that are not demonstrated here, such as
+weighting of datapoints, fixing or linking parameters, and placing lower or
+upper limits on parameters. For more information on these, take a look at the
+<a class="reference internal" href="fitting.html"><em>Fitting Models to Data</em></a> documentation.</p>
+</div>
+</div>
+<div class="section" id="using-modeling">
+<h2>Using <tt class="xref py py-obj docutils literal"><span class="pre">modeling</span></tt><a class="headerlink" href="#using-modeling" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="parameters.html">Parameters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models.html">Creating and Evaluating Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fitting.html">Fitting Models to Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="new.html">Defining New Model Classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="new.html#defining-new-fitter-classes">Defining New Fitter Classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="algorithms.html">Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="design.html">Models Design Goals</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="reference-api">
+<h2>Reference/API<a class="headerlink" href="#reference-api" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-astropy.modeling">
+<span id="astropy-modeling-module"></span><h3>astropy.modeling Module<a class="headerlink" href="#module-astropy.modeling" title="Permalink to this headline">¶</a></h3>
+<p>This subpackage provides a framework for representing models and
+performing model evaluation and fitting. It supports 1D and 2D models
+and fitting with parameter constraints. It has some predefined models
+and fitting routines.</p>
+<div class="section" id="functions">
+<h4>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../api/astropy.modeling.core.format_input.html#astropy.modeling.core.format_input" title="astropy.modeling.core.format_input"><tt class="xref py py-obj docutils literal"><span class="pre">format_input</span></tt></a>(func)</td>
+<td>Wraps a model&#8217;s <tt class="docutils literal"><span class="pre">__call__</span></tt> method so that the input arrays are converted into the appropriate shape given the model&#8217;s parameter dimensions.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="classes">
+<h4>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../api/astropy.modeling.parameters.InputParameterError.html#astropy.modeling.parameters.InputParameterError" title="astropy.modeling.parameters.InputParameterError"><tt class="xref py py-obj docutils literal"><span class="pre">InputParameterError</span></tt></a></td>
+<td>Used for incorrect input parameter values and definitions.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../api/astropy.modeling.core.LabeledInput.html#astropy.modeling.core.LabeledInput" title="astropy.modeling.core.LabeledInput"><tt class="xref py py-obj docutils literal"><span class="pre">LabeledInput</span></tt></a>(data,&nbsp;labels)</td>
+<td>Create a container with all input data arrays, assigning labels for each one.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../api/astropy.modeling.core.Model.html#astropy.modeling.core.Model" title="astropy.modeling.core.Model"><tt class="xref py py-obj docutils literal"><span class="pre">Model</span></tt></a>([param_dim])</td>
+<td>Base class for all models.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../api/astropy.modeling.core.ModelDefinitionError.html#astropy.modeling.core.ModelDefinitionError" title="astropy.modeling.core.ModelDefinitionError"><tt class="xref py py-obj docutils literal"><span class="pre">ModelDefinitionError</span></tt></a></td>
+<td>Used for incorrect models definitions</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../api/astropy.modeling.parameters.Parameter.html#astropy.modeling.parameters.Parameter" title="astropy.modeling.parameters.Parameter"><tt class="xref py py-obj docutils literal"><span class="pre">Parameter</span></tt></a>(name[,&nbsp;description,&nbsp;default,&nbsp;...])</td>
+<td>Wraps individual parameters.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../api/astropy.modeling.core.Parametric1DModel.html#astropy.modeling.core.Parametric1DModel" title="astropy.modeling.core.Parametric1DModel"><tt class="xref py py-obj docutils literal"><span class="pre">Parametric1DModel</span></tt></a>(**kwargs)</td>
+<td>Base class for one dimensional parametric models.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../api/astropy.modeling.core.Parametric2DModel.html#astropy.modeling.core.Parametric2DModel" title="astropy.modeling.core.Parametric2DModel"><tt class="xref py py-obj docutils literal"><span class="pre">Parametric2DModel</span></tt></a>(**kwargs)</td>
+<td>Base class for two dimensional parametric models.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../api/astropy.modeling.core.ParametricModel.html#astropy.modeling.core.ParametricModel" title="astropy.modeling.core.ParametricModel"><tt class="xref py py-obj docutils literal"><span class="pre">ParametricModel</span></tt></a>(**kwargs)</td>
+<td>Base class for all fittable models.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../api/astropy.modeling.core.SerialCompositeModel.html#astropy.modeling.core.SerialCompositeModel" title="astropy.modeling.core.SerialCompositeModel"><tt class="xref py py-obj docutils literal"><span class="pre">SerialCompositeModel</span></tt></a>(transforms[,&nbsp;inmap,&nbsp;...])</td>
+<td>Composite model that evaluates models in series.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../api/astropy.modeling.core.SummedCompositeModel.html#astropy.modeling.core.SummedCompositeModel" title="astropy.modeling.core.SummedCompositeModel"><tt class="xref py py-obj docutils literal"><span class="pre">SummedCompositeModel</span></tt></a>(transforms[,&nbsp;inmap,&nbsp;outmap])</td>
+<td>Composite model that evaluates models in parallel.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="class-inheritance-diagram">
+<h4>Class Inheritance Diagram<a class="headerlink" href="#class-inheritance-diagram" title="Permalink to this headline">¶</a></h4>
+<p class="graphviz">
+<img src="../_images/inheritance-aa7915532e1c792ba8d1b6847bfaab044bc1cf04.png" alt="Inheritance diagram of astropy.modeling.parameters.InputParameterError, astropy.modeling.core.LabeledInput, astropy.modeling.core.Model, astropy.modeling.core.ModelDefinitionError, astropy.modeling.parameters.Parameter, astropy.modeling.core.Parametric1DModel, astropy.modeling.core.Parametric2DModel, astropy.modeling.core.ParametricModel, astropy.modeling.core.SerialCompositeModel, astropy.modeling.core.SummedCompositeModel" usemap="#inheritance281a94c005" class="inheritance"/>
+<map id="inheritance281a94c005" name="inheritance281a94c005">
+<area shape="rect" id="node1" href="../api/astropy.modeling.core.ModelDefinitionError.html#astropy.modeling.core.ModelDefinitionError" title="Used for incorrect models definitions" alt="" coords="22,205,234,225"/>
+<area shape="rect" id="node2" href="../api/astropy.modeling.parameters.Parameter.html#astropy.modeling.parameters.Parameter" title="Wraps individual parameters." alt="" coords="27,168,229,188"/>
+<area shape="rect" id="node3" href="../api/astropy.modeling.core.LabeledInput.html#astropy.modeling.core.LabeledInput" title="Create a container with all input data arrays, assigning labels for" alt="" coords="38,131,218,152"/>
+<area shape="rect" id="node4" href="../api/astropy.modeling.parameters.InputParameterError.html#astropy.modeling.parameters.InputParameterError" title="Used for incorrect input parameter values and definitions." alt="" coords="4,95,252,115"/>
+<area shape="rect" id="node5" href="../api/astropy.modeling.core.SerialCompositeModel.html#astropy.modeling.core.SerialCompositeModel" title="Composite model that evaluates models in series." alt="" coords="532,3,755,24"/>
+<area shape="rect" id="node13" href="../api/astropy.modeling.core.SummedCompositeModel.html#astropy.modeling.core.SummedCompositeModel" title="Composite model that evaluates models in parallel." alt="" coords="525,40,763,60"/>
+<area shape="rect" id="node8" href="../api/astropy.modeling.core.Parametric2DModel.html#astropy.modeling.core.Parametric2DModel" title="Base class for two dimensional parametric models." alt="" coords="539,77,749,97"/>
+<area shape="rect" id="node9" href="../api/astropy.modeling.core.ParametricModel.html#astropy.modeling.core.ParametricModel" title="Base class for all fittable models." alt="" coords="290,77,486,97"/>
+<area shape="rect" id="node11" href="../api/astropy.modeling.core.Parametric1DModel.html#astropy.modeling.core.Parametric1DModel" title="Base class for one dimensional parametric models." alt="" coords="539,113,749,133"/>
+<area shape="rect" id="node15" href="../api/astropy.modeling.core.Model.html#astropy.modeling.core.Model" title="Base class for all models." alt="" coords="55,58,201,78"/>
+</map>
+</p>
+</div>
+</div>
+<div class="section" id="module-astropy.modeling.fitting">
+<span id="astropy-modeling-fitting-module"></span><h3>astropy.modeling.fitting Module<a class="headerlink" href="#module-astropy.modeling.fitting" title="Permalink to this headline">¶</a></h3>
+<p>This module provides wrappers, called Fitters, around some Numpy and Scipy
+fitting functions. All Fitters take an instance of <a class="reference internal" href="../api/astropy.modeling.core.ParametricModel.html#astropy.modeling.core.ParametricModel" title="astropy.modeling.core.ParametricModel"><tt class="xref py py-obj docutils literal"><span class="pre">ParametricModel</span></tt></a>
+as input and define a <tt class="docutils literal"><span class="pre">__call__</span></tt> method which fits the model to the data and changes the
+model&#8217;s parameters attribute. The idea is to make this extensible and allow
+users to easily add other fitters.</p>
+<p>Linear fitting is done using Numpy&#8217;s <a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.linalg.lstsq.html#numpy.linalg.lstsq" title="(in NumPy v1.8)"><tt class="xref py py-obj docutils literal"><span class="pre">lstsq</span></tt></a> function.
+There are currently two non-linear fitters which use <a class="reference external" href="http://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.leastsq.html#scipy.optimize.leastsq" title="(in SciPy v0.13.0)"><tt class="xref py py-obj docutils literal"><span class="pre">leastsq</span></tt></a> and
+<tt class="xref py py-obj docutils literal"><span class="pre">slsqp</span></tt> functions in scipy.optimize.</p>
+<div class="section" id="id1">
+<h4>Classes<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../api/astropy.modeling.fitting.LinearLSQFitter.html#astropy.modeling.fitting.LinearLSQFitter" title="astropy.modeling.fitting.LinearLSQFitter"><tt class="xref py py-obj docutils literal"><span class="pre">LinearLSQFitter</span></tt></a>()</td>
+<td>A class performing a linear least square fitting.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../api/astropy.modeling.fitting.NonLinearLSQFitter.html#astropy.modeling.fitting.NonLinearLSQFitter" title="astropy.modeling.fitting.NonLinearLSQFitter"><tt class="xref py py-obj docutils literal"><span class="pre">NonLinearLSQFitter</span></tt></a>()</td>
+<td>A class performing non-linear least squares fitting using the Levenberg-Marquardt algorithm implemented in <a class="reference external" href="http://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.leastsq.html#scipy.optimize.leastsq" title="(in SciPy v0.13.0)"><tt class="xref py py-obj docutils literal"><span class="pre">scipy.optimize.leastsq</span></tt></a>.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../api/astropy.modeling.fitting.SLSQPFitter.html#astropy.modeling.fitting.SLSQPFitter" title="astropy.modeling.fitting.SLSQPFitter"><tt class="xref py py-obj docutils literal"><span class="pre">SLSQPFitter</span></tt></a>()</td>
+<td>Sequential Least Squares Programming optimization algorithm.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../api/astropy.modeling.fitting.JointFitter.html#astropy.modeling.fitting.JointFitter" title="astropy.modeling.fitting.JointFitter"><tt class="xref py py-obj docutils literal"><span class="pre">JointFitter</span></tt></a>(models,&nbsp;jointparameters,&nbsp;initvals)</td>
+<td>Fit models which share a parameter.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../api/astropy.modeling.fitting.Fitter.html#astropy.modeling.fitting.Fitter" title="astropy.modeling.fitting.Fitter"><tt class="xref py py-obj docutils literal"><span class="pre">Fitter</span></tt></a>()</td>
+<td>Base class for all fitters.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id2">
+<h4>Class Inheritance Diagram<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h4>
+<p class="graphviz">
+<img src="../_images/inheritance-6d70f95c8985402e3edc62c3254734a2b9c3fb6e.png" alt="Inheritance diagram of astropy.modeling.fitting.LinearLSQFitter, astropy.modeling.fitting.NonLinearLSQFitter, astropy.modeling.fitting.SLSQPFitter, astropy.modeling.fitting.JointFitter, astropy.modeling.fitting.Fitter" usemap="#inheritance756b18678c" class="inheritance"/>
+<map id="inheritance756b18678c" name="inheritance756b18678c">
+<area shape="rect" id="node1" href="../api/astropy.modeling.fitting.Fitter.html#astropy.modeling.fitting.Fitter" title="Base class for all fitters." alt="" coords="20,55,225,83"/>
+<area shape="rect" id="node2" href="../api/astropy.modeling.fitting.LinearLSQFitter.html#astropy.modeling.fitting.LinearLSQFitter" title="A class performing a linear least square fitting." alt="" coords="301,5,573,33"/>
+<area shape="rect" id="node4" href="../api/astropy.modeling.fitting.NonLinearLSQFitter.html#astropy.modeling.fitting.NonLinearLSQFitter" title="A class performing non&#45;linear least squares fitting using the" alt="" coords="289,55,585,83"/>
+<area shape="rect" id="node6" href="../api/astropy.modeling.fitting.SLSQPFitter.html#astropy.modeling.fitting.SLSQPFitter" title="Sequential Least Squares Programming optimization algorithm." alt="" coords="313,106,561,134"/>
+<area shape="rect" id="node8" href="../api/astropy.modeling.fitting.JointFitter.html#astropy.modeling.fitting.JointFitter" title="Fit models which share a parameter." alt="" coords="7,5,239,33"/>
+</map>
+</p>
+</div>
+</div>
+<div class="section" id="module-astropy.modeling.functional_models">
+<span id="astropy-modeling-functional-models-module"></span><h3>astropy.modeling.functional_models Module<a class="headerlink" href="#module-astropy.modeling.functional_models" title="Permalink to this headline">¶</a></h3>
+<p>Mathematical models.</p>
+<div class="section" id="id3">
+<h4>Functions<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../api/astropy.modeling.functional_models.custom_model_1d.html#astropy.modeling.functional_models.custom_model_1d" title="astropy.modeling.functional_models.custom_model_1d"><tt class="xref py py-obj docutils literal"><span class="pre">custom_model_1d</span></tt></a>(func[,&nbsp;func_deriv])</td>
+<td>Create a one dimensional model from a user defined function.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id4">
+<h4>Classes<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../api/astropy.modeling.functional_models.AiryDisk2D.html#astropy.modeling.functional_models.AiryDisk2D" title="astropy.modeling.functional_models.AiryDisk2D"><tt class="xref py py-obj docutils literal"><span class="pre">AiryDisk2D</span></tt></a>(amplitude,&nbsp;x_0,&nbsp;y_0,&nbsp;width,&nbsp;...)</td>
+<td>Two dimensional Airy disk model.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../api/astropy.modeling.functional_models.Beta1D.html#astropy.modeling.functional_models.Beta1D" title="astropy.modeling.functional_models.Beta1D"><tt class="xref py py-obj docutils literal"><span class="pre">Beta1D</span></tt></a>(amplitude,&nbsp;x_0,&nbsp;gamma,&nbsp;alpha,&nbsp;...)</td>
+<td>One dimensional Beta model.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../api/astropy.modeling.functional_models.Beta2D.html#astropy.modeling.functional_models.Beta2D" title="astropy.modeling.functional_models.Beta2D"><tt class="xref py py-obj docutils literal"><span class="pre">Beta2D</span></tt></a>(amplitude,&nbsp;x_0,&nbsp;y_0,&nbsp;gamma,&nbsp;alpha,&nbsp;...)</td>
+<td>Two dimensional Beta model.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../api/astropy.modeling.functional_models.Box1D.html#astropy.modeling.functional_models.Box1D" title="astropy.modeling.functional_models.Box1D"><tt class="xref py py-obj docutils literal"><span class="pre">Box1D</span></tt></a>(amplitude,&nbsp;x_0,&nbsp;width,&nbsp;**constraints)</td>
+<td>One dimensional Box model.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../api/astropy.modeling.functional_models.Box2D.html#astropy.modeling.functional_models.Box2D" title="astropy.modeling.functional_models.Box2D"><tt class="xref py py-obj docutils literal"><span class="pre">Box2D</span></tt></a>(amplitude,&nbsp;x_0,&nbsp;y_0,&nbsp;x_width,&nbsp;y_width,&nbsp;...)</td>
+<td>Two dimensional Box model.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../api/astropy.modeling.functional_models.Const1D.html#astropy.modeling.functional_models.Const1D" title="astropy.modeling.functional_models.Const1D"><tt class="xref py py-obj docutils literal"><span class="pre">Const1D</span></tt></a>(amplitude,&nbsp;**constraints)</td>
+<td>One dimensional Constant model.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../api/astropy.modeling.functional_models.Const2D.html#astropy.modeling.functional_models.Const2D" title="astropy.modeling.functional_models.Const2D"><tt class="xref py py-obj docutils literal"><span class="pre">Const2D</span></tt></a>(amplitude,&nbsp;**constraints)</td>
+<td>Two dimensional Constant model.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../api/astropy.modeling.functional_models.Disk2D.html#astropy.modeling.functional_models.Disk2D" title="astropy.modeling.functional_models.Disk2D"><tt class="xref py py-obj docutils literal"><span class="pre">Disk2D</span></tt></a>(amplitude,&nbsp;x_0,&nbsp;y_0,&nbsp;R_0,&nbsp;**constraints)</td>
+<td>Two dimensional radial symmetric Disk model.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../api/astropy.modeling.functional_models.Gaussian1D.html#astropy.modeling.functional_models.Gaussian1D" title="astropy.modeling.functional_models.Gaussian1D"><tt class="xref py py-obj docutils literal"><span class="pre">Gaussian1D</span></tt></a>(amplitude,&nbsp;mean,&nbsp;stddev,&nbsp;...)</td>
+<td>One dimensional Gaussian model.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../api/astropy.modeling.functional_models.Gaussian2D.html#astropy.modeling.functional_models.Gaussian2D" title="astropy.modeling.functional_models.Gaussian2D"><tt class="xref py py-obj docutils literal"><span class="pre">Gaussian2D</span></tt></a>(amplitude,&nbsp;x_mean,&nbsp;y_mean[,&nbsp;...])</td>
+<td>Two dimensional Gaussian model.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../api/astropy.modeling.functional_models.Linear1D.html#astropy.modeling.functional_models.Linear1D" title="astropy.modeling.functional_models.Linear1D"><tt class="xref py py-obj docutils literal"><span class="pre">Linear1D</span></tt></a>(slope,&nbsp;intercept,&nbsp;**constraints)</td>
+<td>One dimensional Line model.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../api/astropy.modeling.functional_models.Lorentz1D.html#astropy.modeling.functional_models.Lorentz1D" title="astropy.modeling.functional_models.Lorentz1D"><tt class="xref py py-obj docutils literal"><span class="pre">Lorentz1D</span></tt></a>(amplitude,&nbsp;x_0,&nbsp;fwhm,&nbsp;**constraints)</td>
+<td>One dimensional Lorentzian model.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../api/astropy.modeling.functional_models.MexicanHat1D.html#astropy.modeling.functional_models.MexicanHat1D" title="astropy.modeling.functional_models.MexicanHat1D"><tt class="xref py py-obj docutils literal"><span class="pre">MexicanHat1D</span></tt></a>(amplitude,&nbsp;x_0,&nbsp;sigma,&nbsp;...)</td>
+<td>One dimensional Mexican Hat model.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../api/astropy.modeling.functional_models.MexicanHat2D.html#astropy.modeling.functional_models.MexicanHat2D" title="astropy.modeling.functional_models.MexicanHat2D"><tt class="xref py py-obj docutils literal"><span class="pre">MexicanHat2D</span></tt></a>(amplitude,&nbsp;x_0,&nbsp;y_0,&nbsp;sigma,&nbsp;...)</td>
+<td>Two dimensional symmetric Mexican Hat model.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../api/astropy.modeling.functional_models.Ring2D.html#astropy.modeling.functional_models.Ring2D" title="astropy.modeling.functional_models.Ring2D"><tt class="xref py py-obj docutils literal"><span class="pre">Ring2D</span></tt></a>(amplitude,&nbsp;x_0,&nbsp;y_0,&nbsp;r_in[,&nbsp;width,&nbsp;r_out])</td>
+<td>Two dimensional radial symmetric Ring model.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../api/astropy.modeling.functional_models.Scale.html#astropy.modeling.functional_models.Scale" title="astropy.modeling.functional_models.Scale"><tt class="xref py py-obj docutils literal"><span class="pre">Scale</span></tt></a>(factors[,&nbsp;param_dim])</td>
+<td>Multiply a model by a factor.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../api/astropy.modeling.functional_models.Shift.html#astropy.modeling.functional_models.Shift" title="astropy.modeling.functional_models.Shift"><tt class="xref py py-obj docutils literal"><span class="pre">Shift</span></tt></a>(offsets[,&nbsp;param_dim])</td>
+<td>Shift a coordinate.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../api/astropy.modeling.functional_models.Sine1D.html#astropy.modeling.functional_models.Sine1D" title="astropy.modeling.functional_models.Sine1D"><tt class="xref py py-obj docutils literal"><span class="pre">Sine1D</span></tt></a>(amplitude,&nbsp;frequency,&nbsp;**constraints)</td>
+<td>One dimensional Sine model.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../api/astropy.modeling.functional_models.Trapezoid1D.html#astropy.modeling.functional_models.Trapezoid1D" title="astropy.modeling.functional_models.Trapezoid1D"><tt class="xref py py-obj docutils literal"><span class="pre">Trapezoid1D</span></tt></a>(amplitude,&nbsp;x_0,&nbsp;width,&nbsp;slope,&nbsp;...)</td>
+<td>One dimensional Trapezoid model.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../api/astropy.modeling.functional_models.TrapezoidDisk2D.html#astropy.modeling.functional_models.TrapezoidDisk2D" title="astropy.modeling.functional_models.TrapezoidDisk2D"><tt class="xref py py-obj docutils literal"><span class="pre">TrapezoidDisk2D</span></tt></a>(amplitude,&nbsp;x_0,&nbsp;y_0,&nbsp;R_0,&nbsp;...)</td>
+<td>Two dimensional circular Trapezoid model.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id5">
+<h4>Class Inheritance Diagram<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h4>
+<p class="graphviz">
+<img src="../_images/inheritance-e08add533257a7dc7eba288af02a0d92cbfad9f5.png" alt="Inheritance diagram of astropy.modeling.functional_models.AiryDisk2D, astropy.modeling.functional_models.Beta1D, astropy.modeling.functional_models.Beta2D, astropy.modeling.functional_models.Box1D, astropy.modeling.functional_models.Box2D, astropy.modeling.functional_models.Const1D, astropy.modeling.functional_models.Const2D, astropy.modeling.functional_models.Disk2D, astropy.modeling.functional_models.Gaussian1D, astropy.modeling.functional_models.Gaussian2D, astropy.modeling.functional_models.Linear1D, astropy.modeling.functional_models.Lorentz1D, astropy.modeling.functional_models.MexicanHat1D, astropy.modeling.functional_models.MexicanHat2D, astropy.modeling.functional_models.Ring2D, astropy.modeling.functional_models.Scale, astropy.modeling.functional_models.Shift, astropy.modeling.functional_models.Sine1D, astropy.modeling.functional_models.Trapezoid1D, astropy.modeling.functional_models.TrapezoidDisk2D" usemap="#inheritancea9e689d2e3" class="inheritance"/>
+<map id="inheritancea9e689d2e3" name="inheritancea9e689d2e3">
+<area shape="rect" id="node1" href="../api/astropy.modeling.core.Parametric2DModel.html#astropy.modeling.core.Parametric2DModel" title="Base class for two dimensional parametric models." alt="" coords="353,137,524,154"/>
+<area shape="rect" id="node10" href="../api/astropy.modeling.functional_models.Gaussian2D.html#astropy.modeling.functional_models.Gaussian2D" title="Two dimensional Gaussian model." alt="" coords="561,3,756,19"/>
+<area shape="rect" id="node24" href="../api/astropy.modeling.functional_models.Const2D.html#astropy.modeling.functional_models.Const2D" title="Two dimensional Constant model." alt="" coords="568,33,750,49"/>
+<area shape="rect" id="node26" href="../api/astropy.modeling.functional_models.Disk2D.html#astropy.modeling.functional_models.Disk2D" title="Two dimensional radial symmetric Disk model." alt="" coords="571,62,747,79"/>
+<area shape="rect" id="node28" href="../api/astropy.modeling.functional_models.Ring2D.html#astropy.modeling.functional_models.Ring2D" title="Two dimensional radial symmetric Ring model." alt="" coords="571,92,747,109"/>
+<area shape="rect" id="node32" href="../api/astropy.modeling.functional_models.Box2D.html#astropy.modeling.functional_models.Box2D" title="Two dimensional Box model." alt="" coords="572,122,746,139"/>
+<area shape="rect" id="node36" href="../api/astropy.modeling.functional_models.TrapezoidDisk2D.html#astropy.modeling.functional_models.TrapezoidDisk2D" title="Two dimensional circular Trapezoid model." alt="" coords="553,152,765,168"/>
+<area shape="rect" id="node40" href="../api/astropy.modeling.functional_models.MexicanHat2D.html#astropy.modeling.functional_models.MexicanHat2D" title="Two dimensional symmetric Mexican Hat model." alt="" coords="557,182,761,198"/>
+<area shape="rect" id="node42" href="../api/astropy.modeling.functional_models.AiryDisk2D.html#astropy.modeling.functional_models.AiryDisk2D" title="Two dimensional Airy disk model." alt="" coords="564,212,754,228"/>
+<area shape="rect" id="node46" href="../api/astropy.modeling.functional_models.Beta2D.html#astropy.modeling.functional_models.Beta2D" title="Two dimensional Beta model." alt="" coords="570,241,748,258"/>
+<area shape="rect" id="node2" href="../api/astropy.modeling.core.ParametricModel.html#astropy.modeling.core.ParametricModel" title="Base class for all fittable models." alt="" coords="158,256,318,273"/>
+<area shape="rect" id="node4" href="../api/astropy.modeling.core.Parametric1DModel.html#astropy.modeling.core.Parametric1DModel" title="Base class for one dimensional parametric models." alt="" coords="353,376,524,392"/>
+<area shape="rect" id="node8" href="../api/astropy.modeling.functional_models.Gaussian1D.html#astropy.modeling.functional_models.Gaussian1D" title="One dimensional Gaussian model." alt="" coords="561,271,756,288"/>
+<area shape="rect" id="node16" href="../api/astropy.modeling.functional_models.Sine1D.html#astropy.modeling.functional_models.Sine1D" title="One dimensional Sine model." alt="" coords="570,301,748,318"/>
+<area shape="rect" id="node18" href="../api/astropy.modeling.functional_models.Linear1D.html#astropy.modeling.functional_models.Linear1D" title="One dimensional Line model." alt="" coords="567,331,751,347"/>
+<area shape="rect" id="node20" href="../api/astropy.modeling.functional_models.Lorentz1D.html#astropy.modeling.functional_models.Lorentz1D" title="One dimensional Lorentzian model." alt="" coords="565,361,753,377"/>
+<area shape="rect" id="node22" href="../api/astropy.modeling.functional_models.Const1D.html#astropy.modeling.functional_models.Const1D" title="One dimensional Constant model." alt="" coords="568,391,750,407"/>
+<area shape="rect" id="node30" href="../api/astropy.modeling.functional_models.Box1D.html#astropy.modeling.functional_models.Box1D" title="One dimensional Box model." alt="" coords="572,421,746,437"/>
+<area shape="rect" id="node34" href="../api/astropy.modeling.functional_models.Trapezoid1D.html#astropy.modeling.functional_models.Trapezoid1D" title="One dimensional Trapezoid model." alt="" coords="561,450,757,467"/>
+<area shape="rect" id="node38" href="../api/astropy.modeling.functional_models.MexicanHat1D.html#astropy.modeling.functional_models.MexicanHat1D" title="One dimensional Mexican Hat model." alt="" coords="557,480,761,497"/>
+<area shape="rect" id="node44" href="../api/astropy.modeling.functional_models.Beta1D.html#astropy.modeling.functional_models.Beta1D" title="One dimensional Beta model." alt="" coords="570,510,748,527"/>
+<area shape="rect" id="node6" href="../api/astropy.modeling.core.Model.html#astropy.modeling.core.Model" title="Base class for all models." alt="" coords="4,286,123,303"/>
+<area shape="rect" id="node12" href="../api/astropy.modeling.functional_models.Shift.html#astropy.modeling.functional_models.Shift" title="Shift a coordinate." alt="" coords="155,286,321,303"/>
+<area shape="rect" id="node14" href="../api/astropy.modeling.functional_models.Scale.html#astropy.modeling.functional_models.Scale" title="Multiply a model by a factor." alt="" coords="153,316,323,333"/>
+</map>
+</p>
+</div>
+</div>
+<div class="section" id="module-astropy.modeling.powerlaws">
+<span id="astropy-modeling-powerlaws-module"></span><h3>astropy.modeling.powerlaws Module<a class="headerlink" href="#module-astropy.modeling.powerlaws" title="Permalink to this headline">¶</a></h3>
+<p>Power law model variants</p>
+<div class="section" id="id6">
+<h4>Classes<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../api/astropy.modeling.powerlaws.BrokenPowerLaw1D.html#astropy.modeling.powerlaws.BrokenPowerLaw1D" title="astropy.modeling.powerlaws.BrokenPowerLaw1D"><tt class="xref py py-obj docutils literal"><span class="pre">BrokenPowerLaw1D</span></tt></a>(amplitude,&nbsp;x_break,&nbsp;...)</td>
+<td>One dimensional power law model with a break.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../api/astropy.modeling.powerlaws.ExponentialCutoffPowerLaw1D.html#astropy.modeling.powerlaws.ExponentialCutoffPowerLaw1D" title="astropy.modeling.powerlaws.ExponentialCutoffPowerLaw1D"><tt class="xref py py-obj docutils literal"><span class="pre">ExponentialCutoffPowerLaw1D</span></tt></a>(amplitude,&nbsp;x_0,&nbsp;...)</td>
+<td>One dimensional power law model with an exponential cutoff.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../api/astropy.modeling.powerlaws.LogParabola1D.html#astropy.modeling.powerlaws.LogParabola1D" title="astropy.modeling.powerlaws.LogParabola1D"><tt class="xref py py-obj docutils literal"><span class="pre">LogParabola1D</span></tt></a>(amplitude,&nbsp;x_0,&nbsp;alpha,&nbsp;beta,&nbsp;...)</td>
+<td>One dimensional log parabola model (sometimes called curved power law).</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../api/astropy.modeling.powerlaws.PowerLaw1D.html#astropy.modeling.powerlaws.PowerLaw1D" title="astropy.modeling.powerlaws.PowerLaw1D"><tt class="xref py py-obj docutils literal"><span class="pre">PowerLaw1D</span></tt></a>(amplitude,&nbsp;x_0,&nbsp;alpha,&nbsp;**constraints)</td>
+<td>One dimensional power law model.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id7">
+<h4>Class Inheritance Diagram<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h4>
+<p class="graphviz">
+<img src="../_images/inheritance-a362a2bb36936b65375d2606466e0a54603a6078.png" alt="Inheritance diagram of astropy.modeling.powerlaws.BrokenPowerLaw1D, astropy.modeling.powerlaws.ExponentialCutoffPowerLaw1D, astropy.modeling.powerlaws.LogParabola1D, astropy.modeling.powerlaws.PowerLaw1D" usemap="#inheritancec335fc0bb9" class="inheritance"/>
+<map id="inheritancec335fc0bb9" name="inheritancec335fc0bb9">
+<area shape="rect" id="node1" href="../api/astropy.modeling.core.Parametric1DModel.html#astropy.modeling.core.Parametric1DModel" title="Base class for one dimensional parametric models." alt="" coords="338,47,506,63"/>
+<area shape="rect" id="node6" href="../api/astropy.modeling.powerlaws.PowerLaw1D.html#astropy.modeling.powerlaws.PowerLaw1D" title="One dimensional power law model." alt="" coords="568,3,732,19"/>
+<area shape="rect" id="node8" href="../api/astropy.modeling.powerlaws.BrokenPowerLaw1D.html#astropy.modeling.powerlaws.BrokenPowerLaw1D" title="One dimensional power law model with a break." alt="" coords="555,32,745,48"/>
+<area shape="rect" id="node10" href="../api/astropy.modeling.powerlaws.ExponentialCutoffPowerLaw1D.html#astropy.modeling.powerlaws.ExponentialCutoffPowerLaw1D" title="One dimensional power law model with an exponential cutoff." alt="" coords="535,61,764,78"/>
+<area shape="rect" id="node12" href="../api/astropy.modeling.powerlaws.LogParabola1D.html#astropy.modeling.powerlaws.LogParabola1D" title="One dimensional log parabola model (sometimes called curved power law)." alt="" coords="563,91,736,107"/>
+<area shape="rect" id="node2" href="../api/astropy.modeling.core.ParametricModel.html#astropy.modeling.core.ParametricModel" title="Base class for all fittable models." alt="" coords="151,47,308,63"/>
+<area shape="rect" id="node4" href="../api/astropy.modeling.core.Model.html#astropy.modeling.core.Model" title="Base class for all models." alt="" coords="4,47,121,63"/>
+</map>
+</p>
+</div>
+</div>
+<div class="section" id="module-astropy.modeling.polynomial">
+<span id="astropy-modeling-polynomial-module"></span><h3>astropy.modeling.polynomial Module<a class="headerlink" href="#module-astropy.modeling.polynomial" title="Permalink to this headline">¶</a></h3>
+<p>This module contains predefined polynomial models.</p>
+<div class="section" id="id8">
+<h4>Classes<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../api/astropy.modeling.polynomial.Chebyshev1D.html#astropy.modeling.polynomial.Chebyshev1D" title="astropy.modeling.polynomial.Chebyshev1D"><tt class="xref py py-obj docutils literal"><span class="pre">Chebyshev1D</span></tt></a>(degree[,&nbsp;domain,&nbsp;window,&nbsp;param_dim])</td>
+<td>1D Chebyshev polynomial of the 1st kind.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../api/astropy.modeling.polynomial.Chebyshev2D.html#astropy.modeling.polynomial.Chebyshev2D" title="astropy.modeling.polynomial.Chebyshev2D"><tt class="xref py py-obj docutils literal"><span class="pre">Chebyshev2D</span></tt></a>(x_degree,&nbsp;y_degree[,&nbsp;x_domain,&nbsp;...])</td>
+<td>2D Chebyshev polynomial of the 1st kind.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../api/astropy.modeling.polynomial.InverseSIP.html#astropy.modeling.polynomial.InverseSIP" title="astropy.modeling.polynomial.InverseSIP"><tt class="xref py py-obj docutils literal"><span class="pre">InverseSIP</span></tt></a>(crpix,&nbsp;a_order,&nbsp;a_coeff,&nbsp;b_order,&nbsp;...)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../api/astropy.modeling.polynomial.Legendre1D.html#astropy.modeling.polynomial.Legendre1D" title="astropy.modeling.polynomial.Legendre1D"><tt class="xref py py-obj docutils literal"><span class="pre">Legendre1D</span></tt></a>(degree[,&nbsp;domain,&nbsp;window,&nbsp;param_dim])</td>
+<td>1D Legendre polynomial.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../api/astropy.modeling.polynomial.Legendre2D.html#astropy.modeling.polynomial.Legendre2D" title="astropy.modeling.polynomial.Legendre2D"><tt class="xref py py-obj docutils literal"><span class="pre">Legendre2D</span></tt></a>(x_degree,&nbsp;y_degree[,&nbsp;x_domain,&nbsp;...])</td>
+<td>Legendre 2D polynomial.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../api/astropy.modeling.polynomial.Polynomial1D.html#astropy.modeling.polynomial.Polynomial1D" title="astropy.modeling.polynomial.Polynomial1D"><tt class="xref py py-obj docutils literal"><span class="pre">Polynomial1D</span></tt></a>(degree[,&nbsp;domain,&nbsp;window,&nbsp;param_dim])</td>
+<td>1D Polynomial model.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../api/astropy.modeling.polynomial.Polynomial2D.html#astropy.modeling.polynomial.Polynomial2D" title="astropy.modeling.polynomial.Polynomial2D"><tt class="xref py py-obj docutils literal"><span class="pre">Polynomial2D</span></tt></a>(degree[,&nbsp;x_domain,&nbsp;y_domain,&nbsp;...])</td>
+<td>2D Polynomial  model.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../api/astropy.modeling.polynomial.SIP.html#astropy.modeling.polynomial.SIP" title="astropy.modeling.polynomial.SIP"><tt class="xref py py-obj docutils literal"><span class="pre">SIP</span></tt></a>(crpix,&nbsp;a_order,&nbsp;a_coeff,&nbsp;b_order,&nbsp;b_coeff)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../api/astropy.modeling.polynomial.OrthoPolynomialBase.html#astropy.modeling.polynomial.OrthoPolynomialBase" title="astropy.modeling.polynomial.OrthoPolynomialBase"><tt class="xref py py-obj docutils literal"><span class="pre">OrthoPolynomialBase</span></tt></a>(x_degree,&nbsp;y_degree[,&nbsp;...])</td>
+<td>This is a base class for the 2D Chebyshev and Legendre models.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../api/astropy.modeling.polynomial.PolynomialModel.html#astropy.modeling.polynomial.PolynomialModel" title="astropy.modeling.polynomial.PolynomialModel"><tt class="xref py py-obj docutils literal"><span class="pre">PolynomialModel</span></tt></a>(degree[,&nbsp;n_inputs,&nbsp;...])</td>
+<td>Base class for polynomial models.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id9">
+<h4>Class Inheritance Diagram<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h4>
+<p class="graphviz">
+<img src="../_images/inheritance-98cc79e663352c1c592b9fd5cc56aff16202d5dc.png" alt="Inheritance diagram of astropy.modeling.polynomial.Chebyshev1D, astropy.modeling.polynomial.Chebyshev2D, astropy.modeling.polynomial.InverseSIP, astropy.modeling.polynomial.Legendre1D, astropy.modeling.polynomial.Legendre2D, astropy.modeling.polynomial.Polynomial1D, astropy.modeling.polynomial.Polynomial2D, astropy.modeling.polynomial.SIP, astropy.modeling.polynomial.OrthoPolynomialBase, astropy.modeling.polynomial.PolynomialModel" usemap="#inheritanced87583bc38" class="inheritance"/>
+<map id="inheritanced87583bc38" name="inheritanced87583bc38">
+<area shape="rect" id="node1" href="../api/astropy.modeling.core.SerialCompositeModel.html#astropy.modeling.core.SerialCompositeModel" title="Composite model that evaluates models in series." alt="" coords="275,31,420,44"/>
+<area shape="rect" id="node26" title="Simple Imaging Polynomial (SIP) model." alt="" coords="460,26,587,39"/>
+<area shape="rect" id="node4" href="../api/astropy.modeling.core.Model.html#astropy.modeling.core.Model" title="Base class for all models." alt="" coords="3,65,98,78"/>
+<area shape="rect" id="node5" href="../api/astropy.modeling.core.ParametricModel.html#astropy.modeling.core.ParametricModel" title="Base class for all fittable models." alt="" coords="123,81,251,94"/>
+<area shape="rect" id="node9" title="Base class for all polynomial&#45;like models with an arbitrary number of" alt="" coords="276,85,420,99"/>
+<area shape="rect" id="node8" href="../api/astropy.modeling.polynomial.PolynomialModel.html#astropy.modeling.polynomial.PolynomialModel" title="Base class for polynomial models." alt="" coords="450,85,597,99"/>
+<area shape="rect" id="node13" href="../api/astropy.modeling.polynomial.Chebyshev1D.html#astropy.modeling.polynomial.Chebyshev1D" title="1D Chebyshev polynomial of the 1st kind." alt="" coords="627,50,765,63"/>
+<area shape="rect" id="node16" href="../api/astropy.modeling.polynomial.Legendre1D.html#astropy.modeling.polynomial.Legendre1D" title="1D Legendre polynomial." alt="" coords="629,73,763,87"/>
+<area shape="rect" id="node18" href="../api/astropy.modeling.polynomial.Polynomial1D.html#astropy.modeling.polynomial.Polynomial1D" title="1D Polynomial model." alt="" coords="627,97,765,110"/>
+<area shape="rect" id="node20" href="../api/astropy.modeling.polynomial.Polynomial2D.html#astropy.modeling.polynomial.Polynomial2D" title="2D Polynomial &#160;model." alt="" coords="627,121,765,134"/>
+<area shape="rect" id="node11" href="../api/astropy.modeling.polynomial.OrthoPolynomialBase.html#astropy.modeling.polynomial.OrthoPolynomialBase" title="This is a base class for the 2D Chebyshev and Legendre models." alt="" coords="443,145,604,158"/>
+<area shape="rect" id="node22" href="../api/astropy.modeling.polynomial.Chebyshev2D.html#astropy.modeling.polynomial.Chebyshev2D" title="2D Chebyshev polynomial of the 1st kind." alt="" coords="627,145,765,158"/>
+<area shape="rect" id="node24" href="../api/astropy.modeling.polynomial.Legendre2D.html#astropy.modeling.polynomial.Legendre2D" title="Legendre 2D polynomial." alt="" coords="629,169,763,182"/>
+<area shape="rect" id="node28" href="../api/astropy.modeling.polynomial.SIP.html#astropy.modeling.polynomial.SIP" title="astropy.modeling.polynomial.SIP" alt="" coords="643,2,749,15"/>
+<area shape="rect" id="node30" href="../api/astropy.modeling.polynomial.InverseSIP.html#astropy.modeling.polynomial.InverseSIP" title="astropy.modeling.polynomial.InverseSIP" alt="" coords="632,26,760,39"/>
+</map>
+</p>
+</div>
+</div>
+<div class="section" id="module-astropy.modeling.projections">
+<span id="astropy-modeling-projections-module"></span><h3>astropy.modeling.projections Module<a class="headerlink" href="#module-astropy.modeling.projections" title="Permalink to this headline">¶</a></h3>
+<p>Implements sky projections defined in WCS Paper II <a class="reference internal" href="#r9" id="id10">[R9]</a></p>
+<p>All angles are set and reported in deg but internally the code works and keeps
+all angles in radians. For this to work, the mechanism of setting Model&#8217;s
+properties is bypassed by passing an empty parlist to
+<tt class="xref py py-obj docutils literal"><span class="pre">__init__</span></tt>.  This also has the effect of not
+creating Projection.parameters.  Projection.param_names is created within the
+Projection class.  For an example see the AZP classes.</p>
+<div class="section" id="references">
+<h4>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h4>
+<table class="docutils citation" frame="void" id="r9" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id10">[R9]</a></td><td>Calabretta, M.R., Greisen, E.W., 2002, A&amp;A, 395, 1077 (Paper II)</td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id11">
+<h4>Classes<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../api/astropy.modeling.projections.Pix2Sky_AZP.html#astropy.modeling.projections.Pix2Sky_AZP" title="astropy.modeling.projections.Pix2Sky_AZP"><tt class="xref py py-obj docutils literal"><span class="pre">Pix2Sky_AZP</span></tt></a>([mu,&nbsp;gamma])</td>
+<td>AZP : Zenital perspective projection - pixel to sky.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../api/astropy.modeling.projections.Sky2Pix_AZP.html#astropy.modeling.projections.Sky2Pix_AZP" title="astropy.modeling.projections.Sky2Pix_AZP"><tt class="xref py py-obj docutils literal"><span class="pre">Sky2Pix_AZP</span></tt></a>([mu,&nbsp;gamma])</td>
+<td>AZP : Zenital perspective projection - sky to pixel.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../api/astropy.modeling.projections.Pix2Sky_CAR.html#astropy.modeling.projections.Pix2Sky_CAR" title="astropy.modeling.projections.Pix2Sky_CAR"><tt class="xref py py-obj docutils literal"><span class="pre">Pix2Sky_CAR</span></tt></a>([param_dim])</td>
+<td>CAR: Plate carree projection - pixel to sky.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../api/astropy.modeling.projections.Sky2Pix_CAR.html#astropy.modeling.projections.Sky2Pix_CAR" title="astropy.modeling.projections.Sky2Pix_CAR"><tt class="xref py py-obj docutils literal"><span class="pre">Sky2Pix_CAR</span></tt></a>([param_dim])</td>
+<td>CAR: Plate carree projection - sky to pixel.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../api/astropy.modeling.projections.Pix2Sky_CEA.html#astropy.modeling.projections.Pix2Sky_CEA" title="astropy.modeling.projections.Pix2Sky_CEA"><tt class="xref py py-obj docutils literal"><span class="pre">Pix2Sky_CEA</span></tt></a>([lam])</td>
+<td>CEA : Cylindrical equal area projection - pixel to sky.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../api/astropy.modeling.projections.Sky2Pix_CEA.html#astropy.modeling.projections.Sky2Pix_CEA" title="astropy.modeling.projections.Sky2Pix_CEA"><tt class="xref py py-obj docutils literal"><span class="pre">Sky2Pix_CEA</span></tt></a>([lam])</td>
+<td>CEA: Cylindrical equal area projection - sky to pixel.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../api/astropy.modeling.projections.Pix2Sky_CYP.html#astropy.modeling.projections.Pix2Sky_CYP" title="astropy.modeling.projections.Pix2Sky_CYP"><tt class="xref py py-obj docutils literal"><span class="pre">Pix2Sky_CYP</span></tt></a>(mu,&nbsp;lam)</td>
+<td>CYP : Cylindrical perspective - pixel to sky.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../api/astropy.modeling.projections.Sky2Pix_CYP.html#astropy.modeling.projections.Sky2Pix_CYP" title="astropy.modeling.projections.Sky2Pix_CYP"><tt class="xref py py-obj docutils literal"><span class="pre">Sky2Pix_CYP</span></tt></a>(mu,&nbsp;lam)</td>
+<td>CYP : Cylindrical Perspective - sky to pixel.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../api/astropy.modeling.projections.Pix2Sky_MER.html#astropy.modeling.projections.Pix2Sky_MER" title="astropy.modeling.projections.Pix2Sky_MER"><tt class="xref py py-obj docutils literal"><span class="pre">Pix2Sky_MER</span></tt></a>([param_dim])</td>
+<td>MER: Mercator - pixel to sky.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../api/astropy.modeling.projections.Sky2Pix_MER.html#astropy.modeling.projections.Sky2Pix_MER" title="astropy.modeling.projections.Sky2Pix_MER"><tt class="xref py py-obj docutils literal"><span class="pre">Sky2Pix_MER</span></tt></a>([param_dim])</td>
+<td>MER: Mercator - sky to pixel.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../api/astropy.modeling.projections.Pix2Sky_SIN.html#astropy.modeling.projections.Pix2Sky_SIN" title="astropy.modeling.projections.Pix2Sky_SIN"><tt class="xref py py-obj docutils literal"><span class="pre">Pix2Sky_SIN</span></tt></a>([param_dim])</td>
+<td>SIN : Slant orthographic projection - pixel to sky.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../api/astropy.modeling.projections.Sky2Pix_SIN.html#astropy.modeling.projections.Sky2Pix_SIN" title="astropy.modeling.projections.Sky2Pix_SIN"><tt class="xref py py-obj docutils literal"><span class="pre">Sky2Pix_SIN</span></tt></a>([param_dim])</td>
+<td>SIN : Slant othographic projection - sky to pixel.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../api/astropy.modeling.projections.Pix2Sky_STG.html#astropy.modeling.projections.Pix2Sky_STG" title="astropy.modeling.projections.Pix2Sky_STG"><tt class="xref py py-obj docutils literal"><span class="pre">Pix2Sky_STG</span></tt></a>([param_dim])</td>
+<td>STG : Stereographic Projection - pixel to sky.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../api/astropy.modeling.projections.Sky2Pix_STG.html#astropy.modeling.projections.Sky2Pix_STG" title="astropy.modeling.projections.Sky2Pix_STG"><tt class="xref py py-obj docutils literal"><span class="pre">Sky2Pix_STG</span></tt></a>([param_dim])</td>
+<td>STG : Stereographic Projection - sky to pixel.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../api/astropy.modeling.projections.Pix2Sky_TAN.html#astropy.modeling.projections.Pix2Sky_TAN" title="astropy.modeling.projections.Pix2Sky_TAN"><tt class="xref py py-obj docutils literal"><span class="pre">Pix2Sky_TAN</span></tt></a>([param_dim])</td>
+<td>TAN : Gnomonic projection - pixel to sky.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../api/astropy.modeling.projections.Sky2Pix_TAN.html#astropy.modeling.projections.Sky2Pix_TAN" title="astropy.modeling.projections.Sky2Pix_TAN"><tt class="xref py py-obj docutils literal"><span class="pre">Sky2Pix_TAN</span></tt></a>([param_dim])</td>
+<td>TAN : Gnomonic Projection - sky to pixel.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id12">
+<h4>Class Inheritance Diagram<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h4>
+<p class="graphviz">
+<img src="../_images/inheritance-473f8cd85278a19ffa4a8e4ddb33548fb31f77e0.png" alt="Inheritance diagram of astropy.modeling.projections.Pix2Sky_AZP, astropy.modeling.projections.Sky2Pix_AZP, astropy.modeling.projections.Pix2Sky_CAR, astropy.modeling.projections.Sky2Pix_CAR, astropy.modeling.projections.Pix2Sky_CEA, astropy.modeling.projections.Sky2Pix_CEA, astropy.modeling.projections.Pix2Sky_CYP, astropy.modeling.projections.Sky2Pix_CYP, astropy.modeling.projections.Pix2Sky_MER, astropy.modeling.projections.Sky2Pix_MER, astropy.modeling.projections.Pix2Sky_SIN, astropy.modeling.projections.Sky2Pix_SIN, astropy.modeling.projections.Pix2Sky_STG, astropy.modeling.projections.Sky2Pix_STG, astropy.modeling.projections.Pix2Sky_TAN, astropy.modeling.projections.Sky2Pix_TAN" usemap="#inheritance8331bd1e54" class="inheritance"/>
+<map id="inheritance8331bd1e54" name="inheritance8331bd1e54">
+<area shape="rect" id="node1" title="Base class for all sky projections." alt="" coords="167,247,340,265"/>
+<area shape="rect" id="node4" title="Base class for all Zenithal projections." alt="" coords="375,133,543,151"/>
+<area shape="rect" id="node22" title="Base class for Cylindrical projections." alt="" coords="372,361,547,379"/>
+<area shape="rect" id="node2" href="../api/astropy.modeling.core.Model.html#astropy.modeling.core.Model" title="Base class for all models." alt="" coords="4,247,135,265"/>
+<area shape="rect" id="node6" href="../api/astropy.modeling.projections.Pix2Sky_AZP.html#astropy.modeling.projections.Pix2Sky_AZP" title="AZP : Zenital perspective projection &#45; pixel to sky." alt="" coords="578,3,765,21"/>
+<area shape="rect" id="node8" href="../api/astropy.modeling.projections.Sky2Pix_AZP.html#astropy.modeling.projections.Sky2Pix_AZP" title="AZP : Zenital perspective projection &#45; sky to pixel." alt="" coords="578,36,765,54"/>
+<area shape="rect" id="node10" href="../api/astropy.modeling.projections.Pix2Sky_TAN.html#astropy.modeling.projections.Pix2Sky_TAN" title="TAN : Gnomonic projection &#45; pixel to sky." alt="" coords="579,68,764,86"/>
+<area shape="rect" id="node12" href="../api/astropy.modeling.projections.Sky2Pix_TAN.html#astropy.modeling.projections.Sky2Pix_TAN" title="TAN : Gnomonic Projection &#45; sky to pixel." alt="" coords="579,101,764,119"/>
+<area shape="rect" id="node14" href="../api/astropy.modeling.projections.Pix2Sky_STG.html#astropy.modeling.projections.Pix2Sky_STG" title="STG : Stereographic Projection &#45; pixel to sky." alt="" coords="579,133,764,151"/>
+<area shape="rect" id="node16" href="../api/astropy.modeling.projections.Sky2Pix_STG.html#astropy.modeling.projections.Sky2Pix_STG" title="STG : Stereographic Projection &#45; sky to pixel." alt="" coords="579,166,764,184"/>
+<area shape="rect" id="node18" href="../api/astropy.modeling.projections.Pix2Sky_SIN.html#astropy.modeling.projections.Pix2Sky_SIN" title="SIN : Slant orthographic projection &#45; pixel to sky." alt="" coords="579,198,763,216"/>
+<area shape="rect" id="node20" href="../api/astropy.modeling.projections.Sky2Pix_SIN.html#astropy.modeling.projections.Sky2Pix_SIN" title="SIN : Slant othographic projection &#45; sky to pixel." alt="" coords="579,231,763,249"/>
+<area shape="rect" id="node24" href="../api/astropy.modeling.projections.Pix2Sky_CYP.html#astropy.modeling.projections.Pix2Sky_CYP" title="CYP : Cylindrical perspective &#45; pixel to sky." alt="" coords="579,264,764,282"/>
+<area shape="rect" id="node26" href="../api/astropy.modeling.projections.Sky2Pix_CYP.html#astropy.modeling.projections.Sky2Pix_CYP" title="CYP : Cylindrical Perspective &#45; sky to pixel." alt="" coords="579,296,764,314"/>
+<area shape="rect" id="node28" href="../api/astropy.modeling.projections.Pix2Sky_CEA.html#astropy.modeling.projections.Pix2Sky_CEA" title="CEA : Cylindrical equal area projection &#45; pixel to sky." alt="" coords="579,329,764,347"/>
+<area shape="rect" id="node30" href="../api/astropy.modeling.projections.Sky2Pix_CEA.html#astropy.modeling.projections.Sky2Pix_CEA" title="CEA: Cylindrical equal area projection &#45; sky to pixel." alt="" coords="579,361,764,379"/>
+<area shape="rect" id="node32" href="../api/astropy.modeling.projections.Pix2Sky_CAR.html#astropy.modeling.projections.Pix2Sky_CAR" title="CAR: Plate carree projection &#45; pixel to sky." alt="" coords="579,394,764,412"/>
+<area shape="rect" id="node34" href="../api/astropy.modeling.projections.Sky2Pix_CAR.html#astropy.modeling.projections.Sky2Pix_CAR" title="CAR: Plate carree projection &#45; sky to pixel." alt="" coords="579,426,764,444"/>
+<area shape="rect" id="node36" href="../api/astropy.modeling.projections.Pix2Sky_MER.html#astropy.modeling.projections.Pix2Sky_MER" title="MER: Mercator &#45; pixel to sky." alt="" coords="578,459,765,477"/>
+<area shape="rect" id="node38" href="../api/astropy.modeling.projections.Sky2Pix_MER.html#astropy.modeling.projections.Sky2Pix_MER" title="MER: Mercator &#45; sky to pixel." alt="" coords="578,492,765,510"/>
+</map>
+</p>
+</div>
+</div>
+<div class="section" id="module-astropy.modeling.rotations">
+<span id="astropy-modeling-rotations-module"></span><h3>astropy.modeling.rotations Module<a class="headerlink" href="#module-astropy.modeling.rotations" title="Permalink to this headline">¶</a></h3>
+<p>Implements spherical rotations, defined in WCS Paper II <a class="reference internal" href="#r10" id="id13">[R10]</a></p>
+<p>RotateNative2Celestial and RotateCelestial2Native follow the convention
+in WCS paper II to rotate to/from a native sphere and the celestial sphere.</p>
+<p>The user interface uses angles in degrees but the values are stored internally
+in radians.  This is managed through the parameter setters/getters.</p>
+<div class="section" id="id14">
+<h4>References<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h4>
+<table class="docutils citation" frame="void" id="r10" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id13">[R10]</a></td><td>Calabretta, M.R., Greisen, E.W., 2002, A&amp;A, 395, 1077 (Paper II)</td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id15">
+<h4>Classes<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../api/astropy.modeling.rotations.RotateCelestial2Native.html#astropy.modeling.rotations.RotateCelestial2Native" title="astropy.modeling.rotations.RotateCelestial2Native"><tt class="xref py py-obj docutils literal"><span class="pre">RotateCelestial2Native</span></tt></a>(phi,&nbsp;theta,&nbsp;psi)</td>
+<td>Transformation from Celestial to Native to Spherical Coordinates.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../api/astropy.modeling.rotations.RotateNative2Celestial.html#astropy.modeling.rotations.RotateNative2Celestial" title="astropy.modeling.rotations.RotateNative2Celestial"><tt class="xref py py-obj docutils literal"><span class="pre">RotateNative2Celestial</span></tt></a>(phi,&nbsp;theta,&nbsp;psi)</td>
+<td>Transformation from Native to Celestial Spherical Coordinates.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../api/astropy.modeling.rotations.MatrixRotation2D.html#astropy.modeling.rotations.MatrixRotation2D" title="astropy.modeling.rotations.MatrixRotation2D"><tt class="xref py py-obj docutils literal"><span class="pre">MatrixRotation2D</span></tt></a>([matrix,&nbsp;angle])</td>
+<td>Perform a clockwise 2D matrix rotation given either an angle or a rotation matrix.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id16">
+<h4>Class Inheritance Diagram<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h4>
+<p class="graphviz">
+<img src="../_images/inheritance-558b00a30baf108fb4b5974c05b1f6b6df90a602.png" alt="Inheritance diagram of astropy.modeling.rotations.RotateCelestial2Native, astropy.modeling.rotations.RotateNative2Celestial, astropy.modeling.rotations.MatrixRotation2D" usemap="#inheritance56b16be86f" class="inheritance"/>
+<map id="inheritance56b16be86f" name="inheritance56b16be86f">
+<area shape="rect" id="node1" href="../api/astropy.modeling.core.Model.html#astropy.modeling.core.Model" title="Base class for all models." alt="" coords="5,44,166,66"/>
+<area shape="rect" id="node2" title="Base class for Euler angle rotations." alt="" coords="206,24,455,46"/>
+<area shape="rect" id="node8" href="../api/astropy.modeling.rotations.MatrixRotation2D.html#astropy.modeling.rotations.MatrixRotation2D" title="Perform a clockwise 2D matrix rotation given either an angle or a" alt="" coords="210,64,450,86"/>
+<area shape="rect" id="node4" href="../api/astropy.modeling.rotations.RotateNative2Celestial.html#astropy.modeling.rotations.RotateNative2Celestial" title="Transformation from Native to Celestial Spherical Coordinates." alt="" coords="495,4,763,26"/>
+<area shape="rect" id="node6" href="../api/astropy.modeling.rotations.RotateCelestial2Native.html#astropy.modeling.rotations.RotateCelestial2Native" title="Transformation from Celestial to Native to Spherical Coordinates." alt="" coords="495,44,763,66"/>
+</map>
+</p>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"><h3>Page Contents</h3>
+<ul>
+<li><a class="reference internal" href="#">Models And Fitting (<tt class="docutils literal"><span class="pre">astropy.modeling</span></tt>)</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#getting-started">Getting started</a><ul>
+<li><a class="reference internal" href="#using-models">Using Models</a></li>
+<li><a class="reference internal" href="#simple-1d-model-fitting">Simple 1D model fitting</a></li>
+<li><a class="reference internal" href="#simple-2d-model-fitting">Simple 2D model fitting</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#using-modeling">Using <tt class="docutils literal"><span class="pre">modeling</span></tt></a><ul>
+</ul>
+</li>
+<li><a class="reference internal" href="#reference-api">Reference/API</a><ul>
+<li><a class="reference internal" href="#module-astropy.modeling">astropy.modeling Module</a><ul>
+<li><a class="reference internal" href="#functions">Functions</a><ul>
+</ul>
+</li>
+<li><a class="reference internal" href="#classes">Classes</a><ul>
+</ul>
+</li>
+<li><a class="reference internal" href="#class-inheritance-diagram">Class Inheritance Diagram</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-astropy.modeling.fitting">astropy.modeling.fitting Module</a><ul>
+<li><a class="reference internal" href="#id1">Classes</a><ul>
+</ul>
+</li>
+<li><a class="reference internal" href="#id2">Class Inheritance Diagram</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-astropy.modeling.functional_models">astropy.modeling.functional_models Module</a><ul>
+<li><a class="reference internal" href="#id3">Functions</a><ul>
+</ul>
+</li>
+<li><a class="reference internal" href="#id4">Classes</a><ul>
+</ul>
+</li>
+<li><a class="reference internal" href="#id5">Class Inheritance Diagram</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-astropy.modeling.powerlaws">astropy.modeling.powerlaws Module</a><ul>
+<li><a class="reference internal" href="#id6">Classes</a><ul>
+</ul>
+</li>
+<li><a class="reference internal" href="#id7">Class Inheritance Diagram</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-astropy.modeling.polynomial">astropy.modeling.polynomial Module</a><ul>
+<li><a class="reference internal" href="#id8">Classes</a><ul>
+</ul>
+</li>
+<li><a class="reference internal" href="#id9">Class Inheritance Diagram</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-astropy.modeling.projections">astropy.modeling.projections Module</a><ul>
+<li><a class="reference internal" href="#references">References</a></li>
+<li><a class="reference internal" href="#id11">Classes</a><ul>
+</ul>
+</li>
+<li><a class="reference internal" href="#id12">Class Inheritance Diagram</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-astropy.modeling.rotations">astropy.modeling.rotations Module</a><ul>
+<li><a class="reference internal" href="#id14">References</a></li>
+<li><a class="reference internal" href="#id15">Classes</a><ul>
+</ul>
+</li>
+<li><a class="reference internal" href="#id16">Class Inheritance Diagram</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+<footer class="footer">
+  <p class="pull-right">
+    <a href="http://github.com/astropy/astropy/tree/v0.3.x/docs/modeling/index.rst">Edit This Page on Github</a> &nbsp;
+    <a href="../_sources/modeling/index.txt"
+       rel="nofollow">Page Source</a> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright 2011-2013, The Astropy Developers.<br/>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2. &nbsp;
+    Last built 05 Mar 2014. <br/>
+  </p>
+</footer>
+  </body>
+</html>

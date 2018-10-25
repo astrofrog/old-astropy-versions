@@ -1,0 +1,890 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+
+    <title>VOTable XML handling (astropy.io.votable) &mdash; Astropy v0.2.1</title>
+<!-- RTD <head> -->
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/underscore.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/doctools.js"></script>
+
+<script type="text/javascript">
+  // This is included here for Javascript that doesn't have access to the templates.
+  var doc_version = "v0.2.1";
+  var doc_slug = "astropy";
+</script>
+
+<script type="text/javascript" src="//media.readthedocs.org/javascript/rtd.js"></script>
+<!-- end RTD <head> -->
+
+    
+    <link rel="stylesheet" href="../../_static/bootstrap-astropy.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.2.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/sidebar.js"></script>
+    <link rel="shortcut icon" href="../../_static/astropy_logo.ico"/>
+    <link rel="top" title="Astropy v0.2.1" href="../../index.html" />
+    <link rel="next" title="parse" href="../../_generated/astropy.io.votable.table.parse.html" />
+    <link rel="prev" title="WhitespaceSplitter" href="../../_generated/astropy.io.ascii.core.WhitespaceSplitter.html" /> 
+  </head>
+  <body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../../index.html"></a>
+  <ul>
+    <li><a class="homelink" title="AstroPy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../../genindex.html">Index</a></li>
+    <li><a title="Python Module Index" href="../../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li class="right">
+	<a href="../../_generated/astropy.io.votable.table.parse.html" title="parse">
+	  next &raquo;
+	</a>
+      </li>
+      <li class="right">
+	<a href="../../_generated/astropy.io.ascii.core.WhitespaceSplitter.html" title="WhitespaceSplitter">
+	  &laquo; previous
+	</a>
+	 |
+      </li>
+      <li>
+	<a href="../../index.html">Astropy v0.2.1</a>
+	 &raquo;
+      </li>
+      
+      <li>VOTable XML handling (<tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">astropy.io.votable</span></tt>)</li> 
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="votable-xml-handling-astropy-io-votable">
+<h1>VOTable XML handling (<a class="reference internal" href="#module-astropy.io.votable" title="astropy.io.votable"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.io.votable</span></tt></a>)<a class="headerlink" href="#votable-xml-handling-astropy-io-votable" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="#module-astropy.io.votable" title="astropy.io.votable"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.io.votable</span></tt></a> subpackage converts VOTable XML files to and
+from Numpy record arrays.</p>
+</div>
+<div class="section" id="getting-started">
+<h2>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="reading-a-votable-file">
+<h3>Reading a VOTable file<a class="headerlink" href="#reading-a-votable-file" title="Permalink to this headline">¶</a></h3>
+<p>To read in a VOTable file, pass a file path to
+<tt class="xref py py-obj docutils literal"><span class="pre">parse</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">astropy.io.votable</span> <span class="kn">import</span> <span class="n">parse</span>
+<span class="n">votable</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="s">&quot;votable.xml&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">votable</span></tt> is a <a class="reference internal" href="../../_generated/astropy.io.votable.tree.VOTableFile.html#astropy.io.votable.tree.VOTableFile" title="astropy.io.votable.tree.VOTableFile"><tt class="xref py py-obj docutils literal"><span class="pre">VOTableFile</span></tt></a> object, which
+can be used to retrieve and manipulate the data and save it back out
+to disk.</p>
+<p>VOTable files are made up of nested <tt class="docutils literal"><span class="pre">RESOURCE</span></tt> elements, each of
+which may contain one or more <tt class="docutils literal"><span class="pre">TABLE</span></tt> elements.  The <tt class="docutils literal"><span class="pre">TABLE</span></tt>
+elements contain the arrays of data.</p>
+<p>To get at the <tt class="docutils literal"><span class="pre">TABLE</span></tt> elements, one can write a loop over the
+resources in the <tt class="docutils literal"><span class="pre">VOTABLE</span></tt> file:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">for</span> <span class="n">resource</span> <span class="ow">in</span> <span class="n">votable</span><span class="o">.</span><span class="n">resources</span><span class="p">:</span>
+  <span class="k">for</span> <span class="n">table</span> <span class="ow">in</span> <span class="n">resource</span><span class="o">.</span><span class="n">tables</span><span class="p">:</span>
+    <span class="c"># ... do something with the table ...</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<p>However, if the nested structure of the resources is not important,
+one can use <a class="reference internal" href="../../_generated/astropy.io.votable.tree.VOTableFile.html#astropy.io.votable.tree.VOTableFile.iter_tables" title="astropy.io.votable.tree.VOTableFile.iter_tables"><tt class="xref py py-obj docutils literal"><span class="pre">iter_tables</span></tt></a> to
+return a flat list of all tables:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">for</span> <span class="n">table</span> <span class="ow">in</span> <span class="n">votable</span><span class="o">.</span><span class="n">iter_tables</span><span class="p">():</span>
+  <span class="c"># ... do something with the table ...</span>
+  <span class="k">pass</span>
+</pre></div>
+</div>
+<p>Finally, if there is expected to be only one table in the file, it
+might be simplest to just use
+<a class="reference internal" href="../../_generated/astropy.io.votable.tree.VOTableFile.html#astropy.io.votable.tree.VOTableFile.get_first_table" title="astropy.io.votable.tree.VOTableFile.get_first_table"><tt class="xref py py-obj docutils literal"><span class="pre">get_first_table</span></tt></a>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">table</span> <span class="o">=</span> <span class="n">votable</span><span class="o">.</span><span class="n">get_first_table</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Even easier, there is a convenience method to parse a VOTable file and
+return the first table all in one step:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">astropy.io.votable</span> <span class="kn">import</span> <span class="n">parse_single_table</span>
+<span class="n">table</span> <span class="o">=</span> <span class="n">parse_single_table</span><span class="p">(</span><span class="s">&quot;votable.xml&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>From a <a class="reference internal" href="../../_generated/astropy.io.votable.tree.Table.html#astropy.io.votable.tree.Table" title="astropy.io.votable.tree.Table"><tt class="xref py py-obj docutils literal"><span class="pre">Table</span></tt></a> object, one can get the data itself
+in the <tt class="docutils literal"><span class="pre">array</span></tt> member variable:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">data</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">array</span>
+</pre></div>
+</div>
+<p>This data is a Numpy record array.  The columns get their names from
+both the <tt class="docutils literal"><span class="pre">ID</span></tt> and <tt class="docutils literal"><span class="pre">name</span></tt> attributes of the <tt class="docutils literal"><span class="pre">FIELD</span></tt> elements in
+the <tt class="docutils literal"><span class="pre">VOTABLE</span></tt> file.  For example, suppose we had a <tt class="docutils literal"><span class="pre">FIELD</span></tt>
+specified as follows:</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;FIELD</span> <span class="na">ID=</span><span class="s">&quot;Dec&quot;</span> <span class="na">name=</span><span class="s">&quot;dec_targ&quot;</span> <span class="na">datatype=</span><span class="s">&quot;char&quot;</span> <span class="na">ucd=</span><span class="s">&quot;POS_EQ_DEC_MAIN&quot;</span>
+       <span class="na">unit=</span><span class="s">&quot;deg&quot;</span><span class="nt">&gt;</span>
+ <span class="nt">&lt;DESCRIPTION&gt;</span>
+  representing the ICRS declination of the center of the image.
+ <span class="nt">&lt;/DESCRIPTION&gt;</span>
+<span class="nt">&lt;/FIELD&gt;</span>
+</pre></div>
+</div>
+<p>This column of data can be extracted from the record array using:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">table</span><span class="o">.</span><span class="n">array</span><span class="p">[</span><span class="s">&#39;dec_targ&#39;</span><span class="p">]</span>
+<span class="go">array([17.15153360566, 17.15153360566, 17.15153360566, 17.1516686826,</span>
+<span class="go">       17.1516686826, 17.1516686826, 17.1536197136, 17.1536197136,</span>
+<span class="go">       17.1536197136, 17.15375479055, 17.15375479055, 17.15375479055,</span>
+<span class="go">       17.1553884541, 17.15539736932, 17.15539752176,</span>
+<span class="go">       17.25736014763,</span>
+<span class="go">       # ...</span>
+<span class="go">       17.2765703], dtype=object)</span>
+</pre></div>
+</div>
+<p>or equivalently:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">table</span><span class="o">.</span><span class="n">array</span><span class="p">[</span><span class="s">&#39;Dec&#39;</span><span class="p">]</span>
+<span class="go">array([17.15153360566, 17.15153360566, 17.15153360566, 17.1516686826,</span>
+<span class="go">       17.1516686826, 17.1516686826, 17.1536197136, 17.1536197136,</span>
+<span class="go">       17.1536197136, 17.15375479055, 17.15375479055, 17.15375479055,</span>
+<span class="go">       17.1553884541, 17.15539736932, 17.15539752176,</span>
+<span class="go">       17.25736014763,</span>
+<span class="go">       # ...</span>
+<span class="go">       17.2765703], dtype=object)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="building-a-new-table-from-scratch">
+<h3>Building a new table from scratch<a class="headerlink" href="#building-a-new-table-from-scratch" title="Permalink to this headline">¶</a></h3>
+<p>It is also possible to build a new table, define some field datatypes
+and populate it with data:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">astropy.io.votable.tree</span> <span class="kn">import</span> <span class="n">VOTableFile</span><span class="p">,</span> <span class="n">Resource</span><span class="p">,</span> <span class="n">Table</span><span class="p">,</span> <span class="n">Field</span>
+
+<span class="c"># Create a new VOTable file...</span>
+<span class="n">votable</span> <span class="o">=</span> <span class="n">VOTableFile</span><span class="p">()</span>
+
+<span class="c"># ...with one resource...</span>
+<span class="n">resource</span> <span class="o">=</span> <span class="n">Resource</span><span class="p">()</span>
+<span class="n">votable</span><span class="o">.</span><span class="n">resources</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">resource</span><span class="p">)</span>
+
+<span class="c"># ... with one table</span>
+<span class="n">table</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="n">votable</span><span class="p">)</span>
+<span class="n">resource</span><span class="o">.</span><span class="n">tables</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
+
+<span class="c"># Define some fields</span>
+<span class="n">table</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span>
+        <span class="n">Field</span><span class="p">(</span><span class="n">votable</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;filename&quot;</span><span class="p">,</span> <span class="n">datatype</span><span class="o">=</span><span class="s">&quot;char&quot;</span><span class="p">,</span> <span class="n">arraysize</span><span class="o">=</span><span class="s">&quot;*&quot;</span><span class="p">),</span>
+        <span class="n">Field</span><span class="p">(</span><span class="n">votable</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&quot;matrix&quot;</span><span class="p">,</span> <span class="n">datatype</span><span class="o">=</span><span class="s">&quot;double&quot;</span><span class="p">,</span> <span class="n">arraysize</span><span class="o">=</span><span class="s">&quot;2x2&quot;</span><span class="p">)])</span>
+
+<span class="c"># Now, use those field definitions to create the numpy record arrays, with</span>
+<span class="c"># the given number of rows</span>
+<span class="n">table</span><span class="o">.</span><span class="n">create_arrays</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="c"># Now table.array can be filled with data</span>
+<span class="n">table</span><span class="o">.</span><span class="n">array</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;test1.xml&#39;</span><span class="p">,</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+<span class="n">table</span><span class="o">.</span><span class="n">array</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;test2.xml&#39;</span><span class="p">,</span> <span class="p">[[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">]])</span>
+
+<span class="c"># Now write the whole thing to a file.</span>
+<span class="c"># Note, we have to use the top-level votable file object</span>
+<span class="n">votable</span><span class="o">.</span><span class="n">to_xml</span><span class="p">(</span><span class="s">&quot;new_votable.xml&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="outputting-a-votable-file">
+<h3>Outputting a VOTable file<a class="headerlink" href="#outputting-a-votable-file" title="Permalink to this headline">¶</a></h3>
+<p>To save a VOTable file, simply call the
+<a class="reference internal" href="../../_generated/astropy.io.votable.tree.VOTableFile.html#astropy.io.votable.tree.VOTableFile.to_xml" title="astropy.io.votable.tree.VOTableFile.to_xml"><tt class="xref py py-obj docutils literal"><span class="pre">to_xml</span></tt></a> method.  It accepts
+either a string or unicode path, or a Python file-like object:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">votable</span><span class="o">.</span><span class="n">to_xml</span><span class="p">(</span><span class="s">&#39;output.xml&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>There are currently two data storage formats supported by
+<a class="reference internal" href="#module-astropy.io.votable" title="astropy.io.votable"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.io.votable</span></tt></a>.  The <tt class="docutils literal"><span class="pre">TABLEDATA</span></tt> format is XML-based and
+stores values as strings representing numbers.  The <tt class="docutils literal"><span class="pre">BINARY</span></tt> format
+is more compact, and stores numbers in base64-encoded binary.  The
+storage format can be set on a per-table basis using the
+<a class="reference internal" href="../../_generated/astropy.io.votable.tree.Table.html#astropy.io.votable.tree.Table.format" title="astropy.io.votable.tree.Table.format"><tt class="xref py py-obj docutils literal"><span class="pre">format</span></tt></a> attribute, or globally using
+the <a class="reference internal" href="../../_generated/astropy.io.votable.tree.VOTableFile.html#astropy.io.votable.tree.VOTableFile.set_all_tables_format" title="astropy.io.votable.tree.VOTableFile.set_all_tables_format"><tt class="xref py py-obj docutils literal"><span class="pre">set_all_tables_format</span></tt></a>
+method:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">votable</span><span class="o">.</span><span class="n">get_first_table</span><span class="p">()</span><span class="o">.</span><span class="n">format</span> <span class="o">=</span> <span class="s">&#39;binary&#39;</span>
+<span class="n">votable</span><span class="o">.</span><span class="n">set_all_tables_format</span><span class="p">(</span><span class="s">&#39;binary&#39;</span><span class="p">)</span>
+<span class="n">votable</span><span class="o">.</span><span class="n">to_xml</span><span class="p">(</span><span class="s">&#39;binary.xml&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="using-io-votable">
+<h2>Using <tt class="xref py py-obj docutils literal"><span class="pre">io.votable</span></tt><a class="headerlink" href="#using-io-votable" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="standard-compliance">
+<h3>Standard compliance<a class="headerlink" href="#standard-compliance" title="Permalink to this headline">¶</a></h3>
+<p><tt class="xref py py-obj docutils literal"><span class="pre">astropy.io.votable.table</span></tt> supports the <a class="reference external" href="http://www.ivoa.net/Documents/REC/VOTable/VOTable-20040811.html">VOTable Format Definition
+Version 1.1</a>
+and <a class="reference external" href="http://www.ivoa.net/Documents/VOTable/20091130/REC-VOTable-1.2.html">Version 1.2</a>.
+Some flexibility is provided to support the 1.0 draft version and
+other non-standard usage in the wild.  To support these cases, set the
+keyword argument <tt class="docutils literal"><span class="pre">pedantic</span></tt> to <tt class="docutils literal"><span class="pre">False</span></tt> when parsing.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Each warning and VOTABLE-specific exception emitted has a number and
+is documented in more detail in <a class="reference internal" href="api_exceptions.html#warnings"><em>Warnings</em></a> and
+<a class="reference internal" href="api_exceptions.html#exceptions"><em>Exceptions</em></a>.</p>
+</div>
+<p>Output always conforms to the 1.1 or 1.2 spec, depending on the input.</p>
+<div class="section" id="pedantic-mode">
+<span id="id1"></span><h4>Pedantic mode<a class="headerlink" href="#pedantic-mode" title="Permalink to this headline">¶</a></h4>
+<p>Many VOTABLE files in the wild do not conform to the VOTABLE
+specification.  If reading one of these files causes exceptions, you
+may turn off pedantic mode in <a class="reference internal" href="#module-astropy.io.votable" title="astropy.io.votable"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.io.votable</span></tt></a> by passing
+<tt class="docutils literal"><span class="pre">pedantic=False</span></tt> to the <tt class="xref py py-obj docutils literal"><span class="pre">parse</span></tt> or
+<tt class="xref py py-obj docutils literal"><span class="pre">parse_single_table</span></tt> functions:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">astropy.io.votable</span> <span class="kn">import</span> <span class="n">parse</span>
+<span class="n">votable</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="s">&quot;votable.xml&quot;</span><span class="p">,</span> <span class="n">pedantic</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Note, however, that it is good practice to report these errors to the
+author of the application that generated the VOTABLE file to bring the
+file into compliance with the specification.</p>
+<p>Even with <tt class="docutils literal"><span class="pre">pedantic</span></tt> turned off, many warnings may still be omitted.
+These warnings are all of the type
+<a class="reference internal" href="api_exceptions.html#astropy.io.votable.exceptions.VOTableSpecWarning" title="astropy.io.votable.exceptions.VOTableSpecWarning"><tt class="xref py py-obj docutils literal"><span class="pre">VOTableSpecWarning</span></tt></a> and can be turned
+off using the standard Python <a class="reference external" href="http://docs.python.org/library/warnings.html#warnings" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">warnings</span></tt></a> module.</p>
+</div>
+</div>
+<div class="section" id="missing-values">
+<h3>Missing values<a class="headerlink" href="#missing-values" title="Permalink to this headline">¶</a></h3>
+<p>Any value in the table may be &#8220;missing&#8221;.  <a class="reference internal" href="#module-astropy.io.votable" title="astropy.io.votable"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.io.votable</span></tt></a> stores
+a Numpy masked array in each <a class="reference internal" href="../../_generated/astropy.io.votable.tree.Table.html#astropy.io.votable.tree.Table" title="astropy.io.votable.tree.Table"><tt class="xref py py-obj docutils literal"><span class="pre">Table</span></tt></a>
+instance.  This behaves like an ordinary Numpy masked array, except
+for variable-length fields.  For those fields, the datatype of the
+column is &#8220;object&#8221; and another Numpy masked array is stored there.
+Therefore, operations on variable length columns will not work &#8211; this
+is simply because variable length columns are not directly supported
+by Numpy masked arrays.</p>
+</div>
+<div class="section" id="datatype-mappings">
+<h3>Datatype mappings<a class="headerlink" href="#datatype-mappings" title="Permalink to this headline">¶</a></h3>
+<p>The datatype specified by a <tt class="docutils literal"><span class="pre">FIELD</span></tt> element is mapped to a Numpy
+type according to the following table:</p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="31%" />
+<col width="69%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">VOTABLE type</th>
+<th class="head">Numpy type</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>boolean</td>
+<td>b1</td>
+</tr>
+<tr class="row-odd"><td>bit</td>
+<td>b1</td>
+</tr>
+<tr class="row-even"><td>unsignedByte</td>
+<td>u1</td>
+</tr>
+<tr class="row-odd"><td>char (<em>variable length</em>)</td>
+<td>O - In Python 2.x, a <a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">str</span></tt></a> object; in 3.x, a <tt class="xref py py-obj docutils literal"><span class="pre">bytes</span></tt> object.</td>
+</tr>
+<tr class="row-even"><td>char (<em>fixed length</em>)</td>
+<td>S</td>
+</tr>
+<tr class="row-odd"><td>unicodeChar (<em>variable length</em>)</td>
+<td>O - In Python 2.x, a <a class="reference external" href="http://docs.python.org/library/functions.html#unicode" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">unicode</span></tt></a> object, in utf-16; in 3.x a <a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">str</span></tt></a> object</td>
+</tr>
+<tr class="row-even"><td>unicodeChar (<em>fixed length</em>)</td>
+<td>U</td>
+</tr>
+<tr class="row-odd"><td>short</td>
+<td>i2</td>
+</tr>
+<tr class="row-even"><td>int</td>
+<td>i4</td>
+</tr>
+<tr class="row-odd"><td>long</td>
+<td>i8</td>
+</tr>
+<tr class="row-even"><td>float</td>
+<td>f4</td>
+</tr>
+<tr class="row-odd"><td>double</td>
+<td>f8</td>
+</tr>
+<tr class="row-even"><td>floatComplex</td>
+<td>c8</td>
+</tr>
+<tr class="row-odd"><td>doubleComplex</td>
+<td>c16</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p>If the field is a fixed size array, the data is stored as a Numpy
+fixed-size array.</p>
+<p>If the field is a variable size array (that is <tt class="docutils literal"><span class="pre">arraysize</span></tt> contains
+a &#8216;*&#8217;), the cell will contain a Python list of Numpy values.  Each
+value may be either an array or scalar depending on the <tt class="docutils literal"><span class="pre">arraysize</span></tt>
+specifier.</p>
+</div>
+<div class="section" id="examining-field-types">
+<h3>Examining field types<a class="headerlink" href="#examining-field-types" title="Permalink to this headline">¶</a></h3>
+<p>To look up more information about a field in a table, one can use the
+<a class="reference internal" href="../../_generated/astropy.io.votable.tree.Table.html#astropy.io.votable.tree.Table.get_field_by_id" title="astropy.io.votable.tree.Table.get_field_by_id"><tt class="xref py py-obj docutils literal"><span class="pre">get_field_by_id</span></tt></a> method, which returns
+the <a class="reference internal" href="../../_generated/astropy.io.votable.tree.Field.html#astropy.io.votable.tree.Field" title="astropy.io.votable.tree.Field"><tt class="xref py py-obj docutils literal"><span class="pre">Field</span></tt></a> object with the given ID.  For
+example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">field</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">get_field_by_id</span><span class="p">(</span><span class="s">&#39;Dec&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">field</span><span class="o">.</span><span class="n">datatype</span>
+<span class="go">&#39;char&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">field</span><span class="o">.</span><span class="n">unit</span>
+<span class="go">&#39;deg&#39;</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Field descriptors should not be mutated.  To change the set of
+columns, convert the Table to an <tt class="xref py py-obj docutils literal"><span class="pre">astropy.table.Table</span></tt>, make the
+changes, and then convert it back.</p>
+</div>
+</div>
+<div class="section" id="converting-to-from-an-astropy-table-table">
+<h3>Converting to/from an <tt class="xref py py-obj docutils literal"><span class="pre">astropy.table.Table</span></tt><a class="headerlink" href="#converting-to-from-an-astropy-table-table" title="Permalink to this headline">¶</a></h3>
+<p>The VOTable standard does not map conceptually to an
+<tt class="xref py py-obj docutils literal"><span class="pre">astropy.table.Table</span></tt>.  However, a single table within the <tt class="xref py py-obj docutils literal"><span class="pre">VOTable</span></tt>
+file may be converted to and from an <tt class="xref py py-obj docutils literal"><span class="pre">astropy.table.Table</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">astropy.io.votable</span> <span class="kn">import</span> <span class="n">parse_single_table</span>
+<span class="n">table</span> <span class="o">=</span> <span class="n">parse_single_table</span><span class="p">(</span><span class="s">&quot;votable.xml&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">to_table</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>As a convenience, there is also a function to create an entire VOTable
+file with just a single table:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">astropy.io.votable</span> <span class="kn">import</span> <span class="n">from_table</span><span class="p">,</span> <span class="n">writeto</span>
+<span class="n">votable</span> <span class="o">=</span> <span class="n">from_table</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
+<span class="n">writeto</span><span class="p">(</span><span class="n">votable</span><span class="p">,</span> <span class="s">&quot;output.xml&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="performance-considerations">
+<h3>Performance considerations<a class="headerlink" href="#performance-considerations" title="Permalink to this headline">¶</a></h3>
+<p>File reads will be moderately faster if the <tt class="docutils literal"><span class="pre">TABLE</span></tt> element includes
+an <a class="reference external" href="http://www.ivoa.net/Documents/REC/VOTable/VOTable-20040811.html#ToC10">nrows</a> attribute.  If the number of rows is not specified, the
+record array must be resized repeatedly during load.</p>
+</div>
+</div>
+<div class="section" id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference external" href="http://www.ivoa.net/Documents/REC/VOTable/VOTable-20040811.html">VOTable Format Definition Version 1.1</a></li>
+<li><a class="reference external" href="http://www.ivoa.net/Documents/VOTable/20091130/REC-VOTable-1.2.html">VOTable Format Definition Version 1.2</a></li>
+</ul>
+</div>
+<div class="section" id="reference-api">
+<h2>Reference/API<a class="headerlink" href="#reference-api" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-astropy.io.votable">
+<span id="astropy-io-votable-module"></span><h3>astropy.io.votable Module<a class="headerlink" href="#module-astropy.io.votable" title="Permalink to this headline">¶</a></h3>
+<p>This package reads and writes data formats used by the Virtual
+Observatory (VO) initiative, particularly the VOTable XML format.</p>
+<div class="section" id="functions">
+<h4>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../../_generated/astropy.io.votable.table.parse.html#astropy.io.votable.table.parse" title="astropy.io.votable.table.parse"><tt class="xref py py-obj docutils literal"><span class="pre">parse</span></tt></a>(source[,&nbsp;columns,&nbsp;invalid,&nbsp;pedantic,&nbsp;...])</td>
+<td>Parses a <a class="reference external" href="http://www.ivoa.net/Documents/PR/VOTable/VOTable-20040322.html#ToC9">VOTABLE</a> xml file (or file-like object), and returns a <tt class="xref py py-obj docutils literal"><span class="pre">VOTable</span></tt> object.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../../_generated/astropy.io.votable.table.parse_single_table.html#astropy.io.votable.table.parse_single_table" title="astropy.io.votable.table.parse_single_table"><tt class="xref py py-obj docutils literal"><span class="pre">parse_single_table</span></tt></a>(source,&nbsp;**kwargs)</td>
+<td>Parses a <a class="reference external" href="http://www.ivoa.net/Documents/PR/VOTable/VOTable-20040322.html#ToC9">VOTABLE</a> xml file (or file-like object), reading and returning only the first <a class="reference internal" href="../../_generated/astropy.io.votable.tree.Table.html#astropy.io.votable.tree.Table" title="astropy.io.votable.tree.Table"><tt class="xref py py-obj docutils literal"><span class="pre">Table</span></tt></a> instance.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../../_generated/astropy.io.votable.table.validate.html#astropy.io.votable.table.validate" title="astropy.io.votable.table.validate"><tt class="xref py py-obj docutils literal"><span class="pre">validate</span></tt></a>(source[,&nbsp;output,&nbsp;xmllint,&nbsp;filename])</td>
+<td>Prints a validation report for the given file.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../../_generated/astropy.io.votable.table.from_table.html#astropy.io.votable.table.from_table" title="astropy.io.votable.table.from_table"><tt class="xref py py-obj docutils literal"><span class="pre">from_table</span></tt></a>(table[,&nbsp;table_id])</td>
+<td>Given an <tt class="xref py py-obj docutils literal"><span class="pre">astropy.table.Table</span></tt> object, return a <a class="reference internal" href="../../_generated/astropy.io.votable.tree.VOTableFile.html#astropy.io.votable.tree.VOTableFile" title="astropy.io.votable.tree.VOTableFile"><tt class="xref py py-obj docutils literal"><span class="pre">VOTableFile</span></tt></a> file structure containing just that single table.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../../_generated/astropy.io.votable.table.is_votable.html#astropy.io.votable.table.is_votable" title="astropy.io.votable.table.is_votable"><tt class="xref py py-obj docutils literal"><span class="pre">is_votable</span></tt></a>(source)</td>
+<td>Reads the header of a file to determine if it is a VOTable file.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="module-astropy.io.votable.tree">
+<span id="astropy-io-votable-tree-module"></span><h3>astropy.io.votable.tree Module<a class="headerlink" href="#module-astropy.io.votable.tree" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="classes">
+<h4>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../../_generated/astropy.io.votable.tree.Link.html#astropy.io.votable.tree.Link" title="astropy.io.votable.tree.Link"><tt class="xref py py-obj docutils literal"><span class="pre">Link</span></tt></a>([ID,&nbsp;title,&nbsp;value,&nbsp;href,&nbsp;action,&nbsp;id,&nbsp;...])</td>
+<td><a class="reference external" href="http://www.ivoa.net/Documents/REC/VOTable/VOTable-20040811.html#ToC22">LINK</a> elements: used to reference external documents and servers through a URI.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../../_generated/astropy.io.votable.tree.Info.html#astropy.io.votable.tree.Info" title="astropy.io.votable.tree.Info"><tt class="xref py py-obj docutils literal"><span class="pre">Info</span></tt></a>([ID,&nbsp;name,&nbsp;value,&nbsp;id,&nbsp;xtype,&nbsp;ref,&nbsp;...])</td>
+<td><a class="reference external" href="http://www.ivoa.net/Documents/VOTable/20040811/REC-VOTable-1.1-20040811.html#ToC19">INFO</a> elements: arbitrary key-value pairs for extensions to the standard.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../../_generated/astropy.io.votable.tree.Values.html#astropy.io.votable.tree.Values" title="astropy.io.votable.tree.Values"><tt class="xref py py-obj docutils literal"><span class="pre">Values</span></tt></a>(votable,&nbsp;field[,&nbsp;ID,&nbsp;null,&nbsp;ref,&nbsp;...])</td>
+<td><a class="reference external" href="http://www.ivoa.net/Documents/REC/VOTable/VOTable-20040811.html#ToC30">VALUES</a> element: used within <a class="reference external" href="http://www.ivoa.net/Documents/REC/VOTable/VOTable-20040811.html#ToC24">FIELD</a> and <a class="reference external" href="http://www.ivoa.net/Documents/REC/VOTable/VOTable-20040811.html#ToC24">PARAM</a> elements to define the domain of values.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../../_generated/astropy.io.votable.tree.Field.html#astropy.io.votable.tree.Field" title="astropy.io.votable.tree.Field"><tt class="xref py py-obj docutils literal"><span class="pre">Field</span></tt></a>(votable[,&nbsp;ID,&nbsp;name,&nbsp;datatype,&nbsp;...])</td>
+<td><a class="reference external" href="http://www.ivoa.net/Documents/REC/VOTable/VOTable-20040811.html#ToC24">FIELD</a> element: describes the datatype of a particular column of data.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../../_generated/astropy.io.votable.tree.Param.html#astropy.io.votable.tree.Param" title="astropy.io.votable.tree.Param"><tt class="xref py py-obj docutils literal"><span class="pre">Param</span></tt></a>(votable[,&nbsp;ID,&nbsp;name,&nbsp;value,&nbsp;datatype,&nbsp;...])</td>
+<td><a class="reference external" href="http://www.ivoa.net/Documents/REC/VOTable/VOTable-20040811.html#ToC24">PARAM</a> element: constant-valued columns in the data.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../../_generated/astropy.io.votable.tree.CooSys.html#astropy.io.votable.tree.CooSys" title="astropy.io.votable.tree.CooSys"><tt class="xref py py-obj docutils literal"><span class="pre">CooSys</span></tt></a>([ID,&nbsp;equinox,&nbsp;epoch,&nbsp;system,&nbsp;id,&nbsp;...])</td>
+<td><a class="reference external" href="http://www.ivoa.net/Documents/REC/VOTable/VOTable-20040811.html#ToC19">COOSYS</a> element: defines a coordinate system.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../../_generated/astropy.io.votable.tree.FieldRef.html#astropy.io.votable.tree.FieldRef" title="astropy.io.votable.tree.FieldRef"><tt class="xref py py-obj docutils literal"><span class="pre">FieldRef</span></tt></a>(table,&nbsp;ref[,&nbsp;ucd,&nbsp;utype,&nbsp;config,&nbsp;pos])</td>
+<td><a class="reference external" href="http://www.ivoa.net/Documents/REC/VOTable/VOTable-20040811.html#ToC31">FIELDref</a> element: used inside of <a class="reference external" href="http://www.ivoa.net/Documents/REC/VOTable/VOTable-20040811.html#ToC31">GROUP</a> elements to refer to remote <a class="reference external" href="http://www.ivoa.net/Documents/REC/VOTable/VOTable-20040811.html#ToC24">FIELD</a> elements.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../../_generated/astropy.io.votable.tree.ParamRef.html#astropy.io.votable.tree.ParamRef" title="astropy.io.votable.tree.ParamRef"><tt class="xref py py-obj docutils literal"><span class="pre">ParamRef</span></tt></a>(table,&nbsp;ref[,&nbsp;ucd,&nbsp;utype,&nbsp;config,&nbsp;pos])</td>
+<td><a class="reference external" href="http://www.ivoa.net/Documents/REC/VOTable/VOTable-20040811.html#ToC31">PARAMref</a> element: used inside of <a class="reference external" href="http://www.ivoa.net/Documents/REC/VOTable/VOTable-20040811.html#ToC31">GROUP</a> elements to refer to remote <a class="reference external" href="http://www.ivoa.net/Documents/REC/VOTable/VOTable-20040811.html#ToC24">PARAM</a> elements.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../../_generated/astropy.io.votable.tree.Group.html#astropy.io.votable.tree.Group" title="astropy.io.votable.tree.Group"><tt class="xref py py-obj docutils literal"><span class="pre">Group</span></tt></a>(table[,&nbsp;ID,&nbsp;name,&nbsp;ref,&nbsp;ucd,&nbsp;utype,&nbsp;...])</td>
+<td><a class="reference external" href="http://www.ivoa.net/Documents/REC/VOTable/VOTable-20040811.html#ToC31">GROUP</a> element: groups <a class="reference external" href="http://www.ivoa.net/Documents/REC/VOTable/VOTable-20040811.html#ToC24">FIELD</a> and <a class="reference external" href="http://www.ivoa.net/Documents/REC/VOTable/VOTable-20040811.html#ToC24">PARAM</a> elements.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../../_generated/astropy.io.votable.tree.Table.html#astropy.io.votable.tree.Table" title="astropy.io.votable.tree.Table"><tt class="xref py py-obj docutils literal"><span class="pre">Table</span></tt></a>(votable[,&nbsp;ID,&nbsp;name,&nbsp;ref,&nbsp;ucd,&nbsp;utype,&nbsp;...])</td>
+<td><a class="reference external" href="http://www.ivoa.net/Documents/REC/VOTable/VOTable-20040811.html#ToC23">TABLE</a> element: optionally contains data.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../../_generated/astropy.io.votable.tree.Resource.html#astropy.io.votable.tree.Resource" title="astropy.io.votable.tree.Resource"><tt class="xref py py-obj docutils literal"><span class="pre">Resource</span></tt></a>([name,&nbsp;ID,&nbsp;utype,&nbsp;type,&nbsp;id,&nbsp;...])</td>
+<td><a class="reference external" href="http://www.ivoa.net/Documents/REC/VOTable/VOTable-20040811.html#ToC21">RESOURCE</a> element: Groups <a class="reference external" href="http://www.ivoa.net/Documents/REC/VOTable/VOTable-20040811.html#ToC23">TABLE</a> and <a class="reference external" href="http://www.ivoa.net/Documents/REC/VOTable/VOTable-20040811.html#ToC21">RESOURCE</a> elements.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../../_generated/astropy.io.votable.tree.VOTableFile.html#astropy.io.votable.tree.VOTableFile" title="astropy.io.votable.tree.VOTableFile"><tt class="xref py py-obj docutils literal"><span class="pre">VOTableFile</span></tt></a>([ID,&nbsp;id,&nbsp;config,&nbsp;pos,&nbsp;version])</td>
+<td><a class="reference external" href="http://www.ivoa.net/Documents/PR/VOTable/VOTable-20040322.html#ToC9">VOTABLE</a> element: represents an entire file.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="module-astropy.io.votable.converters">
+<span id="astropy-io-votable-converters-module"></span><h3>astropy.io.votable.converters Module<a class="headerlink" href="#module-astropy.io.votable.converters" title="Permalink to this headline">¶</a></h3>
+<p>This module handles the conversion of various VOTABLE datatypes
+to/from <a class="reference external" href="http://www.ivoa.net/Documents/PR/VOTable/VOTable-20040322.html#ToC25">TABLEDATA</a> and <a class="reference external" href="http://www.ivoa.net/Documents/PR/VOTable/VOTable-20040322.html#ToC27">BINARY</a> formats.</p>
+<div class="section" id="id3">
+<h4>Functions<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../../_generated/astropy.io.votable.converters.get_converter.html#astropy.io.votable.converters.get_converter" title="astropy.io.votable.converters.get_converter"><tt class="xref py py-obj docutils literal"><span class="pre">get_converter</span></tt></a>(field[,&nbsp;config,&nbsp;pos])</td>
+<td>Get an appropriate converter instance for a given field.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../../_generated/astropy.io.votable.converters.table_column_to_votable_datatype.html#astropy.io.votable.converters.table_column_to_votable_datatype" title="astropy.io.votable.converters.table_column_to_votable_datatype"><tt class="xref py py-obj docutils literal"><span class="pre">table_column_to_votable_datatype</span></tt></a>(column)</td>
+<td>Given a <tt class="xref py py-obj docutils literal"><span class="pre">astropy.table.Column</span></tt> instance, returns the attributes necessary to create a VOTable FIELD element that corresponds to the type of the column.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id4">
+<h4>Classes<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../../_generated/astropy.io.votable.converters.Converter.html#astropy.io.votable.converters.Converter" title="astropy.io.votable.converters.Converter"><tt class="xref py py-obj docutils literal"><span class="pre">Converter</span></tt></a>(field[,&nbsp;config,&nbsp;pos])</td>
+<td>The base class for all converters.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="module-astropy.io.votable.ucd">
+<span id="astropy-io-votable-ucd-module"></span><h3>astropy.io.votable.ucd Module<a class="headerlink" href="#module-astropy.io.votable.ucd" title="Permalink to this headline">¶</a></h3>
+<p>This file contains routines to verify the correctness of UCD strings.</p>
+<div class="section" id="id5">
+<h4>Functions<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../../_generated/astropy.io.votable.ucd.parse_ucd.html#astropy.io.votable.ucd.parse_ucd" title="astropy.io.votable.ucd.parse_ucd"><tt class="xref py py-obj docutils literal"><span class="pre">parse_ucd</span></tt></a>(ucd[,&nbsp;...])</td>
+<td>Parse the UCD into its component parts.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../../_generated/astropy.io.votable.ucd.check_ucd.html#astropy.io.votable.ucd.check_ucd" title="astropy.io.votable.ucd.check_ucd"><tt class="xref py py-obj docutils literal"><span class="pre">check_ucd</span></tt></a>(ucd[,&nbsp;...])</td>
+<td>Returns False if <em>ucd</em> is not a valid <a class="reference external" href="http://www.ivoa.net/Documents/REC/VOTable/VOTable-20040811.html#ToC28">unified content descriptor</a>.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="module-astropy.io.votable.util">
+<span id="astropy-io-votable-util-module"></span><h3>astropy.io.votable.util Module<a class="headerlink" href="#module-astropy.io.votable.util" title="Permalink to this headline">¶</a></h3>
+<p>Various utilities and cookbook-like things.</p>
+<div class="section" id="id6">
+<h4>Functions<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../../_generated/astropy.io.votable.util.convert_to_writable_filelike.html#astropy.io.votable.util.convert_to_writable_filelike" title="astropy.io.votable.util.convert_to_writable_filelike"><tt class="xref py py-obj docutils literal"><span class="pre">convert_to_writable_filelike</span></tt></a>(*args,&nbsp;**kwds)</td>
+<td>Returns a writable file-like object suitable for streaming output.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../../_generated/astropy.io.votable.util.coerce_range_list_param.html#astropy.io.votable.util.coerce_range_list_param" title="astropy.io.votable.util.coerce_range_list_param"><tt class="xref py py-obj docutils literal"><span class="pre">coerce_range_list_param</span></tt></a>(p[,&nbsp;frames,&nbsp;numeric])</td>
+<td>Coerces and/or verifies the object <em>p</em> into a valid range-list-format parameter.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../../_generated/astropy.io.votable.util.is_callable.html#astropy.io.votable.util.is_callable" title="astropy.io.votable.util.is_callable"><tt class="xref py py-obj docutils literal"><span class="pre">is_callable</span></tt></a>(o)</td>
+<td>Returns <a class="reference external" href="http://docs.python.org/library/constants.html#True" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">True</span></tt></a> if <tt class="xref py py-obj docutils literal"><span class="pre">o</span></tt> is callable.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="module-astropy.io.votable.validator">
+<span id="astropy-io-votable-validator-module"></span><h3>astropy.io.votable.validator Module<a class="headerlink" href="#module-astropy.io.votable.validator" title="Permalink to this headline">¶</a></h3>
+<p>Validates a large collection of web-accessible VOTable files,
+and generates a report as a directory tree of HTML files.</p>
+<div class="section" id="id7">
+<h4>Functions<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../../_generated/astropy.io.votable.validator.main.make_validation_report.html#astropy.io.votable.validator.main.make_validation_report" title="astropy.io.votable.validator.main.make_validation_report"><tt class="xref py py-obj docutils literal"><span class="pre">make_validation_report</span></tt></a>([urls,&nbsp;destdir,&nbsp;...])</td>
+<td>Validates a large collection of web-accessible VOTable files.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="module-astropy.io.votable.xmlutil">
+<span id="astropy-io-votable-xmlutil-module"></span><h3>astropy.io.votable.xmlutil Module<a class="headerlink" href="#module-astropy.io.votable.xmlutil" title="Permalink to this headline">¶</a></h3>
+<p>Various XML-related utilities</p>
+<div class="section" id="id8">
+<h4>Functions<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../../_generated/astropy.io.votable.xmlutil.check_id.html#astropy.io.votable.xmlutil.check_id" title="astropy.io.votable.xmlutil.check_id"><tt class="xref py py-obj docutils literal"><span class="pre">check_id</span></tt></a>(ID[,&nbsp;name,&nbsp;config,&nbsp;pos])</td>
+<td>Raises a <a class="reference internal" href="api_exceptions.html#astropy.io.votable.exceptions.VOTableSpecError" title="astropy.io.votable.exceptions.VOTableSpecError"><tt class="xref py py-obj docutils literal"><span class="pre">VOTableSpecError</span></tt></a> if <em>ID</em> is not a valid XML <a class="reference external" href="http://www.w3.org/TR/REC-xml/#id">ID</a>.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../../_generated/astropy.io.votable.xmlutil.fix_id.html#astropy.io.votable.xmlutil.fix_id" title="astropy.io.votable.xmlutil.fix_id"><tt class="xref py py-obj docutils literal"><span class="pre">fix_id</span></tt></a>(ID[,&nbsp;config,&nbsp;pos])</td>
+<td>Given an arbitrary string, create one that can be used as an xml id.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../../_generated/astropy.io.votable.xmlutil.check_token.html#astropy.io.votable.xmlutil.check_token" title="astropy.io.votable.xmlutil.check_token"><tt class="xref py py-obj docutils literal"><span class="pre">check_token</span></tt></a>(token,&nbsp;attr_name[,&nbsp;config,&nbsp;pos])</td>
+<td>Raises a <tt class="xref py py-obj docutils literal"><span class="pre">ValueError</span></tt> if <em>token</em> is not a valid XML token.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../../_generated/astropy.io.votable.xmlutil.check_mime_content_type.html#astropy.io.votable.xmlutil.check_mime_content_type" title="astropy.io.votable.xmlutil.check_mime_content_type"><tt class="xref py py-obj docutils literal"><span class="pre">check_mime_content_type</span></tt></a>(content_type[,&nbsp;...])</td>
+<td>Raises a <a class="reference internal" href="api_exceptions.html#astropy.io.votable.exceptions.VOTableSpecError" title="astropy.io.votable.exceptions.VOTableSpecError"><tt class="xref py py-obj docutils literal"><span class="pre">VOTableSpecError</span></tt></a> if <em>content_type</em> is not a valid MIME content type.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../../_generated/astropy.io.votable.xmlutil.check_anyuri.html#astropy.io.votable.xmlutil.check_anyuri" title="astropy.io.votable.xmlutil.check_anyuri"><tt class="xref py py-obj docutils literal"><span class="pre">check_anyuri</span></tt></a>(uri[,&nbsp;config,&nbsp;pos])</td>
+<td>Raises a <a class="reference internal" href="api_exceptions.html#astropy.io.votable.exceptions.VOTableSpecError" title="astropy.io.votable.exceptions.VOTableSpecError"><tt class="xref py py-obj docutils literal"><span class="pre">VOTableSpecError</span></tt></a> if <em>uri</em> is not a valid URI.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../../_generated/astropy.io.votable.xmlutil.validate_schema.html#astropy.io.votable.xmlutil.validate_schema" title="astropy.io.votable.xmlutil.validate_schema"><tt class="xref py py-obj docutils literal"><span class="pre">validate_schema</span></tt></a>(filename[,&nbsp;version])</td>
+<td>Validates the given file against the appropriate VOTable schema.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="astropy-io-votable-exceptions-module">
+<h3>astropy.io.votable.exceptions Module<a class="headerlink" href="#astropy-io-votable-exceptions-module" title="Permalink to this headline">¶</a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api_exceptions.html"><tt class="docutils literal"><span class="pre">astropy.io.votable.exceptions</span></tt></a></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+
+
+<h3>Page Contents</h3>
+<ul>
+<li><a class="reference internal" href="#">VOTable XML handling (<tt class="docutils literal"><span class="pre">astropy.io.votable</span></tt>)</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#getting-started">Getting Started</a><ul>
+<li><a class="reference internal" href="#reading-a-votable-file">Reading a VOTable file</a></li>
+<li><a class="reference internal" href="#building-a-new-table-from-scratch">Building a new table from scratch</a></li>
+<li><a class="reference internal" href="#outputting-a-votable-file">Outputting a VOTable file</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#using-io-votable">Using <tt class="docutils literal"><span class="pre">io.votable</span></tt></a><ul>
+<li><a class="reference internal" href="#standard-compliance">Standard compliance</a><ul>
+<li><a class="reference internal" href="#pedantic-mode">Pedantic mode</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#missing-values">Missing values</a></li>
+<li><a class="reference internal" href="#datatype-mappings">Datatype mappings</a></li>
+<li><a class="reference internal" href="#examining-field-types">Examining field types</a></li>
+<li><a class="reference internal" href="#converting-to-from-an-astropy-table-table">Converting to/from an <tt class="docutils literal"><span class="pre">astropy.table.Table</span></tt></a></li>
+<li><a class="reference internal" href="#performance-considerations">Performance considerations</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#see-also">See Also</a></li>
+<li><a class="reference internal" href="#reference-api">Reference/API</a><ul>
+<li><a class="reference internal" href="#module-astropy.io.votable">astropy.io.votable Module</a><ul>
+<li><a class="reference internal" href="#functions">Functions</a><ul>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-astropy.io.votable.tree">astropy.io.votable.tree Module</a><ul>
+<li><a class="reference internal" href="#classes">Classes</a><ul>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-astropy.io.votable.converters">astropy.io.votable.converters Module</a><ul>
+<li><a class="reference internal" href="#id3">Functions</a><ul>
+</ul>
+</li>
+<li><a class="reference internal" href="#id4">Classes</a><ul>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-astropy.io.votable.ucd">astropy.io.votable.ucd Module</a><ul>
+<li><a class="reference internal" href="#id5">Functions</a><ul>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-astropy.io.votable.util">astropy.io.votable.util Module</a><ul>
+<li><a class="reference internal" href="#id6">Functions</a><ul>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-astropy.io.votable.validator">astropy.io.votable.validator Module</a><ul>
+<li><a class="reference internal" href="#id7">Functions</a><ul>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-astropy.io.votable.xmlutil">astropy.io.votable.xmlutil Module</a><ul>
+<li><a class="reference internal" href="#id8">Functions</a><ul>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#astropy-io-votable-exceptions-module">astropy.io.votable.exceptions Module</a><ul>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+<footer class="footer">
+  <p class="pull-right">
+    <a href="http://github.com/astropy/astropy/tree/v0.2.1/docs/io/votable/index.rst">Edit This Page on Github</a> &nbsp;
+    <a href="../../_sources/io/votable/index.txt"
+       rel="nofollow">Page Source</a> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright 2011-2013, The Astropy Developers.<br/>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3+. &nbsp;
+    Last built 03 Apr 2013. <br/>
+  </p>
+</footer>
+ <!-- End original user content -->
+
+
+<br>
+<br>
+<br>
+
+
+<style type="text/css">
+  .rtd-badge {
+    position: fixed;
+    display: block;
+    bottom: 5px;
+    height: 40px;
+    text-indent: -9999em;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+  }
+  #version_menu {
+    position: fixed;
+    display: none;
+    bottom: 11px;
+    right: 166px;
+    list-style-type: none;
+    margin: 0;
+  }
+  .footer_popout:hover #version_menu {
+    display: block;
+  }
+  #version_menu li {
+    display: block;
+    float: right;
+  }
+  #version_menu li a {
+    display: block;
+    padding: 6px 10px 4px 10px;
+    margin: 7px 7px 0 0;
+    font-weight: bold;
+    font-size: 14px;
+    height: 20px;
+    line-height: 17px;
+    text-decoration: none;
+    color: #fff;
+    background: #8ca1af url(../images/gradient-light.png) bottom left repeat-x;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 1px #465158;
+    -moz-box-shadow: 0 1px 1px #465158;
+    -webkit-box-shadow: 0 1px 1px #465158;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+  }
+  #version_menu li a:hover {
+    text-decoration: none;
+    background-color: #697983;
+    box-shadow: 0 1px 0px #465158;
+    -moz-box-shadow: 0 1px 0px #465158;
+    -webkit-box-shadow: 0 1px 0px #465158;
+  }
+  .rtd-badge.rtd {
+    background: #3b4449 url(//media.readthedocs.org//images/badge-rtd.png) scroll 0px -46px no-repeat;
+    border: 1px solid #282E32;
+    width: 41px;
+    right: 5px;
+  }
+  .footer_popout:hover .rtd-badge.rtd {
+    background-position: top left;
+    width: 160px;
+  }
+  .rtd-badge.revsys { background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline-sponsored {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys-sm.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 205px;
+    right: 173px;
+  }
+
+</style>
+<div class="rtd_doc_footer">
+  <div class="footer_popout">
+    <a href="//readthedocs.org/projects/astropy/?fromdocs=astropy" class="rtd-badge rtd"> Brought to you by Read the Docs</a>
+    <ul id="version_menu">
+      
+        <li><a href="/en/latest/">latest</a></li>
+      
+        <li><a href="/en/add-mpl-to-rtd-pip-req/">add-mpl-to-rtd-pip-req</a></li>
+      
+        <li><a href="/en/v0.2.1/">v0.2.1</a></li>
+      
+        <li><a href="/en/v0.2/">v0.2</a></li>
+      
+        <li><a href="/en/v0.1/">v0.1</a></li>
+      
+    </ul>
+  </div>
+</div>
+<!-- RTD Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17997319-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+<!-- User Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-30968842-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+  </body>
+</html>

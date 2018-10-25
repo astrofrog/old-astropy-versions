@@ -1,0 +1,29 @@
+
+
+Trapezoid1DKernel
+=============================================
+
+.. currentmodule:: astropy.convolution.kernels
+
+.. autoclass:: Trapezoid1DKernel
+   :show-inheritance:
+
+   
+     
+   
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   

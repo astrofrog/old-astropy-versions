@@ -1,0 +1,236 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>biweight_midvariance &mdash; Astropy v0.4.2</title>
+    
+    <link rel="stylesheet" href="../_static/bootstrap-astropy.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="https://media.readthedocs.org/css/badge_only.css" type="text/css" />
+    <link rel="stylesheet" href="https://media.readthedocs.org/css/readthedocs-doc-embed.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.4.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/jquery/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/jquery/jquery-migrate-1.2.1.min.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/underscore.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/doctools.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/readthedocs-doc-embed.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="shortcut icon" href="../_static/astropy_logo.ico"/>
+    <link rel="top" title="Astropy v0.4.2" href="../index.html" />
+    <link rel="up" title="Astrostatistics Tools (astropy.stats)" href="../stats/index.html" />
+    <link rel="next" title="bootstrap" href="astropy.stats.bootstrap.html" />
+    <link rel="prev" title="biweight_location" href="astropy.stats.biweight_location.html" />
+
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,600' rel='stylesheet' type='text/css'/>
+<script type="text/javascript" src="../_static/copybutton.js"></script>
+
+
+<!-- RTD Extra Head -->
+
+
+
+<!-- 
+Read the Docs is acting as the canonical URL for your project. 
+If you want to change it, more info is available in our docs:
+  http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="http://astropy.readthedocs.org/en/latest/api/astropy.stats.biweight_midvariance.html" />
+
+<script type="text/javascript">
+  // This is included here because other places don't have access to the pagename variable.
+  var READTHEDOCS_DATA = {
+    project: "astropy",
+    version: "v0.4.2",
+    language: "en",
+    page: "api/astropy.stats.biweight_midvariance",
+    builder: "sphinx",
+    theme: "bootstrap-astropy",
+    docroot: "/docs/",
+    source_suffix: ".rst",
+    api_host: "https://readthedocs.org/",
+    commit: "542718512637738441b4315bc8f1a98ab8499ddd"
+  }
+  // Old variables
+  var doc_version = "v0.4.2";
+  var doc_slug = "astropy";
+  var page_name = "api/astropy.stats.biweight_midvariance";
+  var html_theme = "bootstrap-astropy";
+</script>
+<!-- RTD Analytics Code -->
+<!-- Included in the header because you don't have a footer block. -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17997319-1']);
+  _gaq.push(['_trackPageview']);
+
+  // User Analytics Code
+  _gaq.push(['user._setAccount', 'UA-30968842-1']);
+  _gaq.push(['user._trackPageview']);
+  // End User Analytics Code
+
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+<!-- end RTD Analytics Code -->
+<!-- end RTD <extrahead> -->
+
+  </head>
+  <body role="document">
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../index.html"><span id="logotext1">astro</span><span id="logotext2">py</span><span id="logotext3">:docs</span></a>
+  <ul>
+    <li><a class="homelink" title="Astropy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../genindex.html">Index</a></li>
+    <li><a title="Module Index" href="../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li class="right">
+	<a href="astropy.stats.bootstrap.html" title="bootstrap">
+	  next &raquo;
+	</a>
+      </li>
+      <li class="right">
+	<a href="astropy.stats.biweight_location.html" title="biweight_location">
+	  &laquo; previous
+	</a>
+	 |
+      </li>
+      <li>
+	<a href="../index.html">Astropy v0.4.2</a>
+	 &raquo;
+      </li>
+      <li><a href="../stats/index.html" accesskey="U">Astrostatistics Tools (<code class="docutils literal"><span class="pre">astropy.stats</span></code>)</a> &raquo;</li>
+      
+      <li>biweight_midvariance</li> 
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="biweight-midvariance">
+<h1>biweight_midvariance<a class="headerlink" href="#biweight-midvariance" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="astropy.stats.biweight_midvariance">
+<code class="descclassname">astropy.stats.</code><code class="descname">biweight_midvariance</code><span class="sig-paren">(</span><em>a</em>, <em>c=9.0</em>, <em>M=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/astropy/stats/funcs.html#biweight_midvariance"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.4.x/astropy/stats/funcs.py#L692" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.stats.biweight_midvariance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the biweight midvariance for an array.</p>
+<p>Returns the biweight midvariance for the array elements.
+The biweight midvariance is a robust statistic for determining
+the midvariance (i.e. the standard deviation) of a distribution.</p>
+<p>The biweight location is given by the following equation</p>
+<div class="math">
+\[\begin{split}C_{bl}= n^{1/2} \frac{[\Sigma_{|u_i|&lt;1} (x_i-M)**2(1-u_i^2)^4]^{0.5}}
+{|\Sigma_{|u_i|&lt;1} (1-u_i^2)(1-5u_i^2)|}\end{split}\]</div>
+<p>where <span class="math">\(u_i\)</span> is given by</p>
+<div class="math">
+\[u_{i} = \frac{(x_i-M)}{cMAD}\]</div>
+<p>where MAD is the median absolute deviation.  For the midvariance
+parameter, c is typically uses a value of 9.0.</p>
+<p>For more details, see Beers, Flynn, and Gebhardt, 1990, AJ, 100, 32B</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : array_like</p>
+<blockquote>
+<div><p>Input array or object that can be converted to an array.</p>
+</div></blockquote>
+<p><strong>c</strong> : float</p>
+<blockquote>
+<div><p>Tuning constant for the biweight estimator.  Default value is 9.0.</p>
+</div></blockquote>
+<p><strong>M</strong> : float, optional</p>
+<blockquote>
+<div><p>Initial gues for the biweight location.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>biweight_midvariance</strong> : float</p>
+<blockquote class="last">
+<div><p>Returns the biweight midvariance for the array elements.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="astropy.stats.median_absolute_deviation.html#astropy.stats.median_absolute_deviation" title="astropy.stats.median_absolute_deviation"><code class="xref py py-obj docutils literal"><span class="pre">median_absolute_deviation</span></code></a>, <a class="reference internal" href="astropy.stats.biweight_location.html#astropy.stats.biweight_location" title="astropy.stats.biweight_location"><code class="xref py py-obj docutils literal"><span class="pre">biweight_location</span></code></a></p>
+</div>
+<p class="rubric">Examples</p>
+<p>This will generate random variates from a Gaussian distribution and return
+the median absolute deviation for that distribution:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">astropy.stats.funcs</span> <span class="kn">import</span> <span class="n">biweight_midvariance</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">numpy.random</span> <span class="kn">import</span> <span class="n">randn</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">randvar</span> <span class="o">=</span> <span class="n">randn</span><span class="p">(</span><span class="mi">10000</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">scl</span> <span class="o">=</span> <span class="n">biweight_midvariance</span><span class="p">(</span><span class="n">randvar</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Page Contents</h3>
+<ul>
+<li><a class="reference internal" href="#">biweight_midvariance</a></li>
+</ul>
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+<footer class="footer">
+  <p class="pull-right">
+    <a href="http://github.com/astropy/astropy/tree/v0.4.x/docs/api/astropy.stats.biweight_midvariance.rst">Edit This Page on Github</a> &nbsp;
+    <a href="../_sources/api/astropy.stats.biweight_midvariance.txt"
+       rel="nofollow">Page Source</a> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright 2011-2014, The Astropy Developers.<br/>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3.1. &nbsp;
+    Last built 14 Aug 2015. <br/>
+  </p>
+</footer>
+  </body>
+</html>

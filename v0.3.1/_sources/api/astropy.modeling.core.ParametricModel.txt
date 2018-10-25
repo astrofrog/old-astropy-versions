@@ -1,0 +1,77 @@
+
+
+ParametricModel
+=====================================
+
+.. currentmodule:: astropy.modeling.core
+
+.. autoclass:: ParametricModel
+   :show-inheritance:
+
+   
+     
+   
+
+   
+   
+
+   .. rubric:: Attributes Summary
+
+   .. autosummary::
+   
+      ~ParametricModel.bounds
+      ~ParametricModel.col_deriv
+      ~ParametricModel.deriv
+      ~ParametricModel.eqcons
+      ~ParametricModel.fittable
+      ~ParametricModel.fixed
+      ~ParametricModel.ineqcons
+      ~ParametricModel.linear
+      ~ParametricModel.parameters
+      ~ParametricModel.tied
+
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+   
+      ~ParametricModel.set_joint_parameters
+
+   
+   
+
+   
+   
+
+   .. rubric:: Attributes Documentation
+
+   
+   .. autoattribute:: bounds
+   .. autoattribute:: col_deriv
+   .. autoattribute:: deriv
+   .. autoattribute:: eqcons
+   .. autoattribute:: fittable
+   .. autoattribute:: fixed
+   .. autoattribute:: ineqcons
+   .. autoattribute:: linear
+   .. autoattribute:: parameters
+   .. autoattribute:: tied
+
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Documentation
+
+   
+   .. automethod:: set_joint_parameters
+
+   
+   

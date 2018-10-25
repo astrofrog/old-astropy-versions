@@ -1,0 +1,617 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+
+    <title>UnitBase &mdash; Astropy v0.2.1</title>
+<!-- RTD <head> -->
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/underscore.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/doctools.js"></script>
+
+<script type="text/javascript">
+  // This is included here for Javascript that doesn't have access to the templates.
+  var doc_version = "v0.2.1";
+  var doc_slug = "astropy";
+</script>
+
+<script type="text/javascript" src="//media.readthedocs.org/javascript/rtd.js"></script>
+<!-- end RTD <head> -->
+
+    
+    <link rel="stylesheet" href="../_static/bootstrap-astropy.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.2.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="shortcut icon" href="../_static/astropy_logo.ico"/>
+    <link rel="top" title="Astropy v0.2.1" href="../index.html" />
+    <link rel="up" title="Units (astropy.units)" href="../units/index.html" />
+    <link rel="next" title="NamedUnit" href="astropy.units.core.NamedUnit.html" />
+    <link rel="prev" title="UnitsWarning" href="astropy.units.core.UnitsWarning.html" /> 
+  </head>
+  <body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../index.html"></a>
+  <ul>
+    <li><a class="homelink" title="AstroPy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../genindex.html">Index</a></li>
+    <li><a title="Python Module Index" href="../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li class="right">
+	<a href="astropy.units.core.NamedUnit.html" title="NamedUnit">
+	  next &raquo;
+	</a>
+      </li>
+      <li class="right">
+	<a href="astropy.units.core.UnitsWarning.html" title="UnitsWarning">
+	  &laquo; previous
+	</a>
+	 |
+      </li>
+      <li>
+	<a href="../index.html">Astropy v0.2.1</a>
+	 &raquo;
+      </li>
+      <li><a href="../units/index.html" accesskey="U">Units (<tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">astropy.units</span></tt>)</a> &raquo;</li>
+      
+      <li>UnitBase</li> 
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="unitbase">
+<h1>UnitBase<a class="headerlink" href="#unitbase" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="astropy.units.core.UnitBase">
+<em class="property">class </em><tt class="descclassname">astropy.units.core.</tt><tt class="descname">UnitBase</tt><a class="reference internal" href="../_modules/astropy/units/core.html#UnitBase"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/units/core.py#L45" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.units.core.UnitBase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>Abstract base class for units.</p>
+<p>Most of the arithmetic operations on units are defined in this
+base class.</p>
+<p>Should not be instantiated by users directly.</p>
+<p class="rubric">Attributes Summary</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.units.core.UnitBase.physical_type" title="astropy.units.core.UnitBase.physical_type"><tt class="xref py py-obj docutils literal"><span class="pre">physical_type</span></tt></a></td>
+<td>Return the physical type on the unit.</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods Summary</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.units.core.UnitBase.compose" title="astropy.units.core.UnitBase.compose"><tt class="xref py py-obj docutils literal"><span class="pre">compose</span></tt></a>([equivalencies,&nbsp;units,&nbsp;max_depth])</td>
+<td>Return the simplest possible composite unit(s) that represent the given unit.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#astropy.units.core.UnitBase.decompose" title="astropy.units.core.UnitBase.decompose"><tt class="xref py py-obj docutils literal"><span class="pre">decompose</span></tt></a>([bases])</td>
+<td>Return a unit object composed of only irreducible units.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.units.core.UnitBase.find_equivalent_units" title="astropy.units.core.UnitBase.find_equivalent_units"><tt class="xref py py-obj docutils literal"><span class="pre">find_equivalent_units</span></tt></a>([equivalencies,&nbsp;units])</td>
+<td>Return a list of all the units that are the same type as the specified unit.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#astropy.units.core.UnitBase.get_converter" title="astropy.units.core.UnitBase.get_converter"><tt class="xref py py-obj docutils literal"><span class="pre">get_converter</span></tt></a>(other[,&nbsp;equivalencies])</td>
+<td>Return the conversion function to convert values from <tt class="xref py py-obj docutils literal"><span class="pre">self</span></tt> to the specified unit.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.units.core.UnitBase.in_units" title="astropy.units.core.UnitBase.in_units"><tt class="xref py py-obj docutils literal"><span class="pre">in_units</span></tt></a>(other[,&nbsp;value,&nbsp;equivalencies])</td>
+<td>Alias for <a class="reference internal" href="#astropy.units.core.UnitBase.to" title="astropy.units.core.UnitBase.to"><tt class="xref py py-obj docutils literal"><span class="pre">to</span></tt></a> for backward compatibility with pynbody.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#astropy.units.core.UnitBase.is_equivalent" title="astropy.units.core.UnitBase.is_equivalent"><tt class="xref py py-obj docutils literal"><span class="pre">is_equivalent</span></tt></a>(other[,&nbsp;equivalencies])</td>
+<td>Returns <a class="reference external" href="http://docs.python.org/library/constants.html#True" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">True</span></tt></a> if this unit is equivalent to <tt class="xref py py-obj docutils literal"><span class="pre">other</span></tt>.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.units.core.UnitBase.to" title="astropy.units.core.UnitBase.to"><tt class="xref py py-obj docutils literal"><span class="pre">to</span></tt></a>(other[,&nbsp;value,&nbsp;equivalencies])</td>
+<td>Return the converted values in the specified unit.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#astropy.units.core.UnitBase.to_string" title="astropy.units.core.UnitBase.to_string"><tt class="xref py py-obj docutils literal"><span class="pre">to_string</span></tt></a>([format])</td>
+<td>Output the unit in the given format as a string.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.units.core.UnitBase.to_system" title="astropy.units.core.UnitBase.to_system"><tt class="xref py py-obj docutils literal"><span class="pre">to_system</span></tt></a>(system)</td>
+<td>Converts this unit into ones belonging to the given system.</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes Documentation</p>
+<dl class="attribute">
+<dt id="astropy.units.core.UnitBase.physical_type">
+<tt class="descname">physical_type</tt><a class="reference internal" href="../_modules/astropy/units/core.html#UnitBase.physical_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astropy.units.core.UnitBase.physical_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the physical type on the unit.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="o">.</span><span class="n">m</span><span class="o">.</span><span class="n">physical_type</span>
+<span class="go">&#39;length&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<p class="rubric">Methods Documentation</p>
+<dl class="method">
+<dt id="astropy.units.core.UnitBase.compose">
+<tt class="descname">compose</tt><big>(</big><em>equivalencies=</em><span class="optional">[</span><span class="optional">]</span>, <em>units=None</em>, <em>max_depth=2</em><big>)</big><a class="reference internal" href="../_modules/astropy/units/core.html#UnitBase.compose"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/units/core.py#L514" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.units.core.UnitBase.compose" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the simplest possible composite unit(s) that represent
+the given unit.  Since there may be multiple equally simple
+compositions of the unit, a list of units is always returned.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>equivalencies</strong> : list of equivalence pairs, optional</p>
+<blockquote>
+<div><p>A list of equivalence pairs to also list.  See
+<a class="reference internal" href="../units/equivalencies.html#unit-equivalencies"><em>Equivalencies</em></a>.</p>
+</div></blockquote>
+<p><strong>units</strong> : set of units to compose to, optional</p>
+<blockquote>
+<div><p>If not provided, any known units may be used to compose
+into.  Otherwise, <tt class="docutils literal"><span class="pre">units</span></tt> is a dict, module or sequence
+containing the units to compose into.</p>
+</div></blockquote>
+<p><strong>max_depth</strong> : int, optional</p>
+<blockquote>
+<div><p>The maximum recursion depth to use when composing into
+composite units.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>units</strong> : list of <a class="reference internal" href="astropy.units.core.CompositeUnit.html#astropy.units.core.CompositeUnit" title="astropy.units.core.CompositeUnit"><tt class="xref py py-obj docutils literal"><span class="pre">CompositeUnit</span></tt></a></p>
+<blockquote class="last">
+<div><p>A list of candidate compositions.  These will all be
+equally simple, but it may not be possible to
+automatically determine which of the candidates are
+better.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.units.core.UnitBase.decompose">
+<tt class="descname">decompose</tt><big>(</big><em>bases=</em><span class="optional">[</span><span class="optional">]</span><big>)</big><a class="reference internal" href="../_modules/astropy/units/core.html#UnitBase.decompose"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/units/core.py#L368" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.units.core.UnitBase.decompose" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a unit object composed of only irreducible units.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>bases</strong> : sequence of UnitBase, optional</p>
+<blockquote>
+<div><p>The bases to decompose into.  When not provided,
+decomposes down to any irreducible units.  When provided,
+the decomposed result will only contain the given units.
+This will raises a <a class="reference internal" href="astropy.units.core.UnitsException.html#astropy.units.core.UnitsException" title="astropy.units.core.UnitsException"><tt class="xref py py-obj docutils literal"><span class="pre">UnitsException</span></tt></a> if it&#8217;s not possible
+to do so.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>unit</strong> : CompositeUnit object</p>
+<blockquote class="last">
+<div><p>New object containing only irreducible unit objects.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.units.core.UnitBase.find_equivalent_units">
+<tt class="descname">find_equivalent_units</tt><big>(</big><em>equivalencies=</em><span class="optional">[</span><span class="optional">]</span>, <em>units=None</em><big>)</big><a class="reference internal" href="../_modules/astropy/units/core.html#UnitBase.find_equivalent_units"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/units/core.py#L644" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.units.core.UnitBase.find_equivalent_units" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list of all the units that are the same type as the
+specified unit.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>u</strong> : Unit instance or string</p>
+<blockquote>
+<div><p>The <a class="reference internal" href="astropy.units.core.Unit.html#astropy.units.core.Unit" title="astropy.units.core.Unit"><tt class="xref py py-obj docutils literal"><span class="pre">Unit</span></tt></a> to find similar units to.</p>
+</div></blockquote>
+<p><strong>equivalencies</strong> : list of equivalence pairs, optional</p>
+<blockquote>
+<div><p>A list of equivalence pairs to also list.  See
+<a class="reference internal" href="../units/equivalencies.html#unit-equivalencies"><em>Equivalencies</em></a>.</p>
+</div></blockquote>
+<p><strong>units</strong> : set of units to search in, optional</p>
+<blockquote>
+<div><p>If not provided, all defined units will be searched for
+equivalencies.  Otherwise, may be a dict, module or
+sequence containing the units to search for equivalencies.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>units</strong> : list of <a class="reference internal" href="#astropy.units.core.UnitBase" title="astropy.units.core.UnitBase"><tt class="xref py py-obj docutils literal"><span class="pre">UnitBase</span></tt></a></p>
+<blockquote class="last">
+<div><p>A list of unit objects that match <tt class="xref py py-obj docutils literal"><span class="pre">u</span></tt>.  A subclass of
+<a class="reference external" href="http://docs.python.org/library/functions.html#list" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">list</span></tt></a> (<tt class="xref py py-obj docutils literal"><span class="pre">EquivalentUnitsList</span></tt>) is returned that
+pretty-prints the list of units when output.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.units.core.UnitBase.get_converter">
+<tt class="descname">get_converter</tt><big>(</big><em>other</em>, <em>equivalencies=</em><span class="optional">[</span><span class="optional">]</span><big>)</big><a class="reference internal" href="../_modules/astropy/units/core.html#UnitBase.get_converter"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/units/core.py#L294" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.units.core.UnitBase.get_converter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the conversion function to convert values from <tt class="xref py py-obj docutils literal"><span class="pre">self</span></tt>
+to the specified unit.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>other</strong> : unit object or string</p>
+<blockquote>
+<div><p>The unit to convert to.</p>
+</div></blockquote>
+<p><strong>equivalencies</strong> : list of equivalence pairs, optional</p>
+<blockquote>
+<div><p>A list of equivalence pairs to try if the units are not
+directly convertible.  See <a class="reference internal" href="../units/equivalencies.html#unit-equivalencies"><em>Equivalencies</em></a>.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>func</strong> : callable</p>
+<blockquote>
+<div><p>A callable that normally expects a single argument that is
+a scalar value or an array of values (or anything that may
+be converted to an array).</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises :</th><td class="field-body"><p class="first"><strong>UnitsException</strong> :</p>
+<blockquote class="last">
+<div><p>If units are inconsistent</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.units.core.UnitBase.in_units">
+<tt class="descname">in_units</tt><big>(</big><em>other</em>, <em>value=1.0</em>, <em>equivalencies=</em><span class="optional">[</span><span class="optional">]</span><big>)</big><a class="reference internal" href="../_modules/astropy/units/core.html#UnitBase.in_units"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/units/core.py#L361" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.units.core.UnitBase.in_units" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for <a class="reference internal" href="#astropy.units.core.UnitBase.to" title="astropy.units.core.UnitBase.to"><tt class="xref py py-obj docutils literal"><span class="pre">to</span></tt></a> for backward compatibility with pynbody.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.units.core.UnitBase.is_equivalent">
+<tt class="descname">is_equivalent</tt><big>(</big><em>other</em>, <em>equivalencies=</em><span class="optional">[</span><span class="optional">]</span><big>)</big><a class="reference internal" href="../_modules/astropy/units/core.html#UnitBase.is_equivalent"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/units/core.py#L203" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.units.core.UnitBase.is_equivalent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns <a class="reference external" href="http://docs.python.org/library/constants.html#True" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">True</span></tt></a> if this unit is equivalent to <tt class="xref py py-obj docutils literal"><span class="pre">other</span></tt>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>other</strong> : unit object or string</p>
+<blockquote>
+<div><p>The unit to convert to.</p>
+</div></blockquote>
+<p><strong>equivalencies</strong> : list of equivalence pairs, optional</p>
+<blockquote>
+<div><p>A list of equivalence pairs to try if the units are not
+directly convertible.  See <a class="reference internal" href="../units/equivalencies.html#unit-equivalencies"><em>Equivalencies</em></a>.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first last"><strong>bool</strong> :</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.units.core.UnitBase.to">
+<tt class="descname">to</tt><big>(</big><em>other</em>, <em>value=1.0</em>, <em>equivalencies=</em><span class="optional">[</span><span class="optional">]</span><big>)</big><a class="reference internal" href="../_modules/astropy/units/core.html#UnitBase.to"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/units/core.py#L329" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.units.core.UnitBase.to" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the converted values in the specified unit.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>other</strong> : unit object or string</p>
+<blockquote>
+<div><p>The unit to convert to.</p>
+</div></blockquote>
+<p><strong>value</strong> : scalar int or float, or sequence that can be converted to array, optional</p>
+<blockquote>
+<div><p>Value(s) in the current unit to be converted to the
+specified unit.  If not provided, defaults to 1.0</p>
+</div></blockquote>
+<p><strong>equivalencies</strong> : list of equivalence pairs, optional</p>
+<blockquote>
+<div><p>A list of equivalence pairs to try if the units are not
+directly convertible.  See <a class="reference internal" href="../units/equivalencies.html#unit-equivalencies"><em>Equivalencies</em></a>.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>values</strong> : scalar or array</p>
+<blockquote>
+<div><p>Converted value(s). Input value sequences are returned as
+numpy arrays.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises :</th><td class="field-body"><p class="first"><strong>UnitException</strong> :</p>
+<blockquote class="last">
+<div><p>If units are inconsistent</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.units.core.UnitBase.to_string">
+<tt class="descname">to_string</tt><big>(</big><em>format=u'generic'</em><big>)</big><a class="reference internal" href="../_modules/astropy/units/core.html#UnitBase.to_string"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/units/core.py#L85" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.units.core.UnitBase.to_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Output the unit in the given format as a string.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>format</strong> : <tt class="xref py py-obj docutils literal"><span class="pre">astropy.format.Base</span></tt> instance or str</p>
+<blockquote class="last">
+<div><p>The name of a format or a formatter object.  If not
+provided, defaults to the generic format.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.units.core.UnitBase.to_system">
+<tt class="descname">to_system</tt><big>(</big><em>system</em><big>)</big><a class="reference internal" href="../_modules/astropy/units/core.html#UnitBase.to_system"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/units/core.py#L564" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.units.core.UnitBase.to_system" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts this unit into ones belonging to the given system.
+Since more than one result may be possible, a list is always
+returned.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>system</strong> : module</p>
+<blockquote>
+<div><p>The module that defines the unit system.  Commonly used
+ones include <a class="reference internal" href="../units/index.html#module-astropy.units.si" title="astropy.units.si"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.units.si</span></tt></a> and <a class="reference internal" href="../units/index.html#module-astropy.units.cgs" title="astropy.units.cgs"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.units.cgs</span></tt></a>.</p>
+<p>To use your own module it must contain unit objects and a
+sequence member named <tt class="xref py py-obj docutils literal"><span class="pre">bases</span></tt> containing the base units of
+the system.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>units</strong> : list of <a class="reference internal" href="astropy.units.core.CompositeUnit.html#astropy.units.core.CompositeUnit" title="astropy.units.core.CompositeUnit"><tt class="xref py py-obj docutils literal"><span class="pre">CompositeUnit</span></tt></a></p>
+<blockquote class="last">
+<div><p>The list is ranked so that units containing only the base
+units of that system will appear first.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+
+
+<h3>Page Contents</h3>
+<ul>
+<li><a class="reference internal" href="#">UnitBase</a></li>
+</ul>
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+<footer class="footer">
+  <p class="pull-right">
+    <a href="../_sources/_generated/astropy.units.core.UnitBase.txt"
+       rel="nofollow">Page Source</a> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright 2011-2013, The Astropy Developers.<br/>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3+. &nbsp;
+    Last built 03 Apr 2013. <br/>
+  </p>
+</footer>
+ <!-- End original user content -->
+
+
+<br>
+<br>
+<br>
+
+
+<style type="text/css">
+  .rtd-badge {
+    position: fixed;
+    display: block;
+    bottom: 5px;
+    height: 40px;
+    text-indent: -9999em;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+  }
+  #version_menu {
+    position: fixed;
+    display: none;
+    bottom: 11px;
+    right: 166px;
+    list-style-type: none;
+    margin: 0;
+  }
+  .footer_popout:hover #version_menu {
+    display: block;
+  }
+  #version_menu li {
+    display: block;
+    float: right;
+  }
+  #version_menu li a {
+    display: block;
+    padding: 6px 10px 4px 10px;
+    margin: 7px 7px 0 0;
+    font-weight: bold;
+    font-size: 14px;
+    height: 20px;
+    line-height: 17px;
+    text-decoration: none;
+    color: #fff;
+    background: #8ca1af url(../images/gradient-light.png) bottom left repeat-x;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 1px #465158;
+    -moz-box-shadow: 0 1px 1px #465158;
+    -webkit-box-shadow: 0 1px 1px #465158;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+  }
+  #version_menu li a:hover {
+    text-decoration: none;
+    background-color: #697983;
+    box-shadow: 0 1px 0px #465158;
+    -moz-box-shadow: 0 1px 0px #465158;
+    -webkit-box-shadow: 0 1px 0px #465158;
+  }
+  .rtd-badge.rtd {
+    background: #3b4449 url(//media.readthedocs.org//images/badge-rtd.png) scroll 0px -46px no-repeat;
+    border: 1px solid #282E32;
+    width: 41px;
+    right: 5px;
+  }
+  .footer_popout:hover .rtd-badge.rtd {
+    background-position: top left;
+    width: 160px;
+  }
+  .rtd-badge.revsys { background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline-sponsored {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys-sm.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 205px;
+    right: 173px;
+  }
+
+</style>
+<div class="rtd_doc_footer">
+  <div class="footer_popout">
+    <a href="//readthedocs.org/projects/astropy/?fromdocs=astropy" class="rtd-badge rtd"> Brought to you by Read the Docs</a>
+    <ul id="version_menu">
+      
+        <li><a href="/en/latest/">latest</a></li>
+      
+        <li><a href="/en/add-mpl-to-rtd-pip-req/">add-mpl-to-rtd-pip-req</a></li>
+      
+        <li><a href="/en/v0.2.1/">v0.2.1</a></li>
+      
+        <li><a href="/en/v0.2/">v0.2</a></li>
+      
+        <li><a href="/en/v0.1/">v0.1</a></li>
+      
+    </ul>
+  </div>
+</div>
+<!-- RTD Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17997319-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+<!-- User Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-30968842-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+  </body>
+</html>

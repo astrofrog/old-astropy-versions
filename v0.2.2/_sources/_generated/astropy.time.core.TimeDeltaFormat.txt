@@ -1,0 +1,29 @@
+
+.. include:: ../time/references.txt
+
+
+TimeDeltaFormat
+=================================
+
+.. currentmodule:: astropy.time.core
+
+.. autoclass:: TimeDeltaFormat
+   :show-inheritance:
+
+   
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   

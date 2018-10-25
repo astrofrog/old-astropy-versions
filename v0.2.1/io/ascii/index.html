@@ -1,0 +1,626 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+
+    <title>ASCII Tables (astropy.io.ascii) &mdash; Astropy v0.2.1</title>
+<!-- RTD <head> -->
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/underscore.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/doctools.js"></script>
+
+<script type="text/javascript">
+  // This is included here for Javascript that doesn't have access to the templates.
+  var doc_version = "v0.2.1";
+  var doc_slug = "astropy";
+</script>
+
+<script type="text/javascript" src="//media.readthedocs.org/javascript/rtd.js"></script>
+<!-- end RTD <head> -->
+
+    
+    <link rel="stylesheet" href="../../_static/bootstrap-astropy.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.2.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/sidebar.js"></script>
+    <link rel="shortcut icon" href="../../_static/astropy_logo.ico"/>
+    <link rel="top" title="Astropy v0.2.1" href="../../index.html" />
+    <link rel="next" title="Reading tables" href="read.html" />
+    <link rel="prev" title="Verification options" href="../fits/api/verification.html" /> 
+  </head>
+  <body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../../index.html"></a>
+  <ul>
+    <li><a class="homelink" title="AstroPy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../../genindex.html">Index</a></li>
+    <li><a title="Python Module Index" href="../../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li class="right">
+	<a href="read.html" title="Reading tables">
+	  next &raquo;
+	</a>
+      </li>
+      <li class="right">
+	<a href="../fits/api/verification.html" title="Verification options">
+	  &laquo; previous
+	</a>
+	 |
+      </li>
+      <li>
+	<a href="../../index.html">Astropy v0.2.1</a>
+	 &raquo;
+      </li>
+      
+      <li>ASCII Tables (<tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">astropy.io.ascii</span></tt>)</li> 
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="ascii-tables-astropy-io-ascii">
+<span id="io-ascii"></span><h1>ASCII Tables (<a class="reference internal" href="#module-astropy.io.ascii" title="astropy.io.ascii"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.io.ascii</span></tt></a>)<a class="headerlink" href="#ascii-tables-astropy-io-ascii" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference internal" href="#module-astropy.io.ascii" title="astropy.io.ascii"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.io.ascii</span></tt></a> provides methods for reading and writing a wide range of ASCII data table
+formats via built-in <a class="reference internal" href="extension_classes.html#extension-reader-classes"><em>Extension Reader classes</em></a>.  The emphasis is on flexibility and ease of use.</p>
+<p>The following formats are supported:</p>
+<ul class="simple">
+<li><a class="reference internal" href="../../_generated/astropy.io.ascii.latex.AASTex.html#astropy.io.ascii.latex.AASTex" title="astropy.io.ascii.latex.AASTex"><tt class="xref py py-class docutils literal"><span class="pre">AASTex</span></tt></a>: AASTeX <tt class="xref py py-obj docutils literal"><span class="pre">deluxetable</span></tt> used for AAS journals</li>
+<li><a class="reference internal" href="../../_generated/astropy.io.ascii.basic.Basic.html#astropy.io.ascii.basic.Basic" title="astropy.io.ascii.basic.Basic"><tt class="xref py py-class docutils literal"><span class="pre">Basic</span></tt></a>: basic table with customizable delimiters and header configurations</li>
+<li><a class="reference internal" href="../../_generated/astropy.io.ascii.cds.Cds.html#astropy.io.ascii.cds.Cds" title="astropy.io.ascii.cds.Cds"><tt class="xref py py-class docutils literal"><span class="pre">Cds</span></tt></a>: <a class="reference external" href="http://vizier.u-strasbg.fr/doc/catstd.htx">CDS format table</a> (also Vizier and ApJ machine readable tables)</li>
+<li><a class="reference internal" href="../../_generated/astropy.io.ascii.basic.CommentedHeader.html#astropy.io.ascii.basic.CommentedHeader" title="astropy.io.ascii.basic.CommentedHeader"><tt class="xref py py-class docutils literal"><span class="pre">CommentedHeader</span></tt></a>: column names given in a line that begins with the comment character</li>
+<li><a class="reference internal" href="../../_generated/astropy.io.ascii.daophot.Daophot.html#astropy.io.ascii.daophot.Daophot" title="astropy.io.ascii.daophot.Daophot"><tt class="xref py py-class docutils literal"><span class="pre">Daophot</span></tt></a>: table from the IRAF DAOphot package</li>
+<li><a class="reference internal" href="../../_generated/astropy.io.ascii.fixedwidth.FixedWidth.html#astropy.io.ascii.fixedwidth.FixedWidth" title="astropy.io.ascii.fixedwidth.FixedWidth"><tt class="xref py py-class docutils literal"><span class="pre">FixedWidth</span></tt></a>: table with fixed-width columns (see also <a class="reference internal" href="fixed_width_gallery.html#fixed-width-gallery"><em>Fixed-width Gallery</em></a>)</li>
+<li><a class="reference internal" href="../../_generated/astropy.io.ascii.ipac.Ipac.html#astropy.io.ascii.ipac.Ipac" title="astropy.io.ascii.ipac.Ipac"><tt class="xref py py-class docutils literal"><span class="pre">Ipac</span></tt></a>: <a class="reference external" href="http://irsa.ipac.caltech.edu/applications/DDGEN/Doc/ipac_tbl.html">IPAC format table</a></li>
+<li><a class="reference internal" href="../../_generated/astropy.io.ascii.latex.Latex.html#astropy.io.ascii.latex.Latex" title="astropy.io.ascii.latex.Latex"><tt class="xref py py-class docutils literal"><span class="pre">Latex</span></tt></a>: LaTeX table with datavalue in the <tt class="xref py py-obj docutils literal"><span class="pre">tabular</span></tt> environment</li>
+<li><a class="reference internal" href="../../_generated/astropy.io.ascii.basic.NoHeader.html#astropy.io.ascii.basic.NoHeader" title="astropy.io.ascii.basic.NoHeader"><tt class="xref py py-class docutils literal"><span class="pre">NoHeader</span></tt></a>: basic table with no header where columns are auto-named</li>
+<li><a class="reference internal" href="../../_generated/astropy.io.ascii.basic.Rdb.html#astropy.io.ascii.basic.Rdb" title="astropy.io.ascii.basic.Rdb"><tt class="xref py py-class docutils literal"><span class="pre">Rdb</span></tt></a>: tab-separated values with an extra line after the column definition line</li>
+<li><a class="reference internal" href="../../_generated/astropy.io.ascii.sextractor.SExtractor.html#astropy.io.ascii.sextractor.SExtractor" title="astropy.io.ascii.sextractor.SExtractor"><tt class="xref py py-class docutils literal"><span class="pre">SExtractor</span></tt></a>: <a class="reference external" href="http://www.astromatic.net/software/sextractor">SExtractor format table</a></li>
+<li><a class="reference internal" href="../../_generated/astropy.io.ascii.basic.Tab.html#astropy.io.ascii.basic.Tab" title="astropy.io.ascii.basic.Tab"><tt class="xref py py-class docutils literal"><span class="pre">Tab</span></tt></a>: tab-separated values</li>
+</ul>
+<p>The <a class="reference internal" href="#module-astropy.io.ascii" title="astropy.io.ascii"><tt class="xref py py-mod docutils literal"><span class="pre">astropy.io.ascii</span></tt></a> package is built on a modular and extensible class
+structure with independent <a class="reference internal" href="base_classes.html#base-class-elements"><em>Base class elements</em></a> so that new formats can
+be easily accomodated.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">It is also possible to use the functionality from
+<a class="reference internal" href="#module-astropy.io.ascii" title="astropy.io.ascii"><tt class="xref py py-mod docutils literal"><span class="pre">astropy.io.ascii</span></tt></a> through a higher-level interface in the
+<a class="reference internal" href="../../table/index.html#module-astropy.table" title="astropy.table"><tt class="xref py py-mod docutils literal"><span class="pre">astropy.table</span></tt></a> package. See <a class="reference internal" href="../../table/io.html#table-io"><em>Reading and writing Table objects</em></a> for more details.</p>
+</div>
+</div>
+<div class="section" id="getting-started">
+<h2>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="reading-tables">
+<h3>Reading Tables<a class="headerlink" href="#reading-tables" title="Permalink to this headline">¶</a></h3>
+<p>The majority of commonly encountered ASCII tables can be easily read with the <a class="reference internal" href="../../_generated/astropy.io.ascii.ui.read.html#astropy.io.ascii.ui.read" title="astropy.io.ascii.ui.read"><tt class="xref py py-func docutils literal"><span class="pre">read()</span></tt></a>
+function.  Assume you have a file named <tt class="docutils literal"><span class="pre">sources.dat</span></tt> with the following contents:</p>
+<div class="highlight-python"><pre>obsid redshift  X      Y     object
+3102  0.32      4167  4085   Q1250+568-A
+877   0.22      4378  3892   "Source 82"</pre>
+</div>
+<p>This table can be read with the following:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">astropy.io</span> <span class="kn">import</span> <span class="n">ascii</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">ascii</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s">&quot;sources.dat&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">data</span>
+<span class="go">obsid redshift  X    Y      object</span>
+<span class="go">----- -------- ---- ---- -----------</span>
+<span class="go"> 3102     0.32 4167 4085 Q1250+568-A</span>
+<span class="go">  877     0.22 4378 3892   Source 82</span>
+</pre></div>
+</div>
+<p>The first argument to the <a class="reference internal" href="../../_generated/astropy.io.ascii.ui.read.html#astropy.io.ascii.ui.read" title="astropy.io.ascii.ui.read"><tt class="xref py py-func docutils literal"><span class="pre">read()</span></tt></a> function can be the name of a file, a string
+representation of a table, or a list of table lines.  By default <a class="reference internal" href="../../_generated/astropy.io.ascii.ui.read.html#astropy.io.ascii.ui.read" title="astropy.io.ascii.ui.read"><tt class="xref py py-func docutils literal"><span class="pre">read()</span></tt></a> will
+try to <a class="reference external" href="#guess-table-format">guess the table format</a> by trying all the
+supported formats.  If this does not work (for unusually formatted tables) then
+one needs give astropy.io.ascii additional hints about the format, for
+example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">lines</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;objID                   &amp; osrcid            &amp; xsrcid       &#39;</span><span class="p">,</span>
+<span class="go">             &#39;----------------------- &amp; ----------------- &amp; -------------&#39;,</span>
+<span class="go">             &#39;              277955213 &amp; S000.7044P00.7513 &amp; XS04861B6_005&#39;,</span>
+<span class="go">             &#39;              889974380 &amp; S002.9051P14.7003 &amp; XS03957B7_004&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">ascii</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">data_start</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s">&#39;&amp;&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">data</span>
+<span class="go">  objID         osrcid          xsrcid</span>
+<span class="go">--------- ----------------- -------------</span>
+<span class="go">277955213 S000.7044P00.7513 XS04861B6_005</span>
+<span class="go">889974380 S002.9051P14.7003 XS03957B7_004</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="writing-tables">
+<h3>Writing Tables<a class="headerlink" href="#writing-tables" title="Permalink to this headline">¶</a></h3>
+<p>The <a class="reference internal" href="../../_generated/astropy.io.ascii.ui.write.html#astropy.io.ascii.ui.write" title="astropy.io.ascii.ui.write"><tt class="xref py py-func docutils literal"><span class="pre">write()</span></tt></a> function provides a way to write a data table as a formatted ASCII
+table.  For example the following writes a table as a simple space-delimited
+file:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="n">x</span> <span class="o">**</span> <span class="mi">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">Table</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ascii</span><span class="o">.</span><span class="n">write</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">],</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;x&#39;</span><span class="p">,</span> <span class="s">&#39;y&#39;</span><span class="p">],</span> <span class="s">&#39;values.dat&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">values.dat</span></tt> file will then contain:</p>
+<div class="highlight-python"><pre>x y
+1 1
+2 4
+3 9</pre>
+</div>
+<p>All of the input Reader formats supported by <a class="reference internal" href="#module-astropy.io.ascii" title="astropy.io.ascii"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.io.ascii</span></tt></a> for reading are
+also supported for writing.  This provides a great deal of flexibility in the
+format for writing.  The example below writes the data as a LaTeX table, using
+the option to send the output to <tt class="docutils literal"><span class="pre">sys.stdout</span></tt> instead of a file:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">ascii</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">,</span> <span class="n">Writer</span><span class="o">=</span><span class="n">ascii</span><span class="o">.</span><span class="n">Latex</span><span class="p">)</span>
+<span class="go">\begin{table}</span>
+<span class="go">\begin{tabular}{cc}</span>
+<span class="go">x &amp; y \\</span>
+<span class="go">1 &amp; 1 \\</span>
+<span class="go">2 &amp; 4 \\</span>
+<span class="go">3 &amp; 9 \\</span>
+<span class="go">\end{tabular}</span>
+<span class="go">\end{table}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="using-io-ascii">
+<h2>Using <tt class="xref py py-obj docutils literal"><span class="pre">io.ascii</span></tt><a class="headerlink" href="#using-io-ascii" title="Permalink to this headline">¶</a></h2>
+<p>The details of using <a class="reference internal" href="#module-astropy.io.ascii" title="astropy.io.ascii"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.io.ascii</span></tt></a> are provided in the following sections:</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="read.html">Reading tables</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="read.html#parameters-for-read">Parameters for <tt class="docutils literal"><span class="pre">read()</span></tt></a></li>
+<li class="toctree-l2"><a class="reference internal" href="read.html#replace-bad-or-missing-values">Replace bad or missing values</a></li>
+<li class="toctree-l2"><a class="reference internal" href="read.html#guess-table-format">Guess table format</a></li>
+<li class="toctree-l2"><a class="reference internal" href="read.html#converters">Converters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="read.html#advanced-customization">Advanced customization</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="write.html">Writing tables</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="write.html#input-data-format">Input data format</a></li>
+<li class="toctree-l2"><a class="reference internal" href="write.html#parameters-for-write">Parameters for <tt class="docutils literal"><span class="pre">write()</span></tt></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="fixed_width_gallery.html">Fixed-width Gallery</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="fixed_width_gallery.html#reading">Reading</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fixed_width_gallery.html#writing">Writing</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="base_classes.html">Base class elements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extension_classes.html">Extension Reader classes</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="reference-api">
+<h2>Reference/API<a class="headerlink" href="#reference-api" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-astropy.io.ascii">
+<span id="astropy-io-ascii-module"></span><h3>astropy.io.ascii Module<a class="headerlink" href="#module-astropy.io.ascii" title="Permalink to this headline">¶</a></h3>
+<p>An extensible ASCII table reader and writer.</p>
+<div class="section" id="functions">
+<h4>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../../_generated/astropy.io.ascii.core.convert_numpy.html#astropy.io.ascii.core.convert_numpy" title="astropy.io.ascii.core.convert_numpy"><tt class="xref py py-obj docutils literal"><span class="pre">convert_numpy</span></tt></a>(numpy_type)</td>
+<td>Return a tuple <tt class="docutils literal"><span class="pre">(converter_func,</span> <span class="pre">converter_type)</span></tt>.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../../_generated/astropy.io.ascii.ui.get_reader.html#astropy.io.ascii.ui.get_reader" title="astropy.io.ascii.ui.get_reader"><tt class="xref py py-obj docutils literal"><span class="pre">get_reader</span></tt></a>([Reader,&nbsp;Inputter,&nbsp;Outputter])</td>
+<td>Initialize a table reader allowing for common customizations.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../../_generated/astropy.io.ascii.ui.get_writer.html#astropy.io.ascii.ui.get_writer" title="astropy.io.ascii.ui.get_writer"><tt class="xref py py-obj docutils literal"><span class="pre">get_writer</span></tt></a>([Writer])</td>
+<td>Initialize a table writer allowing for common customizations.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../../_generated/astropy.io.ascii.ui.read.html#astropy.io.ascii.ui.read" title="astropy.io.ascii.ui.read"><tt class="xref py py-obj docutils literal"><span class="pre">read</span></tt></a>(table[,&nbsp;guess])</td>
+<td>Read the input <tt class="docutils literal"><span class="pre">table</span></tt> and return the table.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../../_generated/astropy.io.ascii.ui.set_guess.html#astropy.io.ascii.ui.set_guess" title="astropy.io.ascii.ui.set_guess"><tt class="xref py py-obj docutils literal"><span class="pre">set_guess</span></tt></a>(guess)</td>
+<td>Set the default value of the <tt class="docutils literal"><span class="pre">guess</span></tt> parameter for read()</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../../_generated/astropy.io.ascii.ui.write.html#astropy.io.ascii.ui.write" title="astropy.io.ascii.ui.write"><tt class="xref py py-obj docutils literal"><span class="pre">write</span></tt></a>(table[,&nbsp;output,&nbsp;Writer])</td>
+<td>Write the input <tt class="docutils literal"><span class="pre">table</span></tt> to <tt class="docutils literal"><span class="pre">filename</span></tt>.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="classes">
+<h4>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../../_generated/astropy.io.ascii.latex.AASTex.html#astropy.io.ascii.latex.AASTex" title="astropy.io.ascii.latex.AASTex"><tt class="xref py py-obj docutils literal"><span class="pre">AASTex</span></tt></a>(**kwargs)</td>
+<td>Write and read AASTeX tables.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../../_generated/astropy.io.ascii.core.AllType.html#astropy.io.ascii.core.AllType" title="astropy.io.ascii.core.AllType"><tt class="xref py py-obj docutils literal"><span class="pre">AllType</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../../_generated/astropy.io.ascii.core.BaseData.html#astropy.io.ascii.core.BaseData" title="astropy.io.ascii.core.BaseData"><tt class="xref py py-obj docutils literal"><span class="pre">BaseData</span></tt></a>()</td>
+<td>Base table data reader.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../../_generated/astropy.io.ascii.core.BaseHeader.html#astropy.io.ascii.core.BaseHeader" title="astropy.io.ascii.core.BaseHeader"><tt class="xref py py-obj docutils literal"><span class="pre">BaseHeader</span></tt></a>()</td>
+<td>Base table header reader</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../../_generated/astropy.io.ascii.core.BaseInputter.html#astropy.io.ascii.core.BaseInputter" title="astropy.io.ascii.core.BaseInputter"><tt class="xref py py-obj docutils literal"><span class="pre">BaseInputter</span></tt></a></td>
+<td>Get the lines from the table input and return a list of lines.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../../_generated/astropy.io.ascii.core.BaseOutputter.html#astropy.io.ascii.core.BaseOutputter" title="astropy.io.ascii.core.BaseOutputter"><tt class="xref py py-obj docutils literal"><span class="pre">BaseOutputter</span></tt></a></td>
+<td>Output table as a dict of column objects keyed on column name.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../../_generated/astropy.io.ascii.core.BaseReader.html#astropy.io.ascii.core.BaseReader" title="astropy.io.ascii.core.BaseReader"><tt class="xref py py-obj docutils literal"><span class="pre">BaseReader</span></tt></a>()</td>
+<td>Class providing methods to read and write an ASCII table using the specified header, data, inputter, and outputter instances.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../../_generated/astropy.io.ascii.core.BaseSplitter.html#astropy.io.ascii.core.BaseSplitter" title="astropy.io.ascii.core.BaseSplitter"><tt class="xref py py-obj docutils literal"><span class="pre">BaseSplitter</span></tt></a></td>
+<td>Base splitter that uses python&#8217;s split method to do the work.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../../_generated/astropy.io.ascii.basic.Basic.html#astropy.io.ascii.basic.Basic" title="astropy.io.ascii.basic.Basic"><tt class="xref py py-obj docutils literal"><span class="pre">Basic</span></tt></a>()</td>
+<td>Read a character-delimited table with a single header line at the top followed by data lines to the end of the table.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../../_generated/astropy.io.ascii.cds.Cds.html#astropy.io.ascii.cds.Cds" title="astropy.io.ascii.cds.Cds"><tt class="xref py py-obj docutils literal"><span class="pre">Cds</span></tt></a>([readme])</td>
+<td>Read a CDS format table.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../../_generated/astropy.io.ascii.core.Column.html#astropy.io.ascii.core.Column" title="astropy.io.ascii.core.Column"><tt class="xref py py-obj docutils literal"><span class="pre">Column</span></tt></a>(name,&nbsp;index)</td>
+<td>Table column.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../../_generated/astropy.io.ascii.basic.CommentedHeader.html#astropy.io.ascii.basic.CommentedHeader" title="astropy.io.ascii.basic.CommentedHeader"><tt class="xref py py-obj docutils literal"><span class="pre">CommentedHeader</span></tt></a>()</td>
+<td>Read a file where the column names are given in a line that begins with the header comment character.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../../_generated/astropy.io.ascii.core.ContinuationLinesInputter.html#astropy.io.ascii.core.ContinuationLinesInputter" title="astropy.io.ascii.core.ContinuationLinesInputter"><tt class="xref py py-obj docutils literal"><span class="pre">ContinuationLinesInputter</span></tt></a></td>
+<td>Inputter where lines ending in <tt class="docutils literal"><span class="pre">continuation_char</span></tt> are joined with the subsequent line.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../../_generated/astropy.io.ascii.daophot.Daophot.html#astropy.io.ascii.daophot.Daophot" title="astropy.io.ascii.daophot.Daophot"><tt class="xref py py-obj docutils literal"><span class="pre">Daophot</span></tt></a>()</td>
+<td>Read a DAOphot file.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../../_generated/astropy.io.ascii.core.DefaultSplitter.html#astropy.io.ascii.core.DefaultSplitter" title="astropy.io.ascii.core.DefaultSplitter"><tt class="xref py py-obj docutils literal"><span class="pre">DefaultSplitter</span></tt></a>()</td>
+<td>Default class to split strings into columns using python csv.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../../_generated/astropy.io.ascii.fixedwidth.FixedWidth.html#astropy.io.ascii.fixedwidth.FixedWidth" title="astropy.io.ascii.fixedwidth.FixedWidth"><tt class="xref py py-obj docutils literal"><span class="pre">FixedWidth</span></tt></a>([col_starts,&nbsp;col_ends,&nbsp;...])</td>
+<td>Read or write a fixed width table with a single header line that defines column names and positions.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../../_generated/astropy.io.ascii.fixedwidth.FixedWidthData.html#astropy.io.ascii.fixedwidth.FixedWidthData" title="astropy.io.ascii.fixedwidth.FixedWidthData"><tt class="xref py py-obj docutils literal"><span class="pre">FixedWidthData</span></tt></a>()</td>
+<td>Base table data reader.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../../_generated/astropy.io.ascii.fixedwidth.FixedWidthHeader.html#astropy.io.ascii.fixedwidth.FixedWidthHeader" title="astropy.io.ascii.fixedwidth.FixedWidthHeader"><tt class="xref py py-obj docutils literal"><span class="pre">FixedWidthHeader</span></tt></a>()</td>
+<td>Fixed width table header reader.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../../_generated/astropy.io.ascii.fixedwidth.FixedWidthNoHeader.html#astropy.io.ascii.fixedwidth.FixedWidthNoHeader" title="astropy.io.ascii.fixedwidth.FixedWidthNoHeader"><tt class="xref py py-obj docutils literal"><span class="pre">FixedWidthNoHeader</span></tt></a>([col_starts,&nbsp;col_ends,&nbsp;...])</td>
+<td>Read or write a fixed width table which has no header line.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../../_generated/astropy.io.ascii.fixedwidth.FixedWidthSplitter.html#astropy.io.ascii.fixedwidth.FixedWidthSplitter" title="astropy.io.ascii.fixedwidth.FixedWidthSplitter"><tt class="xref py py-obj docutils literal"><span class="pre">FixedWidthSplitter</span></tt></a></td>
+<td>Split line based on fixed start and end positions for each <tt class="docutils literal"><span class="pre">col</span></tt> in <tt class="docutils literal"><span class="pre">self.cols</span></tt>.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../../_generated/astropy.io.ascii.fixedwidth.FixedWidthTwoLine.html#astropy.io.ascii.fixedwidth.FixedWidthTwoLine" title="astropy.io.ascii.fixedwidth.FixedWidthTwoLine"><tt class="xref py py-obj docutils literal"><span class="pre">FixedWidthTwoLine</span></tt></a>([position_line,&nbsp;...])</td>
+<td>Read or write a fixed width table which has two header lines.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../../_generated/astropy.io.ascii.core.FloatType.html#astropy.io.ascii.core.FloatType" title="astropy.io.ascii.core.FloatType"><tt class="xref py py-obj docutils literal"><span class="pre">FloatType</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../../_generated/astropy.io.ascii.core.InconsistentTableError.html#astropy.io.ascii.core.InconsistentTableError" title="astropy.io.ascii.core.InconsistentTableError"><tt class="xref py py-obj docutils literal"><span class="pre">InconsistentTableError</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../../_generated/astropy.io.ascii.core.IntType.html#astropy.io.ascii.core.IntType" title="astropy.io.ascii.core.IntType"><tt class="xref py py-obj docutils literal"><span class="pre">IntType</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../../_generated/astropy.io.ascii.ipac.Ipac.html#astropy.io.ascii.ipac.Ipac" title="astropy.io.ascii.ipac.Ipac"><tt class="xref py py-obj docutils literal"><span class="pre">Ipac</span></tt></a>([definition])</td>
+<td>Read an IPAC format table.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../../_generated/astropy.io.ascii.latex.Latex.html#astropy.io.ascii.latex.Latex" title="astropy.io.ascii.latex.Latex"><tt class="xref py py-obj docutils literal"><span class="pre">Latex</span></tt></a>([ignore_latex_commands,&nbsp;latexdict,&nbsp;...])</td>
+<td>Write and read LaTeX tables.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../../_generated/astropy.io.ascii.basic.NoHeader.html#astropy.io.ascii.basic.NoHeader" title="astropy.io.ascii.basic.NoHeader"><tt class="xref py py-obj docutils literal"><span class="pre">NoHeader</span></tt></a>()</td>
+<td>Read a table with no header line.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../../_generated/astropy.io.ascii.core.NoType.html#astropy.io.ascii.core.NoType" title="astropy.io.ascii.core.NoType"><tt class="xref py py-obj docutils literal"><span class="pre">NoType</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../../_generated/astropy.io.ascii.core.NumType.html#astropy.io.ascii.core.NumType" title="astropy.io.ascii.core.NumType"><tt class="xref py py-obj docutils literal"><span class="pre">NumType</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../../_generated/astropy.io.ascii.basic.Rdb.html#astropy.io.ascii.basic.Rdb" title="astropy.io.ascii.basic.Rdb"><tt class="xref py py-obj docutils literal"><span class="pre">Rdb</span></tt></a>()</td>
+<td>Read a tab-separated file with an extra line after the column definition line.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../../_generated/astropy.io.ascii.sextractor.SExtractor.html#astropy.io.ascii.sextractor.SExtractor" title="astropy.io.ascii.sextractor.SExtractor"><tt class="xref py py-obj docutils literal"><span class="pre">SExtractor</span></tt></a>()</td>
+<td>Read a SExtractor file.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../../_generated/astropy.io.ascii.core.StrType.html#astropy.io.ascii.core.StrType" title="astropy.io.ascii.core.StrType"><tt class="xref py py-obj docutils literal"><span class="pre">StrType</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../../_generated/astropy.io.ascii.basic.Tab.html#astropy.io.ascii.basic.Tab" title="astropy.io.ascii.basic.Tab"><tt class="xref py py-obj docutils literal"><span class="pre">Tab</span></tt></a>()</td>
+<td>Read a tab-separated file.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../../_generated/astropy.io.ascii.core.TableOutputter.html#astropy.io.ascii.core.TableOutputter" title="astropy.io.ascii.core.TableOutputter"><tt class="xref py py-obj docutils literal"><span class="pre">TableOutputter</span></tt></a></td>
+<td>Output the table as an astropy.table.Table object.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../../_generated/astropy.io.ascii.core.WhitespaceSplitter.html#astropy.io.ascii.core.WhitespaceSplitter" title="astropy.io.ascii.core.WhitespaceSplitter"><tt class="xref py py-obj docutils literal"><span class="pre">WhitespaceSplitter</span></tt></a>()</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="class-inheritance-diagram">
+<h4>Class Inheritance Diagram<a class="headerlink" href="#class-inheritance-diagram" title="Permalink to this headline">¶</a></h4>
+<p class="graphviz">
+<img src="../../_images/inheritance-c75f5bb0d35cb4e3498ea90ece86874ad5eabdf5.png" alt="Inheritance diagram of astropy.io.ascii.latex.AASTex, astropy.io.ascii.core.AllType, astropy.io.ascii.core.BaseData, astropy.io.ascii.core.BaseHeader, astropy.io.ascii.core.BaseInputter, astropy.io.ascii.core.BaseOutputter, astropy.io.ascii.core.BaseReader, astropy.io.ascii.core.BaseSplitter, astropy.io.ascii.basic.Basic, astropy.io.ascii.cds.Cds, astropy.io.ascii.core.Column, astropy.io.ascii.basic.CommentedHeader, astropy.io.ascii.core.ContinuationLinesInputter, astropy.io.ascii.daophot.Daophot, astropy.io.ascii.core.DefaultSplitter, astropy.io.ascii.fixedwidth.FixedWidth, astropy.io.ascii.fixedwidth.FixedWidthData, astropy.io.ascii.fixedwidth.FixedWidthHeader, astropy.io.ascii.fixedwidth.FixedWidthNoHeader, astropy.io.ascii.fixedwidth.FixedWidthSplitter, astropy.io.ascii.fixedwidth.FixedWidthTwoLine, astropy.io.ascii.core.FloatType, astropy.io.ascii.core.InconsistentTableError, astropy.io.ascii.core.IntType, astropy.io.ascii.ipac.Ipac, astropy.io.ascii.latex.Latex, astropy.io.ascii.basic.NoHeader, astropy.io.ascii.core.NoType, astropy.io.ascii.core.NumType, astropy.io.ascii.basic.Rdb, astropy.io.ascii.sextractor.SExtractor, astropy.io.ascii.core.StrType, astropy.io.ascii.basic.Tab, astropy.io.ascii.core.TableOutputter, astropy.io.ascii.core.WhitespaceSplitter" usemap="#inheritance8896bb86d4" class="inheritance"/>
+<map id="inheritance8896bb86d4" name="inheritance8896bb86d4">
+<area shape="rect" id="node1" href="../../_generated/astropy.io.ascii.core.IntType.html#astropy.io.ascii.core.IntType" title="astropy.io.ascii.core.IntType" alt="" coords="464,430,581,447"/>
+<area shape="rect" id="node51" href="../../_generated/astropy.io.ascii.core.AllType.html#astropy.io.ascii.core.AllType" title="astropy.io.ascii.core.AllType" alt="" coords="647,461,765,478"/>
+<area shape="rect" id="node2" href="../../_generated/astropy.io.ascii.core.NumType.html#astropy.io.ascii.core.NumType" title="astropy.io.ascii.core.NumType" alt="" coords="239,461,366,478"/>
+<area shape="rect" id="node14" href="../../_generated/astropy.io.ascii.core.FloatType.html#astropy.io.ascii.core.FloatType" title="astropy.io.ascii.core.FloatType" alt="" coords="459,461,586,478"/>
+<area shape="rect" id="node4" href="../../_generated/astropy.io.ascii.daophot.Daophot.html#astropy.io.ascii.daophot.Daophot" title="astropy.io.ascii.daophot.Daophot" alt="" coords="233,217,371,233"/>
+<area shape="rect" id="node5" href="../../_generated/astropy.io.ascii.core.BaseReader.html#astropy.io.ascii.core.BaseReader" title="astropy.io.ascii.core.BaseReader" alt="" coords="22,323,159,340"/>
+<area shape="rect" id="node9" href="../../_generated/astropy.io.ascii.latex.Latex.html#astropy.io.ascii.latex.Latex" title="astropy.io.ascii.latex.Latex" alt="" coords="245,247,359,264"/>
+<area shape="rect" id="node21" href="../../_generated/astropy.io.ascii.basic.Basic.html#astropy.io.ascii.basic.Basic" title="astropy.io.ascii.basic.Basic" alt="" coords="245,278,359,294"/>
+<area shape="rect" id="node24" href="../../_generated/astropy.io.ascii.fixedwidth.FixedWidth.html#astropy.io.ascii.fixedwidth.FixedWidth" title="astropy.io.ascii.fixedwidth.FixedWidth" alt="" coords="226,308,378,325"/>
+<area shape="rect" id="node26" href="../../_generated/astropy.io.ascii.sextractor.SExtractor.html#astropy.io.ascii.sextractor.SExtractor" title="astropy.io.ascii.sextractor.SExtractor" alt="" coords="226,339,378,355"/>
+<area shape="rect" id="node42" href="../../_generated/astropy.io.ascii.ipac.Ipac.html#astropy.io.ascii.ipac.Ipac" title="astropy.io.ascii.ipac.Ipac" alt="" coords="250,369,354,386"/>
+<area shape="rect" id="node55" href="../../_generated/astropy.io.ascii.basic.CommentedHeader.html#astropy.io.ascii.basic.CommentedHeader" title="astropy.io.ascii.basic.CommentedHeader" alt="" coords="217,400,387,417"/>
+<area shape="rect" id="node57" href="../../_generated/astropy.io.ascii.cds.Cds.html#astropy.io.ascii.cds.Cds" title="astropy.io.ascii.cds.Cds" alt="" coords="251,430,353,447"/>
+<area shape="rect" id="node7" href="../../_generated/astropy.io.ascii.core.InconsistentTableError.html#astropy.io.ascii.core.InconsistentTableError" title="astropy.io.ascii.core.InconsistentTableError" alt="" coords="3,247,178,264"/>
+<area shape="rect" id="node8" href="../../_generated/astropy.io.ascii.latex.AASTex.html#astropy.io.ascii.latex.AASTex" title="astropy.io.ascii.latex.AASTex" alt="" coords="462,217,582,233"/>
+<area shape="rect" id="node11" href="../../_generated/astropy.io.ascii.basic.Rdb.html#astropy.io.ascii.basic.Rdb" title="astropy.io.ascii.basic.Rdb" alt="" coords="652,247,760,264"/>
+<area shape="rect" id="node12" href="../../_generated/astropy.io.ascii.basic.Tab.html#astropy.io.ascii.basic.Tab" title="astropy.io.ascii.basic.Tab" alt="" coords="469,247,575,264"/>
+<area shape="rect" id="node16" href="../../_generated/astropy.io.ascii.core.BaseData.html#astropy.io.ascii.core.BaseData" title="astropy.io.ascii.core.BaseData" alt="" coords="27,186,155,203"/>
+<area shape="rect" id="node46" href="../../_generated/astropy.io.ascii.fixedwidth.FixedWidthData.html#astropy.io.ascii.fixedwidth.FixedWidthData" title="astropy.io.ascii.fixedwidth.FixedWidthData" alt="" coords="217,186,387,203"/>
+<area shape="rect" id="node17" href="../../_generated/astropy.io.ascii.core.TableOutputter.html#astropy.io.ascii.core.TableOutputter" title="astropy.io.ascii.core.TableOutputter" alt="" coords="228,155,376,172"/>
+<area shape="rect" id="node18" href="../../_generated/astropy.io.ascii.core.BaseOutputter.html#astropy.io.ascii.core.BaseOutputter" title="astropy.io.ascii.core.BaseOutputter" alt="" coords="17,155,165,172"/>
+<area shape="rect" id="node59" href="../../_generated/astropy.io.ascii.basic.NoHeader.html#astropy.io.ascii.basic.NoHeader" title="astropy.io.ascii.basic.NoHeader" alt="" coords="455,278,589,294"/>
+<area shape="rect" id="node23" href="../../_generated/astropy.io.ascii.fixedwidth.FixedWidthTwoLine.html#astropy.io.ascii.fixedwidth.FixedWidthTwoLine" title="astropy.io.ascii.fixedwidth.FixedWidthTwoLine" alt="" coords="431,308,613,325"/>
+<area shape="rect" id="node61" href="../../_generated/astropy.io.ascii.fixedwidth.FixedWidthNoHeader.html#astropy.io.ascii.fixedwidth.FixedWidthNoHeader" title="astropy.io.ascii.fixedwidth.FixedWidthNoHeader" alt="" coords="427,339,618,355"/>
+<area shape="rect" id="node28" href="../../_generated/astropy.io.ascii.core.BaseSplitter.html#astropy.io.ascii.core.BaseSplitter" title="astropy.io.ascii.core.BaseSplitter" alt="" coords="22,110,160,127"/>
+<area shape="rect" id="node34" href="../../_generated/astropy.io.ascii.core.DefaultSplitter.html#astropy.io.ascii.core.DefaultSplitter" title="astropy.io.ascii.core.DefaultSplitter" alt="" coords="229,94,375,111"/>
+<area shape="rect" id="node44" href="../../_generated/astropy.io.ascii.fixedwidth.FixedWidthSplitter.html#astropy.io.ascii.fixedwidth.FixedWidthSplitter" title="astropy.io.ascii.fixedwidth.FixedWidthSplitter" alt="" coords="212,125,392,142"/>
+<area shape="rect" id="node29" href="../../_generated/astropy.io.ascii.core.StrType.html#astropy.io.ascii.core.StrType" title="astropy.io.ascii.core.StrType" alt="" coords="243,491,362,508"/>
+<area shape="rect" id="node30" href="../../_generated/astropy.io.ascii.core.NoType.html#astropy.io.ascii.core.NoType" title="astropy.io.ascii.core.NoType" alt="" coords="31,476,150,493"/>
+<area shape="rect" id="node33" href="../../_generated/astropy.io.ascii.core.WhitespaceSplitter.html#astropy.io.ascii.core.WhitespaceSplitter" title="astropy.io.ascii.core.WhitespaceSplitter" alt="" coords="441,94,603,111"/>
+<area shape="rect" id="node37" href="../../_generated/astropy.io.ascii.fixedwidth.FixedWidthHeader.html#astropy.io.ascii.fixedwidth.FixedWidthHeader" title="astropy.io.ascii.fixedwidth.FixedWidthHeader" alt="" coords="212,64,392,81"/>
+<area shape="rect" id="node38" href="../../_generated/astropy.io.ascii.core.BaseHeader.html#astropy.io.ascii.core.BaseHeader" title="astropy.io.ascii.core.BaseHeader" alt="" coords="22,64,160,81"/>
+<area shape="rect" id="node41" href="../../_generated/astropy.io.ascii.core.Column.html#astropy.io.ascii.core.Column" title="astropy.io.ascii.core.Column" alt="" coords="31,33,151,50"/>
+<area shape="rect" id="node48" href="../../_generated/astropy.io.ascii.core.ContinuationLinesInputter.html#astropy.io.ascii.core.ContinuationLinesInputter" title="astropy.io.ascii.core.ContinuationLinesInputter" alt="" coords="207,3,397,20"/>
+<area shape="rect" id="node49" href="../../_generated/astropy.io.ascii.core.BaseInputter.html#astropy.io.ascii.core.BaseInputter" title="astropy.io.ascii.core.BaseInputter" alt="" coords="21,3,161,20"/>
+</map>
+</p>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+
+
+<h3>Page Contents</h3>
+<ul>
+<li><a class="reference internal" href="#">ASCII Tables (<tt class="docutils literal"><span class="pre">astropy.io.ascii</span></tt>)</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#getting-started">Getting Started</a><ul>
+<li><a class="reference internal" href="#reading-tables">Reading Tables</a></li>
+<li><a class="reference internal" href="#writing-tables">Writing Tables</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#using-io-ascii">Using <tt class="docutils literal"><span class="pre">io.ascii</span></tt></a><ul>
+</ul>
+</li>
+<li><a class="reference internal" href="#reference-api">Reference/API</a><ul>
+<li><a class="reference internal" href="#module-astropy.io.ascii">astropy.io.ascii Module</a><ul>
+<li><a class="reference internal" href="#functions">Functions</a><ul>
+</ul>
+</li>
+<li><a class="reference internal" href="#classes">Classes</a><ul>
+</ul>
+</li>
+<li><a class="reference internal" href="#class-inheritance-diagram">Class Inheritance Diagram</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+<footer class="footer">
+  <p class="pull-right">
+    <a href="http://github.com/astropy/astropy/tree/v0.2.1/docs/io/ascii/index.rst">Edit This Page on Github</a> &nbsp;
+    <a href="../../_sources/io/ascii/index.txt"
+       rel="nofollow">Page Source</a> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright 2011-2013, The Astropy Developers.<br/>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3+. &nbsp;
+    Last built 03 Apr 2013. <br/>
+  </p>
+</footer>
+ <!-- End original user content -->
+
+
+<br>
+<br>
+<br>
+
+
+<style type="text/css">
+  .rtd-badge {
+    position: fixed;
+    display: block;
+    bottom: 5px;
+    height: 40px;
+    text-indent: -9999em;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+  }
+  #version_menu {
+    position: fixed;
+    display: none;
+    bottom: 11px;
+    right: 166px;
+    list-style-type: none;
+    margin: 0;
+  }
+  .footer_popout:hover #version_menu {
+    display: block;
+  }
+  #version_menu li {
+    display: block;
+    float: right;
+  }
+  #version_menu li a {
+    display: block;
+    padding: 6px 10px 4px 10px;
+    margin: 7px 7px 0 0;
+    font-weight: bold;
+    font-size: 14px;
+    height: 20px;
+    line-height: 17px;
+    text-decoration: none;
+    color: #fff;
+    background: #8ca1af url(../images/gradient-light.png) bottom left repeat-x;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 1px #465158;
+    -moz-box-shadow: 0 1px 1px #465158;
+    -webkit-box-shadow: 0 1px 1px #465158;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+  }
+  #version_menu li a:hover {
+    text-decoration: none;
+    background-color: #697983;
+    box-shadow: 0 1px 0px #465158;
+    -moz-box-shadow: 0 1px 0px #465158;
+    -webkit-box-shadow: 0 1px 0px #465158;
+  }
+  .rtd-badge.rtd {
+    background: #3b4449 url(//media.readthedocs.org//images/badge-rtd.png) scroll 0px -46px no-repeat;
+    border: 1px solid #282E32;
+    width: 41px;
+    right: 5px;
+  }
+  .footer_popout:hover .rtd-badge.rtd {
+    background-position: top left;
+    width: 160px;
+  }
+  .rtd-badge.revsys { background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline-sponsored {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys-sm.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 205px;
+    right: 173px;
+  }
+
+</style>
+<div class="rtd_doc_footer">
+  <div class="footer_popout">
+    <a href="//readthedocs.org/projects/astropy/?fromdocs=astropy" class="rtd-badge rtd"> Brought to you by Read the Docs</a>
+    <ul id="version_menu">
+      
+        <li><a href="/en/latest/">latest</a></li>
+      
+        <li><a href="/en/add-mpl-to-rtd-pip-req/">add-mpl-to-rtd-pip-req</a></li>
+      
+        <li><a href="/en/v0.2.1/">v0.2.1</a></li>
+      
+        <li><a href="/en/v0.2/">v0.2</a></li>
+      
+        <li><a href="/en/v0.1/">v0.1</a></li>
+      
+    </ul>
+  </div>
+</div>
+<!-- RTD Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17997319-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+<!-- User Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-30968842-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+  </body>
+</html>

@@ -1,0 +1,50 @@
+
+
+UnrecognizedUnit
+===================================
+
+.. currentmodule:: astropy.units.core
+
+.. autoclass:: UnrecognizedUnit
+   :show-inheritance:
+
+   
+     
+   
+
+   
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+   
+      ~UnrecognizedUnit.get_converter
+      ~UnrecognizedUnit.get_format_name
+      ~UnrecognizedUnit.is_equivalent
+      ~UnrecognizedUnit.to_string
+
+   
+   
+
+   
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Documentation
+
+   
+   .. automethod:: get_converter
+   .. automethod:: get_format_name
+   .. automethod:: is_equivalent
+   .. automethod:: to_string
+
+   
+   

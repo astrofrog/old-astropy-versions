@@ -1,0 +1,71 @@
+
+
+Quantity
+===============================
+
+.. currentmodule:: astropy.units.quantity
+
+.. autoclass:: Quantity
+   :show-inheritance:
+
+   
+     
+   
+
+   
+   
+
+   .. rubric:: Attributes Summary
+
+   .. autosummary::
+   
+      ~Quantity.cgs
+      ~Quantity.isscalar
+      ~Quantity.si
+      ~Quantity.unit
+      ~Quantity.value
+
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+   
+      ~Quantity.copy
+      ~Quantity.decompose
+      ~Quantity.to
+
+   
+   
+
+   
+   
+
+   .. rubric:: Attributes Documentation
+
+   
+   .. autoattribute:: cgs
+   .. autoattribute:: isscalar
+   .. autoattribute:: si
+   .. autoattribute:: unit
+   .. autoattribute:: value
+
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Documentation
+
+   
+   .. automethod:: copy
+   .. automethod:: decompose
+   .. automethod:: to
+
+   
+   

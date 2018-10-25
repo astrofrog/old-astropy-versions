@@ -1,0 +1,44 @@
+
+
+Sky2Pix_STG
+========================================
+
+.. currentmodule:: astropy.modeling.projections
+
+.. autoclass:: Sky2Pix_STG
+   :show-inheritance:
+
+   
+
+   
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+   
+      ~Sky2Pix_STG.__call__
+      ~Sky2Pix_STG.inverse
+
+   
+   
+
+   
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Documentation
+
+   
+   .. automethod:: __call__
+   .. automethod:: inverse
+
+   
+   

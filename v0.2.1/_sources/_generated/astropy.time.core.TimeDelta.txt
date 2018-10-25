@@ -1,0 +1,48 @@
+
+.. include:: ../time/references.txt
+
+
+TimeDelta
+===========================
+
+.. currentmodule:: astropy.time.core
+
+.. autoclass:: TimeDelta
+   :show-inheritance:
+
+   
+     
+   
+
+   
+   
+
+   .. rubric:: Attributes Summary
+
+   .. autosummary::
+   
+      ~TimeDelta.FORMATS
+      ~TimeDelta.SCALES
+
+   
+   
+
+   
+   
+   
+
+   
+   
+
+   .. rubric:: Attributes Documentation
+
+   
+   .. autoattribute:: FORMATS
+   .. autoattribute:: SCALES
+
+   
+   
+
+   
+   
+   

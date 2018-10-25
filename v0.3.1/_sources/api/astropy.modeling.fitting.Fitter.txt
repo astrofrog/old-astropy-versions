@@ -1,0 +1,44 @@
+
+
+Fitter
+===============================
+
+.. currentmodule:: astropy.modeling.fitting
+
+.. autoclass:: Fitter
+   :show-inheritance:
+
+   
+     
+   
+
+   
+   
+
+   .. rubric:: Attributes Summary
+
+   .. autosummary::
+   
+      ~Fitter.supported_constraints
+
+   
+   
+
+   
+   
+   
+
+   
+   
+
+   .. rubric:: Attributes Documentation
+
+   
+   .. autoattribute:: supported_constraints
+
+   
+   
+
+   
+   
+   

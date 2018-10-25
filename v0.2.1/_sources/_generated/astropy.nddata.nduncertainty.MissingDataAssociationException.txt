@@ -1,0 +1,8 @@
+
+
+MissingDataAssociationException
+============================================================
+
+.. currentmodule:: astropy.nddata.nduncertainty
+
+.. autoexception:: MissingDataAssociationException

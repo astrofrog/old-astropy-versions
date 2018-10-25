@@ -1,0 +1,1083 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+
+    <title>astropy.coordinates.angles &mdash; Astropy v0.2.1</title>
+<!-- RTD <head> -->
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/underscore.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/doctools.js"></script>
+
+<script type="text/javascript">
+  // This is included here for Javascript that doesn't have access to the templates.
+  var doc_version = "v0.2.1";
+  var doc_slug = "astropy";
+</script>
+
+<script type="text/javascript" src="//media.readthedocs.org/javascript/rtd.js"></script>
+<!-- end RTD <head> -->
+
+    
+    <link rel="stylesheet" href="../../../_static/bootstrap-astropy.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.2.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/sidebar.js"></script>
+    <link rel="shortcut icon" href="../../../_static/astropy_logo.ico"/>
+    <link rel="top" title="Astropy v0.2.1" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../../../index.html"></a>
+  <ul>
+    <li><a class="homelink" title="AstroPy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../../../genindex.html">Index</a></li>
+    <li><a title="Python Module Index" href="../../../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li>
+	<a href="../../../index.html">Astropy v0.2.1</a>
+	 &raquo;
+      </li>
+      <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li>
+      
+       
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for astropy.coordinates.angles</h1><div class="highlight"><pre>
+<span class="c"># -*- coding: utf-8 -*-</span>
+<span class="c"># Licensed under a 3-clause BSD style license - see LICENSE.rst</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module contains the fundamental classes used for representing</span>
+<span class="sd">coordinates in astropy.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">unicode_literals</span>
+
+<span class="kn">import</span> <span class="nn">math</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">angle_utilities</span> <span class="k">as</span> <span class="n">util</span>
+<span class="kn">from</span> <span class="nn">.errors</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">units</span> <span class="k">as</span> <span class="n">u</span>
+<span class="kn">from</span> <span class="nn">..utils.compat.odict</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;Angle&#39;</span><span class="p">,</span> <span class="s">&#39;RA&#39;</span><span class="p">,</span> <span class="s">&#39;Dec&#39;</span><span class="p">,</span> <span class="s">&#39;AngularSeparation&#39;</span><span class="p">]</span>
+
+<span class="n">TWOPI</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="mf">2.0</span>  <span class="c"># no need to calculate this all the time</span>
+
+
+<span class="c">#used in Angle initializer to convert various strings into their parseable forms</span>
+<span class="n">_unitstrmap</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">([</span>
+   <span class="p">(</span><span class="s">&quot;degrees&quot;</span><span class="p">,</span> <span class="s">&#39;d&#39;</span><span class="p">),</span>
+   <span class="p">(</span><span class="s">&quot;degree&quot;</span><span class="p">,</span> <span class="s">&#39;d&#39;</span><span class="p">),</span>
+   <span class="p">(</span><span class="s">&quot;deg&quot;</span><span class="p">,</span> <span class="s">&#39;d&#39;</span><span class="p">),</span>
+   <span class="p">(</span><span class="s">&quot;°&quot;</span><span class="p">,</span> <span class="s">&#39;d&#39;</span><span class="p">),</span>
+   <span class="p">(</span><span class="s">&quot;hours&quot;</span><span class="p">,</span> <span class="s">&#39;h&#39;</span><span class="p">),</span>
+   <span class="p">(</span><span class="s">&quot;hour&quot;</span><span class="p">,</span> <span class="s">&#39;h&#39;</span><span class="p">),</span>
+   <span class="p">(</span><span class="s">&quot;hr&quot;</span><span class="p">,</span> <span class="s">&#39;h&#39;</span><span class="p">),</span>
+   <span class="p">(</span><span class="s">&quot;radians&quot;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">),</span>
+   <span class="p">(</span><span class="s">&quot;radian&quot;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">),</span>
+   <span class="p">(</span><span class="s">&quot;rad&quot;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">),</span>
+   <span class="p">(</span><span class="s">&quot;d&quot;</span><span class="p">,</span> <span class="s">&#39;d&#39;</span><span class="p">),</span>
+   <span class="p">(</span><span class="s">&quot;h&quot;</span><span class="p">,</span> <span class="s">&#39;h&#39;</span><span class="p">)])</span>
+
+
+<div class="viewcode-block" id="Angle"><a class="viewcode-back" href="../../../_generated/astropy.coordinates.angles.Angle.html#astropy.coordinates.angles.Angle">[docs]</a><span class="k">class</span> <span class="nc">Angle</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; An angle.</span>
+
+<span class="sd">    An angle can be specified either as a float, tuple (see below),</span>
+<span class="sd">    or string.  If A string, it must be in one of the following formats:</span>
+
+<span class="sd">    * &#39;1:2:3.4&#39;</span>
+<span class="sd">    * &#39;1 2 3.4&#39;</span>
+<span class="sd">    * &#39;1h2m3.4s&#39;</span>
+<span class="sd">    * &#39;1d2m3.4s&#39;</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    angle : float, int, str, tuple</span>
+<span class="sd">        The angle value. If a tuple, will be interpreted as (h, m s) or</span>
+<span class="sd">        (d, m, s) depending on `unit`. If a string, it will be interpreted</span>
+<span class="sd">        following the rules described above.</span>
+<span class="sd">    unit : `~astropy.units.UnitBase`, str</span>
+<span class="sd">        The unit of the value specified for the angle.  This may be any</span>
+<span class="sd">        string that `~astropy.units.Unit` understands, but it is better to</span>
+<span class="sd">        give an actual unit object.  Must be one of `~astropy.units.degree`,</span>
+<span class="sd">        `~astropy.units.radian`, or `~astropy.units.hour`.</span>
+<span class="sd">    bounds : tuple</span>
+<span class="sd">        A tuple indicating the upper and lower value that the new angle object may</span>
+<span class="sd">        have.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    `~astropy.coordinates.errors.UnitsError`</span>
+<span class="sd">        If a unit is not provided or it is not hour, radian, or degree.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">angle</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">360</span><span class="p">,</span> <span class="mi">360</span><span class="p">)):</span>
+        <span class="kn">from</span> <span class="nn">..utils</span> <span class="kn">import</span> <span class="n">isiterable</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_bounds</span> <span class="o">=</span> <span class="n">bounds</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">angle</span><span class="p">,</span> <span class="n">Angle</span><span class="p">):</span>
+            <span class="n">angle</span> <span class="o">=</span> <span class="n">angle</span><span class="o">.</span><span class="n">radians</span>
+            <span class="n">unit</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">radian</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_array</span> <span class="o">=</span> <span class="p">(</span><span class="n">isiterable</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span> <span class="ow">and</span>
+                         <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">angle</span><span class="p">,</span> <span class="nb">basestring</span><span class="p">)</span> <span class="ow">and</span>
+                         <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">angle</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">))</span>
+
+        <span class="c"># short circuit arrays for now</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_array</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;Angles as arrays are not yet supported.&quot;</span><span class="p">)</span>
+
+        <span class="c"># -------------------------------</span>
+        <span class="c"># unit validation and angle value</span>
+        <span class="c"># -------------------------------</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">unit</span><span class="p">,</span> <span class="n">u</span><span class="o">.</span><span class="n">UnitBase</span><span class="p">):</span>
+            <span class="k">pass</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">unit</span><span class="p">,</span> <span class="nb">basestring</span><span class="p">):</span>
+            <span class="n">unit</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">Unit</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">unit</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="c"># try to determine unit from the &quot;angle&quot; value</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_array</span><span class="p">:</span>
+                <span class="c"># this is currently unreachable, but in principal should work when arrays are added in the future</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">angle</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">angle</span><span class="p">]</span>
+                <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+                        <span class="c"># If units are not specified as a parameter, the only chance</span>
+                        <span class="c"># to determine them is in a string value - if it&#39;s not a string,</span>
+                        <span class="c"># then there&#39;s not enough information to create an Angle.</span>
+                        <span class="k">raise</span> <span class="n">UnitsError</span><span class="p">(</span><span class="s">&quot;Could not parse an angle value in the array provided&quot;</span>
+                                         <span class="s">&quot;- units could not be determined.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="n">idx</span><span class="p">]))</span>
+                <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">angle</span><span class="p">):</span>
+                    <span class="n">a_unit</span> <span class="o">=</span> <span class="bp">None</span>
+                    <span class="c"># order is important here - longest name first</span>
+                    <span class="k">for</span> <span class="n">unitStr</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&quot;degrees&quot;</span><span class="p">,</span> <span class="s">&quot;degree&quot;</span><span class="p">,</span> <span class="s">&quot;deg&quot;</span><span class="p">,</span> <span class="s">&quot;°&quot;</span><span class="p">]:</span>
+                        <span class="k">if</span> <span class="n">unitStr</span> <span class="ow">in</span> <span class="n">a</span><span class="p">:</span>
+                            <span class="n">a_unit</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">radian</span>
+                            <span class="n">a</span> <span class="o">=</span> <span class="n">angle</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">unitStr</span><span class="p">,</span> <span class="s">&quot;&quot;</span><span class="p">)</span>
+                            <span class="n">angle</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">parse_degrees</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
+                            <span class="k">break</span>
+                    <span class="k">if</span> <span class="n">unit</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                        <span class="k">for</span> <span class="n">unitStr</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&quot;hours&quot;</span><span class="p">,</span> <span class="s">&quot;hour&quot;</span><span class="p">,</span> <span class="s">&quot;hr&quot;</span><span class="p">]:</span>
+                            <span class="k">if</span> <span class="n">unitStr</span> <span class="ow">in</span> <span class="n">a</span><span class="p">:</span>
+                                <span class="n">a_unit</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">radian</span>
+                                <span class="n">a</span> <span class="o">=</span> <span class="n">angle</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">unitStr</span><span class="p">,</span> <span class="s">&quot;&quot;</span><span class="p">)</span>
+                                <span class="n">angle</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">parse_hours</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">*</span> <span class="mf">15.</span><span class="p">)</span>
+                                <span class="k">break</span>
+                    <span class="k">if</span> <span class="n">unit</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                        <span class="k">for</span> <span class="n">unitStr</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&quot;radians&quot;</span><span class="p">,</span> <span class="s">&quot;radian&quot;</span><span class="p">,</span> <span class="s">&quot;rad&quot;</span><span class="p">]:</span>
+                            <span class="k">if</span> <span class="n">unitStr</span> <span class="ow">in</span> <span class="n">angle</span><span class="p">:</span>
+                                <span class="n">a_unit</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">radian</span>
+                                <span class="n">a</span> <span class="o">=</span> <span class="n">angle</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">unitStr</span><span class="p">,</span> <span class="s">&quot;&quot;</span><span class="p">)</span>
+                                <span class="n">angle</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">parse_radians</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+                                <span class="k">break</span>
+                    <span class="k">if</span> <span class="n">a_unit</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                        <span class="k">raise</span> <span class="n">UnitsError</span><span class="p">(</span><span class="s">&#39;Could not parse the angle value &quot;{0}&quot; &#39;</span>
+                                         <span class="s">&#39;- units could not be determined.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">angle</span><span class="p">[</span><span class="n">idx</span><span class="p">]))</span>
+                <span class="n">unit</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">radian</span>
+
+            <span class="k">else</span><span class="p">:</span>  <span class="c"># single value</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">angle</span><span class="p">,</span> <span class="nb">basestring</span><span class="p">):</span>
+                    <span class="n">inputangle</span> <span class="o">=</span> <span class="n">angle</span>
+                    <span class="n">angle</span> <span class="o">=</span> <span class="n">angle</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+                    <span class="k">for</span> <span class="n">fromstr</span><span class="p">,</span> <span class="n">tostr</span> <span class="ow">in</span> <span class="n">_unitstrmap</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+                        <span class="k">if</span> <span class="n">fromstr</span> <span class="ow">in</span> <span class="n">angle</span><span class="p">:</span>
+                            <span class="n">angle</span> <span class="o">=</span> <span class="n">angle</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">fromstr</span><span class="p">,</span> <span class="n">tostr</span><span class="p">)</span>
+                            <span class="k">if</span> <span class="n">tostr</span> <span class="o">==</span> <span class="s">&quot;h&quot;</span><span class="p">:</span>
+                                <span class="n">unit</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">hour</span>
+                                <span class="c"># this is for &quot;1:2:3.4 hours&quot; case</span>
+                                <span class="k">if</span> <span class="n">angle</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;h&#39;</span><span class="p">:</span>
+                                    <span class="n">angle</span> <span class="o">=</span> <span class="n">angle</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                            <span class="k">elif</span> <span class="n">tostr</span> <span class="o">==</span> <span class="s">&quot;d&quot;</span><span class="p">:</span>
+                                <span class="n">unit</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">degree</span>
+                                <span class="c"># this is for &quot;1:2:3.4 degrees&quot; case</span>
+                                <span class="k">if</span> <span class="n">angle</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;d&#39;</span><span class="p">:</span>
+                                    <span class="n">angle</span> <span class="o">=</span> <span class="n">angle</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                            <span class="k">elif</span> <span class="n">tostr</span> <span class="o">==</span> <span class="s">&quot;&quot;</span><span class="p">:</span>
+                                <span class="n">unit</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">radian</span>
+                            <span class="k">else</span><span class="p">:</span>
+                                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Unrecognized tostr... this should never happen!&#39;</span><span class="p">)</span>
+                            <span class="k">break</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="k">raise</span> <span class="n">UnitsError</span><span class="p">(</span><span class="s">&#39;Could not infer Angle units &#39;</span>
+                            <span class="s">&#39;from provided string &quot;{0}&quot;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">inputangle</span><span class="p">))</span>
+
+
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">UnitsError</span><span class="p">(</span><span class="s">&#39;Requested unit &quot;{0}&quot; for Angle, which could not be &#39;</span>
+                <span class="s">&#39;interpreted as a unit - should be a string or astropy.units &#39;</span>
+                <span class="s">&#39;unit object&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">unit</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">unit</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">UnitsError</span><span class="p">(</span><span class="s">&quot;No unit was specified in Angle initializer; the &quot;</span>
+                <span class="s">&quot;unit parameter should be an object from the  astropy.units &quot;</span>
+                <span class="s">&quot;module (e.g. &#39;from astropy import units as u&#39;, then use &quot;</span>
+                <span class="s">&quot;&#39;u.degree&#39;).&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_array</span><span class="p">:</span>
+            <span class="k">pass</span>  <span class="c"># already performed conversions to radians above</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">unit</span> <span class="ow">is</span> <span class="n">u</span><span class="o">.</span><span class="n">degree</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_radians</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">parse_degrees</span><span class="p">(</span><span class="n">angle</span><span class="p">))</span>
+            <span class="k">elif</span> <span class="n">unit</span> <span class="ow">is</span> <span class="n">u</span><span class="o">.</span><span class="n">radian</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_radians</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">unit</span> <span class="ow">is</span> <span class="n">u</span><span class="o">.</span><span class="n">hour</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_radians</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">hours_to_radians</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">parse_hours</span><span class="p">(</span><span class="n">angle</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">UnitsError</span><span class="p">(</span><span class="s">&quot;The unit value provided was not one of u.degree, u.hour, u.radian&#39;.&quot;</span><span class="p">)</span>
+
+        <span class="c"># ---------------</span>
+        <span class="c"># bounds checking</span>
+        <span class="c"># ---------------</span>
+        <span class="c"># TODO: handle arrays</span>
+        <span class="c"># handle bounds units, convert to radians</span>
+        <span class="k">if</span> <span class="n">bounds</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">pass</span>  <span class="c"># no range checking performed</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">unit</span> <span class="ow">is</span> <span class="n">u</span><span class="o">.</span><span class="n">radian</span><span class="p">:</span>
+                    <span class="n">lower_bound</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="n">upper_bound</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="k">elif</span> <span class="n">unit</span> <span class="ow">is</span> <span class="n">u</span><span class="o">.</span><span class="n">degree</span><span class="p">:</span>
+                    <span class="n">lower_bound</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                    <span class="n">upper_bound</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                <span class="k">elif</span> <span class="n">unit</span> <span class="ow">is</span> <span class="n">u</span><span class="o">.</span><span class="n">hour</span><span class="p">:</span>
+                    <span class="n">lower_bound</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mf">15.</span><span class="p">)</span>
+                    <span class="n">upper_bound</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="mf">15.</span><span class="p">)</span>
+                <span class="c"># invalid units handled above</span>
+            <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&quot;Bounds specified for Angle must be a two element list, &quot;</span>
+                                <span class="s">&quot;e.g. [0,360] (was given &#39;{0}&#39;).&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">bounds</span><span class="p">)</span><span class="o">.</span><span class="n">__name__</span><span class="p">))</span>
+
+            <span class="c"># bounds check</span>
+            <span class="k">if</span> <span class="n">lower_bound</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_radians</span> <span class="o">&lt;</span> <span class="n">upper_bound</span><span class="p">:</span>
+                <span class="k">pass</span>  <span class="c"># looks good</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_radians</span> <span class="o">&gt;</span> <span class="n">upper_bound</span><span class="p">:</span>
+                    <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_radians</span> <span class="o">-=</span> <span class="n">TWOPI</span>
+                        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_radians</span> <span class="o">&lt;</span> <span class="n">lower_bound</span><span class="p">:</span>
+                            <span class="k">raise</span> <span class="n">BoundsError</span><span class="p">(</span><span class="s">&quot;The angle given falls outside of the specified bounds.&quot;</span><span class="p">)</span>
+                        <span class="k">elif</span> <span class="n">lower_bound</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_radians</span> <span class="o">&lt;</span> <span class="n">upper_bound</span><span class="p">:</span>
+                            <span class="k">break</span>
+
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_radians</span> <span class="o">&lt;</span> <span class="n">lower_bound</span><span class="p">:</span>
+                    <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_radians</span> <span class="o">+=</span> <span class="n">TWOPI</span>
+                        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_radians</span> <span class="o">&gt;</span> <span class="n">upper_bound</span><span class="p">:</span>
+                            <span class="k">raise</span> <span class="n">BoundsError</span><span class="p">(</span><span class="s">&quot;The angle given falls outside of the specified bounds.&quot;</span><span class="p">)</span>
+                        <span class="k">elif</span> <span class="n">lower_bound</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_radians</span> <span class="o">&lt;</span> <span class="n">upper_bound</span><span class="p">:</span>
+                            <span class="k">break</span>
+
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="Angle.bounds"><a class="viewcode-back" href="../../../_generated/astropy.coordinates.angles.Angle.html#astropy.coordinates.angles.Angle.bounds">[docs]</a>    <span class="k">def</span> <span class="nf">bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;&quot; The angle&#39;s bounds, an immutable property. &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bounds</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="Angle.degrees"><a class="viewcode-back" href="../../../_generated/astropy.coordinates.angles.Angle.html#astropy.coordinates.angles.Angle.degrees">[docs]</a>    <span class="k">def</span> <span class="nf">degrees</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; The angle&#39;s value in degrees (read-only property). &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">math</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">radians</span><span class="p">)</span>  <span class="c"># converts radians to degrees</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="Angle.radians"><a class="viewcode-back" href="../../../_generated/astropy.coordinates.angles.Angle.html#astropy.coordinates.angles.Angle.radians">[docs]</a>    <span class="k">def</span> <span class="nf">radians</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; The angle&#39;s value in radians (read-only property). &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_radians</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="Angle.hours"><a class="viewcode-back" href="../../../_generated/astropy.coordinates.angles.Angle.html#astropy.coordinates.angles.Angle.hours">[docs]</a>    <span class="k">def</span> <span class="nf">hours</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; The angle&#39;s value in hours (read-only property). &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">util</span><span class="o">.</span><span class="n">radians_to_hours</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">radians</span><span class="p">)</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="Angle.hms"><a class="viewcode-back" href="../../../_generated/astropy.coordinates.angles.Angle.html#astropy.coordinates.angles.Angle.hms">[docs]</a>    <span class="k">def</span> <span class="nf">hms</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; The angle&#39;s value in hours, and print as an (h,m,s) tuple (read-only property). &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">util</span><span class="o">.</span><span class="n">radians_to_hms</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">radians</span><span class="p">)</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="Angle.dms"><a class="viewcode-back" href="../../../_generated/astropy.coordinates.angles.Angle.html#astropy.coordinates.angles.Angle.dms">[docs]</a>    <span class="k">def</span> <span class="nf">dms</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; The angle&#39;s value in degrees, and print as an (d,m,s) tuple (read-only property). &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">util</span><span class="o">.</span><span class="n">radians_to_dms</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">radians</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Angle.format"><a class="viewcode-back" href="../../../_generated/astropy.coordinates.angles.Angle.html#astropy.coordinates.angles.Angle.format">[docs]</a>    <span class="k">def</span> <span class="nf">format</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="n">u</span><span class="o">.</span><span class="n">degree</span><span class="p">,</span> <span class="n">decimal</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s">&#39;fromunit&#39;</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+               <span class="n">alwayssign</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; A string representation of the angle.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        units : `~astropy.units.UnitBase`</span>
+<span class="sd">            Specifies the units, should be &#39;degree&#39;, &#39;hour&#39;, or &#39;radian&#39;</span>
+<span class="sd">        decimal : bool</span>
+<span class="sd">            If True, a decimal respresentation will be used, otherwise</span>
+<span class="sd">            the returned string will be in sexagesimal form.</span>
+<span class="sd">        sep : str</span>
+<span class="sd">            The separator between numbers in a sexagesimal representation.</span>
+<span class="sd">            E.g., if it is &#39;:&#39;, the result is &quot;12:41:11.1241&quot;. Also accepts</span>
+<span class="sd">            2 or 3 separators. E.g., ``sep=&#39;hms&#39;`` would give the result</span>
+<span class="sd">            &quot;12h41m11.1241s&quot;, or sep=&#39;-:&#39; would yield &quot;11-21:17.124&quot;.</span>
+<span class="sd">            Alternatively, the special string &#39;fromunit&#39; means &#39;dms&#39; if</span>
+<span class="sd">            the unit is degrees, or &#39;hms&#39; if the unit is hours.</span>
+<span class="sd">        precision : int</span>
+<span class="sd">            The level of decimal precision.  if `decimal` is True, this is</span>
+<span class="sd">            the raw precision, otherwise it gives the precision of the last</span>
+<span class="sd">            place of the sexagesimal representation (seconds).</span>
+<span class="sd">        alwayssign : bool</span>
+<span class="sd">            If True, include the sign no matter what.  If False, only</span>
+<span class="sd">            include the sign if it is necessary (negative).</span>
+<span class="sd">        pad : bool</span>
+<span class="sd">            If True, include leading zeros when needed to ensure a fixed</span>
+<span class="sd">            number of characters for sexagesimal representation.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        strrepr : str</span>
+<span class="sd">            A string representation of the angle.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">unit</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">Unit</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">unit</span> <span class="ow">is</span> <span class="n">u</span><span class="o">.</span><span class="n">degree</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">decimal</span><span class="p">:</span>
+                <span class="n">res</span> <span class="o">=</span> <span class="p">(</span><span class="s">&quot;{0:0.&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">precision</span><span class="p">)</span> <span class="o">+</span> <span class="s">&quot;}&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">degrees</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">sep</span> <span class="o">==</span> <span class="s">&#39;fromunit&#39;</span><span class="p">:</span>
+                    <span class="n">sep</span> <span class="o">=</span> <span class="s">&#39;dms&#39;</span>
+                <span class="n">res</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">degrees_to_string</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">degrees</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="n">precision</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="n">sep</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="n">pad</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">unit</span> <span class="ow">is</span> <span class="n">u</span><span class="o">.</span><span class="n">radian</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">decimal</span><span class="p">:</span>
+                <span class="n">res</span> <span class="o">=</span> <span class="p">(</span><span class="s">&quot;{0:0.&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">precision</span><span class="p">)</span> <span class="o">+</span> <span class="s">&quot;}&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">radians</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">sep</span> <span class="o">==</span> <span class="s">&#39;fromunit&#39;</span><span class="p">:</span>
+                <span class="n">res</span> <span class="o">=</span> <span class="p">(</span><span class="s">&quot;{0:0.&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">precision</span><span class="p">)</span> <span class="o">+</span> <span class="s">&quot;}&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">radians</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;radian&#39;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Radians cannot be in sexagesimal representation&#39;</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">unit</span> <span class="ow">is</span> <span class="n">u</span><span class="o">.</span><span class="n">hour</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">decimal</span><span class="p">:</span>
+                <span class="n">res</span> <span class="o">=</span> <span class="p">(</span><span class="s">&quot;{0:0.&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">precision</span><span class="p">)</span> <span class="o">+</span> <span class="s">&quot;}&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hours</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">sep</span> <span class="o">==</span> <span class="s">&#39;fromunit&#39;</span><span class="p">:</span>
+                    <span class="n">sep</span> <span class="o">=</span> <span class="s">&#39;hms&#39;</span>
+                <span class="n">res</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">hours_to_string</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hours</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="n">precision</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="n">sep</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="n">pad</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">UnitsError</span><span class="p">(</span><span class="s">&quot;The unit value provided was not one of u.degree, u.hour, u.radian&#39;.&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">alwayssign</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">res</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;-&#39;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="s">&#39;+&#39;</span> <span class="o">+</span> <span class="n">res</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">res</span>
+</div>
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">format</span><span class="p">()</span>
+
+    <span class="c"># ----------------------------------------------------------------------------</span>
+    <span class="c"># Emulating numeric types</span>
+    <span class="c"># -----------------------</span>
+    <span class="c"># Ref: http://docs.python.org/reference/datamodel.html#emulating-numeric-types</span>
+    <span class="c"># ----------------------------------------------------------------------------</span>
+
+    <span class="c"># Addition</span>
+    <span class="k">def</span> <span class="nf">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">bounds</span> <span class="o">!=</span> <span class="n">other</span><span class="o">.</span><span class="n">bounds</span><span class="p">:</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="s">&quot;Can&#39;t add angles because bounds don&#39;t match: {0} and {1}&quot;</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bounds</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">bounds</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">Angle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">radians</span> <span class="o">+</span> <span class="n">other</span><span class="o">.</span><span class="n">radians</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="n">u</span><span class="o">.</span><span class="n">radian</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">bounds</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;An {0} object can only be added to another &quot;</span>
+                                      <span class="s">&quot;{0} object.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__name__</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">__radd__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__add__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+
+    <span class="c"># Subtraction</span>
+    <span class="k">def</span> <span class="nf">__sub__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">bounds</span> <span class="o">!=</span> <span class="n">other</span><span class="o">.</span><span class="n">bounds</span><span class="p">:</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="s">&quot;Can&#39;t add angles because bounds don&#39;t match: {0} and {1}&quot;</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bounds</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">bounds</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">Angle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">radians</span> <span class="o">-</span> <span class="n">other</span><span class="o">.</span><span class="n">radians</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="n">u</span><span class="o">.</span><span class="n">radian</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">bounds</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;An {0} object can only be subtracted from another &quot;</span>
+                                      <span class="s">&quot;{0} object.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__name__</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">__rsub__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">bounds</span> <span class="o">!=</span> <span class="n">other</span><span class="o">.</span><span class="n">bounds</span><span class="p">:</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="s">&quot;Can&#39;t add angles because bounds don&#39;t match: {0} and {1}&quot;</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bounds</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">bounds</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">Angle</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">radians</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">radians</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="n">u</span><span class="o">.</span><span class="n">radian</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">bounds</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;An {0} object can only be subtracted from another &quot;</span>
+                                      <span class="s">&quot;{0} object.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__name__</span><span class="p">))</span>
+
+    <span class="c"># Multiplication</span>
+    <span class="k">def</span> <span class="nf">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;Multiplication is not supported between two {0} &quot;</span>
+                                      <span class="s">&quot;objects &quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__name__</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">other</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="n">Angle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">radians</span> <span class="o">*</span> <span class="n">other</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="n">u</span><span class="o">.</span><span class="n">radian</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;An {0} object can only be multiplied by a float or integer.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__name__</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">__rmul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__mul__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+
+    <span class="c"># Division</span>
+    <span class="k">def</span> <span class="nf">__div__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;Division is not supported between two {0} &quot;</span>
+                                      <span class="s">&quot;objects.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__name__</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">other</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="n">Angle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">radians</span> <span class="o">/</span> <span class="n">other</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="n">u</span><span class="o">.</span><span class="n">radian</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;An {0} object can only be divided by a float or integer.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__name__</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">__rdiv__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;Division is not supported between two {0} &quot;</span>
+                                      <span class="s">&quot;objects.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__name__</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">other</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="n">Angle</span><span class="p">(</span><span class="n">other</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">radians</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="n">u</span><span class="o">.</span><span class="n">radian</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;An {0} object can only be divided by a float or integer.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__name__</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">__truediv__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__div__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__rtruediv__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rdiv__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+
+    <span class="c"># other operations</span>
+
+    <span class="k">def</span> <span class="nf">__neg__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">Angle</span><span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">radians</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="n">u</span><span class="o">.</span><span class="n">radian</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Angle</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">radians</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">radians</span>
+        <span class="k">if</span> <span class="n">other</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;To compare {0} objects, compare their &quot;</span>
+                                      <span class="s">&quot;float values directly.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__name__</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="c"># return not self.radians == other.radians</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">__eq__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">radians</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">radians</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;An {0} object can only be compared to another {0} &quot;</span>
+                                      <span class="s">&quot;object.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__name__</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">__gt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">radians</span> <span class="o">&gt;</span> <span class="n">other</span><span class="o">.</span><span class="n">radians</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;An {0} object can only be compared to another {0} &quot;</span>
+                                      <span class="s">&quot;object.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__name__</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">__ge__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">radians</span> <span class="o">&gt;=</span> <span class="n">other</span><span class="o">.</span><span class="n">radians</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;An {0} object can only be compared to another {0} &quot;</span>
+                                      <span class="s">&quot;object.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__name__</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">__le__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">radians</span> <span class="o">&lt;=</span> <span class="n">other</span><span class="o">.</span><span class="n">radians</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;An {0} object can only be compared to another {0} &quot;</span>
+                                      <span class="s">&quot;object.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__name__</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">__abs__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">Angle</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">radians</span><span class="p">),</span> <span class="n">unit</span><span class="o">=</span><span class="n">u</span><span class="o">.</span><span class="n">radian</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&quot;&lt;{0} {1:.5f} deg&gt;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">degrees</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="RA"><a class="viewcode-back" href="../../../_generated/astropy.coordinates.angles.RA.html#astropy.coordinates.angles.RA">[docs]</a><span class="k">class</span> <span class="nc">RA</span><span class="p">(</span><span class="n">Angle</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; An object that represents a right ascension angle.</span>
+
+<span class="sd">    This object can be created from a numeric value along with a unit. If the</span>
+<span class="sd">    value specified is greater than &quot;24&quot;, then a unit of degrees is assumed. Bounds</span>
+<span class="sd">    are fixed to [0,360] degrees.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    angle : float, int, str, tuple</span>
+<span class="sd">        The angle value. If a tuple, will be interpreted as (h, m s) or</span>
+<span class="sd">        (d, m, s) depending on `unit`. If a string, it will be interpreted</span>
+<span class="sd">        following the rules described above.</span>
+<span class="sd">    unit : `~astropy.units.UnitBase`, str</span>
+<span class="sd">        The unit of the value specified for the angle.  This may be any</span>
+<span class="sd">        string that `~astropy.units.Unit` understands, but it is better to</span>
+<span class="sd">        give an actual unit object.  Must be one of `~astropy.units.degree`,</span>
+<span class="sd">        `~astropy.units.radian`, or `~astropy.units.hour`.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    `~astropy.coordinates.errors.UnitsError`</span>
+<span class="sd">        If a unit is not provided or it is not hour, radian, or degree.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">angle</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">RA</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">angle</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="n">unit</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">360</span><span class="p">))</span>
+
+    <span class="c"># The initializer as originally conceived allowed the unit to be unspecified</span>
+    <span class="c"># if it&#39;s bigger  than 24, because hours typically aren&#39;t past 24.</span>
+    <span class="c"># It is also then implicit that `RA` is usually in hours.</span>
+    <span class="c"># This is commented out for now because in discussion for v0.2 we decided to</span>
+    <span class="c"># keep things simple and just use the same behavior as Angle.</span>
+    <span class="c"># In v0.3 it may be either uncommented,</span>
+    <span class="c"># moved somewhere else, or eliminated completely</span>
+    <span class="c"># TODO: decide if this should stay in or permanently be removed</span>
+    <span class="c">#</span>
+    <span class="c"># def __init__(self, angle, unit=None):</span>
+    <span class="c">#</span>
+    <span class="c">#     # This block attempts to determine the validity of the unit,</span>
+    <span class="c">#     # particularly with regard to the specifics of RA.</span>
+    <span class="c">#     # After this block, the normal Angle initializer handles most of the</span>
+    <span class="c">#     # validation/creation.</span>
+    <span class="c">#</span>
+    <span class="c">#     if isinstance(angle, Angle):</span>
+    <span class="c">#         return super(RA, self).__init__(angle.radians, unit=u.radian, bounds=(0, 360))</span>
+    <span class="c">#</span>
+    <span class="c">#     if unit is u.hour:</span>
+    <span class="c">#         pass  # to Angle initializer</span>
+    <span class="c">#         # self._radians = math.radians(decimal_hours * 15.)</span>
+    <span class="c">#     elif unit is u.degree:</span>
+    <span class="c">#         pass  # to Angle initializer</span>
+    <span class="c">#         # decimal_degrees = util.parse_degrees(angle)</span>
+    <span class="c">#         # self._radians = math.radians(decimal_degrees)</span>
+    <span class="c">#     elif unit is u.radian:</span>
+    <span class="c">#         pass  # to Angle initializer</span>
+    <span class="c">#         # self._radians = util.parse_radians(angle)</span>
+    <span class="c">#</span>
+    <span class="c">#</span>
+    <span class="c">#     elif unit is None:</span>
+    <span class="c">#         # Try to figure out the unit if we can.</span>
+    <span class="c">#         if isinstance(angle, float) or isinstance(angle, int):</span>
+    <span class="c">#             if angle &gt; 24:</span>
+    <span class="c">#                 unit = u.degree</span>
+    <span class="c">#             else:</span>
+    <span class="c">#                 raise UnitsError(&quot;No units were specified, and the angle value was ambiguous between hours and degrees.&quot;)</span>
+    <span class="c">#         elif isinstance(angle, basestring):</span>
+    <span class="c">#             # Try to deduce the units from hints in the string.</span>
+    <span class="c">#             # Further, enforce absolute bounds here, i.e. don&#39;t let</span>
+    <span class="c">#             # Angle +-2π to see if the angle falls in the bounds.</span>
+    <span class="c">#             if &quot;d&quot; in angle or &quot;°&quot; in angle:</span>
+    <span class="c">#                 # If in the form &quot;12d32m53s&quot;, look for the &quot;d&quot; and assume degrees.</span>
+    <span class="c">#                 angle = math.radians(util.parse_degrees(angle))</span>
+    <span class="c">#                 if 0 &lt; angle &lt; TWOPI:</span>
+    <span class="c">#                     unit = u.radian</span>
+    <span class="c">#                 else:</span>
+    <span class="c">#                     raise RangeError(&quot;The provided angle was assumed to be in degrees, but was out of the range (0,360) degrees.&quot;)</span>
+    <span class="c">#             elif &quot;h&quot; in angle:</span>
+    <span class="c">#                 # Same for &quot;12h32m53s&quot; for hours.</span>
+    <span class="c">#                 # self._radians = math.radians(util.parse_hours(angle)*15.0)</span>
+    <span class="c">#                 unit = u.hour</span>
+    <span class="c">#             else:</span>
+    <span class="c">#                 # could be in a form: &quot;54:43:26&quot; -</span>
+    <span class="c">#                 # if so AND the resulting decimal value is &gt; 24 or &lt; -24, assume degrees</span>
+    <span class="c">#                 decimal_value = util.parse_degrees(angle)</span>
+    <span class="c">#                 if decimal_value &gt; 24:</span>
+    <span class="c">#                     unit = u.degree</span>
+    <span class="c">#                 elif 0 &lt;= decimal_value &lt;= 24.0:</span>
+    <span class="c">#                     raise UnitsError(&quot;No units were specified, and the angle value was ambiguous between hours and degrees.&quot;)</span>
+    <span class="c">#                 elif decimal_value &lt; 0:</span>
+    <span class="c">#                     raise RangeError(&quot;No units were specified; could not assume any since the value was less than zero.&quot;)</span>
+    <span class="c">#         elif isinstance(angle, tuple):</span>
+    <span class="c">#             if len(angle) == 3 and 0 &lt;= angle[0] &lt; 24.0:</span>
+    <span class="c">#                 raise UnitsError(&quot;No units were specified, and the angle value was ambiguous between hours and degrees.&quot;)</span>
+    <span class="c">#             else:</span>
+    <span class="c">#                 unit = u.degree</span>
+    <span class="c">#         else:</span>
+    <span class="c">#             raise ValueError(&quot;Angle values of type {0} not supported.&quot;.format(type(angle).__name__))</span>
+    <span class="c">#</span>
+    <span class="c">#     if unit is None:</span>
+    <span class="c">#         raise UnitsError(&quot;Units must be specified for RA, one of u.degree, u.hour, or u.radian.&quot;)</span>
+    <span class="c">#</span>
+    <span class="c">#     # By here, the unit should be defined.</span>
+    <span class="c">#     super(RA, self).__init__(angle, unit=unit, bounds=(0, 360))</span>
+
+<div class="viewcode-block" id="RA.hour_angle"><a class="viewcode-back" href="../../../_generated/astropy.coordinates.angles.RA.html#astropy.coordinates.angles.RA.hour_angle">[docs]</a>    <span class="k">def</span> <span class="nf">hour_angle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lst</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Computes the hour angle for this RA given a local sidereal</span>
+<span class="sd">        time (LST).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        lst : `~astropy.coordinates.angle.Angle`, `~astropy.time.Time`</span>
+<span class="sd">            A local sidereal time (LST).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        hour_angle : `~astropy.coordinates.angle.Angle`</span>
+<span class="sd">            The hour angle for this RA at the LST `lst`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">lst</span><span class="p">,</span> <span class="s">&#39;mjd&#39;</span><span class="p">):</span>
+            <span class="n">lst</span> <span class="o">=</span> <span class="n">Angle</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">remainder</span><span class="p">(</span><span class="n">lst</span><span class="o">.</span><span class="n">mjd</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">unit</span><span class="o">=</span><span class="n">u</span><span class="o">.</span><span class="n">hour</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">Angle</span><span class="p">(</span><span class="n">lst</span><span class="o">.</span><span class="n">radians</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">radians</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="n">u</span><span class="o">.</span><span class="n">radian</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">TWOPI</span><span class="p">))</span>
+</div>
+<div class="viewcode-block" id="RA.lst"><a class="viewcode-back" href="../../../_generated/astropy.coordinates.angles.RA.html#astropy.coordinates.angles.RA.lst">[docs]</a>    <span class="k">def</span> <span class="nf">lst</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hour_angle</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculates the local sidereal time (LST) if this RA is at a</span>
+<span class="sd">        particular hour angle.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        hour_angle :  `~astropy.coordinates.angle.Angle`</span>
+<span class="sd">            An hour angle.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        lst : `~astropy.coordinates.angle.Angle`</span>
+<span class="sd">            The local siderial time as an angle.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Angle</span><span class="p">(</span><span class="n">hour_angle</span><span class="o">.</span><span class="n">radians</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">radians</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="n">u</span><span class="o">.</span><span class="n">radian</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">TWOPI</span><span class="p">))</span>
+
+</div></div>
+<div class="viewcode-block" id="Dec"><a class="viewcode-back" href="../../../_generated/astropy.coordinates.angles.Dec.html#astropy.coordinates.angles.Dec">[docs]</a><span class="k">class</span> <span class="nc">Dec</span><span class="p">(</span><span class="n">Angle</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents a declination value.</span>
+
+<span class="sd">    This object can be created from a numeric value along with a unit, or else a</span>
+<span class="sd">    string in any commonly represented format, e.g. &quot;12 43 23.53&quot;, &quot;-32d52m29s&quot;.</span>
+<span class="sd">    Unless otherwise specified via the &#39;unit&#39; parameter, degrees are assumed.</span>
+<span class="sd">    Bounds are fixed to [-90,90] degrees.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    angle : float, int, str, tuple</span>
+<span class="sd">        The angle value. If a tuple, will be interpreted as (h, m s) or</span>
+<span class="sd">        (d, m, s) depending on `unit`. If a string, it will be interpreted</span>
+<span class="sd">        following the rules described above.</span>
+<span class="sd">    unit : `~astropy.units.UnitBase`, str</span>
+<span class="sd">        The unit of the value specified for the angle.  This may be any</span>
+<span class="sd">        string that `~astropy.units.Unit` understands, but it is better to</span>
+<span class="sd">        give an actual unit object.  Must be one of `~astropy.units.degree`,</span>
+<span class="sd">        `~astropy.units.radian`, or `~astropy.units.hour`.</span>
+<span class="sd">    bounds : tuple</span>
+<span class="sd">        A tuple indicating the upper and lower value that the new angle object may</span>
+<span class="sd">        have.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        `~astropy.coordinates.errors.UnitsError`</span>
+<span class="sd">            If a unit is not provided or it is not hour, radian, or degree.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">angle</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Dec</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">angle</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="n">unit</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="mi">90</span><span class="p">))</span>
+
+    <span class="c"># TODO: do here whatever is decided for the &quot;smart&quot; RA initializer above</span>
+    <span class="c">#</span>
+    <span class="c"># def __init__(self, angle, unit=u.degree):</span>
+    <span class="c">#     super(RA, self).__init__(angle, unit=unit, bounds=(0, 360))</span>
+    <span class="c">#</span>
+    <span class="c">#     if isinstance(angle, Angle):</span>
+    <span class="c">#         return super(Dec, self).__init__(angle.radians, unit=u.radian, bounds=(-90, 90))</span>
+    <span class="c">#</span>
+    <span class="c">#     super(Dec, self).__init__(angle, unit=unit, bounds=(-90, 90))</span>
+
+</div>
+<div class="viewcode-block" id="AngularSeparation"><a class="viewcode-back" href="../../../_generated/astropy.coordinates.angles.AngularSeparation.html#astropy.coordinates.angles.AngularSeparation">[docs]</a><span class="k">class</span> <span class="nc">AngularSeparation</span><span class="p">(</span><span class="n">Angle</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    An on-sky separation between two directions.</span>
+
+<span class="sd">    .. note::</span>
+<span class="sd">        This is computed using the Vincenty great circle distance</span>
+<span class="sd">        formula, and hence should be numerically stable even for</span>
+<span class="sd">        near antipodal points.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    lat1 : float</span>
+<span class="sd">        The value of the first latitudinal/elevation angle.</span>
+<span class="sd">    lon1 : float</span>
+<span class="sd">        The value of the first longitudinal/azimuthal angle.</span>
+<span class="sd">    lat2 : float</span>
+<span class="sd">        The value of the second latitudinal/elevation angle.</span>
+<span class="sd">    lon2 : float</span>
+<span class="sd">        The value of the second longitudinal/azimuthal angle.</span>
+<span class="sd">    units : `~astropy.units`</span>
+<span class="sd">        The units of the given angles.</span>
+
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lat1</span><span class="p">,</span> <span class="n">lon1</span><span class="p">,</span> <span class="n">lat2</span><span class="p">,</span> <span class="n">lon2</span><span class="p">,</span> <span class="n">units</span><span class="p">):</span>
+
+        <span class="n">units</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">Unit</span><span class="p">(</span><span class="n">units</span><span class="p">)</span>
+        <span class="n">lat1</span> <span class="o">=</span> <span class="n">units</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">radian</span><span class="p">,</span> <span class="n">lat1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="mi">0</span> <span class="o">==</span> <span class="n">lon1</span> <span class="o">==</span> <span class="n">lat2</span> <span class="o">==</span> <span class="n">lon2</span><span class="p">:</span>
+            <span class="n">sepval</span> <span class="o">=</span> <span class="n">lat1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">lon1</span> <span class="o">=</span> <span class="n">units</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">radian</span><span class="p">,</span> <span class="n">lon1</span><span class="p">)</span>
+            <span class="n">lat2</span> <span class="o">=</span> <span class="n">units</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">radian</span><span class="p">,</span> <span class="n">lat2</span><span class="p">)</span>
+            <span class="n">lon2</span> <span class="o">=</span> <span class="n">units</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">radian</span><span class="p">,</span> <span class="n">lon2</span><span class="p">)</span>
+
+            <span class="n">sepval</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">vincenty_sphere_dist</span><span class="p">(</span><span class="n">lon1</span><span class="p">,</span> <span class="n">lat1</span><span class="p">,</span> <span class="n">lon2</span><span class="p">,</span> <span class="n">lat2</span><span class="p">)</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">AngularSeparation</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">sepval</span><span class="p">,</span> <span class="n">u</span><span class="o">.</span><span class="n">radian</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&#39;+ is ambiguous for AngularSeparation objects; not supported&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__radd__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&#39;+ is ambiguous for AngularSeparation objects; not supported&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__sub__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&#39;- is ambiguous for AngularSeparation objects; not supported&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__rsub__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&#39;- is ambiguous for AngularSeparation objects; not supported&#39;</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="AngularSeparation.arcmins"><a class="viewcode-back" href="../../../_generated/astropy.coordinates.angles.AngularSeparation.html#astropy.coordinates.angles.AngularSeparation.arcmins">[docs]</a>    <span class="k">def</span> <span class="nf">arcmins</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The value of this separation in arcminutes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">degrees</span> <span class="o">*</span> <span class="mf">60.</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="AngularSeparation.arcsecs"><a class="viewcode-back" href="../../../_generated/astropy.coordinates.angles.AngularSeparation.html#astropy.coordinates.angles.AngularSeparation.arcsecs">[docs]</a>    <span class="k">def</span> <span class="nf">arcsecs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The value of this separation in arcseconds.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">degrees</span> <span class="o">*</span> <span class="mf">3600.</span>
+
+<span class="c">#&lt;----------------------------------Rotations----------------------------------&gt;</span>
+
+</div></div>
+<span class="k">def</span> <span class="nf">rotation_matrix</span><span class="p">(</span><span class="n">angle</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="s">&#39;z&#39;</span><span class="p">,</span> <span class="n">degrees</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate a 3x3 cartesian rotation matrix in for rotation about</span>
+<span class="sd">    a particular axis.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    angle : scalar</span>
+<span class="sd">        The amount of rotation this matrix should represent. In degrees</span>
+<span class="sd">        if `degrees` is True, otherwise radians.</span>
+<span class="sd">    axis : str or 3-sequence</span>
+<span class="sd">        Either &#39;x&#39;,&#39;y&#39;, &#39;z&#39;, or a (x,y,z) specifying an axis to rotate</span>
+<span class="sd">        about. If &#39;x&#39;,&#39;y&#39;, or &#39;z&#39;, the rotation sense is</span>
+<span class="sd">        counterclockwise looking down the + axis (e.g. positive</span>
+<span class="sd">        rotations obey left-hand-rule).</span>
+<span class="sd">    degrees : bool</span>
+<span class="sd">        If True the input angle is degrees, otherwise radians.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    rmat: `numpy.matrix`</span>
+<span class="sd">        A unitary rotation matrix.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">sin</span><span class="p">,</span> <span class="n">cos</span><span class="p">,</span> <span class="n">radians</span><span class="p">,</span> <span class="n">sqrt</span>
+
+    <span class="k">if</span> <span class="n">degrees</span><span class="p">:</span>
+        <span class="n">angle</span> <span class="o">=</span> <span class="n">radians</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">axis</span> <span class="o">==</span> <span class="s">&#39;z&#39;</span><span class="p">:</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">sin</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">cos</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">(((</span><span class="n">c</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+                          <span class="p">(</span><span class="o">-</span><span class="n">s</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+                          <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)))</span>
+    <span class="k">elif</span> <span class="n">axis</span> <span class="o">==</span> <span class="s">&#39;y&#39;</span><span class="p">:</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">sin</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">cos</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">(((</span><span class="n">c</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">s</span><span class="p">),</span>
+                          <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+                          <span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">c</span><span class="p">)))</span>
+    <span class="k">elif</span> <span class="n">axis</span> <span class="o">==</span> <span class="s">&#39;x&#39;</span><span class="p">:</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">sin</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">cos</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">(((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+                          <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">s</span><span class="p">),</span>
+                          <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">s</span><span class="p">,</span> <span class="n">c</span><span class="p">)))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">axis</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="n">cos</span><span class="p">(</span><span class="n">angle</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+
+        <span class="c"># normalize</span>
+        <span class="k">if</span> <span class="n">w</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">y</span> <span class="o">=</span> <span class="n">z</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">l</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">((</span><span class="n">x</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">*</span> <span class="n">y</span> <span class="o">+</span> <span class="n">z</span> <span class="o">*</span> <span class="n">z</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">w</span> <span class="o">*</span> <span class="n">w</span><span class="p">))</span>
+            <span class="n">x</span> <span class="o">/=</span> <span class="n">l</span>
+            <span class="n">y</span> <span class="o">/=</span> <span class="n">l</span>
+            <span class="n">z</span> <span class="o">/=</span> <span class="n">l</span>
+
+        <span class="n">wsq</span> <span class="o">=</span> <span class="n">w</span> <span class="o">*</span> <span class="n">w</span>
+        <span class="n">xsq</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span>
+        <span class="n">ysq</span> <span class="o">=</span> <span class="n">y</span> <span class="o">*</span> <span class="n">y</span>
+        <span class="n">zsq</span> <span class="o">=</span> <span class="n">z</span> <span class="o">*</span> <span class="n">z</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">(((</span><span class="n">wsq</span> <span class="o">+</span> <span class="n">xsq</span> <span class="o">-</span> <span class="n">ysq</span> <span class="o">-</span> <span class="n">zsq</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">x</span> <span class="o">*</span> <span class="n">y</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">w</span> <span class="o">*</span> <span class="n">z</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">x</span> <span class="o">*</span> <span class="n">z</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">w</span> <span class="o">*</span> <span class="n">y</span><span class="p">),</span>
+                          <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">x</span> <span class="o">*</span> <span class="n">y</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">w</span> <span class="o">*</span> <span class="n">z</span><span class="p">,</span> <span class="n">wsq</span> <span class="o">-</span> <span class="n">xsq</span> <span class="o">+</span> <span class="n">ysq</span> <span class="o">-</span> <span class="n">zsq</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">y</span> <span class="o">*</span> <span class="n">z</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">w</span> <span class="o">*</span> <span class="n">x</span><span class="p">),</span>
+                          <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">x</span> <span class="o">*</span> <span class="n">z</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">w</span> <span class="o">*</span> <span class="n">y</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">y</span> <span class="o">*</span> <span class="n">z</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">w</span> <span class="o">*</span> <span class="n">x</span><span class="p">,</span> <span class="n">wsq</span> <span class="o">-</span> <span class="n">xsq</span> <span class="o">-</span> <span class="n">ysq</span> <span class="o">+</span> <span class="n">zsq</span><span class="p">)))</span>
+
+
+<span class="k">def</span> <span class="nf">angle_axis</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">degrees</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Computes the angle of rotation and the rotation axis for a given rotation</span>
+<span class="sd">    matrix.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    matrix : array-like</span>
+<span class="sd">        A 3 x 3 unitary rotation matrix.</span>
+<span class="sd">    degrees : bool</span>
+<span class="sd">        If True, output is in degrees.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    angle : scalar</span>
+<span class="sd">        The angle of rotation for this matrix. In degrees if `degrees is</span>
+<span class="sd">        True, otherwise radians.</span>
+<span class="sd">    axis : array (length 3)</span>
+<span class="sd">        The axis of rotation for this matrix.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">sin</span><span class="p">,</span> <span class="n">cos</span><span class="p">,</span> <span class="n">acos</span><span class="p">,</span> <span class="n">degrees</span><span class="p">,</span> <span class="n">sqrt</span>
+
+    <span class="n">m</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asmatrix</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">m</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;matrix is not 3x3&#39;</span><span class="p">)</span>
+
+    <span class="n">angle</span> <span class="o">=</span> <span class="n">acos</span><span class="p">((</span><span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">m</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">m</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">denom</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="p">((</span><span class="n">m</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">m</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span> <span class="o">+</span> <span class="p">(</span><span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">m</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="p">(</span><span class="n">m</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])))</span>
+    <span class="n">axis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">((</span><span class="n">m</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">m</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">m</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">m</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]))</span> <span class="o">/</span> <span class="n">denom</span>
+    <span class="n">axis</span> <span class="o">/=</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">degrees</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">degrees</span><span class="p">(</span><span class="n">angle</span><span class="p">),</span> <span class="n">axis</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">angle</span><span class="p">,</span> <span class="n">axis</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+
+
+<h3>Page Contents</h3>
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+<footer class="footer">
+  <p class="pull-right"> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright 2011-2013, The Astropy Developers.<br/>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3+. &nbsp;
+    Last built 03 Apr 2013. <br/>
+  </p>
+</footer>
+ <!-- End original user content -->
+
+
+<br>
+<br>
+<br>
+
+
+<style type="text/css">
+  .rtd-badge {
+    position: fixed;
+    display: block;
+    bottom: 5px;
+    height: 40px;
+    text-indent: -9999em;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+  }
+  #version_menu {
+    position: fixed;
+    display: none;
+    bottom: 11px;
+    right: 166px;
+    list-style-type: none;
+    margin: 0;
+  }
+  .footer_popout:hover #version_menu {
+    display: block;
+  }
+  #version_menu li {
+    display: block;
+    float: right;
+  }
+  #version_menu li a {
+    display: block;
+    padding: 6px 10px 4px 10px;
+    margin: 7px 7px 0 0;
+    font-weight: bold;
+    font-size: 14px;
+    height: 20px;
+    line-height: 17px;
+    text-decoration: none;
+    color: #fff;
+    background: #8ca1af url(../images/gradient-light.png) bottom left repeat-x;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 1px #465158;
+    -moz-box-shadow: 0 1px 1px #465158;
+    -webkit-box-shadow: 0 1px 1px #465158;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+  }
+  #version_menu li a:hover {
+    text-decoration: none;
+    background-color: #697983;
+    box-shadow: 0 1px 0px #465158;
+    -moz-box-shadow: 0 1px 0px #465158;
+    -webkit-box-shadow: 0 1px 0px #465158;
+  }
+  .rtd-badge.rtd {
+    background: #3b4449 url(//media.readthedocs.org//images/badge-rtd.png) scroll 0px -46px no-repeat;
+    border: 1px solid #282E32;
+    width: 41px;
+    right: 5px;
+  }
+  .footer_popout:hover .rtd-badge.rtd {
+    background-position: top left;
+    width: 160px;
+  }
+  .rtd-badge.revsys { background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline-sponsored {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys-sm.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 205px;
+    right: 173px;
+  }
+
+</style>
+<div class="rtd_doc_footer">
+  <div class="footer_popout">
+    <a href="//readthedocs.org/projects/astropy/?fromdocs=astropy" class="rtd-badge rtd"> Brought to you by Read the Docs</a>
+    <ul id="version_menu">
+      
+        <li><a href="/en/latest/">latest</a></li>
+      
+        <li><a href="/en/add-mpl-to-rtd-pip-req/">add-mpl-to-rtd-pip-req</a></li>
+      
+        <li><a href="/en/v0.2.1/">v0.2.1</a></li>
+      
+        <li><a href="/en/v0.2/">v0.2</a></li>
+      
+        <li><a href="/en/v0.1/">v0.1</a></li>
+      
+    </ul>
+  </div>
+</div>
+<!-- RTD Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17997319-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+<!-- User Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-30968842-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+  </body>
+</html>

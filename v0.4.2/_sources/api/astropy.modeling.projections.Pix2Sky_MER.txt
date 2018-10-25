@@ -1,0 +1,44 @@
+
+
+Pix2Sky_MER
+========================================
+
+.. currentmodule:: astropy.modeling.projections
+
+.. autoclass:: Pix2Sky_MER
+   :show-inheritance:
+
+   
+
+   
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+   
+      ~Pix2Sky_MER.__call__
+      ~Pix2Sky_MER.inverse
+
+   
+   
+
+   
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Documentation
+
+   
+   .. automethod:: __call__
+   .. automethod:: inverse
+
+   
+   

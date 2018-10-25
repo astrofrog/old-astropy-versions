@@ -1,0 +1,44 @@
+
+
+Pix2Sky_TAN
+========================================
+
+.. currentmodule:: astropy.modeling.projections
+
+.. autoclass:: Pix2Sky_TAN
+   :show-inheritance:
+
+   
+
+   
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+   
+      ~Pix2Sky_TAN.__call__
+      ~Pix2Sky_TAN.inverse
+
+   
+   
+
+   
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Documentation
+
+   
+   .. automethod:: __call__
+   .. automethod:: inverse
+
+   
+   

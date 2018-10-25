@@ -1,0 +1,50 @@
+
+
+ScienceStateAlias
+=====================================
+
+.. currentmodule:: astropy.utils.state
+
+.. autoclass:: ScienceStateAlias
+   :show-inheritance:
+
+   
+     
+   
+
+   
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+   
+      ~ScienceStateAlias.__call__
+      ~ScienceStateAlias.reload
+      ~ScienceStateAlias.set
+      ~ScienceStateAlias.set_temp
+
+   
+   
+
+   
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Documentation
+
+   
+   .. automethod:: __call__
+   .. automethod:: reload
+   .. automethod:: set
+   .. automethod:: set_temp
+
+   
+   

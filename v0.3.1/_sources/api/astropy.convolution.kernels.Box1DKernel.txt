@@ -1,0 +1,29 @@
+
+
+Box1DKernel
+=======================================
+
+.. currentmodule:: astropy.convolution.kernels
+
+.. autoclass:: Box1DKernel
+   :show-inheritance:
+
+   
+     
+   
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   

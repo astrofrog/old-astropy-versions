@@ -1,0 +1,590 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Time &mdash; Astropy v0.3.1</title>
+    
+    <link rel="stylesheet" href="../_static/bootstrap-astropy.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="https://media.readthedocs.org/css/badge_only.css" type="text/css" />
+    <link rel="stylesheet" href="https://media.readthedocs.org/css/readthedocs-doc-embed.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.3.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/jquery/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/jquery/jquery-migrate-1.2.1.min.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/underscore.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/doctools.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/readthedocs-doc-embed.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="shortcut icon" href="../_static/astropy_logo.ico"/>
+    <link rel="top" title="Astropy v0.3.1" href="../index.html" />
+    <link rel="up" title="Time and Dates (astropy.time)" href="../time/index.html" />
+    <link rel="next" title="TimeBesselianEpoch" href="astropy.time.core.TimeBesselianEpoch.html" />
+    <link rel="prev" title="ScaleValueError" href="astropy.time.core.ScaleValueError.html" />
+
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,600' rel='stylesheet' type='text/css'>
+
+<!-- RTD Extra Head -->
+
+
+
+<!-- 
+Read the Docs is acting as the canonical URL for your project. 
+If you want to change it, more info is available in our docs:
+  http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="http://astropy.readthedocs.org/en/latest/api/astropy.time.core.Time.html">
+
+<script type="text/javascript">
+  // This is included here because other places don't have access to the pagename variable.
+  var READTHEDOCS_DATA = {
+    project: "astropy",
+    version: "v0.3.1",
+    language: "en",
+    page: "api/astropy.time.core.Time",
+    theme: "bootstrap-astropy",
+    docroot: "/docs/",
+    api_host: "https://readthedocs.org"
+  }
+  // Old variables
+  var doc_version = "v0.3.1";
+  var doc_slug = "astropy";
+  var page_name = "api/astropy.time.core.Time";
+  var html_theme = "bootstrap-astropy";
+</script>
+<!-- RTD Analytics Code -->
+<!-- Included in the header because you don't have a footer block. -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17997319-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+<!-- end RTD Analytics Code -->
+
+
+<!-- User Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-30968842-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+<!-- End User Analytics Code -->
+
+<!-- end RTD <extrahead> -->
+
+  </head>
+  <body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../index.html"><span id="logotext1">astro</span><span id="logotext2">py</span><span id="logotext3">:docs</span></a>
+  <ul>
+    <li><a class="homelink" title="Astropy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../genindex.html">Index</a></li>
+    <li><a title="Module Index" href="../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li class="right">
+	<a href="astropy.time.core.TimeBesselianEpoch.html" title="TimeBesselianEpoch">
+	  next &raquo;
+	</a>
+      </li>
+      <li class="right">
+	<a href="astropy.time.core.ScaleValueError.html" title="ScaleValueError">
+	  &laquo; previous
+	</a>
+	 |
+      </li>
+      <li>
+	<a href="../index.html">Astropy v0.3.1</a>
+	 &raquo;
+      </li>
+      <li><a href="../time/index.html" accesskey="U">Time and Dates (<tt class="docutils literal"><span class="pre">astropy.time</span></tt>)</a> &raquo;</li>
+      
+      <li>Time</li> 
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="time">
+<h1>Time<a class="headerlink" href="#time" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="astropy.time.core.Time">
+<em class="property">class </em><tt class="descclassname">astropy.time.core.</tt><tt class="descname">Time</tt><big>(</big><em>val</em>, <em>val2=None</em>, <em>format=None</em>, <em>scale=None</em>, <em>precision=None</em>, <em>in_subfmt=None</em>, <em>out_subfmt=None</em>, <em>lat=0.0</em>, <em>lon=0.0</em>, <em>copy=False</em><big>)</big><a class="reference internal" href="../_modules/astropy/time/core.html#Time"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.3.x/astropy/time/core.py#L73" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.time.core.Time" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>Represent and manipulate times and dates for astronomy.</p>
+<p>A <a class="reference internal" href="#astropy.time.core.Time" title="astropy.time.core.Time"><tt class="xref py py-obj docutils literal"><span class="pre">Time</span></tt></a> object is initialized with one or more times in the <tt class="docutils literal"><span class="pre">val</span></tt>
+argument.  The input times in <tt class="docutils literal"><span class="pre">val</span></tt> must conform to the specified
+<tt class="docutils literal"><span class="pre">format</span></tt> and must correspond to the specified time <tt class="docutils literal"><span class="pre">scale</span></tt>.  The
+optional <tt class="docutils literal"><span class="pre">val2</span></tt> time input should be supplied only for numeric input
+formats (e.g. JD) where very high precision (better than 64-bit precision)
+is required.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>val</strong> : sequence, str, number, or <tt class="xref py py-obj docutils literal"><span class="pre">Time</span></tt> object</p>
+<blockquote>
+<div><p>Value(s) to initialize the time or times.</p>
+</div></blockquote>
+<p><strong>val2</strong> : sequence, str, or number; optional</p>
+<blockquote>
+<div><p>Value(s) to initialize the time or times.</p>
+</div></blockquote>
+<p><strong>format</strong> : str, optional</p>
+<blockquote>
+<div><p>Format of input value(s)</p>
+</div></blockquote>
+<p><strong>scale</strong> : str, optional</p>
+<blockquote>
+<div><p>Time scale of input value(s)</p>
+</div></blockquote>
+<p><strong>precision</strong> : int, optional</p>
+<blockquote>
+<div><p>Digits of precision in string representation of time</p>
+</div></blockquote>
+<p><strong>in_subfmt</strong> : str, optional</p>
+<blockquote>
+<div><p>Subformat for inputting string times</p>
+</div></blockquote>
+<p><strong>out_subfmt</strong> : str, optional</p>
+<blockquote>
+<div><p>Subformat for outputting string times</p>
+</div></blockquote>
+<p><strong>lat</strong> : float, optional</p>
+<blockquote>
+<div><p>Earth latitude of observer (decimal degrees)</p>
+</div></blockquote>
+<p><strong>lon</strong> : float, optional</p>
+<blockquote>
+<div><p>Earth longitude of observer (decimal degrees)</p>
+</div></blockquote>
+<p><strong>copy</strong> : bool, optional</p>
+<blockquote class="last">
+<div><p>Make a copy of the input values</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes Summary</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.time.core.Time.FORMATS" title="astropy.time.core.Time.FORMATS"><tt class="xref py py-obj docutils literal"><span class="pre">FORMATS</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#astropy.time.core.Time.SCALES" title="astropy.time.core.Time.SCALES"><tt class="xref py py-obj docutils literal"><span class="pre">SCALES</span></tt></a></td>
+<td>tuple() -&gt; empty tuple</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.time.core.Time.delta_tdb_tt" title="astropy.time.core.Time.delta_tdb_tt"><tt class="xref py py-obj docutils literal"><span class="pre">delta_tdb_tt</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#astropy.time.core.Time.delta_ut1_utc" title="astropy.time.core.Time.delta_ut1_utc"><tt class="xref py py-obj docutils literal"><span class="pre">delta_ut1_utc</span></tt></a></td>
+<td>Get ERFA DUT arg = UT1 - UTC.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.time.core.Time.format" title="astropy.time.core.Time.format"><tt class="xref py py-obj docutils literal"><span class="pre">format</span></tt></a></td>
+<td>Time format</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#astropy.time.core.Time.in_subfmt" title="astropy.time.core.Time.in_subfmt"><tt class="xref py py-obj docutils literal"><span class="pre">in_subfmt</span></tt></a></td>
+<td>Unix wildcard pattern to select subformats for parsing string input</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.time.core.Time.is_scalar" title="astropy.time.core.Time.is_scalar"><tt class="xref py py-obj docutils literal"><span class="pre">is_scalar</span></tt></a></td>
+<td><div class="deprecated">
+<p><span class="versionmodified">Deprecated since version 0.3.</span></p>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#astropy.time.core.Time.jd1" title="astropy.time.core.Time.jd1"><tt class="xref py py-obj docutils literal"><span class="pre">jd1</span></tt></a></td>
+<td>First of the two doubles that internally store time value(s) in JD</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.time.core.Time.jd2" title="astropy.time.core.Time.jd2"><tt class="xref py py-obj docutils literal"><span class="pre">jd2</span></tt></a></td>
+<td>Second of the two doubles that internally store time value(s) in JD</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#astropy.time.core.Time.out_subfmt" title="astropy.time.core.Time.out_subfmt"><tt class="xref py py-obj docutils literal"><span class="pre">out_subfmt</span></tt></a></td>
+<td>Unix wildcard pattern to select subformats for outputting times</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.time.core.Time.precision" title="astropy.time.core.Time.precision"><tt class="xref py py-obj docutils literal"><span class="pre">precision</span></tt></a></td>
+<td>Decimal precision when outputting seconds as floating point (int value between 0 and 9 inclusive).</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#astropy.time.core.Time.scale" title="astropy.time.core.Time.scale"><tt class="xref py py-obj docutils literal"><span class="pre">scale</span></tt></a></td>
+<td>Time scale</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.time.core.Time.val" title="astropy.time.core.Time.val"><tt class="xref py py-obj docutils literal"><span class="pre">val</span></tt></a></td>
+<td><div class="deprecated">
+<p><span class="versionmodified">Deprecated since version 0.3.</span></p>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#astropy.time.core.Time.vals" title="astropy.time.core.Time.vals"><tt class="xref py py-obj docutils literal"><span class="pre">vals</span></tt></a></td>
+<td><div class="deprecated">
+<p><span class="versionmodified">Deprecated since version 0.3.</span></p>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.time.core.Time.value" title="astropy.time.core.Time.value"><tt class="xref py py-obj docutils literal"><span class="pre">value</span></tt></a></td>
+<td>Time value(s) in current format</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods Summary</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.time.core.Time.copy" title="astropy.time.core.Time.copy"><tt class="xref py py-obj docutils literal"><span class="pre">copy</span></tt></a>([format])</td>
+<td>Return a fully independent copy the Time object, optionally changing the format.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#astropy.time.core.Time.get_delta_ut1_utc" title="astropy.time.core.Time.get_delta_ut1_utc"><tt class="xref py py-obj docutils literal"><span class="pre">get_delta_ut1_utc</span></tt></a>([iers_table,&nbsp;return_status])</td>
+<td>Find UT1 - UTC differences by interpolating in IERS Table.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.time.core.Time.now" title="astropy.time.core.Time.now"><tt class="xref py py-obj docutils literal"><span class="pre">now</span></tt></a>()</td>
+<td>Creates a new object corresponding to the instant in time this method is called.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#astropy.time.core.Time.replicate" title="astropy.time.core.Time.replicate"><tt class="xref py py-obj docutils literal"><span class="pre">replicate</span></tt></a>([format,&nbsp;copy])</td>
+<td>Return a replica of the Time object, optionally changing the format.</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes Documentation</p>
+<dl class="attribute">
+<dt id="astropy.time.core.Time.FORMATS">
+<tt class="descname">FORMATS</tt><em class="property"> = {u'mjd': &lt;class 'astropy.time.core.TimeMJD'&gt;, u'cxcsec': &lt;class 'astropy.time.core.TimeCxcSec'&gt;, u'jyear': &lt;class 'astropy.time.core.TimeJulianEpoch'&gt;, u'plot_date': &lt;class 'astropy.time.core.TimePlotDate'&gt;, u'astropy_time': &lt;class 'astropy.time.core.TimeAstropyTime'&gt;, u'byear': &lt;class 'astropy.time.core.TimeBesselianEpoch'&gt;, u'unix': &lt;class 'astropy.time.core.TimeUnix'&gt;, u'datetime': &lt;class 'astropy.time.core.TimeDatetime'&gt;, u'jd': &lt;class 'astropy.time.core.TimeJD'&gt;, u'byear_str': &lt;class 'astropy.time.core.TimeBesselianEpochString'&gt;, u'iso': &lt;class 'astropy.time.core.TimeISO'&gt;, u'isot': &lt;class 'astropy.time.core.TimeISOT'&gt;, u'jyear_str': &lt;class 'astropy.time.core.TimeJulianEpochString'&gt;, u'yday': &lt;class 'astropy.time.core.TimeYearDayTime'&gt;, u'gps': &lt;class 'astropy.time.core.TimeGPS'&gt;}</em><a class="headerlink" href="#astropy.time.core.Time.FORMATS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dict of time formats</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.time.core.Time.SCALES">
+<tt class="descname">SCALES</tt><em class="property"> = (u'tai', u'tcb', u'tcg', u'tdb', u'tt', u'ut1', u'utc')</em><a class="headerlink" href="#astropy.time.core.Time.SCALES" title="Permalink to this definition">¶</a></dt>
+<dd><p>List of time scales</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.time.core.Time.delta_tdb_tt">
+<tt class="descname">delta_tdb_tt</tt><a class="headerlink" href="#astropy.time.core.Time.delta_tdb_tt" title="Permalink to this definition">¶</a></dt>
+<dd><p>TDB - TT time scale offset</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.time.core.Time.delta_ut1_utc">
+<tt class="descname">delta_ut1_utc</tt><a class="headerlink" href="#astropy.time.core.Time.delta_ut1_utc" title="Permalink to this definition">¶</a></dt>
+<dd><p>UT1 - UTC time scale offset</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.time.core.Time.format">
+<tt class="descname">format</tt><a class="reference internal" href="../_modules/astropy/time/core.html#Time.format"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astropy.time.core.Time.format" title="Permalink to this definition">¶</a></dt>
+<dd><p>Time format</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.time.core.Time.in_subfmt">
+<tt class="descname">in_subfmt</tt><a class="reference internal" href="../_modules/astropy/time/core.html#Time.in_subfmt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astropy.time.core.Time.in_subfmt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Unix wildcard pattern to select subformats for parsing string input
+times</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.time.core.Time.is_scalar">
+<tt class="descname">is_scalar</tt><a class="headerlink" href="#astropy.time.core.Time.is_scalar" title="Permalink to this definition">¶</a></dt>
+<dd><div class="deprecated">
+<p><span class="versionmodified">Deprecated since version 0.3: </span>The is_scalar attribute is deprecated and may be removed in a future version.</p>
+</div>
+<p></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.time.core.Time.jd1">
+<tt class="descname">jd1</tt><a class="reference internal" href="../_modules/astropy/time/core.html#Time.jd1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astropy.time.core.Time.jd1" title="Permalink to this definition">¶</a></dt>
+<dd><p>First of the two doubles that internally store time value(s) in JD</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.time.core.Time.jd2">
+<tt class="descname">jd2</tt><a class="reference internal" href="../_modules/astropy/time/core.html#Time.jd2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astropy.time.core.Time.jd2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Second of the two doubles that internally store time value(s) in JD</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.time.core.Time.out_subfmt">
+<tt class="descname">out_subfmt</tt><a class="reference internal" href="../_modules/astropy/time/core.html#Time.out_subfmt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astropy.time.core.Time.out_subfmt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Unix wildcard pattern to select subformats for outputting times</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.time.core.Time.precision">
+<tt class="descname">precision</tt><a class="reference internal" href="../_modules/astropy/time/core.html#Time.precision"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astropy.time.core.Time.precision" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decimal precision when outputting seconds as floating point (int
+value between 0 and 9 inclusive).</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.time.core.Time.scale">
+<tt class="descname">scale</tt><a class="reference internal" href="../_modules/astropy/time/core.html#Time.scale"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astropy.time.core.Time.scale" title="Permalink to this definition">¶</a></dt>
+<dd><p>Time scale</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.time.core.Time.val">
+<tt class="descname">val</tt><a class="reference internal" href="../_modules/astropy/time/core.html#Time.val"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astropy.time.core.Time.val" title="Permalink to this definition">¶</a></dt>
+<dd><div class="deprecated">
+<p><span class="versionmodified">Deprecated since version 0.3: </span>Use value instead.</p>
+</div>
+<p></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.time.core.Time.vals">
+<tt class="descname">vals</tt><a class="reference internal" href="../_modules/astropy/time/core.html#Time.vals"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astropy.time.core.Time.vals" title="Permalink to this definition">¶</a></dt>
+<dd><div class="deprecated">
+<p><span class="versionmodified">Deprecated since version 0.3: </span>Use value instead.</p>
+</div>
+<p>Time values in current format as a numpy array</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.time.core.Time.value">
+<tt class="descname">value</tt><a class="reference internal" href="../_modules/astropy/time/core.html#Time.value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astropy.time.core.Time.value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Time value(s) in current format</p>
+</dd></dl>
+
+<p class="rubric">Methods Documentation</p>
+<dl class="method">
+<dt id="astropy.time.core.Time.copy">
+<tt class="descname">copy</tt><big>(</big><em>format=None</em><big>)</big><a class="reference internal" href="../_modules/astropy/time/core.html#Time.copy"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.3.x/astropy/time/core.py#L413" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.time.core.Time.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a fully independent copy the Time object, optionally changing
+the format.</p>
+<p>If <tt class="docutils literal"><span class="pre">format</span></tt> is supplied then the time format of the returned Time
+object will be set accordingly, otherwise it will be unchanged from the
+original.</p>
+<p>In this method a full copy of the internal time arrays will be made.
+The internal time arrays are normally not changeable by the user so in
+most cases the <tt class="docutils literal"><span class="pre">replicate()</span></tt> method should be used.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>format</strong> : str, optional</p>
+<blockquote>
+<div><p>Time format of the copy.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>tm: Time object</strong> :</p>
+<blockquote class="last">
+<div><p>Copy of this object</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.time.core.Time.get_delta_ut1_utc">
+<tt class="descname">get_delta_ut1_utc</tt><big>(</big><em>iers_table=None</em>, <em>return_status=False</em><big>)</big><a class="reference internal" href="../_modules/astropy/time/core.html#Time.get_delta_ut1_utc"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.3.x/astropy/time/core.py#L593" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.time.core.Time.get_delta_ut1_utc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find UT1 - UTC differences by interpolating in IERS Table.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>iers_table</strong> : <tt class="xref py py-obj docutils literal"><span class="pre">IERS</span></tt> table, optional</p>
+<blockquote>
+<div><p>Table containing UT1-UTC differences from IERS Bulletins A and/or B
+If None, use default version (see <tt class="xref py py-obj docutils literal"><span class="pre">iers</span></tt>)</p>
+</div></blockquote>
+<p><strong>return_status</strong> : bool</p>
+<blockquote>
+<div><p>Whether to return status values.  If <a class="reference external" href="http://docs.python.org/library/constants.html#False" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">False</span></tt></a> (default),
+iers raises <tt class="xref py py-obj docutils literal"><span class="pre">IndexError</span></tt> if any time is out of the range covered
+by the IERS table.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>ut1_utc: float or float array</strong> :</p>
+<blockquote>
+<div><p>UT1-UTC, interpolated in IERS Table</p>
+</div></blockquote>
+<p><strong>status: int or int array</strong> :</p>
+<blockquote class="last">
+<div><p>Status values (if <tt class="xref py py-obj docutils literal"><span class="pre">return_status`=`True</span></tt>)::
+<tt class="xref py py-obj docutils literal"><span class="pre">FROM_IERS_B</span></tt>
+<tt class="xref py py-obj docutils literal"><span class="pre">FROM_IERS_A</span></tt>
+<tt class="xref py py-obj docutils literal"><span class="pre">FROM_IERS_A_PREDICTION</span></tt>
+<tt class="xref py py-obj docutils literal"><span class="pre">TIME_BEFORE_IERS_RANGE</span></tt>
+<tt class="xref py py-obj docutils literal"><span class="pre">TIME_BEYOND_IERS_RANGE</span></tt></p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>In normal usage, UT1-UTC differences are calculated automatically
+on the first instance ut1 is needed.</p>
+<p class="rubric">Examples</p>
+<p>To check in code whether any times are before the IERS table range:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">astropy.utils.iers</span> <span class="kn">import</span> <span class="n">TIME_BEFORE_IERS_RANGE</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span> <span class="o">=</span> <span class="n">Time</span><span class="p">([</span><span class="s">&#39;1961-01-01&#39;</span><span class="p">,</span> <span class="s">&#39;2000-01-01&#39;</span><span class="p">],</span> <span class="n">scale</span><span class="o">=</span><span class="s">&#39;utc&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">delta</span><span class="p">,</span> <span class="n">status</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">get_delta_ut1_utc</span><span class="p">(</span><span class="n">return_status</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">status</span> <span class="o">==</span> <span class="n">TIME_BEFORE_IERS_RANGE</span>
+<span class="go">array([ True, False], dtype=bool)</span>
+</pre></div>
+</div>
+<p>To use an updated IERS A bulletin to calculate UT1-UTC
+(see also <tt class="xref py py-obj docutils literal"><span class="pre">iers</span></tt>):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">astropy.utils.iers</span> <span class="kn">import</span> <span class="n">IERS_A</span><span class="p">,</span> <span class="n">IERS_A_URL</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">astropy.utils.data</span> <span class="kn">import</span> <span class="n">download_file</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">iers_a_file</span> <span class="o">=</span> <span class="n">download_file</span><span class="p">(</span><span class="n">IERS_A_URL</span><span class="p">,</span>
+<span class="gp">... </span>                            <span class="n">cache</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>        
+<span class="gp">&gt;&gt;&gt; </span><span class="n">iers_a</span> <span class="o">=</span> <span class="n">IERS_A</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">iers_a_file</span><span class="p">)</span>              
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">delta_ut1_utc</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">get_delta_ut1_utc</span><span class="p">(</span><span class="n">iers_a</span><span class="p">)</span>  
+</pre></div>
+</div>
+<p>The delta_ut1_utc property will be used to calculate t.ut1;
+raises IndexError if any of the times is out of range.</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="astropy.time.core.Time.now">
+<em class="property">classmethod </em><tt class="descname">now</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/astropy/time/core.html#Time.now"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.3.x/astropy/time/core.py#L242" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.time.core.Time.now" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a new object corresponding to the instant in time this
+method is called.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">&#8220;Now&#8221; is determined using the <tt class="xref py py-obj docutils literal"><span class="pre">datetime.utcnow</span></tt> function, so
+its accuracy and precision is determined by that function.
+Generally that means it is set by the accuracy of your
+system clock.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>nowtime</strong> :</p>
+<blockquote class="last">
+<div><p>A new <a class="reference internal" href="#astropy.time.core.Time" title="astropy.time.core.Time"><tt class="xref py py-obj docutils literal"><span class="pre">Time</span></tt></a> object (or a subclass of <a class="reference internal" href="#astropy.time.core.Time" title="astropy.time.core.Time"><tt class="xref py py-obj docutils literal"><span class="pre">Time</span></tt></a> if this is called from
+such a subclass) at the current time.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.time.core.Time.replicate">
+<tt class="descname">replicate</tt><big>(</big><em>format=None</em>, <em>copy=False</em><big>)</big><a class="reference internal" href="../_modules/astropy/time/core.html#Time.replicate"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.3.x/astropy/time/core.py#L438" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.time.core.Time.replicate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a replica of the Time object, optionally changing the format.</p>
+<p>If <tt class="docutils literal"><span class="pre">format</span></tt> is supplied then the time format of the returned Time
+object will be set accordingly, otherwise it will be unchanged from the
+original.</p>
+<p>If <tt class="docutils literal"><span class="pre">copy</span></tt> is set to True then a full copy of the internal time arrays
+will be made.  By default the replica will use a reference to the
+original arrays when possible to save memory.  The internal time arrays
+are normally not changeable by the user so in most cases it should not
+be necessary to set <tt class="docutils literal"><span class="pre">copy</span></tt> to True.</p>
+<p>The convenience method copy() is available in which <tt class="docutils literal"><span class="pre">copy</span></tt> is True
+by default.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>format</strong> : str, optional</p>
+<blockquote>
+<div><p>Time format of the replica.</p>
+</div></blockquote>
+<p><strong>copy</strong> : bool, optional</p>
+<blockquote>
+<div><p>Return a true copy instead of using references where possible.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>tm: Time object</strong> :</p>
+<blockquote class="last">
+<div><p>Replica of this object</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"><h3>Page Contents</h3>
+<ul>
+<li><a class="reference internal" href="#">Time</a></li>
+</ul>
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+<footer class="footer">
+  <p class="pull-right">
+    <a href="http://github.com/astropy/astropy/tree/v0.3.x/docs/api/astropy.time.core.Time.rst">Edit This Page on Github</a> &nbsp;
+    <a href="../_sources/api/astropy.time.core.Time.txt"
+       rel="nofollow">Page Source</a> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright 2011-2013, The Astropy Developers.<br/>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2. &nbsp;
+    Last built 05 Mar 2014. <br/>
+  </p>
+</footer>
+  </body>
+</html>

@@ -1,0 +1,8 @@
+
+
+RangeError
+=====================================
+
+.. currentmodule:: astropy.coordinates.errors
+
+.. autoexception:: RangeError

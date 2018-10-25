@@ -1,0 +1,399 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+
+    <title>BaseReader &mdash; Astropy v0.2.1</title>
+<!-- RTD <head> -->
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/underscore.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/doctools.js"></script>
+
+<script type="text/javascript">
+  // This is included here for Javascript that doesn't have access to the templates.
+  var doc_version = "v0.2.1";
+  var doc_slug = "astropy";
+</script>
+
+<script type="text/javascript" src="//media.readthedocs.org/javascript/rtd.js"></script>
+<!-- end RTD <head> -->
+
+    
+    <link rel="stylesheet" href="../_static/bootstrap-astropy.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.2.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="shortcut icon" href="../_static/astropy_logo.ico"/>
+    <link rel="top" title="Astropy v0.2.1" href="../index.html" />
+    <link rel="up" title="ASCII Tables (astropy.io.ascii)" href="../io/ascii/index.html" />
+    <link rel="next" title="BaseSplitter" href="astropy.io.ascii.core.BaseSplitter.html" />
+    <link rel="prev" title="BaseOutputter" href="astropy.io.ascii.core.BaseOutputter.html" /> 
+  </head>
+  <body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../index.html"></a>
+  <ul>
+    <li><a class="homelink" title="AstroPy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../genindex.html">Index</a></li>
+    <li><a title="Python Module Index" href="../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li class="right">
+	<a href="astropy.io.ascii.core.BaseSplitter.html" title="BaseSplitter">
+	  next &raquo;
+	</a>
+      </li>
+      <li class="right">
+	<a href="astropy.io.ascii.core.BaseOutputter.html" title="BaseOutputter">
+	  &laquo; previous
+	</a>
+	 |
+      </li>
+      <li>
+	<a href="../index.html">Astropy v0.2.1</a>
+	 &raquo;
+      </li>
+      <li><a href="../io/ascii/index.html" accesskey="U">ASCII Tables (<tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">astropy.io.ascii</span></tt>)</a> &raquo;</li>
+      
+      <li>BaseReader</li> 
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="basereader">
+<h1>BaseReader<a class="headerlink" href="#basereader" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="astropy.io.ascii.core.BaseReader">
+<em class="property">class </em><tt class="descclassname">astropy.io.ascii.core.</tt><tt class="descname">BaseReader</tt><a class="reference internal" href="../_modules/astropy/io/ascii/core.html#BaseReader"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/io/ascii/core.py#L755" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.io.ascii.core.BaseReader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>Class providing methods to read and write an ASCII table using the specified
+header, data, inputter, and outputter instances.</p>
+<p>Typical usage is to instantiate a Reader() object and customize the
+<tt class="docutils literal"><span class="pre">header</span></tt>, <tt class="docutils literal"><span class="pre">data</span></tt>, <tt class="docutils literal"><span class="pre">inputter</span></tt>, and <tt class="docutils literal"><span class="pre">outputter</span></tt> attributes.  Each
+of these is an object of the corresponding class.</p>
+<p>There is one method <tt class="docutils literal"><span class="pre">inconsistent_handler</span></tt> that can be used to customize the
+behavior of <tt class="docutils literal"><span class="pre">read()</span></tt> in the event that a data row doesn&#8217;t match the header.
+The default behavior is to raise an InconsistentTableError.</p>
+<p class="rubric">Attributes Summary</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.io.ascii.core.BaseReader.comment_lines" title="astropy.io.ascii.core.BaseReader.comment_lines"><tt class="xref py py-obj docutils literal"><span class="pre">comment_lines</span></tt></a></td>
+<td>Return lines in the table that match header.comment regexp</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods Summary</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.io.ascii.core.BaseReader.inconsistent_handler" title="astropy.io.ascii.core.BaseReader.inconsistent_handler"><tt class="xref py py-obj docutils literal"><span class="pre">inconsistent_handler</span></tt></a>(str_vals,&nbsp;ncols)</td>
+<td>Adjust or skip data entries if a row is inconsistent with the header.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#astropy.io.ascii.core.BaseReader.read" title="astropy.io.ascii.core.BaseReader.read"><tt class="xref py py-obj docutils literal"><span class="pre">read</span></tt></a>(table)</td>
+<td>Read the <tt class="docutils literal"><span class="pre">table</span></tt> and return the results in a format determined by the <tt class="docutils literal"><span class="pre">outputter</span></tt> attribute.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.io.ascii.core.BaseReader.write" title="astropy.io.ascii.core.BaseReader.write"><tt class="xref py py-obj docutils literal"><span class="pre">write</span></tt></a>(table)</td>
+<td>Write <tt class="docutils literal"><span class="pre">table</span></tt> as list of strings.</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes Documentation</p>
+<dl class="attribute">
+<dt id="astropy.io.ascii.core.BaseReader.comment_lines">
+<tt class="descname">comment_lines</tt><a class="reference internal" href="../_modules/astropy/io/ascii/core.html#BaseReader.comment_lines"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astropy.io.ascii.core.BaseReader.comment_lines" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return lines in the table that match header.comment regexp</p>
+</dd></dl>
+
+<p class="rubric">Methods Documentation</p>
+<dl class="method">
+<dt id="astropy.io.ascii.core.BaseReader.inconsistent_handler">
+<tt class="descname">inconsistent_handler</tt><big>(</big><em>str_vals</em>, <em>ncols</em><big>)</big><a class="reference internal" href="../_modules/astropy/io/ascii/core.html#BaseReader.inconsistent_handler"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/io/ascii/core.py#L842" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.io.ascii.core.BaseReader.inconsistent_handler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adjust or skip data entries if a row is inconsistent with the header.</p>
+<p>The default implementation does no adjustment, and hence will always trigger
+an exception in read() any time the number of data entries does not match
+the header.</p>
+<p>Note that this will <em>not</em> be called if the row already matches the header.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>str_vals</strong> &#8211; A list of value strings from the current row of the table.</li>
+<li><strong>ncols</strong> &#8211; The expected number of entries from the table header.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">list of strings to be parsed into data entries in the output table. If
+the length of this list does not match <tt class="docutils literal"><span class="pre">ncols</span></tt>, an exception will be
+raised in read().  Can also be None, in which case the row will be
+skipped.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.io.ascii.core.BaseReader.read">
+<tt class="descname">read</tt><big>(</big><em>table</em><big>)</big><a class="reference internal" href="../_modules/astropy/io/ascii/core.html#BaseReader.read"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/io/ascii/core.py#L780" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.io.ascii.core.BaseReader.read" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read the <tt class="docutils literal"><span class="pre">table</span></tt> and return the results in a format determined by
+the <tt class="docutils literal"><span class="pre">outputter</span></tt> attribute.</p>
+<p>The <tt class="docutils literal"><span class="pre">table</span></tt> parameter is any string or object that can be processed
+by the instance <tt class="docutils literal"><span class="pre">inputter</span></tt>.  For the base Inputter class <tt class="docutils literal"><span class="pre">table</span></tt> can be
+one of:</p>
+<ul class="simple">
+<li>File name</li>
+<li>String (newline separated) with all header and data lines (must have at least 2 lines)</li>
+<li>List of strings</li>
+</ul>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>table</strong> &#8211; table input</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">output table</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.io.ascii.core.BaseReader.write">
+<tt class="descname">write</tt><big>(</big><em>table</em><big>)</big><a class="reference internal" href="../_modules/astropy/io/ascii/core.html#BaseReader.write"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/io/ascii/core.py#L874" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.io.ascii.core.BaseReader.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write <tt class="docutils literal"><span class="pre">table</span></tt> as list of strings.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>table</strong> &#8211; input table data (astropy.table.Table object)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">list of strings corresponding to ASCII table</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+
+
+<h3>Page Contents</h3>
+<ul>
+<li><a class="reference internal" href="#">BaseReader</a></li>
+</ul>
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+<footer class="footer">
+  <p class="pull-right">
+    <a href="../_sources/_generated/astropy.io.ascii.core.BaseReader.txt"
+       rel="nofollow">Page Source</a> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright 2011-2013, The Astropy Developers.<br/>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3+. &nbsp;
+    Last built 03 Apr 2013. <br/>
+  </p>
+</footer>
+ <!-- End original user content -->
+
+
+<br>
+<br>
+<br>
+
+
+<style type="text/css">
+  .rtd-badge {
+    position: fixed;
+    display: block;
+    bottom: 5px;
+    height: 40px;
+    text-indent: -9999em;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+  }
+  #version_menu {
+    position: fixed;
+    display: none;
+    bottom: 11px;
+    right: 166px;
+    list-style-type: none;
+    margin: 0;
+  }
+  .footer_popout:hover #version_menu {
+    display: block;
+  }
+  #version_menu li {
+    display: block;
+    float: right;
+  }
+  #version_menu li a {
+    display: block;
+    padding: 6px 10px 4px 10px;
+    margin: 7px 7px 0 0;
+    font-weight: bold;
+    font-size: 14px;
+    height: 20px;
+    line-height: 17px;
+    text-decoration: none;
+    color: #fff;
+    background: #8ca1af url(../images/gradient-light.png) bottom left repeat-x;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 1px #465158;
+    -moz-box-shadow: 0 1px 1px #465158;
+    -webkit-box-shadow: 0 1px 1px #465158;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+  }
+  #version_menu li a:hover {
+    text-decoration: none;
+    background-color: #697983;
+    box-shadow: 0 1px 0px #465158;
+    -moz-box-shadow: 0 1px 0px #465158;
+    -webkit-box-shadow: 0 1px 0px #465158;
+  }
+  .rtd-badge.rtd {
+    background: #3b4449 url(//media.readthedocs.org//images/badge-rtd.png) scroll 0px -46px no-repeat;
+    border: 1px solid #282E32;
+    width: 41px;
+    right: 5px;
+  }
+  .footer_popout:hover .rtd-badge.rtd {
+    background-position: top left;
+    width: 160px;
+  }
+  .rtd-badge.revsys { background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline-sponsored {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys-sm.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 205px;
+    right: 173px;
+  }
+
+</style>
+<div class="rtd_doc_footer">
+  <div class="footer_popout">
+    <a href="//readthedocs.org/projects/astropy/?fromdocs=astropy" class="rtd-badge rtd"> Brought to you by Read the Docs</a>
+    <ul id="version_menu">
+      
+        <li><a href="/en/latest/">latest</a></li>
+      
+        <li><a href="/en/add-mpl-to-rtd-pip-req/">add-mpl-to-rtd-pip-req</a></li>
+      
+        <li><a href="/en/v0.2.1/">v0.2.1</a></li>
+      
+        <li><a href="/en/v0.2/">v0.2</a></li>
+      
+        <li><a href="/en/v0.1/">v0.1</a></li>
+      
+    </ul>
+  </div>
+</div>
+<!-- RTD Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17997319-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+<!-- User Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-30968842-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+  </body>
+</html>

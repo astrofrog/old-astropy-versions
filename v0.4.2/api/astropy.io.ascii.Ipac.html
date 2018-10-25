@@ -1,0 +1,302 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Ipac &mdash; Astropy v0.4.2</title>
+    
+    <link rel="stylesheet" href="../_static/bootstrap-astropy.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="https://media.readthedocs.org/css/badge_only.css" type="text/css" />
+    <link rel="stylesheet" href="https://media.readthedocs.org/css/readthedocs-doc-embed.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.4.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/jquery/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/jquery/jquery-migrate-1.2.1.min.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/underscore.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/doctools.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/readthedocs-doc-embed.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="shortcut icon" href="../_static/astropy_logo.ico"/>
+    <link rel="top" title="Astropy v0.4.2" href="../index.html" />
+    <link rel="up" title="ASCII Tables (astropy.io.ascii)" href="../io/ascii/index.html" />
+    <link rel="next" title="Latex" href="astropy.io.ascii.Latex.html" />
+    <link rel="prev" title="IntType" href="astropy.io.ascii.IntType.html" />
+
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,600' rel='stylesheet' type='text/css'/>
+<script type="text/javascript" src="../_static/copybutton.js"></script>
+
+
+<!-- RTD Extra Head -->
+
+
+
+<!-- 
+Read the Docs is acting as the canonical URL for your project. 
+If you want to change it, more info is available in our docs:
+  http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="http://astropy.readthedocs.org/en/latest/api/astropy.io.ascii.Ipac.html" />
+
+<script type="text/javascript">
+  // This is included here because other places don't have access to the pagename variable.
+  var READTHEDOCS_DATA = {
+    project: "astropy",
+    version: "v0.4.2",
+    language: "en",
+    page: "api/astropy.io.ascii.Ipac",
+    builder: "sphinx",
+    theme: "bootstrap-astropy",
+    docroot: "/docs/",
+    source_suffix: ".rst",
+    api_host: "https://readthedocs.org/",
+    commit: "542718512637738441b4315bc8f1a98ab8499ddd"
+  }
+  // Old variables
+  var doc_version = "v0.4.2";
+  var doc_slug = "astropy";
+  var page_name = "api/astropy.io.ascii.Ipac";
+  var html_theme = "bootstrap-astropy";
+</script>
+<!-- RTD Analytics Code -->
+<!-- Included in the header because you don't have a footer block. -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17997319-1']);
+  _gaq.push(['_trackPageview']);
+
+  // User Analytics Code
+  _gaq.push(['user._setAccount', 'UA-30968842-1']);
+  _gaq.push(['user._trackPageview']);
+  // End User Analytics Code
+
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+<!-- end RTD Analytics Code -->
+<!-- end RTD <extrahead> -->
+
+  </head>
+  <body role="document">
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../index.html"><span id="logotext1">astro</span><span id="logotext2">py</span><span id="logotext3">:docs</span></a>
+  <ul>
+    <li><a class="homelink" title="Astropy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../genindex.html">Index</a></li>
+    <li><a title="Module Index" href="../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li class="right">
+	<a href="astropy.io.ascii.Latex.html" title="Latex">
+	  next &raquo;
+	</a>
+      </li>
+      <li class="right">
+	<a href="astropy.io.ascii.IntType.html" title="IntType">
+	  &laquo; previous
+	</a>
+	 |
+      </li>
+      <li>
+	<a href="../index.html">Astropy v0.4.2</a>
+	 &raquo;
+      </li>
+      <li><a href="../io/ascii/index.html" accesskey="U">ASCII Tables (<code class="docutils literal"><span class="pre">astropy.io.ascii</span></code>)</a> &raquo;</li>
+      
+      <li>Ipac</li> 
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="ipac">
+<h1>Ipac<a class="headerlink" href="#ipac" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="astropy.io.ascii.Ipac">
+<em class="property">class </em><code class="descclassname">astropy.io.ascii.</code><code class="descname">Ipac</code><span class="sig-paren">(</span><em>definition='ignore'</em>, <em>DBMS=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/astropy/io/ascii/ipac.html#Ipac"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.4.x/astropy/io/ascii/ipac.py#L42" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.io.ascii.Ipac" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="astropy.io.ascii.FixedWidth.html#astropy.io.ascii.FixedWidth" title="astropy.io.ascii.fixedwidth.FixedWidth"><code class="docutils literal"><span class="pre">astropy.io.ascii.FixedWidth</span></code></a></p>
+<p>Read or write an IPAC format table.  See
+<a class="reference external" href="http://irsa.ipac.caltech.edu/applications/DDGEN/Doc/ipac_tbl.html">http://irsa.ipac.caltech.edu/applications/DDGEN/Doc/ipac_tbl.html</a>:</p>
+<div class="highlight-python"><div class="highlight"><pre>\name=value
+\ Comment
+|  column1 |   column2 | column3 | column4  |    column5    |
+|  double  |   double  |   int   |   double |     char      |
+|  unit    |   unit    |   unit  |    unit  |     unit      |
+|  null    |   null    |   null  |    null  |     null      |
+ 2.0978     29.09056    73765     2.06000    B8IVpMnHg
+</pre></div>
+</div>
+<p>Or:</p>
+<div class="highlight-python"><div class="highlight"><pre>|-----ra---|----dec---|---sao---|------v---|----sptype--------|
+  2.09708   29.09056     73765   2.06000    B8IVpMnHg
+</pre></div>
+</div>
+<p>The comments and keywords defined in the header are available via the output
+table <code class="docutils literal"><span class="pre">meta</span></code> attribute:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">astropy.io</span> <span class="kn">import</span> <span class="n">ascii</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ascii</span><span class="o">.</span><span class="n">__path__</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s">&#39;tests/t/ipac.dat&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">ascii</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="s">&#39;comments&#39;</span><span class="p">])</span>
+<span class="go">[&#39;This is an example of a valid comment&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">keyword</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="s">&#39;keywords&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="k">print</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">keyword</span><span class="p">[</span><span class="s">&#39;value&#39;</span><span class="p">])</span>
+<span class="gp">...</span>
+<span class="go">intval 1</span>
+<span class="go">floatval 2300.0</span>
+<span class="go">date Wed Sp 20 09:48:36 1995</span>
+<span class="go">key_continue IPAC keywords can continue across lines</span>
+</pre></div>
+</div>
+<p>Note that there are different conventions for characters occuring below the
+position of the <code class="docutils literal"><span class="pre">|</span></code> symbol in IPAC tables. By default, any character
+below a <code class="docutils literal"><span class="pre">|</span></code> will be ignored (since this is the current standard),
+but if you need to read files that assume characters below the <code class="docutils literal"><span class="pre">|</span></code>
+symbols belong to the column before or after the <code class="docutils literal"><span class="pre">|</span></code>, you can specify
+<code class="docutils literal"><span class="pre">definition='left'</span></code> or <code class="docutils literal"><span class="pre">definition='right'</span></code> respectively when reading
+the table (the default is <code class="docutils literal"><span class="pre">definition='ignore'</span></code>). The following examples
+demonstrate the different conventions:</p>
+<ul>
+<li><p class="first"><code class="docutils literal"><span class="pre">definition='ignore'</span></code>:</p>
+<div class="highlight-python"><div class="highlight"><pre>|   ra  |  dec  |
+| float | float |
+  1.2345  6.7890
+</pre></div>
+</div>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">definition='left'</span></code>:</p>
+<div class="highlight-python"><div class="highlight"><pre>|   ra  |  dec  |
+| float | float |
+   1.2345  6.7890
+</pre></div>
+</div>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">definition='right'</span></code>:</p>
+<div class="highlight-python"><div class="highlight"><pre>|   ra  |  dec  |
+| float | float |
+1.2345  6.7890
+</pre></div>
+</div>
+</li>
+</ul>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>definition</strong> : str, optional</p>
+<blockquote>
+<div><p>Specify the convention for characters in the data table that occur
+directly below the pipe (<code class="docutils literal"><span class="pre">|</span></code>) symbol in the header column definition:</p>
+<blockquote>
+<div><ul class="simple">
+<li>&#8216;ignore&#8217; - Any character beneath a pipe symbol is ignored (default)</li>
+<li>&#8216;right&#8217; - Character is associated with the column to the right</li>
+<li>&#8216;left&#8217; - Character is associated with the column to the left</li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+<p><strong>DBMS</strong> : bool, optional</p>
+<blockquote class="last">
+<div><p>If true, this varifies that written tables adhere (semantically)
+to the <a class="reference external" href="http://irsa.ipac.caltech.edu/applications/DDGEN/Doc/DBMSrestriction.html">IPAC/DBMS</a>
+definiton of IPAC tables. If &#8216;False&#8217; it only checks for the (less strict)
+<a class="reference external" href="http://irsa.ipac.caltech.edu/applications/DDGEN/Doc/ipac_tbl.html">IPAC</a>
+definition.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods Summary</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+</tbody>
+</table>
+<p class="rubric">Methods Documentation</p>
+<dl class="method">
+<dt id="astropy.io.ascii.Ipac.write">
+<code class="descname">write</code><span class="sig-paren">(</span><em>table</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/astropy/io/ascii/ipac.html#Ipac.write"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.4.x/astropy/io/ascii/ipac.py#L136" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.io.ascii.Ipac.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write <code class="docutils literal"><span class="pre">table</span></code> as list of strings.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>table</strong> &#8211; input table data (astropy.table.Table object)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">list of strings corresponding to ASCII table</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Page Contents</h3>
+<ul>
+<li><a class="reference internal" href="#">Ipac</a></li>
+</ul>
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+<footer class="footer">
+  <p class="pull-right">
+    <a href="http://github.com/astropy/astropy/tree/v0.4.x/docs/api/astropy.io.ascii.Ipac.rst">Edit This Page on Github</a> &nbsp;
+    <a href="../_sources/api/astropy.io.ascii.Ipac.txt"
+       rel="nofollow">Page Source</a> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright 2011-2014, The Astropy Developers.<br/>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3.1. &nbsp;
+    Last built 14 Aug 2015. <br/>
+  </p>
+</footer>
+  </body>
+</html>

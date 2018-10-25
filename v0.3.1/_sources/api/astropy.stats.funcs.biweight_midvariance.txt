@@ -1,0 +1,8 @@
+
+
+biweight_midvariance
+========================================
+
+.. currentmodule:: astropy.stats.funcs
+
+.. autofunction:: biweight_midvariance

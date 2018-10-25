@@ -1,0 +1,8 @@
+
+
+IncompatibleUncertaintiesException
+===============================================================
+
+.. currentmodule:: astropy.nddata.nduncertainty
+
+.. autoexception:: IncompatibleUncertaintiesException

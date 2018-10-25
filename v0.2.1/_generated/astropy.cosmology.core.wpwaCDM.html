@@ -1,0 +1,417 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+
+    <title>wpwaCDM &mdash; Astropy v0.2.1</title>
+<!-- RTD <head> -->
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/underscore.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/doctools.js"></script>
+
+<script type="text/javascript">
+  // This is included here for Javascript that doesn't have access to the templates.
+  var doc_version = "v0.2.1";
+  var doc_slug = "astropy";
+</script>
+
+<script type="text/javascript" src="//media.readthedocs.org/javascript/rtd.js"></script>
+<!-- end RTD <head> -->
+
+    
+    <link rel="stylesheet" href="../_static/bootstrap-astropy.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.2.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="shortcut icon" href="../_static/astropy_logo.ico"/>
+    <link rel="top" title="Astropy v0.2.1" href="../index.html" />
+    <link rel="up" title="Cosmological Calculations (astropy.cosmology)" href="../cosmology/index.html" />
+    <link rel="next" title="FITS File handling (astropy.io.fits)" href="../io/fits/index.html" />
+    <link rel="prev" title="wCDM" href="astropy.cosmology.core.wCDM.html" /> 
+  </head>
+  <body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../index.html"></a>
+  <ul>
+    <li><a class="homelink" title="AstroPy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../genindex.html">Index</a></li>
+    <li><a title="Python Module Index" href="../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li class="right">
+	<a href="../io/fits/index.html" title="FITS File handling (astropy.io.fits)">
+	  next &raquo;
+	</a>
+      </li>
+      <li class="right">
+	<a href="astropy.cosmology.core.wCDM.html" title="wCDM">
+	  &laquo; previous
+	</a>
+	 |
+      </li>
+      <li>
+	<a href="../index.html">Astropy v0.2.1</a>
+	 &raquo;
+      </li>
+      <li><a href="../cosmology/index.html" accesskey="U">Cosmological Calculations (<tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">astropy.cosmology</span></tt>)</a> &raquo;</li>
+      
+      <li>wpwaCDM</li> 
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="wpwacdm">
+<h1>wpwaCDM<a class="headerlink" href="#wpwacdm" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="astropy.cosmology.core.wpwaCDM">
+<em class="property">class </em><tt class="descclassname">astropy.cosmology.core.</tt><tt class="descname">wpwaCDM</tt><big>(</big><em>H0</em>, <em>Om0</em>, <em>Ode0</em>, <em>wp=-1.0</em>, <em>wa=0.0</em>, <em>zp=0</em>, <em>Tcmb0=2.725</em>, <em>Neff=3.04</em>, <em>name='wpwaCDM'</em><big>)</big><a class="reference internal" href="../_modules/astropy/cosmology/core.html#wpwaCDM"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/cosmology/core.py#L1667" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.cosmology.core.wpwaCDM" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="astropy.cosmology.core.FLRW.html#astropy.cosmology.core.FLRW" title="astropy.cosmology.core.FLRW"><tt class="xref py py-class docutils literal"><span class="pre">astropy.cosmology.core.FLRW</span></tt></a></p>
+<p>FLRW cosmology with a CPL dark energy equation of state, a pivot
+redshift, and curvature.</p>
+<p>The equation for the dark energy equation of state uses the
+CPL form as described in Chevallier &amp; Polarski Int. J. Mod. Phys.
+D10, 213 (2001) and Linder PRL 90, 91301 (2003), but modified
+to have a pivot redshift as in the findings of the Dark Energy
+Task Force (Albrecht et al. arXiv:0901.0721 (2009)):
+<img class="math" src="../_images/math/15144f64ea831fa0568cea1da15cd14f0ccd4ea3.png" alt="w(a) = w_p + w_a (a_p - a) = w_p + w_a( 1/(1+zp) - 1/(1+z) )"/>.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">astro.cosmology</span> <span class="kn">import</span> <span class="n">wpwaCDM</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cosmo</span> <span class="o">=</span> <span class="n">wpwaCDM</span><span class="p">(</span><span class="n">H0</span><span class="o">=</span><span class="mi">70</span><span class="p">,</span><span class="n">Om0</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span><span class="n">Ode0</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span><span class="n">wp</span><span class="o">=-</span><span class="mf">0.9</span><span class="p">,</span><span class="n">wa</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span><span class="n">zp</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The comoving distance in Mpc at redshift z:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">dc</span> <span class="o">=</span> <span class="n">cosmo</span><span class="o">.</span><span class="n">comoving_distance</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="rubric">Attributes Summary</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.cosmology.core.wpwaCDM.wa" title="astropy.cosmology.core.wpwaCDM.wa"><tt class="xref py py-obj docutils literal"><span class="pre">wa</span></tt></a></td>
+<td>Negative derivative of dark energy equation of state w.r.t.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#astropy.cosmology.core.wpwaCDM.wp" title="astropy.cosmology.core.wpwaCDM.wp"><tt class="xref py py-obj docutils literal"><span class="pre">wp</span></tt></a></td>
+<td>Dark energy equation of state at the pivot redshift zp</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.cosmology.core.wpwaCDM.zp" title="astropy.cosmology.core.wpwaCDM.zp"><tt class="xref py py-obj docutils literal"><span class="pre">zp</span></tt></a></td>
+<td>The pivot redshift, where w(z) = wp</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods Summary</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.cosmology.core.wpwaCDM.de_density_scale" title="astropy.cosmology.core.wpwaCDM.de_density_scale"><tt class="xref py py-obj docutils literal"><span class="pre">de_density_scale</span></tt></a>(z)</td>
+<td>Evaluates the redshift dependence of the dark energy density.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#astropy.cosmology.core.wpwaCDM.w" title="astropy.cosmology.core.wpwaCDM.w"><tt class="xref py py-obj docutils literal"><span class="pre">w</span></tt></a>(z)</td>
+<td>Returns dark energy equation of state at redshift <tt class="xref py py-obj docutils literal"><span class="pre">z</span></tt>.</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes Documentation</p>
+<dl class="attribute">
+<dt id="astropy.cosmology.core.wpwaCDM.wa">
+<tt class="descname">wa</tt><a class="reference internal" href="../_modules/astropy/cosmology/core.html#wpwaCDM.wa"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astropy.cosmology.core.wpwaCDM.wa" title="Permalink to this definition">¶</a></dt>
+<dd><p>Negative derivative of dark energy equation of state w.r.t. a</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.cosmology.core.wpwaCDM.wp">
+<tt class="descname">wp</tt><a class="reference internal" href="../_modules/astropy/cosmology/core.html#wpwaCDM.wp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astropy.cosmology.core.wpwaCDM.wp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dark energy equation of state at the pivot redshift zp</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.cosmology.core.wpwaCDM.zp">
+<tt class="descname">zp</tt><a class="reference internal" href="../_modules/astropy/cosmology/core.html#wpwaCDM.zp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astropy.cosmology.core.wpwaCDM.zp" title="Permalink to this definition">¶</a></dt>
+<dd><p>The pivot redshift, where w(z) = wp</p>
+</dd></dl>
+
+<p class="rubric">Methods Documentation</p>
+<dl class="method">
+<dt id="astropy.cosmology.core.wpwaCDM.de_density_scale">
+<tt class="descname">de_density_scale</tt><big>(</big><em>z</em><big>)</big><a class="reference internal" href="../_modules/astropy/cosmology/core.html#wpwaCDM.de_density_scale"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/cosmology/core.py#L1781" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.cosmology.core.wpwaCDM.de_density_scale" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluates the redshift dependence of the dark energy density.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>z</strong> : array_like</p>
+<blockquote>
+<div><p>Input redshifts.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>I</strong> : ndarray, or float if input scalar</p>
+<blockquote class="last">
+<div><p>The scaling of the energy density of dark energy with redshift.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>The scaling factor, I, is defined by <img class="math" src="../_images/math/e7f54c5173f876b39db84034f177036344cbf1b0.png" alt="\rho(z) = \rho_0 I"/>,
+and in this case is given by</p>
+<div class="math">
+<p><img src="../_images/math/2093d616908e577fbc9066db21be006e1423253e.png" alt="a_p = \frac{1}{1 + z_p}
+
+I = \left(1 + z\right)^{3 \left(1 + w_p + a_p w_a\right)}
+\exp \left(-3 w_a \frac{z}{1+z}\right)"/></p>
+</div></dd></dl>
+
+<dl class="method">
+<dt id="astropy.cosmology.core.wpwaCDM.w">
+<tt class="descname">w</tt><big>(</big><em>z</em><big>)</big><a class="reference internal" href="../_modules/astropy/cosmology/core.html#wpwaCDM.w"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/cosmology/core.py#L1752" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.cosmology.core.wpwaCDM.w" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns dark energy equation of state at redshift <tt class="xref py py-obj docutils literal"><span class="pre">z</span></tt>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>z</strong> : array_like</p>
+<blockquote>
+<div><p>Input redshifts.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>w</strong> : ndarray, or float if input scalar</p>
+<blockquote class="last">
+<div><p>The dark energy equation of state</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>The dark energy equation of state is defined as
+<img class="math" src="../_images/math/802268ceb41e6461941b1059d6b0f2ce7f00d50a.png" alt="w(z) = P(z)/\rho(z)"/>, where <img class="math" src="../_images/math/9e048a9db04ffc89eec3e0d78777919f12df3aeb.png" alt="P(z)"/> is the
+pressure at redshift z and <img class="math" src="../_images/math/1138adac16ef720028e38d921f11b27a8f430ab7.png" alt="\rho(z)"/> is the density
+at redshift z, both in units where c=1.  Here this is
+<img class="math" src="../_images/math/cc7338ce5a145e2e5bb81ed9165a274a919c7ed9.png" alt="w(z) = w_p + w_a (a_p - a)"/> where <img class="math" src="../_images/math/5fc75351d29336fc3bf61ff62b24c7c6d46dd112.png" alt="a = 1/1+z"/>
+and <img class="math" src="../_images/math/af3359f3f020cdc95da52608de430a18b4477a46.png" alt="a_p = 1 / 1 + z_p"/>.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+
+
+<h3>Page Contents</h3>
+<ul>
+<li><a class="reference internal" href="#">wpwaCDM</a></li>
+</ul>
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+<footer class="footer">
+  <p class="pull-right">
+    <a href="../_sources/_generated/astropy.cosmology.core.wpwaCDM.txt"
+       rel="nofollow">Page Source</a> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright 2011-2013, The Astropy Developers.<br/>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3+. &nbsp;
+    Last built 03 Apr 2013. <br/>
+  </p>
+</footer>
+ <!-- End original user content -->
+
+
+<br>
+<br>
+<br>
+
+
+<style type="text/css">
+  .rtd-badge {
+    position: fixed;
+    display: block;
+    bottom: 5px;
+    height: 40px;
+    text-indent: -9999em;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+  }
+  #version_menu {
+    position: fixed;
+    display: none;
+    bottom: 11px;
+    right: 166px;
+    list-style-type: none;
+    margin: 0;
+  }
+  .footer_popout:hover #version_menu {
+    display: block;
+  }
+  #version_menu li {
+    display: block;
+    float: right;
+  }
+  #version_menu li a {
+    display: block;
+    padding: 6px 10px 4px 10px;
+    margin: 7px 7px 0 0;
+    font-weight: bold;
+    font-size: 14px;
+    height: 20px;
+    line-height: 17px;
+    text-decoration: none;
+    color: #fff;
+    background: #8ca1af url(../images/gradient-light.png) bottom left repeat-x;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 1px #465158;
+    -moz-box-shadow: 0 1px 1px #465158;
+    -webkit-box-shadow: 0 1px 1px #465158;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+  }
+  #version_menu li a:hover {
+    text-decoration: none;
+    background-color: #697983;
+    box-shadow: 0 1px 0px #465158;
+    -moz-box-shadow: 0 1px 0px #465158;
+    -webkit-box-shadow: 0 1px 0px #465158;
+  }
+  .rtd-badge.rtd {
+    background: #3b4449 url(//media.readthedocs.org//images/badge-rtd.png) scroll 0px -46px no-repeat;
+    border: 1px solid #282E32;
+    width: 41px;
+    right: 5px;
+  }
+  .footer_popout:hover .rtd-badge.rtd {
+    background-position: top left;
+    width: 160px;
+  }
+  .rtd-badge.revsys { background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline-sponsored {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys-sm.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 205px;
+    right: 173px;
+  }
+
+</style>
+<div class="rtd_doc_footer">
+  <div class="footer_popout">
+    <a href="//readthedocs.org/projects/astropy/?fromdocs=astropy" class="rtd-badge rtd"> Brought to you by Read the Docs</a>
+    <ul id="version_menu">
+      
+        <li><a href="/en/latest/">latest</a></li>
+      
+        <li><a href="/en/add-mpl-to-rtd-pip-req/">add-mpl-to-rtd-pip-req</a></li>
+      
+        <li><a href="/en/v0.2.1/">v0.2.1</a></li>
+      
+        <li><a href="/en/v0.2/">v0.2</a></li>
+      
+        <li><a href="/en/v0.1/">v0.1</a></li>
+      
+    </ul>
+  </div>
+</div>
+<!-- RTD Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17997319-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+<!-- User Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-30968842-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+  </body>
+</html>

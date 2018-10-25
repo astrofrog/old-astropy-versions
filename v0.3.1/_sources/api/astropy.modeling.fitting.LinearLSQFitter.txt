@@ -1,0 +1,44 @@
+
+
+LinearLSQFitter
+========================================
+
+.. currentmodule:: astropy.modeling.fitting
+
+.. autoclass:: LinearLSQFitter
+   :show-inheritance:
+
+   
+     
+   
+
+   
+   
+
+   .. rubric:: Attributes Summary
+
+   .. autosummary::
+   
+      ~LinearLSQFitter.supported_constraints
+
+   
+   
+
+   
+   
+   
+
+   
+   
+
+   .. rubric:: Attributes Documentation
+
+   
+   .. autoattribute:: supported_constraints
+
+   
+   
+
+   
+   
+   

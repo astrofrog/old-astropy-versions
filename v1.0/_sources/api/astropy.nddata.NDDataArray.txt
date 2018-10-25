@@ -1,0 +1,46 @@
+
+
+NDDataArray
+==========================
+
+.. currentmodule:: astropy.nddata
+
+.. autoclass:: NDDataArray
+   :show-inheritance:
+
+   
+     
+   
+
+   
+   
+
+   .. rubric:: Attributes Summary
+
+   .. autosummary::
+   
+      ~NDDataArray.mask
+      ~NDDataArray.uncertainty
+
+   
+   
+
+   
+   
+   
+
+   
+   
+
+   .. rubric:: Attributes Documentation
+
+   
+   .. autoattribute:: mask
+   .. autoattribute:: uncertainty
+
+   
+   
+
+   
+   
+   

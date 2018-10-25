@@ -1,0 +1,67 @@
+
+
+Pix2Sky_AZP
+========================================
+
+.. currentmodule:: astropy.modeling.projections
+
+.. autoclass:: Pix2Sky_AZP
+   :show-inheritance:
+
+   
+     
+   
+
+   
+   
+
+   .. rubric:: Attributes Summary
+
+   .. autosummary::
+   
+      ~Pix2Sky_AZP.gamma
+      ~Pix2Sky_AZP.mu
+      ~Pix2Sky_AZP.param_names
+
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+   
+      ~Pix2Sky_AZP.__call__
+      ~Pix2Sky_AZP.check_mu
+      ~Pix2Sky_AZP.inverse
+
+   
+   
+
+   
+   
+
+   .. rubric:: Attributes Documentation
+
+   
+   .. autoattribute:: gamma
+   .. autoattribute:: mu
+   .. autoattribute:: param_names
+
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Documentation
+
+   
+   .. automethod:: __call__
+   .. automethod:: check_mu
+   .. automethod:: inverse
+
+   
+   

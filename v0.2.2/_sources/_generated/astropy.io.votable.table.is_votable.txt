@@ -1,0 +1,10 @@
+
+.. include:: ../io/votable/references.txt
+
+
+is_votable
+===================================
+
+.. currentmodule:: astropy.io.votable.table
+
+.. autofunction:: is_votable

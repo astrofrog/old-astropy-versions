@@ -1,0 +1,412 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+
+    <title>Unit formats &mdash; Astropy v0.2.1</title>
+<!-- RTD <head> -->
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/underscore.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/doctools.js"></script>
+
+<script type="text/javascript">
+  // This is included here for Javascript that doesn't have access to the templates.
+  var doc_version = "v0.2.1";
+  var doc_slug = "astropy";
+</script>
+
+<script type="text/javascript" src="//media.readthedocs.org/javascript/rtd.js"></script>
+<!-- end RTD <head> -->
+
+    
+    <link rel="stylesheet" href="../_static/bootstrap-astropy.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.2.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="shortcut icon" href="../_static/astropy_logo.ico"/>
+    <link rel="top" title="Astropy v0.2.1" href="../index.html" />
+    <link rel="up" title="Units (astropy.units)" href="index.html" />
+    <link rel="next" title="Equivalencies" href="equivalencies.html" />
+    <link rel="prev" title="Unit Conversion" href="conversion.html" /> 
+  </head>
+  <body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../index.html"></a>
+  <ul>
+    <li><a class="homelink" title="AstroPy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../genindex.html">Index</a></li>
+    <li><a title="Python Module Index" href="../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li class="right">
+	<a href="equivalencies.html" title="Equivalencies">
+	  next &raquo;
+	</a>
+      </li>
+      <li class="right">
+	<a href="conversion.html" title="Unit Conversion">
+	  &laquo; previous
+	</a>
+	 |
+      </li>
+      <li>
+	<a href="../index.html">Astropy v0.2.1</a>
+	 &raquo;
+      </li>
+      <li><a href="index.html" accesskey="U">Units (<tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">astropy.units</span></tt>)</a> &raquo;</li>
+      
+      <li>Unit formats</li> 
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="unit-formats">
+<h1>Unit formats<a class="headerlink" href="#unit-formats" title="Permalink to this headline">¶</a></h1>
+<p>Units can be created from strings using the <a class="reference internal" href="../_generated/astropy.units.core.Unit.html#astropy.units.core.Unit" title="astropy.units.core.Unit"><tt class="xref py py-obj docutils literal"><span class="pre">Unit</span></tt></a>
+class:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">astropy</span> <span class="kn">import</span> <span class="n">units</span> <span class="k">as</span> <span class="n">u</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="o">.</span><span class="n">Unit</span><span class="p">(</span><span class="s">&quot;m&quot;</span><span class="p">)</span>
+<span class="go">Unit(&quot;m&quot;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="o">.</span><span class="n">Unit</span><span class="p">(</span><span class="s">&quot;erg / (s cm2)&quot;</span><span class="p">)</span>
+<span class="go">Unit(&quot;erg / (s cm2)&quot;)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Creating units from strings requires the use of a specialized
+parser for the unit language, which results in a performance
+penalty if units are created using strings.  Thus, it is much
+faster to use unit objects directly (e.g., <tt class="docutils literal"><span class="pre">unit</span> <span class="pre">=</span> <span class="pre">u.degree</span> <span class="pre">/</span>
+<span class="pre">u.minute</span></tt>) instead of via string parsing (<tt class="docutils literal"><span class="pre">unit</span> <span class="pre">=</span>
+<span class="pre">u.Unit('deg/min')</span></tt>).</p>
+</div>
+<p>Units can be converted to strings using the
+<a class="reference internal" href="../_generated/astropy.units.core.UnitBase.html#astropy.units.core.UnitBase.to_string" title="astropy.units.core.UnitBase.to_string"><tt class="xref py py-obj docutils literal"><span class="pre">to_string</span></tt></a> method:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">fluxunit</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">erg</span> <span class="o">/</span> <span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">cm</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">s</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fluxunit</span><span class="o">.</span><span class="n">to_string</span><span class="p">()</span>
+<span class="go">u&#39;erg / (cm2 s)&#39;</span>
+</pre></div>
+</div>
+<p>By default, the string format used is referred to as the &#8220;generic&#8221;
+format, which is based on syntax of the FITS standard&#8217;s format for
+representing units, but supports all of the units defined within the
+<tt class="xref py py-obj docutils literal"><span class="pre">astropy.units</span></tt> framework, including user-defined units.  The
+<a class="reference internal" href="../_generated/astropy.units.core.Unit.html#astropy.units.core.Unit" title="astropy.units.core.Unit"><tt class="xref py py-obj docutils literal"><span class="pre">Unit</span></tt></a> and
+<a class="reference internal" href="../_generated/astropy.units.core.UnitBase.html#astropy.units.core.UnitBase.to_string" title="astropy.units.core.UnitBase.to_string"><tt class="xref py py-obj docutils literal"><span class="pre">to_string</span></tt></a> functions also take an
+optional <a class="reference external" href="http://docs.python.org/library/functions.html#format" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">format</span></tt></a> parameter to select a different format.</p>
+<div class="section" id="built-in-formats">
+<h2>Built-in formats<a class="headerlink" href="#built-in-formats" title="Permalink to this headline">¶</a></h2>
+<p><tt class="xref py py-obj docutils literal"><span class="pre">astropy.units</span></tt> includes support for parsing and writing the following
+formats:</p>
+<blockquote>
+<div><ul class="simple">
+<li><tt class="docutils literal"><span class="pre">&quot;fits&quot;</span></tt>: This is the format defined in the Units section of the
+<a class="reference external" href="http://fits.gsfc.nasa.gov/fits_standard.html">FITS Standard</a>.
+Unlike the &#8220;generic&#8221; string format, this will only accept or
+generate units defined in the FITS standard.</li>
+<li><tt class="docutils literal"><span class="pre">&quot;vounit&quot;</span></tt>: The <a class="reference external" href="http://www.ivoa.net/Documents/VOUnits/">proposed IVOA standard</a> for representing units
+in the VO.  Again, based on the FITS syntax, but the collection of
+supported units is different.</li>
+<li><tt class="docutils literal"><span class="pre">&quot;cds&quot;</span></tt>: <a class="reference external" href="http://cds.u-strasbg.fr/doc/catstd-3.2.htx">Standards for astronomical catalogues from Centre de
+Données astronomiques de Strasbourg</a>: This is the
+standard used, for example, by VOTable versions 1.2 and earlier.</li>
+</ul>
+</div></blockquote>
+<p><tt class="xref py py-obj docutils literal"><span class="pre">astropy.units</span></tt> is also able to write, but not read, units in the
+following formats:</p>
+<blockquote>
+<div><ul>
+<li><p class="first"><tt class="docutils literal"><span class="pre">&quot;latex&quot;</span></tt>: Writes units out using LaTeX math syntax using the
+<a class="reference external" href="http://www.iau.org/static/publications/stylemanual1989.pdf">IAU Style Manual</a>
+recommendations for unit presentation.  This format is
+automatically used when printing a unit in the IPython notebook:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">fluxunit</span>
+</pre></div>
+</div>
+<div class="math">
+<p><img src="../_images/math/67fc74d92b104f9d2131bbc13e7b2c8ef25a835f.png" alt="\mathrm{\frac{erg}{s\ cm^{2}}}"/></p>
+</div></li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">&quot;console&quot;</span></tt>: Writes a multi-line representation of the unit
+useful for display in a text console:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">fluxunit</span><span class="o">.</span><span class="n">to_string</span><span class="p">(</span><span class="s">&#39;console&#39;</span><span class="p">)</span>
+<span class="go"> erg</span>
+<span class="go">------</span>
+<span class="go">s cm^2</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">&quot;unicode&quot;</span></tt>: Same as <tt class="docutils literal"><span class="pre">&quot;console&quot;</span></tt>, except uses Unicode
+characters:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">u</span><span class="o">.</span><span class="n">Ry</span><span class="o">.</span><span class="n">decompose</span><span class="p">()</span><span class="o">.</span><span class="n">to_string</span><span class="p">(</span><span class="s">&#39;unicode&#39;</span><span class="p">)</span>
+<span class="go">           m² kg</span>
+<span class="go">2.18×10-¹⁸ ─────</span>
+<span class="go">            s²</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="unrecognized-units">
+<h2>Unrecognized Units<a class="headerlink" href="#unrecognized-units" title="Permalink to this headline">¶</a></h2>
+<p>Since many files in found in the wild have unit strings that do not
+correspond to any given standard, <tt class="xref py py-obj docutils literal"><span class="pre">astropy.units</span></tt> also has a
+consistent way to store and pass around unit strings that did not
+parse.</p>
+<p>Normally, passing an unrecognized unit string raises an exception:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="o">.</span><span class="n">Unit</span><span class="p">(</span><span class="s">&quot;m/s/s&quot;</span><span class="p">)</span>  <span class="c"># The FITS standard only allows one &#39;/&#39;</span>
+<span class="go">ValueError: Expected end of text (at char 3) in &#39;m/s/s&#39;</span>
+</pre></div>
+</div>
+<p>However, the <a class="reference internal" href="../_generated/astropy.units.core.Unit.html#astropy.units.core.Unit" title="astropy.units.core.Unit"><tt class="xref py py-obj docutils literal"><span class="pre">Unit</span></tt></a> constructor has the keyword
+argument <tt class="xref py py-obj docutils literal"><span class="pre">parse_strict</span></tt> that can take one of three values to control
+this behavior:</p>
+<blockquote>
+<div><ul class="simple">
+<li><tt class="docutils literal"><span class="pre">'raise'</span></tt>: (default) raise a ValueError exception.</li>
+<li><tt class="docutils literal"><span class="pre">'warn'</span></tt>: emit a Warning, and return an
+<a class="reference internal" href="../_generated/astropy.units.core.UnrecognizedUnit.html#astropy.units.core.UnrecognizedUnit" title="astropy.units.core.UnrecognizedUnit"><tt class="xref py py-obj docutils literal"><span class="pre">UnrecognizedUnit</span></tt></a> instance.</li>
+<li><tt class="docutils literal"><span class="pre">'silent'</span></tt>: return an <a class="reference internal" href="../_generated/astropy.units.core.UnrecognizedUnit.html#astropy.units.core.UnrecognizedUnit" title="astropy.units.core.UnrecognizedUnit"><tt class="xref py py-obj docutils literal"><span class="pre">UnrecognizedUnit</span></tt></a>
+instance.</li>
+</ul>
+</div></blockquote>
+<p>So, for example, one can do:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">Unit</span><span class="p">(</span><span class="s">&quot;m/s/s&quot;</span><span class="p">,</span> <span class="n">parse_strict</span><span class="o">=</span><span class="s">&quot;warn&quot;</span><span class="p">)</span>
+<span class="go">WARNING: UnitsWarning: &#39;m/s/s&#39; did not parse using format &#39;generic&#39;.</span>
+<span class="go">Expected end of text (at char 3) in &#39;m/s/s&#39; [astropy.units.core]</span>
+</pre></div>
+</div>
+<p>This <a class="reference internal" href="../_generated/astropy.units.core.UnrecognizedUnit.html#astropy.units.core.UnrecognizedUnit" title="astropy.units.core.UnrecognizedUnit"><tt class="xref py py-obj docutils literal"><span class="pre">UnrecognizedUnit</span></tt></a> object remembers the
+original string it was created with, so it can be written back out,
+but any meaningful operations on it, such as converting to another
+unit or composing with other units, will fail.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">to_string</span><span class="p">()</span>
+<span class="go">&#39;m/s/s&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">km</span> <span class="o">/</span> <span class="n">u</span><span class="o">.</span><span class="n">s</span> <span class="o">/</span> <span class="n">u</span><span class="o">.</span><span class="n">s</span><span class="p">)</span>
+<span class="go">ValueError: The unit &#39;m/s/s&#39; is unrecognized.  It can not be converted to</span>
+<span class="go">other units.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">/</span> <span class="n">u</span><span class="o">.</span><span class="n">m</span>
+<span class="go">ValueError: The unit &#39;m/s/s&#39; is unrecognized, so all arithmetic operations</span>
+<span class="go">with it are invalid.</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+
+
+<h3>Page Contents</h3>
+<ul>
+<li><a class="reference internal" href="#">Unit formats</a><ul>
+<li><a class="reference internal" href="#built-in-formats">Built-in formats</a></li>
+<li><a class="reference internal" href="#unrecognized-units">Unrecognized Units</a></li>
+</ul>
+</li>
+</ul>
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+<footer class="footer">
+  <p class="pull-right">
+    <a href="http://github.com/astropy/astropy/tree/v0.2.1/docs/units/format.rst">Edit This Page on Github</a> &nbsp;
+    <a href="../_sources/units/format.txt"
+       rel="nofollow">Page Source</a> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright 2011-2013, The Astropy Developers.<br/>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3+. &nbsp;
+    Last built 03 Apr 2013. <br/>
+  </p>
+</footer>
+ <!-- End original user content -->
+
+
+<br>
+<br>
+<br>
+
+
+<style type="text/css">
+  .rtd-badge {
+    position: fixed;
+    display: block;
+    bottom: 5px;
+    height: 40px;
+    text-indent: -9999em;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+  }
+  #version_menu {
+    position: fixed;
+    display: none;
+    bottom: 11px;
+    right: 166px;
+    list-style-type: none;
+    margin: 0;
+  }
+  .footer_popout:hover #version_menu {
+    display: block;
+  }
+  #version_menu li {
+    display: block;
+    float: right;
+  }
+  #version_menu li a {
+    display: block;
+    padding: 6px 10px 4px 10px;
+    margin: 7px 7px 0 0;
+    font-weight: bold;
+    font-size: 14px;
+    height: 20px;
+    line-height: 17px;
+    text-decoration: none;
+    color: #fff;
+    background: #8ca1af url(../images/gradient-light.png) bottom left repeat-x;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 1px #465158;
+    -moz-box-shadow: 0 1px 1px #465158;
+    -webkit-box-shadow: 0 1px 1px #465158;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+  }
+  #version_menu li a:hover {
+    text-decoration: none;
+    background-color: #697983;
+    box-shadow: 0 1px 0px #465158;
+    -moz-box-shadow: 0 1px 0px #465158;
+    -webkit-box-shadow: 0 1px 0px #465158;
+  }
+  .rtd-badge.rtd {
+    background: #3b4449 url(//media.readthedocs.org//images/badge-rtd.png) scroll 0px -46px no-repeat;
+    border: 1px solid #282E32;
+    width: 41px;
+    right: 5px;
+  }
+  .footer_popout:hover .rtd-badge.rtd {
+    background-position: top left;
+    width: 160px;
+  }
+  .rtd-badge.revsys { background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline-sponsored {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys-sm.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 205px;
+    right: 173px;
+  }
+
+</style>
+<div class="rtd_doc_footer">
+  <div class="footer_popout">
+    <a href="//readthedocs.org/projects/astropy/?fromdocs=astropy" class="rtd-badge rtd"> Brought to you by Read the Docs</a>
+    <ul id="version_menu">
+      
+        <li><a href="/en/latest/">latest</a></li>
+      
+        <li><a href="/en/add-mpl-to-rtd-pip-req/">add-mpl-to-rtd-pip-req</a></li>
+      
+        <li><a href="/en/v0.2.1/">v0.2.1</a></li>
+      
+        <li><a href="/en/v0.2/">v0.2</a></li>
+      
+        <li><a href="/en/v0.1/">v0.1</a></li>
+      
+    </ul>
+  </div>
+</div>
+<!-- RTD Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17997319-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+<!-- User Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-30968842-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+  </body>
+</html>

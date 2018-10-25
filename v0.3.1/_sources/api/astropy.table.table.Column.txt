@@ -1,0 +1,59 @@
+
+.. include:: ../table/references.txt
+
+
+Column
+==========================
+
+.. currentmodule:: astropy.table.table
+
+.. autoclass:: Column
+   :show-inheritance:
+
+   
+
+   
+   
+
+   .. rubric:: Attributes Summary
+
+   .. autosummary::
+   
+      ~Column.data
+
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+   
+      ~Column.copy
+
+   
+   
+
+   
+   
+
+   .. rubric:: Attributes Documentation
+
+   
+   .. autoattribute:: data
+
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Documentation
+
+   
+   .. automethod:: copy
+
+   
+   

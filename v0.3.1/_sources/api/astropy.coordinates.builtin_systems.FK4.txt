@@ -1,0 +1,65 @@
+
+
+FK4
+=======================================
+
+.. currentmodule:: astropy.coordinates.builtin_systems
+
+.. autoclass:: FK4
+   :show-inheritance:
+
+   
+     
+   
+
+   
+   
+
+   .. rubric:: Attributes Summary
+
+   .. autosummary::
+   
+      ~FK4.dec
+      ~FK4.equinox
+      ~FK4.obstime
+      ~FK4.ra
+
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+   
+      ~FK4.precess_to
+
+   
+   
+
+   
+   
+
+   .. rubric:: Attributes Documentation
+
+   
+   .. autoattribute:: dec
+   .. autoattribute:: equinox
+   .. autoattribute:: obstime
+   .. autoattribute:: ra
+
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Documentation
+
+   
+   .. automethod:: precess_to
+
+   
+   

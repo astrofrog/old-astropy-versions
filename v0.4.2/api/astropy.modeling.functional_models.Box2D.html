@@ -1,0 +1,328 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Box2D &mdash; Astropy v0.4.2</title>
+    
+    <link rel="stylesheet" href="../_static/bootstrap-astropy.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="https://media.readthedocs.org/css/badge_only.css" type="text/css" />
+    <link rel="stylesheet" href="https://media.readthedocs.org/css/readthedocs-doc-embed.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.4.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/jquery/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/jquery/jquery-migrate-1.2.1.min.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/underscore.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/doctools.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/readthedocs-doc-embed.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="shortcut icon" href="../_static/astropy_logo.ico"/>
+    <link rel="top" title="Astropy v0.4.2" href="../index.html" />
+    <link rel="up" title="Models and Fitting (astropy.modeling)" href="../modeling/index.html" />
+    <link rel="next" title="Const1D" href="astropy.modeling.functional_models.Const1D.html" />
+    <link rel="prev" title="Box1D" href="astropy.modeling.functional_models.Box1D.html" />
+
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,600' rel='stylesheet' type='text/css'/>
+<script type="text/javascript" src="../_static/copybutton.js"></script>
+
+
+<!-- RTD Extra Head -->
+
+
+
+<!-- 
+Read the Docs is acting as the canonical URL for your project. 
+If you want to change it, more info is available in our docs:
+  http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="http://astropy.readthedocs.org/en/latest/api/astropy.modeling.functional_models.Box2D.html" />
+
+<script type="text/javascript">
+  // This is included here because other places don't have access to the pagename variable.
+  var READTHEDOCS_DATA = {
+    project: "astropy",
+    version: "v0.4.2",
+    language: "en",
+    page: "api/astropy.modeling.functional_models.Box2D",
+    builder: "sphinx",
+    theme: "bootstrap-astropy",
+    docroot: "/docs/",
+    source_suffix: ".rst",
+    api_host: "https://readthedocs.org/",
+    commit: "542718512637738441b4315bc8f1a98ab8499ddd"
+  }
+  // Old variables
+  var doc_version = "v0.4.2";
+  var doc_slug = "astropy";
+  var page_name = "api/astropy.modeling.functional_models.Box2D";
+  var html_theme = "bootstrap-astropy";
+</script>
+<!-- RTD Analytics Code -->
+<!-- Included in the header because you don't have a footer block. -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17997319-1']);
+  _gaq.push(['_trackPageview']);
+
+  // User Analytics Code
+  _gaq.push(['user._setAccount', 'UA-30968842-1']);
+  _gaq.push(['user._trackPageview']);
+  // End User Analytics Code
+
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+<!-- end RTD Analytics Code -->
+<!-- end RTD <extrahead> -->
+
+  </head>
+  <body role="document">
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../index.html"><span id="logotext1">astro</span><span id="logotext2">py</span><span id="logotext3">:docs</span></a>
+  <ul>
+    <li><a class="homelink" title="Astropy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../genindex.html">Index</a></li>
+    <li><a title="Module Index" href="../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li class="right">
+	<a href="astropy.modeling.functional_models.Const1D.html" title="Const1D">
+	  next &raquo;
+	</a>
+      </li>
+      <li class="right">
+	<a href="astropy.modeling.functional_models.Box1D.html" title="Box1D">
+	  &laquo; previous
+	</a>
+	 |
+      </li>
+      <li>
+	<a href="../index.html">Astropy v0.4.2</a>
+	 &raquo;
+      </li>
+      <li><a href="../modeling/index.html" accesskey="U">Models and Fitting (<code class="docutils literal"><span class="pre">astropy.modeling</span></code>)</a> &raquo;</li>
+      
+      <li>Box2D</li> 
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="box2d">
+<h1>Box2D<a class="headerlink" href="#box2d" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="astropy.modeling.functional_models.Box2D">
+<em class="property">class </em><code class="descclassname">astropy.modeling.functional_models.</code><code class="descname">Box2D</code><span class="sig-paren">(</span><em>amplitude</em>, <em>x_0</em>, <em>y_0</em>, <em>x_width</em>, <em>y_width</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/astropy/modeling/functional_models.html#Box2D"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.4.x/astropy/modeling/functional_models.py#L866" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.modeling.functional_models.Box2D" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="astropy.modeling.Fittable2DModel.html#astropy.modeling.Fittable2DModel" title="astropy.modeling.core.Fittable2DModel"><code class="docutils literal"><span class="pre">astropy.modeling.Fittable2DModel</span></code></a></p>
+<p>Two dimensional Box model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>amplitude</strong> : float</p>
+<blockquote>
+<div><p>Amplitude A</p>
+</div></blockquote>
+<p><strong>x_0</strong> : float</p>
+<blockquote>
+<div><p>x position of the center of the box function</p>
+</div></blockquote>
+<p><strong>x_width</strong> : float</p>
+<blockquote>
+<div><p>Width in x direction of the box</p>
+</div></blockquote>
+<p><strong>y_0</strong> : float</p>
+<blockquote>
+<div><p>y position of the center of the box function</p>
+</div></blockquote>
+<p><strong>y_width</strong> : float</p>
+<blockquote>
+<div><p>Width in y direction of the box</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Other Parameters:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><p class="first"><strong>fixed</strong> : a dict</p>
+<blockquote>
+<div><p>A dictionary <code class="docutils literal"><span class="pre">{parameter_name:</span> <span class="pre">boolean}</span></code> of parameters to not be
+varied during fitting. True means the parameter is held fixed.
+Alternatively the <a class="reference internal" href="astropy.modeling.Parameter.html#astropy.modeling.Parameter.fixed" title="astropy.modeling.Parameter.fixed"><code class="xref py py-obj docutils literal"><span class="pre">fixed</span></code></a>
+property of a parameter may be used.</p>
+</div></blockquote>
+<p><strong>tied</strong> : dict</p>
+<blockquote>
+<div><p>A dictionary <code class="docutils literal"><span class="pre">{parameter_name:</span> <span class="pre">callable}</span></code> of parameters which are
+linked to some other parameter. The dictionary values are callables
+providing the linking relationship.  Alternatively the
+<a class="reference internal" href="astropy.modeling.Parameter.html#astropy.modeling.Parameter.tied" title="astropy.modeling.Parameter.tied"><code class="xref py py-obj docutils literal"><span class="pre">tied</span></code></a> property of a parameter
+may be used.</p>
+</div></blockquote>
+<p><strong>bounds</strong> : dict</p>
+<blockquote>
+<div><p>A dictionary <code class="docutils literal"><span class="pre">{parameter_name:</span> <span class="pre">boolean}</span></code> of lower and upper bounds of
+parameters. Keys  are parameter names. Values  are a list of length 2
+giving the desired range for the parameter.  Alternatively the
+<a class="reference internal" href="astropy.modeling.Parameter.html#astropy.modeling.Parameter.min" title="astropy.modeling.Parameter.min"><code class="xref py py-obj docutils literal"><span class="pre">min</span></code></a> and
+<a class="reference internal" href="astropy.modeling.Parameter.html#astropy.modeling.Parameter.max" title="astropy.modeling.Parameter.max"><code class="xref py py-obj docutils literal"><span class="pre">max</span></code></a> properties of a parameter
+may be used.</p>
+</div></blockquote>
+<p><strong>eqcons</strong> : list</p>
+<blockquote>
+<div><p>A list of functions of length <code class="docutils literal"><span class="pre">n</span></code> such that <code class="docutils literal"><span class="pre">eqcons[j](x0,*args)</span> <span class="pre">==</span>
+<span class="pre">0.0</span></code> in a successfully optimized problem.</p>
+</div></blockquote>
+<p><strong>ineqcons</strong> : list</p>
+<blockquote class="last">
+<div><p>A list of functions of length <code class="docutils literal"><span class="pre">n</span></code> such that <code class="docutils literal"><span class="pre">ieqcons[j](x0,*args)</span> <span class="pre">&gt;=</span>
+<span class="pre">0.0</span></code> is a successfully optimized problem.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="astropy.modeling.functional_models.Box1D.html#astropy.modeling.functional_models.Box1D" title="astropy.modeling.functional_models.Box1D"><code class="xref py py-obj docutils literal"><span class="pre">Box1D</span></code></a>, <a class="reference internal" href="astropy.modeling.functional_models.Gaussian2D.html#astropy.modeling.functional_models.Gaussian2D" title="astropy.modeling.functional_models.Gaussian2D"><code class="xref py py-obj docutils literal"><span class="pre">Gaussian2D</span></code></a>, <a class="reference internal" href="astropy.modeling.functional_models.Beta2D.html#astropy.modeling.functional_models.Beta2D" title="astropy.modeling.functional_models.Beta2D"><code class="xref py py-obj docutils literal"><span class="pre">Beta2D</span></code></a></p>
+</div>
+<p class="rubric">Notes</p>
+<p>Model formula:</p>
+<blockquote>
+<div><div class="math">
+\[\begin{split}f(x, y) = \left \{
+         \begin{array}{ll}
+           A &amp; : x_0 - w_x/2 \geq x \geq x_0 + w_x/2 \\
+           A &amp; : y_0 - w_y/2 \geq y \geq y_0 + w_y/2 \\
+           0 &amp; : \textnormal{else}
+         \end{array}
+       \right.\end{split}\]</div>
+</div></blockquote>
+<p class="rubric">Attributes Summary</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.modeling.functional_models.Box2D.param_names" title="astropy.modeling.functional_models.Box2D.param_names"><code class="xref py py-obj docutils literal"><span class="pre">param_names</span></code></a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods Summary</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.modeling.functional_models.Box2D.eval" title="astropy.modeling.functional_models.Box2D.eval"><code class="xref py py-obj docutils literal"><span class="pre">eval</span></code></a>(x,&nbsp;y,&nbsp;amplitude,&nbsp;x_0,&nbsp;y_0,&nbsp;x_width,&nbsp;y_width)</td>
+<td>Two dimensional Box model function</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes Documentation</p>
+<dl class="attribute">
+<dt id="astropy.modeling.functional_models.Box2D.amplitude">
+<code class="descname">amplitude</code><a class="headerlink" href="#astropy.modeling.functional_models.Box2D.amplitude" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.modeling.functional_models.Box2D.param_names">
+<code class="descname">param_names</code><em class="property"> = ['amplitude', 'x_0', 'y_0', 'x_width', 'y_width']</em><a class="headerlink" href="#astropy.modeling.functional_models.Box2D.param_names" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.modeling.functional_models.Box2D.x_0">
+<code class="descname">x_0</code><a class="headerlink" href="#astropy.modeling.functional_models.Box2D.x_0" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.modeling.functional_models.Box2D.x_width">
+<code class="descname">x_width</code><a class="headerlink" href="#astropy.modeling.functional_models.Box2D.x_width" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.modeling.functional_models.Box2D.y_0">
+<code class="descname">y_0</code><a class="headerlink" href="#astropy.modeling.functional_models.Box2D.y_0" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.modeling.functional_models.Box2D.y_width">
+<code class="descname">y_width</code><a class="headerlink" href="#astropy.modeling.functional_models.Box2D.y_width" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p class="rubric">Methods Documentation</p>
+<dl class="staticmethod">
+<dt id="astropy.modeling.functional_models.Box2D.eval">
+<em class="property">static </em><code class="descname">eval</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>amplitude</em>, <em>x_0</em>, <em>y_0</em>, <em>x_width</em>, <em>y_width</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/astropy/modeling/functional_models.html#Box2D.eval"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.4.x/astropy/modeling/functional_models.py#L914" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.modeling.functional_models.Box2D.eval" title="Permalink to this definition">¶</a></dt>
+<dd><p>Two dimensional Box model function</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Page Contents</h3>
+<ul>
+<li><a class="reference internal" href="#">Box2D</a></li>
+</ul>
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+<footer class="footer">
+  <p class="pull-right">
+    <a href="http://github.com/astropy/astropy/tree/v0.4.x/docs/api/astropy.modeling.functional_models.Box2D.rst">Edit This Page on Github</a> &nbsp;
+    <a href="../_sources/api/astropy.modeling.functional_models.Box2D.txt"
+       rel="nofollow">Page Source</a> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright 2011-2014, The Astropy Developers.<br/>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3.1. &nbsp;
+    Last built 14 Aug 2015. <br/>
+  </p>
+</footer>
+  </body>
+</html>

@@ -1,0 +1,107 @@
+
+.. include:: ../table/references.txt
+
+
+Table
+=========================
+
+.. currentmodule:: astropy.table.table
+
+.. autoclass:: Table
+   :show-inheritance:
+
+   
+     
+   
+
+   
+   
+
+   .. rubric:: Attributes Summary
+
+   .. autosummary::
+   
+      ~Table.ColumnClass
+      ~Table.colnames
+      ~Table.dtype
+      ~Table.mask
+      ~Table.masked
+
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+   
+      ~Table.add_column
+      ~Table.add_columns
+      ~Table.add_row
+      ~Table.create_mask
+      ~Table.field
+      ~Table.filled
+      ~Table.index_column
+      ~Table.keep_columns
+      ~Table.keys
+      ~Table.more
+      ~Table.next
+      ~Table.pformat
+      ~Table.pprint
+      ~Table.read
+      ~Table.remove_column
+      ~Table.remove_columns
+      ~Table.rename_column
+      ~Table.reverse
+      ~Table.sort
+      ~Table.write
+
+   
+   
+
+   
+   
+
+   .. rubric:: Attributes Documentation
+
+   
+   .. autoattribute:: ColumnClass
+   .. autoattribute:: colnames
+   .. autoattribute:: dtype
+   .. autoattribute:: mask
+   .. autoattribute:: masked
+
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Documentation
+
+   
+   .. automethod:: add_column
+   .. automethod:: add_columns
+   .. automethod:: add_row
+   .. automethod:: create_mask
+   .. automethod:: field
+   .. automethod:: filled
+   .. automethod:: index_column
+   .. automethod:: keep_columns
+   .. automethod:: keys
+   .. automethod:: more
+   .. automethod:: next
+   .. automethod:: pformat
+   .. automethod:: pprint
+   .. automethod:: read
+   .. automethod:: remove_column
+   .. automethod:: remove_columns
+   .. automethod:: rename_column
+   .. automethod:: reverse
+   .. automethod:: sort
+   .. automethod:: write
+
+   
+   

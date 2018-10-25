@@ -1,0 +1,48 @@
+
+
+Legendre1D
+======================================
+
+.. currentmodule:: astropy.modeling.polynomial
+
+.. autoclass:: Legendre1D
+   :show-inheritance:
+
+   
+     
+   
+
+   
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+   
+      ~Legendre1D.__call__
+      ~Legendre1D.clenshaw
+      ~Legendre1D.fit_deriv
+
+   
+   
+
+   
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Documentation
+
+   
+   .. automethod:: __call__
+   .. automethod:: clenshaw
+   .. automethod:: fit_deriv
+
+   
+   

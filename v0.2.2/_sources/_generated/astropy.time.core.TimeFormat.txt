@@ -1,0 +1,63 @@
+
+.. include:: ../time/references.txt
+
+
+TimeFormat
+============================
+
+.. currentmodule:: astropy.time.core
+
+.. autoclass:: TimeFormat
+   :show-inheritance:
+
+   
+     
+   
+
+   
+   
+
+   .. rubric:: Attributes Summary
+
+   .. autosummary::
+   
+      ~TimeFormat.scale
+      ~TimeFormat.vals
+
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+   
+      ~TimeFormat.set_jds
+
+   
+   
+
+   
+   
+
+   .. rubric:: Attributes Documentation
+
+   
+   .. autoattribute:: scale
+   .. autoattribute:: vals
+
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Documentation
+
+   
+   .. automethod:: set_jds
+
+   
+   

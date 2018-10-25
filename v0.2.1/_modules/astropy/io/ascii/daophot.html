@@ -1,0 +1,466 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+
+    <title>astropy.io.ascii.daophot &mdash; Astropy v0.2.1</title>
+<!-- RTD <head> -->
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/underscore.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/doctools.js"></script>
+
+<script type="text/javascript">
+  // This is included here for Javascript that doesn't have access to the templates.
+  var doc_version = "v0.2.1";
+  var doc_slug = "astropy";
+</script>
+
+<script type="text/javascript" src="//media.readthedocs.org/javascript/rtd.js"></script>
+<!-- end RTD <head> -->
+
+    
+    <link rel="stylesheet" href="../../../../_static/bootstrap-astropy.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../',
+        VERSION:     '0.2.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../../_static/sidebar.js"></script>
+    <link rel="shortcut icon" href="../../../../_static/astropy_logo.ico"/>
+    <link rel="top" title="Astropy v0.2.1" href="../../../../index.html" />
+    <link rel="up" title="Module code" href="../../../index.html" /> 
+  </head>
+  <body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../../../../index.html"></a>
+  <ul>
+    <li><a class="homelink" title="AstroPy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../../../../genindex.html">Index</a></li>
+    <li><a title="Python Module Index" href="../../../../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../../../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li>
+	<a href="../../../../index.html">Astropy v0.2.1</a>
+	 &raquo;
+      </li>
+      <li><a href="../../../index.html" accesskey="U">Module code</a> &raquo;</li>
+      
+       
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for astropy.io.ascii.daophot</h1><div class="highlight"><pre>
+<span class="c"># Licensed under a 3-clause BSD style license - see LICENSE.rst</span>
+<span class="sd">&quot;&quot;&quot;An extensible ASCII table reader and writer.</span>
+
+<span class="sd">daophot.py:</span>
+<span class="sd">  Classes to read DAOphot table format</span>
+
+<span class="sd">:Copyright: Smithsonian Astrophysical Observatory (2011)</span>
+<span class="sd">:Author: Tom Aldcroft (aldcroft@head.cfa.harvard.edu)</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c">## </span>
+<span class="c">## Redistribution and use in source and binary forms, with or without</span>
+<span class="c">## modification, are permitted provided that the following conditions are met:</span>
+<span class="c">##     * Redistributions of source code must retain the above copyright</span>
+<span class="c">##       notice, this list of conditions and the following disclaimer.</span>
+<span class="c">##     * Redistributions in binary form must reproduce the above copyright</span>
+<span class="c">##       notice, this list of conditions and the following disclaimer in the</span>
+<span class="c">##       documentation and/or other materials provided with the distribution.</span>
+<span class="c">##     * Neither the name of the Smithsonian Astrophysical Observatory nor the</span>
+<span class="c">##       names of its contributors may be used to endorse or promote products</span>
+<span class="c">##       derived from this software without specific prior written permission.</span>
+<span class="c">## </span>
+<span class="c">## THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot; AND</span>
+<span class="c">## ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED</span>
+<span class="c">## WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE</span>
+<span class="c">## DISCLAIMED. IN NO EVENT SHALL &lt;COPYRIGHT HOLDER&gt; BE LIABLE FOR ANY</span>
+<span class="c">## DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES</span>
+<span class="c">## (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;</span>
+<span class="c">## LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND</span>
+<span class="c">## ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT</span>
+<span class="c">## (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS  </span>
+<span class="c">## SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span>
+
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">core</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">basic</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">fixedwidth</span>
+<span class="kn">from</span> <span class="nn">...utils</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
+
+<div class="viewcode-block" id="Daophot"><a class="viewcode-back" href="../../../../_generated/astropy.io.ascii.daophot.Daophot.html#astropy.io.ascii.daophot.Daophot">[docs]</a><span class="k">class</span> <span class="nc">Daophot</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">BaseReader</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Read a DAOphot file.</span>
+<span class="sd">    Example::</span>
+
+<span class="sd">      #K MERGERAD   = INDEF                   scaleunit  %-23.7g  </span>
+<span class="sd">      #K IRAF = NOAO/IRAFV2.10EXPORT version %-23s</span>
+<span class="sd">      #K USER = davis name %-23s</span>
+<span class="sd">      #K HOST = tucana computer %-23s</span>
+<span class="sd">      #</span>
+<span class="sd">      #N ID    XCENTER   YCENTER   MAG         MERR          MSKY           NITER    \\</span>
+<span class="sd">      #U ##    pixels    pixels    magnitudes  magnitudes    counts         ##       \\</span>
+<span class="sd">      #F %-9d  %-10.3f   %-10.3f   %-12.3f     %-14.3f       %-15.7g        %-6d     </span>
+<span class="sd">      #                                                                              </span>
+<span class="sd">      #N         SHARPNESS   CHI         PIER  PERROR                                \\</span>
+<span class="sd">      #U         ##          ##          ##    perrors                               \\</span>
+<span class="sd">      #F         %-23.3f     %-12.3f     %-6d  %-13s                                 </span>
+<span class="sd">      #                                                                              </span>
+<span class="sd">      14       138.538     INDEF   15.461      0.003         34.85955       4        \\</span>
+<span class="sd">                  -0.032      0.802       0     No_error                             </span>
+
+<span class="sd">    The keywords defined in the #K records are available via output table</span>
+<span class="sd">    ``meta`` attribute::</span>
+
+<span class="sd">      data = ascii.read(&#39;t/daophot.dat&#39;)</span>
+<span class="sd">      for keyword in data.meta[&#39;keywords&#39;]:</span>
+<span class="sd">          print keyword[&#39;name&#39;], keyword[&#39;value&#39;], keyword[&#39;units&#39;], keyword[&#39;format&#39;]</span>
+
+<span class="sd">    The units and formats are available in the output table columns::</span>
+
+<span class="sd">      for colname in data.colnames:</span>
+<span class="sd">           col = data[colname]</span>
+<span class="sd">           print colname, col.units, col.format</span>
+
+<span class="sd">    Any column values of INDEF are interpreted as a missing value and will be</span>
+<span class="sd">    masked out in the resultant table.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">BaseReader</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">header</span> <span class="o">=</span> <span class="n">DaophotHeader</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inputter</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">ContinuationLinesInputter</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inputter</span><span class="o">.</span><span class="n">no_continue</span> <span class="o">=</span> <span class="s">r&#39;\s*#&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">splitter</span> <span class="o">=</span> <span class="n">fixedwidth</span><span class="o">.</span><span class="n">FixedWidthSplitter</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">start_line</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">comment</span> <span class="o">=</span> <span class="s">r&#39;\s*#&#39;</span>
+
+<div class="viewcode-block" id="Daophot.read"><a class="viewcode-back" href="../../../../_generated/astropy.io.ascii.daophot.Daophot.html#astropy.io.ascii.daophot.Daophot.read">[docs]</a>    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">):</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">BaseReader</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">)</span>
+
+        <span class="c"># Read keywords as a table embedded in the header comments</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">comment_lines</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">re_header_keyword</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;[#]K&#39;</span>
+                                           <span class="s">r&#39;\s+ (?P&lt;name&gt; \w+)&#39;</span>
+                                           <span class="s">r&#39;\s* = (?P&lt;stuff&gt; .+) $&#39;</span><span class="p">,</span>
+                                           <span class="n">re</span><span class="o">.</span><span class="n">VERBOSE</span><span class="p">)</span>
+
+            <span class="n">out</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="s">&#39;keywords&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">comment_lines</span><span class="p">:</span>
+                <span class="n">m</span> <span class="o">=</span> <span class="n">re_header_keyword</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">m</span><span class="p">:</span>
+                    <span class="n">vals</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s">&#39;stuff&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+                    <span class="n">keyword_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;units&#39;</span><span class="p">:</span> <span class="n">vals</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">],</span>
+                                    <span class="s">&#39;format&#39;</span><span class="p">:</span> <span class="n">vals</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]}</span>
+                    <span class="n">keyword_dict</span><span class="p">[</span><span class="s">&#39;value&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">vals</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">vals</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span> <span class="k">else</span> <span class="s">&quot;&quot;</span><span class="p">)</span>
+                    <span class="n">out</span><span class="o">.</span><span class="n">meta</span><span class="p">[</span><span class="s">&#39;keywords&#39;</span><span class="p">][</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s">&#39;name&#39;</span><span class="p">)]</span> <span class="o">=</span> <span class="n">keyword_dict</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">cols</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">cols</span>
+
+        <span class="k">return</span> <span class="n">out</span>
+</div>
+<div class="viewcode-block" id="Daophot.write"><a class="viewcode-back" href="../../../../_generated/astropy.io.ascii.daophot.Daophot.html#astropy.io.ascii.daophot.Daophot.write">[docs]</a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+
+</div></div>
+<span class="k">class</span> <span class="nc">DaophotHeader</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">BaseHeader</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Read the header from a file produced by the IRAF DAOphot routine.&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">BaseHeader</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">comment</span> <span class="o">=</span> <span class="s">r&#39;\s*#K&#39;</span>
+
+    <span class="k">def</span> <span class="nf">get_cols</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lines</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize the header Column objects from the table ``lines`` for a DAOphot</span>
+<span class="sd">        header.  The DAOphot header is specialized so that we just copy the entire BaseHeader</span>
+<span class="sd">        get_cols routine and modify as needed.</span>
+
+<span class="sd">        :param lines: list of table lines</span>
+<span class="sd">        :returns: list of table Columns</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c"># Parse a series of column defintion lines like below.  There may be several</span>
+        <span class="c"># such blocks in a single file (where continuation characters have already been</span>
+        <span class="c"># stripped).</span>
+        <span class="c"># #N ID    XCENTER   YCENTER   MAG         MERR          MSKY           NITER    </span>
+        <span class="c"># #U ##    pixels    pixels    magnitudes  magnitudes    counts         ##       </span>
+        <span class="c"># #F %-9d  %-10.3f   %-10.3f   %-12.3f     %-14.3f       %-15.7g        %-6d     </span>
+        <span class="n">coldef_lines</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">]</span>
+        <span class="n">starts</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;#N &#39;</span><span class="p">,</span> <span class="s">&#39;#U &#39;</span><span class="p">,</span> <span class="s">&#39;#F &#39;</span><span class="p">)</span>
+        <span class="n">col_width</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">col_len_def</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;[0-9]+&#39;</span><span class="p">)</span>
+        <span class="n">re_colformat_def</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;#F([^#]+)&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;#&#39;</span><span class="p">):</span>
+                <span class="k">break</span> <span class="c"># End of header lines</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">formatmatch</span> <span class="o">=</span> <span class="n">re_colformat_def</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">formatmatch</span><span class="p">:</span>
+                    <span class="n">form</span> <span class="o">=</span> <span class="n">formatmatch</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                    <span class="n">width</span> <span class="o">=</span> <span class="p">([</span><span class="nb">int</span><span class="p">(</span><span class="n">col_len_def</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">group</span><span class="p">())</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">form</span><span class="p">])</span>
+                    <span class="c"># original data format might be shorter than 80 characters</span>
+                    <span class="c"># and filled with spaces</span>
+                    <span class="n">width</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">80</span> <span class="o">-</span> <span class="nb">sum</span><span class="p">(</span><span class="n">width</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+                    <span class="n">col_width</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">width</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">start</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">starts</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">start</span><span class="p">):</span>
+                        <span class="n">line_stripped</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="mi">2</span><span class="p">:]</span>
+                        <span class="n">coldef_lines</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">coldef_lines</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">line_stripped</span>
+                        <span class="k">break</span>
+        
+        <span class="c"># At this point colddef_lines has three lines corresponding to column</span>
+        <span class="c"># names, units, and format.  Get the column names by splitting the</span>
+        <span class="c"># first line on whitespace.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">names</span> <span class="o">=</span> <span class="n">coldef_lines</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">names</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">InconsistentTableError</span><span class="p">(</span><span class="s">&#39;No column names found in DAOphot header&#39;</span><span class="p">)</span>
+
+        <span class="n">ends</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">col_width</span><span class="p">)</span>
+        <span class="n">starts</span> <span class="o">=</span> <span class="n">ends</span> <span class="o">-</span> <span class="n">col_width</span>
+
+        <span class="c"># If there wasn&#39;t a #U defined (not sure of DAOphot specification), then</span>
+        <span class="c"># replace the empty line with the right number of ## indicators, which matches</span>
+        <span class="c"># the DAOphot &quot;no unit&quot; tag.</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">coldef_line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">coldef_lines</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">coldef_line</span><span class="p">:</span>
+                <span class="n">coldef_lines</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;## &#39;</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">names</span><span class="p">)</span>
+
+        <span class="c"># Read the three lines as a basic table.</span>
+        <span class="n">reader</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">_get_reader</span><span class="p">(</span><span class="n">Reader</span><span class="o">=</span><span class="n">basic</span><span class="o">.</span><span class="n">Basic</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+        <span class="n">reader</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">comment</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="n">coldefs</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">coldef_lines</span><span class="p">)</span>
+
+        <span class="c"># Create the list of io.ascii column objects</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_cols_from_names</span><span class="p">()</span>
+
+        <span class="c"># Set units and format as needed.</span>
+        <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">cols</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">coldefs</span><span class="p">[</span><span class="n">col</span><span class="o">.</span><span class="n">name</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&#39;##&#39;</span><span class="p">:</span>
+                <span class="n">col</span><span class="o">.</span><span class="n">units</span> <span class="o">=</span> <span class="n">coldefs</span><span class="p">[</span><span class="n">col</span><span class="o">.</span><span class="n">name</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">coldefs</span><span class="p">[</span><span class="n">col</span><span class="o">.</span><span class="n">name</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&#39;##&#39;</span><span class="p">:</span>
+                <span class="n">col</span><span class="o">.</span><span class="n">format</span> <span class="o">=</span> <span class="n">coldefs</span><span class="p">[</span><span class="n">col</span><span class="o">.</span><span class="n">name</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="c"># Set column start and end positions.  Also re-index the cols because</span>
+        <span class="c"># the FixedWidthSplitter does NOT return the ignored cols (as is the</span>
+        <span class="c"># case for typical delimiter-based splitters).</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cols</span><span class="p">):</span>
+            <span class="n">col</span><span class="o">.</span><span class="n">start</span> <span class="o">=</span> <span class="n">starts</span><span class="p">[</span><span class="n">col</span><span class="o">.</span><span class="n">index</span><span class="p">]</span>
+            <span class="n">col</span><span class="o">.</span><span class="n">end</span> <span class="o">=</span> <span class="n">ends</span><span class="p">[</span><span class="n">col</span><span class="o">.</span><span class="n">index</span><span class="p">]</span>
+            <span class="n">col</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">i</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="s">&#39;format&#39;</span><span class="p">):</span>
+                <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">x</span> <span class="ow">in</span> <span class="n">col</span><span class="o">.</span><span class="n">format</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="s">&#39;fg&#39;</span><span class="p">):</span>
+                    <span class="n">col</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">FloatType</span>
+                <span class="k">elif</span> <span class="s">&#39;d&#39;</span> <span class="ow">in</span> <span class="n">col</span><span class="o">.</span><span class="n">format</span><span class="p">:</span>
+                    <span class="n">col</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">IntType</span>
+                <span class="k">elif</span> <span class="s">&#39;s&#39;</span> <span class="ow">in</span> <span class="n">col</span><span class="o">.</span><span class="n">format</span><span class="p">:</span>
+                    <span class="n">col</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">StrType</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_data_cols</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cols</span><span class="p">)</span>
+        <span class="c"># INDEF is the missing value marker</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">fill_values</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s">&#39;INDEF&#39;</span><span class="p">,</span> <span class="s">&#39;0&#39;</span><span class="p">))</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+
+
+<h3>Page Contents</h3>
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+<footer class="footer">
+  <p class="pull-right"> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright 2011-2013, The Astropy Developers.<br/>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3+. &nbsp;
+    Last built 03 Apr 2013. <br/>
+  </p>
+</footer>
+ <!-- End original user content -->
+
+
+<br>
+<br>
+<br>
+
+
+<style type="text/css">
+  .rtd-badge {
+    position: fixed;
+    display: block;
+    bottom: 5px;
+    height: 40px;
+    text-indent: -9999em;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+  }
+  #version_menu {
+    position: fixed;
+    display: none;
+    bottom: 11px;
+    right: 166px;
+    list-style-type: none;
+    margin: 0;
+  }
+  .footer_popout:hover #version_menu {
+    display: block;
+  }
+  #version_menu li {
+    display: block;
+    float: right;
+  }
+  #version_menu li a {
+    display: block;
+    padding: 6px 10px 4px 10px;
+    margin: 7px 7px 0 0;
+    font-weight: bold;
+    font-size: 14px;
+    height: 20px;
+    line-height: 17px;
+    text-decoration: none;
+    color: #fff;
+    background: #8ca1af url(../images/gradient-light.png) bottom left repeat-x;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 1px #465158;
+    -moz-box-shadow: 0 1px 1px #465158;
+    -webkit-box-shadow: 0 1px 1px #465158;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+  }
+  #version_menu li a:hover {
+    text-decoration: none;
+    background-color: #697983;
+    box-shadow: 0 1px 0px #465158;
+    -moz-box-shadow: 0 1px 0px #465158;
+    -webkit-box-shadow: 0 1px 0px #465158;
+  }
+  .rtd-badge.rtd {
+    background: #3b4449 url(//media.readthedocs.org//images/badge-rtd.png) scroll 0px -46px no-repeat;
+    border: 1px solid #282E32;
+    width: 41px;
+    right: 5px;
+  }
+  .footer_popout:hover .rtd-badge.rtd {
+    background-position: top left;
+    width: 160px;
+  }
+  .rtd-badge.revsys { background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline-sponsored {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys-sm.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 205px;
+    right: 173px;
+  }
+
+</style>
+<div class="rtd_doc_footer">
+  <div class="footer_popout">
+    <a href="//readthedocs.org/projects/astropy/?fromdocs=astropy" class="rtd-badge rtd"> Brought to you by Read the Docs</a>
+    <ul id="version_menu">
+      
+        <li><a href="/en/latest/">latest</a></li>
+      
+        <li><a href="/en/add-mpl-to-rtd-pip-req/">add-mpl-to-rtd-pip-req</a></li>
+      
+        <li><a href="/en/v0.2.1/">v0.2.1</a></li>
+      
+        <li><a href="/en/v0.2/">v0.2</a></li>
+      
+        <li><a href="/en/v0.1/">v0.1</a></li>
+      
+    </ul>
+  </div>
+</div>
+<!-- RTD Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17997319-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+<!-- User Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-30968842-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+  </body>
+</html>

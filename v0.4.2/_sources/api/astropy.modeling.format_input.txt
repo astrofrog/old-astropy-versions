@@ -1,0 +1,8 @@
+
+
+format_input
+=============================
+
+.. currentmodule:: astropy.modeling
+
+.. autofunction:: format_input

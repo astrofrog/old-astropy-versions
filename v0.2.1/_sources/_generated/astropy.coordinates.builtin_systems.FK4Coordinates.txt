@@ -1,0 +1,65 @@
+
+
+FK4Coordinates
+==================================================
+
+.. currentmodule:: astropy.coordinates.builtin_systems
+
+.. autoclass:: FK4Coordinates
+   :show-inheritance:
+
+   
+     
+   
+
+   
+   
+
+   .. rubric:: Attributes Summary
+
+   .. autosummary::
+   
+      ~FK4Coordinates.equinox
+      ~FK4Coordinates.latangle
+      ~FK4Coordinates.lonangle
+      ~FK4Coordinates.obstime
+
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+   
+      ~FK4Coordinates.precess_to
+
+   
+   
+
+   
+   
+
+   .. rubric:: Attributes Documentation
+
+   
+   .. autoattribute:: equinox
+   .. autoattribute:: latangle
+   .. autoattribute:: lonangle
+   .. autoattribute:: obstime
+
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Documentation
+
+   
+   .. automethod:: precess_to
+
+   
+   

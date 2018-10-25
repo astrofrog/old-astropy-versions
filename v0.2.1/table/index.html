@@ -1,0 +1,527 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+
+    <title>Data Tables (astropy.table) &mdash; Astropy v0.2.1</title>
+<!-- RTD <head> -->
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/underscore.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/doctools.js"></script>
+
+<script type="text/javascript">
+  // This is included here for Javascript that doesn't have access to the templates.
+  var doc_version = "v0.2.1";
+  var doc_slug = "astropy";
+</script>
+
+<script type="text/javascript" src="//media.readthedocs.org/javascript/rtd.js"></script>
+<!-- end RTD <head> -->
+
+    
+    <link rel="stylesheet" href="../_static/bootstrap-astropy.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.2.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="shortcut icon" href="../_static/astropy_logo.ico"/>
+    <link rel="top" title="Astropy v0.2.1" href="../index.html" />
+    <link rel="next" title="Constructing a table" href="construct_table.html" />
+    <link rel="prev" title="UnitsError" href="../_generated/astropy.coordinates.errors.UnitsError.html" /> 
+  </head>
+  <body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../index.html"></a>
+  <ul>
+    <li><a class="homelink" title="AstroPy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../genindex.html">Index</a></li>
+    <li><a title="Python Module Index" href="../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li class="right">
+	<a href="construct_table.html" title="Constructing a table">
+	  next &raquo;
+	</a>
+      </li>
+      <li class="right">
+	<a href="../_generated/astropy.coordinates.errors.UnitsError.html" title="UnitsError">
+	  &laquo; previous
+	</a>
+	 |
+      </li>
+      <li>
+	<a href="../index.html">Astropy v0.2.1</a>
+	 &raquo;
+      </li>
+      
+      <li>Data Tables (<tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">astropy.table</span></tt>)</li> 
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="data-tables-astropy-table">
+<span id="astropy-table"></span><h1>Data Tables (<a class="reference internal" href="#module-astropy.table" title="astropy.table"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.table</span></tt></a>)<a class="headerlink" href="#data-tables-astropy-table" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference internal" href="#module-astropy.table" title="astropy.table"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.table</span></tt></a> provides functionality for storing and manipulating
+heterogenous tables of data in a way that is familiar to <a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/index.html#numpy" title="(in NumPy v1.7)"><tt class="xref py py-obj docutils literal"><span class="pre">numpy</span></tt></a> users.  A few
+notable features of this package are:</p>
+<ul class="simple">
+<li>Initialize a table from a wide variety of input data structures and types.</li>
+<li>Modify a table by adding or removing columns, changing column names,
+or adding new rows of data.</li>
+<li>Handle tables containing missing values.</li>
+<li>Include table and column metadata as flexible data structures.</li>
+<li>Specify a description, units and output formatting for columns.</li>
+<li>Interactively scroll through long tables similar to using <tt class="docutils literal"><span class="pre">more</span></tt>.</li>
+<li>Create a new table by selecting rows or columns from a table.</li>
+<li>Full support for multidimensional columns.</li>
+<li>Create a table by referencing (not copying) an existing <a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/index.html#numpy" title="(in NumPy v1.7)"><tt class="xref py py-obj docutils literal"><span class="pre">numpy</span></tt></a> table.</li>
+</ul>
+<p>Currently <a class="reference internal" href="#module-astropy.table" title="astropy.table"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.table</span></tt></a> is used when reading an ASCII table using
+<a class="reference internal" href="../io/ascii/index.html#module-astropy.io.ascii" title="astropy.io.ascii"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.io.ascii</span></tt></a>.  Future releases of AstroPy are expected to use
+the <a class="reference internal" href="../_generated/astropy.table.table.Table.html#astropy.table.table.Table" title="astropy.table.table.Table"><tt class="xref py py-class docutils literal"><span class="pre">Table</span></tt></a> class for other subpackages such as <a class="reference internal" href="../io/votable/index.html#module-astropy.io.votable" title="astropy.io.votable"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.io.votable</span></tt></a>
+and <tt class="xref py py-obj docutils literal"><span class="pre">astropy.io.fits</span></tt>.</p>
+</div>
+<div class="section" id="getting-started">
+<h2>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h2>
+<p>The basic workflow for creating a table, accessing table elements,
+and modifying the table is shown below.  These examples show a very simple
+case, while the full <a class="reference internal" href="#module-astropy.table" title="astropy.table"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.table</span></tt></a> documentation is available from the
+<a class="reference internal" href="#using-astropy-table"><em>Using table</em></a> section.</p>
+<p>First create a simple table with three columns of data named <tt class="docutils literal"><span class="pre">a</span></tt>, <tt class="docutils literal"><span class="pre">b</span></tt>,
+and <tt class="docutils literal"><span class="pre">c</span></tt>.  These columns have integer, float, and string values respectively:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">astropy.table</span> <span class="kn">import</span> <span class="n">Table</span><span class="p">,</span> <span class="n">Column</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="p">[</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">8.2</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;x&#39;</span><span class="p">,</span> <span class="s">&#39;y&#39;</span><span class="p">,</span> <span class="s">&#39;z&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span> <span class="o">=</span> <span class="n">Table</span><span class="p">([</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">],</span> <span class="n">names</span><span class="o">=</span><span class="p">(</span><span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">,</span> <span class="s">&#39;c&#39;</span><span class="p">),</span> <span class="n">meta</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="s">&#39;first table&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>There are a few ways to examine the table.  You can get detailed information
+about the table values and column definitions as follows:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">t</span>
+<span class="go">&lt;Table rows=3 names=(&#39;a&#39;,&#39;b&#39;,&#39;c&#39;)&gt;</span>
+<span class="go">array([(1, 2.0, &#39;x&#39;), (4, 5.0, &#39;y&#39;), (5, 8.2, &#39;z&#39;)],</span>
+<span class="go">      dtype=[(&#39;a&#39;, &#39;&lt;i8&#39;), (&#39;b&#39;, &#39;&lt;f8&#39;), (&#39;c&#39;, &#39;|S1&#39;)])</span>
+</pre></div>
+</div>
+<p>From within the IPython notebook, the table is displayed as a formatted HTML table:</p>
+<img alt="../_images/table_repr_html.png" src="../_images/table_repr_html.png" />
+<p>If you print the table (either from the noteboook or in a text console session) then a
+formatted version appears:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+<span class="go">  a   b   c</span>
+<span class="go">--- --- ---</span>
+<span class="go">  1 2.0   x</span>
+<span class="go">  4 5.0   y</span>
+<span class="go">  5 8.2   z</span>
+</pre></div>
+</div>
+<p>For a long table you can scroll up and down through the table one page at
+time:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">more</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Now examine some high-level information about the table:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">colnames</span>
+<span class="go">[&#39;a&#39;, &#39;b&#39;, &#39;c&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+<span class="go">3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">meta</span>
+<span class="go">{&#39;name&#39;: &#39;first table&#39;}</span>
+</pre></div>
+</div>
+<p>Access the data by column or row using familiar <a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/index.html#numpy" title="(in NumPy v1.7)"><tt class="xref py py-obj docutils literal"><span class="pre">numpy</span></tt></a> structured array syntax:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="p">[</span><span class="s">&#39;a&#39;</span><span class="p">]</span>       <span class="c"># Column &#39;a&#39;</span>
+<span class="go">&lt;Column name=&#39;a&#39; units=None format=None description=None&gt;</span>
+<span class="go">array([1, 4, 5])</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="p">[</span><span class="s">&#39;a&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>    <span class="c"># Row 1 of column &#39;a&#39;</span>
+<span class="go">4</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>         <span class="c"># Row obj for with row 1 values</span>
+<span class="go">&lt;Row 1 of table</span>
+<span class="go"> values=(4, 5.0, &#39;y&#39;)</span>
+<span class="go"> dtype=[(&#39;a&#39;, &#39;&lt;i8&#39;), (&#39;b&#39;, &#39;&lt;f8&#39;), (&#39;c&#39;, &#39;|S1&#39;)]&gt;</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s">&#39;a&#39;</span><span class="p">]</span>    <span class="c"># Column &#39;a&#39; of row 1</span>
+<span class="go">4</span>
+</pre></div>
+</div>
+<p>One can retreive a subset of a table by rows (using a slice) or
+columns (using column names), where the subset is returned as a new table:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">])</span>      <span class="c"># Table object with rows 0 and 1</span>
+<span class="go"> a   b   c</span>
+<span class="go">--- --- ---</span>
+<span class="go">  1 2.0   x</span>
+<span class="go">  4 5.0   y</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="p">[</span><span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="s">&#39;c&#39;</span><span class="p">]</span>  <span class="c"># Table with cols &#39;a&#39;, &#39;c&#39;</span>
+<span class="go"> a   c</span>
+<span class="go">--- ---</span>
+<span class="go">  1   x</span>
+<span class="go">  4   y</span>
+<span class="go">  5   z</span>
+</pre></div>
+</div>
+<p>Modifying table values in place is flexible and works as one would expect:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="p">[</span><span class="s">&#39;a&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">]</span>       <span class="c"># Set all column values</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="p">[</span><span class="s">&#39;a&#39;</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">30</span>              <span class="c"># Set row 2 of column &#39;a&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">,</span> <span class="s">&quot;W&quot;</span><span class="p">)</span>        <span class="c"># Set all row values</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s">&#39;b&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">9</span>              <span class="c"># Set column &#39;b&#39; of row 1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">][</span><span class="s">&#39;b&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">100.0</span>         <span class="c"># Set column &#39;c&#39; of rows 0 and 1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+<span class="go"> a    b    c</span>
+<span class="go">--- ----- ---</span>
+<span class="go"> -1 100.0   x</span>
+<span class="go">  8 100.0   W</span>
+<span class="go"> 30   8.2   z</span>
+</pre></div>
+</div>
+<p>Add, remove, and rename columns with the following:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="n">Column</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="s">&#39;d&#39;</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">remove_column</span><span class="p">(</span><span class="s">&#39;c&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">rename_column</span><span class="p">(</span><span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="s">&#39;A&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">colnames</span>
+<span class="go">[&#39;A&#39;, &#39;b&#39;, &#39;d&#39;]</span>
+</pre></div>
+</div>
+<p>Adding a new row of data to the table is as follows:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="o">.</span><span class="n">add_row</span><span class="p">([</span><span class="o">-</span><span class="mi">8</span><span class="p">,</span> <span class="o">-</span><span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+<span class="go">4</span>
+</pre></div>
+</div>
+<p>Lastly, one can create a table with support for missing values, for example by setting
+<tt class="docutils literal"><span class="pre">masked=True</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">t</span> <span class="o">=</span> <span class="n">Table</span><span class="p">([</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">],</span> <span class="n">names</span><span class="o">=</span><span class="p">(</span><span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">,</span> <span class="s">&#39;c&#39;</span><span class="p">),</span> <span class="n">masked</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span><span class="p">[</span><span class="s">&#39;a&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mask</span> <span class="o">=</span> <span class="p">[</span><span class="bp">True</span><span class="p">,</span> <span class="bp">True</span><span class="p">,</span> <span class="bp">False</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">t</span>
+<span class="go">&lt;Table rows=3 names=(&#39;a&#39;,&#39;b&#39;,&#39;c&#39;)&gt;</span>
+<span class="go">masked_array(data = [(--, 2.0, &#39;x&#39;) (--, 5.0, &#39;y&#39;) (5, 8.2, &#39;z&#39;)],</span>
+<span class="go">             mask = [(True, False, False) (True, False, False) (False, False, False)],</span>
+<span class="go">       fill_value = (999999, 1e+20, &#39;N&#39;),</span>
+<span class="go">            dtype = [(&#39;a&#39;, &#39;&lt;i8&#39;), (&#39;b&#39;, &#39;&lt;f8&#39;), (&#39;c&#39;, &#39;|S1&#39;)])</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+<span class="go"> a   b   c</span>
+<span class="go">--- --- ---</span>
+<span class="go"> -- 2.0   x</span>
+<span class="go"> -- 5.0   y</span>
+<span class="go">  5 8.2   z</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="using-table">
+<span id="using-astropy-table"></span><h2>Using <tt class="xref py py-obj docutils literal"><span class="pre">table</span></tt><a class="headerlink" href="#using-table" title="Permalink to this headline">¶</a></h2>
+<p>The details of using <a class="reference internal" href="#module-astropy.table" title="astropy.table"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.table</span></tt></a> are provided in the following sections:</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="construct_table.html">Constructing a table</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="construct_table.html#examples">Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="construct_table.html#initialization-details">Initialization Details</a></li>
+<li class="toctree-l2"><a class="reference internal" href="construct_table.html#copy-versus-reference">Copy versus Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="construct_table.html#column-and-tablecolumns-classes">Column and TableColumns classes</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="access_table.html">Accessing a table</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="access_table.html#quick-overview">Quick overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="access_table.html#details">Details</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modify_table.html">Modifying a table</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="modify_table.html#quick-overview">Quick overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modify_table.html#caveats">Caveats</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="masking.html">Masking and missing values</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="masking.html#table-creation">Table creation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="masking.html#table-access">Table access</a></li>
+<li class="toctree-l2"><a class="reference internal" href="masking.html#masking-and-filling">Masking and filling</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="io.html">Reading and writing Table objects</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="io.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="io.html#built-in-readers-writers">Built-in readers/writers</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="reference-api">
+<h2>Reference/API<a class="headerlink" href="#reference-api" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-astropy.table">
+<span id="astropy-table-module"></span><h3>astropy.table Module<a class="headerlink" href="#module-astropy.table" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="classes">
+<h4>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../_generated/astropy.table.table.Column.html#astropy.table.table.Column" title="astropy.table.table.Column"><tt class="xref py py-obj docutils literal"><span class="pre">Column</span></tt></a></td>
+<td>Define a data column for use in a Table object.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../_generated/astropy.table.table.MaskedColumn.html#astropy.table.table.MaskedColumn" title="astropy.table.table.MaskedColumn"><tt class="xref py py-obj docutils literal"><span class="pre">MaskedColumn</span></tt></a></td>
+<td>Define a masked data column for use in a Table object.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../_generated/astropy.table.table.Row.html#astropy.table.table.Row" title="astropy.table.table.Row"><tt class="xref py py-obj docutils literal"><span class="pre">Row</span></tt></a>(table,&nbsp;index)</td>
+<td>A class to represent one row of a Table object.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../_generated/astropy.table.table.Table.html#astropy.table.table.Table" title="astropy.table.table.Table"><tt class="xref py py-obj docutils literal"><span class="pre">Table</span></tt></a>([data,&nbsp;masked,&nbsp;names,&nbsp;dtypes,&nbsp;meta,&nbsp;copy])</td>
+<td>A class to represent tables of heterogeneous data.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../_generated/astropy.table.table.TableColumns.html#astropy.table.table.TableColumns" title="astropy.table.table.TableColumns"><tt class="xref py py-obj docutils literal"><span class="pre">TableColumns</span></tt></a>([cols])</td>
+<td>OrderedDict subclass for a set of columns.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="class-inheritance-diagram">
+<h4>Class Inheritance Diagram<a class="headerlink" href="#class-inheritance-diagram" title="Permalink to this headline">¶</a></h4>
+<p class="graphviz">
+<img src="../_images/inheritance-5c2d3092494e0e6aed7b20e32c11478b291ee1bc.png" alt="Inheritance diagram of astropy.table.table.Column, astropy.table.table.MaskedColumn, astropy.table.table.Row, astropy.table.table.Table, astropy.table.table.TableColumns" usemap="#inheritance361621ece7" class="inheritance"/>
+<map id="inheritance361621ece7" name="inheritance361621ece7">
+<area shape="rect" id="node1" href="../_generated/astropy.table.table.Row.html#astropy.table.table.Row" title="astropy.table.table.Row" alt="" coords="33,233,193,259"/>
+<area shape="rect" id="node2" href="../_generated/astropy.table.table.Table.html#astropy.table.table.Table" title="astropy.table.table.Table" alt="" coords="29,184,196,211"/>
+<area shape="rect" id="node6" href="../_generated/astropy.table.table.MaskedColumn.html#astropy.table.table.MaskedColumn" title="astropy.table.table.MaskedColumn" alt="" coords="532,101,763,127"/>
+<area shape="rect" id="node10" href="../_generated/astropy.table.table.Column.html#astropy.table.table.Column" title="astropy.table.table.Column" alt="" coords="285,101,468,127"/>
+<area shape="rect" id="node13" href="../_generated/astropy.table.table.TableColumns.html#astropy.table.table.TableColumns" title="astropy.table.table.TableColumns" alt="" coords="266,4,487,31"/>
+</map>
+</p>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+
+
+<h3>Page Contents</h3>
+<ul>
+<li><a class="reference internal" href="#">Data Tables (<tt class="docutils literal"><span class="pre">astropy.table</span></tt>)</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#getting-started">Getting Started</a></li>
+<li><a class="reference internal" href="#using-table">Using <tt class="docutils literal"><span class="pre">table</span></tt></a><ul>
+</ul>
+</li>
+<li><a class="reference internal" href="#reference-api">Reference/API</a><ul>
+<li><a class="reference internal" href="#module-astropy.table">astropy.table Module</a><ul>
+<li><a class="reference internal" href="#classes">Classes</a><ul>
+</ul>
+</li>
+<li><a class="reference internal" href="#class-inheritance-diagram">Class Inheritance Diagram</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+<footer class="footer">
+  <p class="pull-right">
+    <a href="http://github.com/astropy/astropy/tree/v0.2.1/docs/table/index.rst">Edit This Page on Github</a> &nbsp;
+    <a href="../_sources/table/index.txt"
+       rel="nofollow">Page Source</a> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright 2011-2013, The Astropy Developers.<br/>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3+. &nbsp;
+    Last built 03 Apr 2013. <br/>
+  </p>
+</footer>
+ <!-- End original user content -->
+
+
+<br>
+<br>
+<br>
+
+
+<style type="text/css">
+  .rtd-badge {
+    position: fixed;
+    display: block;
+    bottom: 5px;
+    height: 40px;
+    text-indent: -9999em;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+  }
+  #version_menu {
+    position: fixed;
+    display: none;
+    bottom: 11px;
+    right: 166px;
+    list-style-type: none;
+    margin: 0;
+  }
+  .footer_popout:hover #version_menu {
+    display: block;
+  }
+  #version_menu li {
+    display: block;
+    float: right;
+  }
+  #version_menu li a {
+    display: block;
+    padding: 6px 10px 4px 10px;
+    margin: 7px 7px 0 0;
+    font-weight: bold;
+    font-size: 14px;
+    height: 20px;
+    line-height: 17px;
+    text-decoration: none;
+    color: #fff;
+    background: #8ca1af url(../images/gradient-light.png) bottom left repeat-x;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 1px #465158;
+    -moz-box-shadow: 0 1px 1px #465158;
+    -webkit-box-shadow: 0 1px 1px #465158;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+  }
+  #version_menu li a:hover {
+    text-decoration: none;
+    background-color: #697983;
+    box-shadow: 0 1px 0px #465158;
+    -moz-box-shadow: 0 1px 0px #465158;
+    -webkit-box-shadow: 0 1px 0px #465158;
+  }
+  .rtd-badge.rtd {
+    background: #3b4449 url(//media.readthedocs.org//images/badge-rtd.png) scroll 0px -46px no-repeat;
+    border: 1px solid #282E32;
+    width: 41px;
+    right: 5px;
+  }
+  .footer_popout:hover .rtd-badge.rtd {
+    background-position: top left;
+    width: 160px;
+  }
+  .rtd-badge.revsys { background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline-sponsored {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys-sm.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 205px;
+    right: 173px;
+  }
+
+</style>
+<div class="rtd_doc_footer">
+  <div class="footer_popout">
+    <a href="//readthedocs.org/projects/astropy/?fromdocs=astropy" class="rtd-badge rtd"> Brought to you by Read the Docs</a>
+    <ul id="version_menu">
+      
+        <li><a href="/en/latest/">latest</a></li>
+      
+        <li><a href="/en/add-mpl-to-rtd-pip-req/">add-mpl-to-rtd-pip-req</a></li>
+      
+        <li><a href="/en/v0.2.1/">v0.2.1</a></li>
+      
+        <li><a href="/en/v0.2/">v0.2</a></li>
+      
+        <li><a href="/en/v0.1/">v0.1</a></li>
+      
+    </ul>
+  </div>
+</div>
+<!-- RTD Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17997319-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+<!-- User Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-30968842-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+  </body>
+</html>

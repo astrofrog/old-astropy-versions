@@ -1,0 +1,48 @@
+
+
+Polynomial2D
+========================================
+
+.. currentmodule:: astropy.modeling.polynomial
+
+.. autoclass:: Polynomial2D
+   :show-inheritance:
+
+   
+     
+   
+
+   
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+   
+      ~Polynomial2D.deriv
+      ~Polynomial2D.invlex_coeff
+      ~Polynomial2D.mhorner
+
+   
+   
+
+   
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Documentation
+
+   
+   .. automethod:: deriv
+   .. automethod:: invlex_coeff
+   .. automethod:: mhorner
+
+   
+   

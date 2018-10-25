@@ -1,0 +1,91 @@
+
+
+SphericalCoordinatesBase
+=========================================================
+
+.. currentmodule:: astropy.coordinates.coordsystems
+
+.. autoclass:: SphericalCoordinatesBase
+   :show-inheritance:
+
+   
+     
+   
+
+   
+   
+
+   .. rubric:: Attributes Summary
+
+   .. autosummary::
+   
+      ~SphericalCoordinatesBase.cartesian
+      ~SphericalCoordinatesBase.distance
+      ~SphericalCoordinatesBase.equinox
+      ~SphericalCoordinatesBase.isscalar
+      ~SphericalCoordinatesBase.latangle
+      ~SphericalCoordinatesBase.lonangle
+      ~SphericalCoordinatesBase.shape
+      ~SphericalCoordinatesBase.x
+      ~SphericalCoordinatesBase.y
+      ~SphericalCoordinatesBase.z
+
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+   
+      ~SphericalCoordinatesBase.from_name
+      ~SphericalCoordinatesBase.is_transformable_to
+      ~SphericalCoordinatesBase.match_to_catalog_3d
+      ~SphericalCoordinatesBase.match_to_catalog_sky
+      ~SphericalCoordinatesBase.separation
+      ~SphericalCoordinatesBase.separation_3d
+      ~SphericalCoordinatesBase.to_string
+      ~SphericalCoordinatesBase.transform_to
+
+   
+   
+
+   
+   
+
+   .. rubric:: Attributes Documentation
+
+   
+   .. autoattribute:: cartesian
+   .. autoattribute:: distance
+   .. autoattribute:: equinox
+   .. autoattribute:: isscalar
+   .. autoattribute:: latangle
+   .. autoattribute:: lonangle
+   .. autoattribute:: shape
+   .. autoattribute:: x
+   .. autoattribute:: y
+   .. autoattribute:: z
+
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Documentation
+
+   
+   .. automethod:: from_name
+   .. automethod:: is_transformable_to
+   .. automethod:: match_to_catalog_3d
+   .. automethod:: match_to_catalog_sky
+   .. automethod:: separation
+   .. automethod:: separation_3d
+   .. automethod:: to_string
+   .. automethod:: transform_to
+
+   
+   

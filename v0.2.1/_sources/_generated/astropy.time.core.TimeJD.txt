@@ -1,0 +1,61 @@
+
+.. include:: ../time/references.txt
+
+
+TimeJD
+========================
+
+.. currentmodule:: astropy.time.core
+
+.. autoclass:: TimeJD
+   :show-inheritance:
+
+   
+
+   
+   
+
+   .. rubric:: Attributes Summary
+
+   .. autosummary::
+   
+      ~TimeJD.name
+      ~TimeJD.vals
+
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+   
+      ~TimeJD.set_jds
+
+   
+   
+
+   
+   
+
+   .. rubric:: Attributes Documentation
+
+   
+   .. autoattribute:: name
+   .. autoattribute:: vals
+
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Documentation
+
+   
+   .. automethod:: set_jds
+
+   
+   

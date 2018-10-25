@@ -1,0 +1,379 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+
+    <title>Standard units &mdash; Astropy v0.2.1</title>
+<!-- RTD <head> -->
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/underscore.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/doctools.js"></script>
+
+<script type="text/javascript">
+  // This is included here for Javascript that doesn't have access to the templates.
+  var doc_version = "v0.2.1";
+  var doc_slug = "astropy";
+</script>
+
+<script type="text/javascript" src="//media.readthedocs.org/javascript/rtd.js"></script>
+<!-- end RTD <head> -->
+
+    
+    <link rel="stylesheet" href="../_static/bootstrap-astropy.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.2.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="shortcut icon" href="../_static/astropy_logo.ico"/>
+    <link rel="top" title="Astropy v0.2.1" href="../index.html" />
+    <link rel="up" title="Units (astropy.units)" href="index.html" />
+    <link rel="next" title="Combining and defining units" href="combining_and_defining.html" />
+    <link rel="prev" title="Units (astropy.units)" href="index.html" /> 
+  </head>
+  <body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../index.html"></a>
+  <ul>
+    <li><a class="homelink" title="AstroPy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../genindex.html">Index</a></li>
+    <li><a title="Python Module Index" href="../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li class="right">
+	<a href="combining_and_defining.html" title="Combining and defining units">
+	  next &raquo;
+	</a>
+      </li>
+      <li class="right">
+	<a href="index.html" title="Units (astropy.units)">
+	  &laquo; previous
+	</a>
+	 |
+      </li>
+      <li>
+	<a href="../index.html">Astropy v0.2.1</a>
+	 &raquo;
+      </li>
+      <li><a href="index.html" accesskey="U">Units (<tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">astropy.units</span></tt>)</a> &raquo;</li>
+      
+      <li>Standard units</li> 
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="standard-units">
+<h1>Standard units<a class="headerlink" href="#standard-units" title="Permalink to this headline">¶</a></h1>
+<p>Standard units are defined in the <tt class="xref py py-obj docutils literal"><span class="pre">astropy.units</span></tt> package as object
+instances.</p>
+<p>All units are defined in term of basic &#8216;irreducible&#8217; units. The
+irreducible units include:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Length (meter)</li>
+<li>Time (second)</li>
+<li>Mass (kilogram)</li>
+<li>Current (ampere)</li>
+<li>Temperature (Kelvin)</li>
+<li>Angular distance (radian)</li>
+<li>Solid angle (steradian)</li>
+<li>Luminous intensity (candela)</li>
+<li>Stellar magnitude (mag)</li>
+<li>Amount of substance (mole)</li>
+<li>Photon count (photon)</li>
+</ul>
+</div></blockquote>
+<p>(There are also some more obscure base units required by the FITS
+standard that are no longer recommended for use.)</p>
+<p>Units that involve combinations of fundamental units are instances of
+<a class="reference internal" href="../_generated/astropy.units.core.CompositeUnit.html#astropy.units.core.CompositeUnit" title="astropy.units.core.CompositeUnit"><tt class="xref py py-obj docutils literal"><span class="pre">CompositeUnit</span></tt></a>. In most cases, one does not need
+to worry about the various kinds of unit classes unless one wants to
+design a more complex case.</p>
+<p>There are many units already predefined in the module. One may use the
+following function to list all the existing predefined units of a
+given type:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">astropy</span> <span class="kn">import</span> <span class="n">units</span> <span class="k">as</span> <span class="n">u</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="o">.</span><span class="n">g</span><span class="o">.</span><span class="n">find_equivalent_units</span><span class="p">()</span>
+<span class="go">  Primary name | Unit definition | Aliases</span>
+<span class="go">[</span>
+<span class="go">  M_e          | 9.109383e-31 kg |            ,</span>
+<span class="go">  M_p          | 1.672622e-27 kg |            ,</span>
+<span class="go">  g            | 1.000000e-03 kg | gram       ,</span>
+<span class="go">  kg           | irreducible     | kilogram   ,</span>
+<span class="go">  lb           | 4.535924e-01 kg | pound      ,</span>
+<span class="go">  oz           | 2.834952e-02 kg | ounce      ,</span>
+<span class="go">  solMass      | 1.989100e+30 kg |            ,</span>
+<span class="go">  t            | 1.000000e+03 kg | tonne      ,</span>
+<span class="go">  ton          | 9.071847e+02 kg |            ,</span>
+<span class="go">  u            | 1.660539e-27 kg | Da, Dalton ,</span>
+<span class="go">]</span>
+</pre></div>
+</div>
+<div class="section" id="the-dimensionless-unit">
+<h2>The dimensionless unit<a class="headerlink" href="#the-dimensionless-unit" title="Permalink to this headline">¶</a></h2>
+<p>In addition to these units, <tt class="xref py py-obj docutils literal"><span class="pre">astropy.units</span></tt> includes the concept of
+the dimensionless unit, used to indicate quantities that don&#8217;t have a
+physical dimension.  This is distinct in concept from a unit that is
+equal to <a class="reference external" href="http://docs.python.org/library/constants.html#None" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">None</span></tt></a>: that indicates that no unit was specified in the data
+or by the user.</p>
+<p>For convenience, there is a unit that is both dimensionless and
+unscaled: the <tt class="xref py py-obj docutils literal"><span class="pre">dimensionless_unscaled</span></tt> object:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">astropy</span> <span class="kn">import</span> <span class="n">units</span> <span class="k">as</span> <span class="n">u</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="o">.</span><span class="n">dimensionless_unscaled</span>
+<span class="go">Unit(dimensionless)</span>
+</pre></div>
+</div>
+<p>Dimensionless quantities are often defined as products or ratios of
+quantities that are not dimensionless, but whose dimensions cancel out
+when their powers are multiplied.  For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="o">.</span><span class="n">m</span> <span class="o">/</span> <span class="n">u</span><span class="o">.</span><span class="n">m</span>
+<span class="go">Unit(dimensionless)</span>
+</pre></div>
+</div>
+<p>For compatibility with the supported unit string formats, this is
+equivalent to <tt class="docutils literal"><span class="pre">Unit('')</span></tt> and <tt class="docutils literal"><span class="pre">Unit(1)</span></tt>, though using
+<tt class="docutils literal"><span class="pre">u.dimensionless_unscaled</span></tt> in Python code is preferred for
+readability:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="o">.</span><span class="n">dimensionless_unscaled</span> <span class="o">==</span> <span class="n">u</span><span class="o">.</span><span class="n">Unit</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="o">.</span><span class="n">dimensionless_unscaled</span> <span class="o">==</span> <span class="n">u</span><span class="o">.</span><span class="n">Unit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<p>Note that in many cases, a dimensionless unit may also have a scale.
+For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">km</span> <span class="o">/</span> <span class="n">u</span><span class="o">.</span><span class="n">m</span><span class="p">)</span><span class="o">.</span><span class="n">decompose</span><span class="p">()</span>
+<span class="go">Unit(dimensionless with a scale of 1000.0)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">km</span> <span class="o">/</span> <span class="n">u</span><span class="o">.</span><span class="n">m</span><span class="p">)</span><span class="o">.</span><span class="n">decompose</span><span class="p">()</span> <span class="o">==</span> <span class="n">u</span><span class="o">.</span><span class="n">dimensionless_unscaled</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+<p>To determine if a unit is dimensionless (but regardless of the scale),
+use the <tt class="xref py py-obj docutils literal"><span class="pre">physical_type</span></tt> property:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">km</span> <span class="o">/</span> <span class="n">u</span><span class="o">.</span><span class="n">m</span><span class="p">)</span><span class="o">.</span><span class="n">physical_type</span>
+<span class="go">u&#39;dimensionless&#39;</span>
+<span class="go"># This also has a scale, so it is not the same as u.dimensionless_unscaled</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">km</span> <span class="o">/</span> <span class="n">u</span><span class="o">.</span><span class="n">m</span><span class="p">)</span> <span class="o">==</span> <span class="n">u</span><span class="o">.</span><span class="n">dimensionless_unscaled</span>
+<span class="go">False</span>
+<span class="go"># However, (u.m / u.m) has a scale of 1.0, so it is the same</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">m</span> <span class="o">/</span> <span class="n">u</span><span class="o">.</span><span class="n">m</span><span class="p">)</span> <span class="o">==</span> <span class="n">u</span><span class="o">.</span><span class="n">dimensionless_unscaled</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+
+
+<h3>Page Contents</h3>
+<ul>
+<li><a class="reference internal" href="#">Standard units</a><ul>
+<li><a class="reference internal" href="#the-dimensionless-unit">The dimensionless unit</a></li>
+</ul>
+</li>
+</ul>
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+<footer class="footer">
+  <p class="pull-right">
+    <a href="http://github.com/astropy/astropy/tree/v0.2.1/docs/units/standard_units.rst">Edit This Page on Github</a> &nbsp;
+    <a href="../_sources/units/standard_units.txt"
+       rel="nofollow">Page Source</a> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright 2011-2013, The Astropy Developers.<br/>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3+. &nbsp;
+    Last built 03 Apr 2013. <br/>
+  </p>
+</footer>
+ <!-- End original user content -->
+
+
+<br>
+<br>
+<br>
+
+
+<style type="text/css">
+  .rtd-badge {
+    position: fixed;
+    display: block;
+    bottom: 5px;
+    height: 40px;
+    text-indent: -9999em;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+  }
+  #version_menu {
+    position: fixed;
+    display: none;
+    bottom: 11px;
+    right: 166px;
+    list-style-type: none;
+    margin: 0;
+  }
+  .footer_popout:hover #version_menu {
+    display: block;
+  }
+  #version_menu li {
+    display: block;
+    float: right;
+  }
+  #version_menu li a {
+    display: block;
+    padding: 6px 10px 4px 10px;
+    margin: 7px 7px 0 0;
+    font-weight: bold;
+    font-size: 14px;
+    height: 20px;
+    line-height: 17px;
+    text-decoration: none;
+    color: #fff;
+    background: #8ca1af url(../images/gradient-light.png) bottom left repeat-x;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 1px #465158;
+    -moz-box-shadow: 0 1px 1px #465158;
+    -webkit-box-shadow: 0 1px 1px #465158;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+  }
+  #version_menu li a:hover {
+    text-decoration: none;
+    background-color: #697983;
+    box-shadow: 0 1px 0px #465158;
+    -moz-box-shadow: 0 1px 0px #465158;
+    -webkit-box-shadow: 0 1px 0px #465158;
+  }
+  .rtd-badge.rtd {
+    background: #3b4449 url(//media.readthedocs.org//images/badge-rtd.png) scroll 0px -46px no-repeat;
+    border: 1px solid #282E32;
+    width: 41px;
+    right: 5px;
+  }
+  .footer_popout:hover .rtd-badge.rtd {
+    background-position: top left;
+    width: 160px;
+  }
+  .rtd-badge.revsys { background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline-sponsored {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys-sm.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 205px;
+    right: 173px;
+  }
+
+</style>
+<div class="rtd_doc_footer">
+  <div class="footer_popout">
+    <a href="//readthedocs.org/projects/astropy/?fromdocs=astropy" class="rtd-badge rtd"> Brought to you by Read the Docs</a>
+    <ul id="version_menu">
+      
+        <li><a href="/en/latest/">latest</a></li>
+      
+        <li><a href="/en/add-mpl-to-rtd-pip-req/">add-mpl-to-rtd-pip-req</a></li>
+      
+        <li><a href="/en/v0.2.1/">v0.2.1</a></li>
+      
+        <li><a href="/en/v0.2/">v0.2</a></li>
+      
+        <li><a href="/en/v0.1/">v0.1</a></li>
+      
+    </ul>
+  </div>
+</div>
+<!-- RTD Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17997319-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+<!-- User Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-30968842-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+  </body>
+</html>

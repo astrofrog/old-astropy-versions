@@ -1,0 +1,29 @@
+
+
+FlagCollection
+=============================================
+
+.. currentmodule:: astropy.nddata.flag_collection
+
+.. autoclass:: FlagCollection
+   :show-inheritance:
+
+   
+     
+   
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   

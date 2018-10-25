@@ -1,0 +1,504 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+
+    <title>astropy.cosmology.funcs &mdash; Astropy v0.2.1</title>
+<!-- RTD <head> -->
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/underscore.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/doctools.js"></script>
+
+<script type="text/javascript">
+  // This is included here for Javascript that doesn't have access to the templates.
+  var doc_version = "v0.2.1";
+  var doc_slug = "astropy";
+</script>
+
+<script type="text/javascript" src="//media.readthedocs.org/javascript/rtd.js"></script>
+<!-- end RTD <head> -->
+
+    
+    <link rel="stylesheet" href="../../../_static/bootstrap-astropy.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.2.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/sidebar.js"></script>
+    <link rel="shortcut icon" href="../../../_static/astropy_logo.ico"/>
+    <link rel="top" title="Astropy v0.2.1" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../../../index.html"></a>
+  <ul>
+    <li><a class="homelink" title="AstroPy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../../../genindex.html">Index</a></li>
+    <li><a title="Python Module Index" href="../../../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li>
+	<a href="../../../index.html">Astropy v0.2.1</a>
+	 &raquo;
+      </li>
+      <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li>
+      
+       
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for astropy.cosmology.funcs</h1><div class="highlight"><pre>
+<span class="c"># Licensed under a 3-clause BSD style license - see LICENSE.rst</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Convenience functions for `astropy.cosmology`.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">.core</span> <span class="kn">import</span> <span class="n">get_current</span> <span class="k">as</span> <span class="n">_get_current</span>
+
+<div class="viewcode-block" id="kpc_comoving_per_arcmin"><a class="viewcode-back" href="../../../_generated/astropy.cosmology.funcs.kpc_comoving_per_arcmin.html#astropy.cosmology.funcs.kpc_comoving_per_arcmin">[docs]</a><span class="k">def</span> <span class="nf">kpc_comoving_per_arcmin</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">cosmo</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Separation in transverse comoving kpc corresponding to an</span>
+<span class="sd">    arcminute at redshift `z`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    z : array_like</span>
+<span class="sd">      Input redshifts.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    d : ndarray, or float if input scalar</span>
+<span class="sd">      The distance in comoving kpc corresponding to an arcmin at each</span>
+<span class="sd">      input redshift.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">cosmo</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">cosmo</span> <span class="o">=</span> <span class="n">_get_current</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">cosmo</span><span class="o">.</span><span class="n">kpc_comoving_per_arcmin</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="kpc_proper_per_arcmin"><a class="viewcode-back" href="../../../_generated/astropy.cosmology.funcs.kpc_proper_per_arcmin.html#astropy.cosmology.funcs.kpc_proper_per_arcmin">[docs]</a><span class="k">def</span> <span class="nf">kpc_proper_per_arcmin</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">cosmo</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Separation in transverse proper kpc corresponding to an</span>
+<span class="sd">    arcminute at redshift `z`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    z : array_like</span>
+<span class="sd">      Input redshifts.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    d : ndarray, or float if input scalar</span>
+<span class="sd">      The distance in proper kpc corresponding to an arcmin at each</span>
+<span class="sd">      input redshift.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">cosmo</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">cosmo</span> <span class="o">=</span> <span class="n">_get_current</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">cosmo</span><span class="o">.</span><span class="n">kpc_proper_per_arcmin</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="arcsec_per_kpc_comoving"><a class="viewcode-back" href="../../../_generated/astropy.cosmology.funcs.arcsec_per_kpc_comoving.html#astropy.cosmology.funcs.arcsec_per_kpc_comoving">[docs]</a><span class="k">def</span> <span class="nf">arcsec_per_kpc_comoving</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">cosmo</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Angular separation in arcsec corresponding to a comoving kpc</span>
+<span class="sd">    at redshift `z`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    z : array_like</span>
+<span class="sd">      Input redshifts.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    theta : ndarray, or float if input scalar</span>
+<span class="sd">      The angular separation in arcsec corresponding to a comoving kpc</span>
+<span class="sd">      at each input redshift.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">cosmo</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">cosmo</span> <span class="o">=</span> <span class="n">_get_current</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">cosmo</span><span class="o">.</span><span class="n">arcsec_per_kpc_comoving</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="arcsec_per_kpc_proper"><a class="viewcode-back" href="../../../_generated/astropy.cosmology.funcs.arcsec_per_kpc_proper.html#astropy.cosmology.funcs.arcsec_per_kpc_proper">[docs]</a><span class="k">def</span> <span class="nf">arcsec_per_kpc_proper</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">cosmo</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Angular separation in arcsec corresponding to a proper kpc at</span>
+<span class="sd">    redshift `z`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    z : array_like</span>
+<span class="sd">      Input redshifts.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    theta : ndarray, or float if input scalar</span>
+<span class="sd">      The angular separation in arcsec corresponding to a proper kpc</span>
+<span class="sd">      at each input redshift.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">cosmo</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">cosmo</span> <span class="o">=</span> <span class="n">_get_current</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">cosmo</span><span class="o">.</span><span class="n">arcsec_per_kpc_proper</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="distmod"><a class="viewcode-back" href="../../../_generated/astropy.cosmology.funcs.distmod.html#astropy.cosmology.funcs.distmod">[docs]</a><span class="k">def</span> <span class="nf">distmod</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">cosmo</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Distance modulus at redshift `z`.</span>
+
+<span class="sd">    The distance modulus is defined as the (apparent magnitude -</span>
+<span class="sd">    absolute magnitude) for an object at redshift `z`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    z : array_like</span>
+<span class="sd">      Input redshifts.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    distmod : ndarray, or float if input scalar</span>
+<span class="sd">      Distance modulus at each input redshift.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">cosmo</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">cosmo</span> <span class="o">=</span> <span class="n">_get_current</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">cosmo</span><span class="o">.</span><span class="n">distmod</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="H"><a class="viewcode-back" href="../../../_generated/astropy.cosmology.funcs.H.html#astropy.cosmology.funcs.H">[docs]</a><span class="k">def</span> <span class="nf">H</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">cosmo</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Hubble parameter (km/s/Mpc) at redshift `z`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    z : array_like</span>
+<span class="sd">      Input redshifts.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    H : ndarray, or float if input scalar</span>
+<span class="sd">      Hubble parameter at each input redshift.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">cosmo</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">cosmo</span> <span class="o">=</span> <span class="n">_get_current</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">cosmo</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="scale_factor"><a class="viewcode-back" href="../../../_generated/astropy.cosmology.funcs.scale_factor.html#astropy.cosmology.funcs.scale_factor">[docs]</a><span class="k">def</span> <span class="nf">scale_factor</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">cosmo</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Scale factor at redshift `z`.</span>
+
+<span class="sd">    The scale factor is defined as `a = 1 / (1 + z)`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    z : array_like</span>
+<span class="sd">      Input redshifts.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    distmod : ndarray, or float if input scalar</span>
+<span class="sd">      Scale factor at each input redshift.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">cosmo</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">cosmo</span> <span class="o">=</span> <span class="n">_get_current</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">cosmo</span><span class="o">.</span><span class="n">scale_factor</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="critical_density"><a class="viewcode-back" href="../../../_generated/astropy.cosmology.funcs.critical_density.html#astropy.cosmology.funcs.critical_density">[docs]</a><span class="k">def</span> <span class="nf">critical_density</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">cosmo</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Critical density in grams per cubic cm at redshift `z`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    z : array_like</span>
+<span class="sd">      Input redshifts.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    critdens : ndarray, or float if input scalar</span>
+<span class="sd">      Critical density at each input redshift.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">cosmo</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">cosmo</span> <span class="o">=</span> <span class="n">_get_current</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">cosmo</span><span class="o">.</span><span class="n">critical_density</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="lookback_time"><a class="viewcode-back" href="../../../_generated/astropy.cosmology.funcs.lookback_time.html#astropy.cosmology.funcs.lookback_time">[docs]</a><span class="k">def</span> <span class="nf">lookback_time</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">cosmo</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Lookback time in Gyr to redshift `z`.</span>
+
+<span class="sd">    The lookback time is the difference between the age of the</span>
+<span class="sd">    Universe now and the age at redshift `z`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    z : array_like</span>
+<span class="sd">      Input redshifts.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    t : ndarray, or float if input scalar</span>
+<span class="sd">      Lookback time at each input redshift.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">cosmo</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">cosmo</span> <span class="o">=</span> <span class="n">_get_current</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">cosmo</span><span class="o">.</span><span class="n">lookback_time</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="comoving_distance"><a class="viewcode-back" href="../../../_generated/astropy.cosmology.funcs.comoving_distance.html#astropy.cosmology.funcs.comoving_distance">[docs]</a><span class="k">def</span> <span class="nf">comoving_distance</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">cosmo</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Comoving distance in Mpc at redshift `z`.</span>
+
+<span class="sd">    The comoving distance along the line-of-sight between two objects</span>
+<span class="sd">    remains constant with time for objects in the Hubble flow.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    z : array_like</span>
+<span class="sd">      Input redshifts.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    codist : ndarray, or float if input scalar</span>
+<span class="sd">      Comoving distance at each input redshift.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">cosmo</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">cosmo</span> <span class="o">=</span> <span class="n">_get_current</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">cosmo</span><span class="o">.</span><span class="n">comoving_distance</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="angular_diameter_distance"><a class="viewcode-back" href="../../../_generated/astropy.cosmology.funcs.angular_diameter_distance.html#astropy.cosmology.funcs.angular_diameter_distance">[docs]</a><span class="k">def</span> <span class="nf">angular_diameter_distance</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">cosmo</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Angular diameter distance in Mpc at a given redshift.</span>
+
+<span class="sd">    This gives the proper (sometimes called &#39;physical&#39;) transverse</span>
+<span class="sd">    distance corresponding to an angle of 1 radian for an object at</span>
+<span class="sd">    redshift `z`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    z : array_like</span>
+<span class="sd">      Input redshifts.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    angdist : ndarray, or float if input scalar</span>
+<span class="sd">      Angular diameter distance at each input redshift.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">cosmo</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">cosmo</span> <span class="o">=</span> <span class="n">_get_current</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">cosmo</span><span class="o">.</span><span class="n">angular_diameter_distance</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="luminosity_distance"><a class="viewcode-back" href="../../../_generated/astropy.cosmology.funcs.luminosity_distance.html#astropy.cosmology.funcs.luminosity_distance">[docs]</a><span class="k">def</span> <span class="nf">luminosity_distance</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">cosmo</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Luminosity distance in Mpc at redshift `z`.</span>
+
+<span class="sd">    This is the distance to use when converting between the bolometric</span>
+<span class="sd">    flux from an object at redshift `z` and its bolometric luminosity.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    z : array_like</span>
+<span class="sd">      Input redshifts.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    lumdist : ndarray, or float if input scalar</span>
+<span class="sd">      Angular diameter distance at each input redshift.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">cosmo</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">cosmo</span> <span class="o">=</span> <span class="n">_get_current</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">cosmo</span><span class="o">.</span><span class="n">luminosity_distance</span><span class="p">(</span><span class="n">z</span><span class="p">)</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+
+
+<h3>Page Contents</h3>
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+<footer class="footer">
+  <p class="pull-right"> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright 2011-2013, The Astropy Developers.<br/>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3+. &nbsp;
+    Last built 03 Apr 2013. <br/>
+  </p>
+</footer>
+ <!-- End original user content -->
+
+
+<br>
+<br>
+<br>
+
+
+<style type="text/css">
+  .rtd-badge {
+    position: fixed;
+    display: block;
+    bottom: 5px;
+    height: 40px;
+    text-indent: -9999em;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+  }
+  #version_menu {
+    position: fixed;
+    display: none;
+    bottom: 11px;
+    right: 166px;
+    list-style-type: none;
+    margin: 0;
+  }
+  .footer_popout:hover #version_menu {
+    display: block;
+  }
+  #version_menu li {
+    display: block;
+    float: right;
+  }
+  #version_menu li a {
+    display: block;
+    padding: 6px 10px 4px 10px;
+    margin: 7px 7px 0 0;
+    font-weight: bold;
+    font-size: 14px;
+    height: 20px;
+    line-height: 17px;
+    text-decoration: none;
+    color: #fff;
+    background: #8ca1af url(../images/gradient-light.png) bottom left repeat-x;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 1px #465158;
+    -moz-box-shadow: 0 1px 1px #465158;
+    -webkit-box-shadow: 0 1px 1px #465158;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+  }
+  #version_menu li a:hover {
+    text-decoration: none;
+    background-color: #697983;
+    box-shadow: 0 1px 0px #465158;
+    -moz-box-shadow: 0 1px 0px #465158;
+    -webkit-box-shadow: 0 1px 0px #465158;
+  }
+  .rtd-badge.rtd {
+    background: #3b4449 url(//media.readthedocs.org//images/badge-rtd.png) scroll 0px -46px no-repeat;
+    border: 1px solid #282E32;
+    width: 41px;
+    right: 5px;
+  }
+  .footer_popout:hover .rtd-badge.rtd {
+    background-position: top left;
+    width: 160px;
+  }
+  .rtd-badge.revsys { background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline-sponsored {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys-sm.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 205px;
+    right: 173px;
+  }
+
+</style>
+<div class="rtd_doc_footer">
+  <div class="footer_popout">
+    <a href="//readthedocs.org/projects/astropy/?fromdocs=astropy" class="rtd-badge rtd"> Brought to you by Read the Docs</a>
+    <ul id="version_menu">
+      
+        <li><a href="/en/latest/">latest</a></li>
+      
+        <li><a href="/en/add-mpl-to-rtd-pip-req/">add-mpl-to-rtd-pip-req</a></li>
+      
+        <li><a href="/en/v0.2.1/">v0.2.1</a></li>
+      
+        <li><a href="/en/v0.2/">v0.2</a></li>
+      
+        <li><a href="/en/v0.1/">v0.1</a></li>
+      
+    </ul>
+  </div>
+</div>
+<!-- RTD Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17997319-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+<!-- User Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-30968842-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+  </body>
+</html>

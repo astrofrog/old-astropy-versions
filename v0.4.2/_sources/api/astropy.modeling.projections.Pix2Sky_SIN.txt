@@ -1,0 +1,44 @@
+
+
+Pix2Sky_SIN
+========================================
+
+.. currentmodule:: astropy.modeling.projections
+
+.. autoclass:: Pix2Sky_SIN
+   :show-inheritance:
+
+   
+
+   
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+   
+      ~Pix2Sky_SIN.__call__
+      ~Pix2Sky_SIN.inverse
+
+   
+   
+
+   
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Documentation
+
+   
+   .. automethod:: __call__
+   .. automethod:: inverse
+
+   
+   

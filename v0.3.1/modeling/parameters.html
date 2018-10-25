@@ -1,0 +1,280 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Parameters &mdash; Astropy v0.3.1</title>
+    
+    <link rel="stylesheet" href="../_static/bootstrap-astropy.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="https://media.readthedocs.org/css/badge_only.css" type="text/css" />
+    <link rel="stylesheet" href="https://media.readthedocs.org/css/readthedocs-doc-embed.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.3.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/jquery/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/jquery/jquery-migrate-1.2.1.min.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/underscore.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/doctools.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/readthedocs-doc-embed.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="shortcut icon" href="../_static/astropy_logo.ico"/>
+    <link rel="top" title="Astropy v0.3.1" href="../index.html" />
+    <link rel="up" title="Models And Fitting (astropy.modeling)" href="index.html" />
+    <link rel="next" title="Creating and Evaluating Models" href="models.html" />
+    <link rel="prev" title="Models And Fitting (astropy.modeling)" href="index.html" />
+
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,600' rel='stylesheet' type='text/css'>
+
+<!-- RTD Extra Head -->
+
+
+
+<!-- 
+Read the Docs is acting as the canonical URL for your project. 
+If you want to change it, more info is available in our docs:
+  http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="http://astropy.readthedocs.org/en/latest/modeling/parameters.html">
+
+<script type="text/javascript">
+  // This is included here because other places don't have access to the pagename variable.
+  var READTHEDOCS_DATA = {
+    project: "astropy",
+    version: "v0.3.1",
+    language: "en",
+    page: "modeling/parameters",
+    theme: "bootstrap-astropy",
+    docroot: "/docs/",
+    api_host: "https://readthedocs.org"
+  }
+  // Old variables
+  var doc_version = "v0.3.1";
+  var doc_slug = "astropy";
+  var page_name = "modeling/parameters";
+  var html_theme = "bootstrap-astropy";
+</script>
+<!-- RTD Analytics Code -->
+<!-- Included in the header because you don't have a footer block. -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17997319-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+<!-- end RTD Analytics Code -->
+
+
+<!-- User Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-30968842-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+<!-- End User Analytics Code -->
+
+<!-- end RTD <extrahead> -->
+
+  </head>
+  <body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../index.html"><span id="logotext1">astro</span><span id="logotext2">py</span><span id="logotext3">:docs</span></a>
+  <ul>
+    <li><a class="homelink" title="Astropy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../genindex.html">Index</a></li>
+    <li><a title="Module Index" href="../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li class="right">
+	<a href="models.html" title="Creating and Evaluating Models">
+	  next &raquo;
+	</a>
+      </li>
+      <li class="right">
+	<a href="index.html" title="Models And Fitting (astropy.modeling)">
+	  &laquo; previous
+	</a>
+	 |
+      </li>
+      <li>
+	<a href="../index.html">Astropy v0.3.1</a>
+	 &raquo;
+      </li>
+      <li><a href="index.html" accesskey="U">Models And Fitting (<tt class="docutils literal"><span class="pre">astropy.modeling</span></tt>)</a> &raquo;</li>
+      
+      <li>Parameters</li> 
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="parameters">
+<h1>Parameters<a class="headerlink" href="#parameters" title="Permalink to this headline">¶</a></h1>
+<p>Parameters are used in three different contexts within this package:
+communicating with fitters, model evaluation and getting values to/from users.</p>
+<p>Models maintain a list of parameter names,
+<a class="reference internal" href="../api/astropy.modeling.core.Model.html#astropy.modeling.core.Model.param_names" title="astropy.modeling.core.Model.param_names"><tt class="xref py py-obj docutils literal"><span class="pre">param_names</span></tt></a>.  Single parameters are instances of
+<a class="reference internal" href="../api/astropy.modeling.parameters.Parameter.html#astropy.modeling.parameters.Parameter" title="astropy.modeling.parameters.Parameter"><tt class="xref py py-obj docutils literal"><span class="pre">Parameter</span></tt></a> which provide a proxy for the actual
+parameter values.  Simple mathematical operations can be performed with them,
+but they also contain additional attributes specific to model parameters, such
+as any constraints on their values. The preferred way for users to interact
+with models is through individual parameters.</p>
+<p>The goal of this package is, when possible, to allow simultaneous model
+evaluation and fitting with multiple parameter sets. Because of this, all
+models have a <a class="reference internal" href="../api/astropy.modeling.core.Model.html#astropy.modeling.core.Model.param_sets" title="astropy.modeling.core.Model.param_sets"><tt class="xref py py-obj docutils literal"><span class="pre">param_sets</span></tt></a> attribute, an array of
+shape <tt class="docutils literal"><span class="pre">(len(param_names),</span> <span class="pre">param_dim)</span></tt>, where
+<a class="reference internal" href="../api/astropy.modeling.core.Model.html#astropy.modeling.core.Model.param_dim" title="astropy.modeling.core.Model.param_dim"><tt class="xref py py-obj docutils literal"><span class="pre">param_dim</span></tt></a> is the number of parameter sets.
+Typically the array is of type float but can become an object array in some
+cases. <a class="reference internal" href="../api/astropy.modeling.core.Model.html#astropy.modeling.core.Model.param_sets" title="astropy.modeling.core.Model.param_sets"><tt class="xref py py-obj docutils literal"><span class="pre">param_sets</span></tt></a> is used for model evaluation.</p>
+<p>In addition, fittable models maintain an attribute,
+<a class="reference internal" href="../api/astropy.modeling.core.ParametricModel.html#astropy.modeling.core.ParametricModel.parameters" title="astropy.modeling.core.ParametricModel.parameters"><tt class="xref py py-obj docutils literal"><span class="pre">parameters</span></tt></a>, which is a flattened 1D
+array of parameter values. It serves as the primary storage of the raw values
+of fittable models&#8217; parameters, and is used directly by fitters as an efficient
+means of reading and updating a model&#8217;s parameters.</p>
+<div class="section" id="parameter-examples">
+<h2>Parameter examples<a class="headerlink" href="#parameter-examples" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p class="first">Polynomial models are created by default with all coefficients set to 0:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">astropy.modeling</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Polynomial1D</span><span class="p">(</span><span class="n">degree</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span><span class="o">.</span><span class="n">param_names</span>
+<span class="go">[&#39;c0&#39;, &#39;c1&#39;, &#39;c2&#39;, &#39;c3&#39;, &#39;c4&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span><span class="o">.</span><span class="n">parameters</span>
+<span class="go">array([ 0.,  0.,  0.,  0.,  0.])</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Coefficients can be set using the
+<a class="reference internal" href="../api/astropy.modeling.core.ParametricModel.html#astropy.modeling.core.ParametricModel.parameters" title="astropy.modeling.core.ParametricModel.parameters"><tt class="xref py py-obj docutils literal"><span class="pre">parameters</span></tt></a> attribute:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span><span class="o">.</span><span class="n">parameters</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span><span class="o">.</span><span class="n">parameters</span>
+<span class="go">array([ 0.,  1.,  2.,  3.,  4.])</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">It is possible to set the coefficients passing the parameters in a
+dictionary:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">ch2</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Chebyshev2D</span><span class="p">(</span><span class="n">x_degree</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">y_degree</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">param_dim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">coeff</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">((</span><span class="n">name</span><span class="p">,</span> <span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="n">idx</span> <span class="o">+</span> <span class="mi">10</span><span class="p">])</span>
+<span class="gp">... </span>             <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ch2</span><span class="o">.</span><span class="n">param_names</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ch2</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Chebyshev2D</span><span class="p">(</span><span class="n">x_degree</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">y_degree</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="o">**</span><span class="n">coeff</span><span class="p">)</span>
+<span class="go">INFO: Inferred 2 dimensions when creating a Chebyshev2D model. Resetting param_dim to 2 [astropy.modeling.polynomial]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ch2</span><span class="o">.</span><span class="n">param_sets</span>
+<span class="go">array([[  0.,  10.],</span>
+<span class="go">       [  1.,  11.],</span>
+<span class="go">       [  2.,  12.],</span>
+<span class="go">       [  3.,  13.],</span>
+<span class="go">       [  4.,  14.],</span>
+<span class="go">       [  5.,  15.],</span>
+<span class="go">       [  6.,  16.],</span>
+<span class="go">       [  7.,  17.],</span>
+<span class="go">       [  8.,  18.],</span>
+<span class="go">       [  9.,  19.],</span>
+<span class="go">       [ 10.,  20.],</span>
+<span class="go">       [ 11.,  21.]])</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">or directly, using keyword arguments:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">ch2</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Chebyshev2D</span><span class="p">(</span><span class="n">x_degree</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">y_degree</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+<span class="gp">... </span>                              <span class="n">c0_0</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span> <span class="n">c0_1</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">13</span><span class="p">],</span>
+<span class="gp">... </span>                              <span class="n">c0_2</span><span class="o">=</span><span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">16</span><span class="p">],</span> <span class="n">c0_3</span><span class="o">=</span><span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="mi">19</span><span class="p">],</span>
+<span class="gp">... </span>                              <span class="n">c1_0</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">11</span><span class="p">],</span> <span class="n">c1_1</span><span class="o">=</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">14</span><span class="p">],</span>
+<span class="gp">... </span>                              <span class="n">c1_2</span><span class="o">=</span><span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">17</span><span class="p">],</span> <span class="n">c1_3</span><span class="o">=</span><span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,],</span>
+<span class="gp">... </span>                              <span class="n">c2_0</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">12</span><span class="p">],</span> <span class="n">c2_1</span><span class="o">=</span><span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">15</span><span class="p">],</span>
+<span class="gp">... </span>                              <span class="n">c2_2</span><span class="o">=</span><span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">18</span><span class="p">],</span> <span class="n">c2_3</span><span class="o">=</span><span class="p">[</span><span class="mi">11</span><span class="p">,</span> <span class="mi">21</span><span class="p">])</span>
+<span class="go">INFO: Inferred 2 dimensions when creating a Chebyshev2D model. Resetting param_dim to 2 [astropy.modeling.polynomial]</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">It is possible to change a single parameter:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">ch2</span><span class="o">.</span><span class="n">c0_0</span>
+<span class="go">Parameter(&#39;c0_0&#39;, value=array([  0.,  10.]))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ch2</span><span class="o">.</span><span class="n">c0_0</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mf">34.2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ch2</span><span class="o">.</span><span class="n">c0_0</span>
+<span class="go">Parameter(&#39;c0_0&#39;, value=array([-34.2,  10. ]))</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">The number of parameter sets is stored in an attribute
+<a class="reference internal" href="../api/astropy.modeling.core.Model.html#astropy.modeling.core.Model.param_dim" title="astropy.modeling.core.Model.param_dim"><tt class="xref py py-obj docutils literal"><span class="pre">param_dim</span></tt></a>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">ch2</span><span class="o">.</span><span class="n">param_dim</span>
+<span class="go">2</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"><h3>Page Contents</h3>
+<ul>
+<li><a class="reference internal" href="#">Parameters</a><ul>
+<li><a class="reference internal" href="#parameter-examples">Parameter examples</a></li>
+</ul>
+</li>
+</ul>
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+<footer class="footer">
+  <p class="pull-right">
+    <a href="http://github.com/astropy/astropy/tree/v0.3.x/docs/modeling/parameters.rst">Edit This Page on Github</a> &nbsp;
+    <a href="../_sources/modeling/parameters.txt"
+       rel="nofollow">Page Source</a> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright 2011-2013, The Astropy Developers.<br/>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2. &nbsp;
+    Last built 05 Mar 2014. <br/>
+  </p>
+</footer>
+  </body>
+</html>

@@ -1,0 +1,46 @@
+
+
+RA
+=============================
+
+.. currentmodule:: astropy.coordinates.angles
+
+.. autoclass:: RA
+   :show-inheritance:
+
+   
+     
+   
+
+   
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+   
+      ~RA.hour_angle
+      ~RA.lst
+
+   
+   
+
+   
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Documentation
+
+   
+   .. automethod:: hour_angle
+   .. automethod:: lst
+
+   
+   

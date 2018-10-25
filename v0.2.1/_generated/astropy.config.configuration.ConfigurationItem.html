@@ -1,0 +1,488 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+
+    <title>ConfigurationItem &mdash; Astropy v0.2.1</title>
+<!-- RTD <head> -->
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/underscore.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/doctools.js"></script>
+
+<script type="text/javascript">
+  // This is included here for Javascript that doesn't have access to the templates.
+  var doc_version = "v0.2.1";
+  var doc_slug = "astropy";
+</script>
+
+<script type="text/javascript" src="//media.readthedocs.org/javascript/rtd.js"></script>
+<!-- end RTD <head> -->
+
+    
+    <link rel="stylesheet" href="../_static/bootstrap-astropy.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.2.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="shortcut icon" href="../_static/astropy_logo.ico"/>
+    <link rel="top" title="Astropy v0.2.1" href="../index.html" />
+    <link rel="up" title="Configuration system (astropy.config)" href="../configs/index.html" />
+    <link rel="next" title="ConfigurationMissingWarning" href="astropy.config.configuration.ConfigurationMissingWarning.html" />
+    <link rel="prev" title="save_config" href="astropy.config.configuration.save_config.html" /> 
+  </head>
+  <body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../index.html"></a>
+  <ul>
+    <li><a class="homelink" title="AstroPy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../genindex.html">Index</a></li>
+    <li><a title="Python Module Index" href="../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li class="right">
+	<a href="astropy.config.configuration.ConfigurationMissingWarning.html" title="ConfigurationMissingWarning">
+	  next &raquo;
+	</a>
+      </li>
+      <li class="right">
+	<a href="astropy.config.configuration.save_config.html" title="save_config">
+	  &laquo; previous
+	</a>
+	 |
+      </li>
+      <li>
+	<a href="../index.html">Astropy v0.2.1</a>
+	 &raquo;
+      </li>
+      <li><a href="../configs/index.html" accesskey="U">Configuration system (<tt class="docutils literal"><span class="pre">astropy.config</span></tt>)</a> &raquo;</li>
+      
+      <li>ConfigurationItem</li> 
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="configurationitem">
+<h1>ConfigurationItem<a class="headerlink" href="#configurationitem" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="astropy.config.configuration.ConfigurationItem">
+<em class="property">class </em><tt class="descclassname">astropy.config.configuration.</tt><tt class="descname">ConfigurationItem</tt><big>(</big><em>name</em>, <em>defaultvalue=''</em>, <em>description=None</em>, <em>cfgtype=None</em>, <em>module=None</em><big>)</big><a class="reference internal" href="../_modules/astropy/config/configuration.html#ConfigurationItem"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/config/configuration.py#L55" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.config.configuration.ConfigurationItem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>A setting and associated value stored in the astropy configuration
+files.</p>
+<p>These objects are typically defined at the top of astropy subpackages
+or affiliated packages, and store values or option settings that can be
+modified by the user to</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>name</strong> : str</p>
+<blockquote>
+<div><p>The (case-sensitive) name of this parameter, as shown in the
+configuration file.</p>
+</div></blockquote>
+<p><strong>defaultvalue</strong> :</p>
+<blockquote>
+<div><p>The default value for this item. If this is a list of strings, this
+item will be interpreted as an &#8216;options&#8217; value - this item must be one
+of those values, and the first in the list will be taken as the default
+value.</p>
+</div></blockquote>
+<p><strong>description</strong> : str or None</p>
+<blockquote>
+<div><p>A description of this item (will be shown as a comment in the
+configuration file)</p>
+</div></blockquote>
+<p><strong>cfgtype</strong> : str or None</p>
+<blockquote>
+<div><p>A type specifier like those used as the <em>values</em> of a particular key in
+a <tt class="xref py py-obj docutils literal"><span class="pre">configspec</span></tt> file of <tt class="xref py py-obj docutils literal"><span class="pre">configobj</span></tt>. If None, the type will be inferred
+from the default value.</p>
+</div></blockquote>
+<p><strong>module</strong> : str or None</p>
+<blockquote>
+<div><p>The full module name that this item is associated with. The first
+element (e.g. &#8216;astropy&#8217; if this is &#8216;astropy.config.configuration&#8217;)
+will be used to determine the name of the configuration file, while
+the remaining items determine the section. If None, the package will be
+inferred from the package within whiich this object&#8217;s initializer is
+called.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises :</th><td class="field-body"><p class="first"><strong>RuntimeError</strong> :</p>
+<blockquote class="last">
+<div><p>If <tt class="xref py py-obj docutils literal"><span class="pre">module</span></tt> is None, but the module this item is created from cannot
+be determined.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<p>The following example will create an item &#8216;cfgoption = 42&#8217; in the
+&#8216;[configuration]&#8217; section of astropy.cfg (located in the directory that
+<a class="reference internal" href="astropy.config.paths.get_config_dir.html#astropy.config.paths.get_config_dir" title="astropy.config.paths.get_config_dir"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.config.paths.get_config_dir</span></tt></a> returns), or if the option is already
+set, it will take the value from the configuration file:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">astropy.config</span> <span class="kn">import</span> <span class="n">ConfigurationItem</span>
+
+<span class="n">CFG_OPTION</span> <span class="o">=</span> <span class="n">ConfigurationItem</span><span class="p">(</span><span class="s">&#39;cfgoption&#39;</span><span class="p">,</span><span class="mi">42</span><span class="p">,</span><span class="n">module</span><span class="o">=</span><span class="s">&#39;astropy.configuration&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If called as <tt class="docutils literal"><span class="pre">CFG_OPTION()</span></tt>, this will return the value <tt class="docutils literal"><span class="pre">42</span></tt>, or some
+other integer if the <tt class="docutils literal"><span class="pre">astropy.cfg</span></tt> file specifies a different value.</p>
+<p>If this were a file <tt class="docutils literal"><span class="pre">astropy/configuration/__init__.py</span></tt>, the <tt class="xref py py-obj docutils literal"><span class="pre">module</span></tt>
+option would not be necessary, as it would automatically detect the correct
+module.</p>
+<p class="rubric">Methods Summary</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.config.configuration.ConfigurationItem.reload" title="astropy.config.configuration.ConfigurationItem.reload"><tt class="xref py py-obj docutils literal"><span class="pre">reload</span></tt></a>()</td>
+<td>Reloads the value of this <a class="reference internal" href="#astropy.config.configuration.ConfigurationItem" title="astropy.config.configuration.ConfigurationItem"><tt class="xref py py-obj docutils literal"><span class="pre">ConfigurationItem</span></tt></a> from the relevant configuration file.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#astropy.config.configuration.ConfigurationItem.save" title="astropy.config.configuration.ConfigurationItem.save"><tt class="xref py py-obj docutils literal"><span class="pre">save</span></tt></a>([value])</td>
+<td>Writes a value for this <a class="reference internal" href="#astropy.config.configuration.ConfigurationItem" title="astropy.config.configuration.ConfigurationItem"><tt class="xref py py-obj docutils literal"><span class="pre">ConfigurationItem</span></tt></a> to the relevant configuration file.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.config.configuration.ConfigurationItem.set" title="astropy.config.configuration.ConfigurationItem.set"><tt class="xref py py-obj docutils literal"><span class="pre">set</span></tt></a>(value)</td>
+<td>Sets the current value of this <a class="reference internal" href="#astropy.config.configuration.ConfigurationItem" title="astropy.config.configuration.ConfigurationItem"><tt class="xref py py-obj docutils literal"><span class="pre">ConfigurationItem</span></tt></a>.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#astropy.config.configuration.ConfigurationItem.set_temp" title="astropy.config.configuration.ConfigurationItem.set_temp"><tt class="xref py py-obj docutils literal"><span class="pre">set_temp</span></tt></a>(*args,&nbsp;**kwds)</td>
+<td>Sets this item to a specified value only inside a while loop.</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods Documentation</p>
+<dl class="method">
+<dt id="astropy.config.configuration.ConfigurationItem.reload">
+<tt class="descname">reload</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/astropy/config/configuration.html#ConfigurationItem.reload"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/config/configuration.py#L280" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.config.configuration.ConfigurationItem.reload" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reloads the value of this <a class="reference internal" href="#astropy.config.configuration.ConfigurationItem" title="astropy.config.configuration.ConfigurationItem"><tt class="xref py py-obj docutils literal"><span class="pre">ConfigurationItem</span></tt></a> from the relevant
+configuration file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>val</strong> :</p>
+<blockquote class="last">
+<div><p>The new value loaded from the configuration file.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.config.configuration.ConfigurationItem.save">
+<tt class="descname">save</tt><big>(</big><em>value=None</em><big>)</big><a class="reference internal" href="../_modules/astropy/config/configuration.html#ConfigurationItem.save"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/config/configuration.py#L231" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.config.configuration.ConfigurationItem.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Writes a value for this <a class="reference internal" href="#astropy.config.configuration.ConfigurationItem" title="astropy.config.configuration.ConfigurationItem"><tt class="xref py py-obj docutils literal"><span class="pre">ConfigurationItem</span></tt></a> to the relevant
+configuration file.</p>
+<p>This also writes updated versions of the comments that give the
+description and type information.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This only saves the value of this <em>particular</em> <a class="reference internal" href="#astropy.config.configuration.ConfigurationItem" title="astropy.config.configuration.ConfigurationItem"><tt class="xref py py-obj docutils literal"><span class="pre">ConfigurationItem</span></tt></a>.
+To save all configuration settings for this package at once, see
+<a class="reference internal" href="astropy.config.configuration.save_config.html#astropy.config.configuration.save_config" title="astropy.config.configuration.save_config"><tt class="xref py py-obj docutils literal"><span class="pre">save_config</span></tt></a>.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>value</strong> :</p>
+<blockquote>
+<div><p>Save this value to the configuration file. If None, the current
+value of this <a class="reference internal" href="#astropy.config.configuration.ConfigurationItem" title="astropy.config.configuration.ConfigurationItem"><tt class="xref py py-obj docutils literal"><span class="pre">ConfigurationItem</span></tt></a> will be saved.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises :</th><td class="field-body"><p class="first"><strong>TypeError</strong> :</p>
+<blockquote class="last">
+<div><p>If the provided <tt class="xref py py-obj docutils literal"><span class="pre">value</span></tt> is not valid for this <a class="reference internal" href="#astropy.config.configuration.ConfigurationItem" title="astropy.config.configuration.ConfigurationItem"><tt class="xref py py-obj docutils literal"><span class="pre">ConfigurationItem</span></tt></a>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.config.configuration.ConfigurationItem.set">
+<tt class="descname">set</tt><big>(</big><em>value</em><big>)</big><a class="reference internal" href="../_modules/astropy/config/configuration.html#ConfigurationItem.set"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/config/configuration.py#L175" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.config.configuration.ConfigurationItem.set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the current value of this <a class="reference internal" href="#astropy.config.configuration.ConfigurationItem" title="astropy.config.configuration.ConfigurationItem"><tt class="xref py py-obj docutils literal"><span class="pre">ConfigurationItem</span></tt></a>.</p>
+<p>This also updates the comments that give the description and type
+information.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This does <em>not</em> save the value of this <a class="reference internal" href="#astropy.config.configuration.ConfigurationItem" title="astropy.config.configuration.ConfigurationItem"><tt class="xref py py-obj docutils literal"><span class="pre">ConfigurationItem</span></tt></a> to the
+configuration file.  To do that, use <a class="reference internal" href="#astropy.config.configuration.ConfigurationItem.save" title="astropy.config.configuration.ConfigurationItem.save"><tt class="xref py py-obj docutils literal"><span class="pre">ConfigurationItem.save</span></tt></a> or
+<a class="reference internal" href="astropy.config.configuration.save_config.html#astropy.config.configuration.save_config" title="astropy.config.configuration.save_config"><tt class="xref py py-obj docutils literal"><span class="pre">save_config</span></tt></a>.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>value</strong> :</p>
+<blockquote>
+<div><p>The value this item should be set to.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises :</th><td class="field-body"><p class="first"><strong>TypeError</strong> :</p>
+<blockquote class="last">
+<div><p>If the provided <tt class="xref py py-obj docutils literal"><span class="pre">value</span></tt> is not valid for this <a class="reference internal" href="#astropy.config.configuration.ConfigurationItem" title="astropy.config.configuration.ConfigurationItem"><tt class="xref py py-obj docutils literal"><span class="pre">ConfigurationItem</span></tt></a>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.config.configuration.ConfigurationItem.set_temp">
+<tt class="descname">set_temp</tt><big>(</big><em>*args</em>, <em>**kwds</em><big>)</big><a class="reference internal" href="../_modules/astropy/config/configuration.html#ConfigurationItem.set_temp"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/config/configuration.py#L82" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.config.configuration.ConfigurationItem.set_temp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets this item to a specified value only inside a while loop.</p>
+<dl class="docutils">
+<dt>Use as::</dt>
+<dd><p class="first">ITEM = ConfigurationItem(&#8216;ITEM&#8217;, &#8216;default&#8217;, &#8216;description&#8217;)</p>
+<dl class="last docutils">
+<dt>with ITEM.set_temp(&#8216;newval&#8217;):</dt>
+<dd><blockquote class="first">
+<div>... do something that wants ITEM&#8217;s value to be &#8216;newval&#8217; ...</div></blockquote>
+<p class="last"># ITEM is now &#8216;default&#8217; after the with block</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>value</strong> :</p>
+<blockquote class="last">
+<div><p>The value to set this item to inside the with block.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+
+
+<h3>Page Contents</h3>
+<ul>
+<li><a class="reference internal" href="#">ConfigurationItem</a></li>
+</ul>
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+<footer class="footer">
+  <p class="pull-right">
+    <a href="../_sources/_generated/astropy.config.configuration.ConfigurationItem.txt"
+       rel="nofollow">Page Source</a> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright 2011-2013, The Astropy Developers.<br/>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3+. &nbsp;
+    Last built 03 Apr 2013. <br/>
+  </p>
+</footer>
+ <!-- End original user content -->
+
+
+<br>
+<br>
+<br>
+
+
+<style type="text/css">
+  .rtd-badge {
+    position: fixed;
+    display: block;
+    bottom: 5px;
+    height: 40px;
+    text-indent: -9999em;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+  }
+  #version_menu {
+    position: fixed;
+    display: none;
+    bottom: 11px;
+    right: 166px;
+    list-style-type: none;
+    margin: 0;
+  }
+  .footer_popout:hover #version_menu {
+    display: block;
+  }
+  #version_menu li {
+    display: block;
+    float: right;
+  }
+  #version_menu li a {
+    display: block;
+    padding: 6px 10px 4px 10px;
+    margin: 7px 7px 0 0;
+    font-weight: bold;
+    font-size: 14px;
+    height: 20px;
+    line-height: 17px;
+    text-decoration: none;
+    color: #fff;
+    background: #8ca1af url(../images/gradient-light.png) bottom left repeat-x;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 1px #465158;
+    -moz-box-shadow: 0 1px 1px #465158;
+    -webkit-box-shadow: 0 1px 1px #465158;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+  }
+  #version_menu li a:hover {
+    text-decoration: none;
+    background-color: #697983;
+    box-shadow: 0 1px 0px #465158;
+    -moz-box-shadow: 0 1px 0px #465158;
+    -webkit-box-shadow: 0 1px 0px #465158;
+  }
+  .rtd-badge.rtd {
+    background: #3b4449 url(//media.readthedocs.org//images/badge-rtd.png) scroll 0px -46px no-repeat;
+    border: 1px solid #282E32;
+    width: 41px;
+    right: 5px;
+  }
+  .footer_popout:hover .rtd-badge.rtd {
+    background-position: top left;
+    width: 160px;
+  }
+  .rtd-badge.revsys { background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline-sponsored {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys-sm.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 205px;
+    right: 173px;
+  }
+
+</style>
+<div class="rtd_doc_footer">
+  <div class="footer_popout">
+    <a href="//readthedocs.org/projects/astropy/?fromdocs=astropy" class="rtd-badge rtd"> Brought to you by Read the Docs</a>
+    <ul id="version_menu">
+      
+        <li><a href="/en/latest/">latest</a></li>
+      
+        <li><a href="/en/add-mpl-to-rtd-pip-req/">add-mpl-to-rtd-pip-req</a></li>
+      
+        <li><a href="/en/v0.2.1/">v0.2.1</a></li>
+      
+        <li><a href="/en/v0.2/">v0.2</a></li>
+      
+        <li><a href="/en/v0.1/">v0.1</a></li>
+      
+    </ul>
+  </div>
+</div>
+<!-- RTD Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17997319-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+<!-- User Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-30968842-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+  </body>
+</html>

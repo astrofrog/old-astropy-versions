@@ -1,0 +1,42 @@
+
+
+RotateNative2Celestial
+=================================================
+
+.. currentmodule:: astropy.modeling.rotations
+
+.. autoclass:: RotateNative2Celestial
+   :show-inheritance:
+
+   
+
+   
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+   
+      ~RotateNative2Celestial.inverse
+
+   
+   
+
+   
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Documentation
+
+   
+   .. automethod:: inverse
+
+   
+   

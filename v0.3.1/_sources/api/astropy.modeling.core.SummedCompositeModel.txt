@@ -1,0 +1,29 @@
+
+
+SummedCompositeModel
+==========================================
+
+.. currentmodule:: astropy.modeling.core
+
+.. autoclass:: SummedCompositeModel
+   :show-inheritance:
+
+   
+     
+   
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   

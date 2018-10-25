@@ -1,0 +1,757 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+
+    <title>astropy.units.quantity &mdash; Astropy v0.2.1</title>
+<!-- RTD <head> -->
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/underscore.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/doctools.js"></script>
+
+<script type="text/javascript">
+  // This is included here for Javascript that doesn't have access to the templates.
+  var doc_version = "v0.2.1";
+  var doc_slug = "astropy";
+</script>
+
+<script type="text/javascript" src="//media.readthedocs.org/javascript/rtd.js"></script>
+<!-- end RTD <head> -->
+
+    
+    <link rel="stylesheet" href="../../../_static/bootstrap-astropy.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.2.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/sidebar.js"></script>
+    <link rel="shortcut icon" href="../../../_static/astropy_logo.ico"/>
+    <link rel="top" title="Astropy v0.2.1" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../../../index.html"></a>
+  <ul>
+    <li><a class="homelink" title="AstroPy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../../../genindex.html">Index</a></li>
+    <li><a title="Python Module Index" href="../../../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li>
+	<a href="../../../index.html">Astropy v0.2.1</a>
+	 &raquo;
+      </li>
+      <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li>
+      
+       
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for astropy.units.quantity</h1><div class="highlight"><pre>
+<span class="c"># coding: utf-8</span>
+<span class="c"># Licensed under a 3-clause BSD style license - see LICENSE.rst</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module defines the `Quantity` object, which represents a number with some</span>
+<span class="sd">associated units. `Quantity` objects support operations like ordinary numbers,</span>
+<span class="sd">but will deal with unit conversions internally.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="p">(</span><span class="n">absolute_import</span><span class="p">,</span> <span class="n">unicode_literals</span><span class="p">,</span> <span class="n">division</span><span class="p">,</span>
+                        <span class="n">print_function</span><span class="p">)</span>
+
+<span class="c"># Standard library</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">numbers</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="c"># AstroPy</span>
+<span class="kn">from</span> <span class="nn">.core</span> <span class="kn">import</span> <span class="n">Unit</span><span class="p">,</span> <span class="n">UnitBase</span><span class="p">,</span> <span class="n">CompositeUnit</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">log</span>
+<span class="kn">from</span> <span class="nn">..config</span> <span class="kn">import</span> <span class="n">ConfigurationItem</span>
+
+<span class="n">WARN_IMPLICIT_NUMERIC_CONVERSION</span> <span class="o">=</span> <span class="n">ConfigurationItem</span><span class="p">(</span>
+                                          <span class="s">&quot;warn_implicit_numeric_conversion&quot;</span><span class="p">,</span>
+                                          <span class="bp">True</span><span class="p">,</span>
+                                          <span class="s">&quot;Whether to show a warning message &quot;</span>
+                                          <span class="s">&quot;in the log when converting a &quot;</span>
+                                          <span class="s">&quot;Quantity to a float/int&quot;</span><span class="p">)</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;Quantity&quot;</span><span class="p">]</span>
+
+
+<span class="k">def</span> <span class="nf">_is_unity</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">decompose</span><span class="p">()</span>
+    <span class="k">return</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">bases</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">x</span><span class="o">.</span><span class="n">scale</span> <span class="o">==</span> <span class="mf">1.0</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_validate_value</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Make sure that the input is a Python or Numpy numeric type.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    value : number</span>
+<span class="sd">        An object that will be checked whether it is a numeric type or not.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    newval</span>
+<span class="sd">        The new value either as an array or a scalar</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="kn">from</span> <span class="nn">..utils.misc</span> <span class="kn">import</span> <span class="n">isiterable</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="n">numbers</span><span class="o">.</span><span class="n">Number</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">number</span><span class="p">)):</span>
+        <span class="n">value_obj</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="k">elif</span> <span class="n">isiterable</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+        <span class="n">value_obj</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="c"># A length-0 numpy array (i.e. numpy scalar) which we accept as-is</span>
+        <span class="n">value_obj</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&quot;The value must be a valid Python or Numpy numeric &quot;</span>
+                        <span class="s">&quot;type.&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">value_obj</span>
+
+
+<div class="viewcode-block" id="Quantity"><a class="viewcode-back" href="../../../_generated/astropy.units.quantity.Quantity.html#astropy.units.quantity.Quantity">[docs]</a><span class="k">class</span> <span class="nc">Quantity</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; A `Quantity` represents a number with some associated unit.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    value : number, `Quantity` object, or sequence of `Quantity` objects.</span>
+<span class="sd">        The numerical value of this quantity in the units given by unit.</span>
+<span class="sd">        If a `Quantity` or sequence of them, creates a new `Quantity`</span>
+<span class="sd">        object, converting to `unit` units as needed.</span>
+<span class="sd">    unit : `~astropy.units.UnitBase` instance, str</span>
+<span class="sd">        An object that represents the unit associated with the input value.</span>
+<span class="sd">        Must be an `~astropy.units.UnitBase` object or a string parseable by</span>
+<span class="sd">        the `units` package.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    TypeError</span>
+<span class="sd">        If the value provided is not a Python numeric type.</span>
+<span class="sd">    TypeError</span>
+<span class="sd">        If the unit provided is not either a `Unit` object or a parseable</span>
+<span class="sd">        string unit.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">unit</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">..utils.misc</span> <span class="kn">import</span> <span class="n">isiterable</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_unit</span> <span class="o">=</span> <span class="n">Unit</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">Quantity</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_value</span> <span class="o">=</span> <span class="n">_validate_value</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_unit</span><span class="p">)</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">isiterable</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">all</span><span class="p">([</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">Quantity</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">value</span><span class="p">]):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_value</span> <span class="o">=</span> <span class="n">_validate_value</span><span class="p">([</span><span class="n">q</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_unit</span><span class="p">)</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">value</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_value</span> <span class="o">=</span> <span class="n">_validate_value</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Quantity.to"><a class="viewcode-back" href="../../../_generated/astropy.units.quantity.Quantity.html#astropy.units.quantity.Quantity.to">[docs]</a>    <span class="k">def</span> <span class="nf">to</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">unit</span><span class="p">,</span> <span class="n">equivalencies</span><span class="o">=</span><span class="p">[]):</span>
+        <span class="sd">&quot;&quot;&quot; Returns a new `Quantity` object with the specified units.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        unit : `~astropy.units.UnitBase` instance, str</span>
+<span class="sd">            An object that represents the unit to convert to. Must be</span>
+<span class="sd">            an `~astropy.units.UnitBase` object or a string parseable</span>
+<span class="sd">            by the `units` package.</span>
+
+<span class="sd">        equivalencies : list of equivalence pairs, optional</span>
+<span class="sd">            A list of equivalence pairs to try if the units are not</span>
+<span class="sd">            directly convertible.  See :ref:`unit_equivalencies`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">new_val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">unit</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">equivalencies</span><span class="o">=</span><span class="n">equivalencies</span><span class="p">)</span>
+        <span class="n">new_unit</span> <span class="o">=</span> <span class="n">Unit</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Quantity</span><span class="p">(</span><span class="n">new_val</span><span class="p">,</span> <span class="n">new_unit</span><span class="p">)</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="Quantity.value"><a class="viewcode-back" href="../../../_generated/astropy.units.quantity.Quantity.html#astropy.units.quantity.Quantity.value">[docs]</a>    <span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; The numerical value of this quantity. &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="Quantity.unit"><a class="viewcode-back" href="../../../_generated/astropy.units.quantity.Quantity.html#astropy.units.quantity.Quantity.unit">[docs]</a>    <span class="k">def</span> <span class="nf">unit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A `~astropy.units.UnitBase` object representing the unit of this</span>
+<span class="sd">        quantity.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unit</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="Quantity.si"><a class="viewcode-back" href="../../../_generated/astropy.units.quantity.Quantity.html#astropy.units.quantity.Quantity.si">[docs]</a>    <span class="k">def</span> <span class="nf">si</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a copy of the current `Quantity` instance with SI units. The</span>
+<span class="sd">        value of the resulting object will be scaled.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">si</span>
+        <span class="n">si_unit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="o">.</span><span class="n">to_system</span><span class="p">(</span><span class="n">si</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">Quantity</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">*</span> <span class="n">si_unit</span><span class="o">.</span><span class="n">scale</span><span class="p">,</span> <span class="n">si_unit</span> <span class="o">/</span> <span class="n">si_unit</span><span class="o">.</span><span class="n">scale</span><span class="p">)</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="Quantity.cgs"><a class="viewcode-back" href="../../../_generated/astropy.units.quantity.Quantity.html#astropy.units.quantity.Quantity.cgs">[docs]</a>    <span class="k">def</span> <span class="nf">cgs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a copy of the current `Quantity` instance with CGS units. The</span>
+<span class="sd">        value of the resulting object will be scaled.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">cgs</span>
+        <span class="n">cgs_unit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="o">.</span><span class="n">to_system</span><span class="p">(</span><span class="n">cgs</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">Quantity</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">*</span> <span class="n">cgs_unit</span><span class="o">.</span><span class="n">scale</span><span class="p">,</span> <span class="n">cgs_unit</span> <span class="o">/</span> <span class="n">cgs_unit</span><span class="o">.</span><span class="n">scale</span><span class="p">)</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="Quantity.isscalar"><a class="viewcode-back" href="../../../_generated/astropy.units.quantity.Quantity.html#astropy.units.quantity.Quantity.isscalar">[docs]</a>    <span class="k">def</span> <span class="nf">isscalar</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        True if the `value` of this quantity is a scalar, or False if it</span>
+<span class="sd">        is an array-like object.</span>
+
+<span class="sd">        .. note::</span>
+<span class="sd">            This is subtly different from `numpy.isscalar` in that</span>
+<span class="sd">            `numpy.isscalar` returns False for a zero-dimensional array</span>
+<span class="sd">            (e.g. ``np.array(1)``), while this is True in that case.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="kn">from</span> <span class="nn">..utils.misc</span> <span class="kn">import</span> <span class="n">isiterable</span>
+
+        <span class="k">return</span> <span class="ow">not</span> <span class="n">isiterable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Quantity.copy"><a class="viewcode-back" href="../../../_generated/astropy.units.quantity.Quantity.html#astropy.units.quantity.Quantity.copy">[docs]</a>    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Return a copy of this `Quantity` instance &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span>
+
+    <span class="c"># Arithmetic operations</span></div>
+    <span class="k">def</span> <span class="nf">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Addition between `Quantity` objects and other objects.  If</span>
+<span class="sd">        they are both `Quantity` objects, results in the units of the</span>
+<span class="sd">        **left** object if they are compatible, otherwise this fails.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Quantity</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">Quantity</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">+</span> <span class="n">other</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                            <span class="n">unit</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="s">&quot;Object of type &#39;{0}&#39; cannot be added with a Quantity &quot;</span>
+                <span class="s">&quot;object. Addition is only supported between Quantity &quot;</span>
+                <span class="s">&quot;objects with compatible units.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">__class__</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">__sub__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Subtraction between `Quantity` objects and other objects.</span>
+<span class="sd">        If they are both `Quantity` objects, results in the units of the</span>
+<span class="sd">        **left** object if they are compatible, otherwise this fails.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Quantity</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">Quantity</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">-</span> <span class="n">other</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                            <span class="n">unit</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="s">&quot;Object of type &#39;{0}&#39; cannot be subtracted from a Quantity &quot;</span>
+                <span class="s">&quot;object. Subtraction is only supported between Quantity &quot;</span>
+                <span class="s">&quot;objects with compatible units.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">__class__</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Multiplication between `Quantity` objects and other objects.&quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Quantity</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">Quantity</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">*</span> <span class="n">other</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                            <span class="n">unit</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">unit</span> <span class="o">*</span> <span class="n">other</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">UnitBase</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">Quantity</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="n">other</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">Quantity</span><span class="p">(</span><span class="n">other</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                    <span class="s">&quot;Object of type &#39;{0}&#39; cannot be multiplied with a &quot;</span>
+                    <span class="s">&quot;Quantity object.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">__class__</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">__rmul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Right Multiplication between `Quantity` objects and other</span>
+<span class="sd">        objects.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__mul__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__div__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Division between `Quantity` objects and other objects.&quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Quantity</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">Quantity</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">/</span> <span class="n">other</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                            <span class="n">unit</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">unit</span> <span class="o">/</span> <span class="n">other</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">UnitBase</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">Quantity</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">unit</span> <span class="o">/</span> <span class="n">other</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">Quantity</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">/</span> <span class="n">other</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                    <span class="s">&quot;Object of type &#39;{0}&#39; cannot be diveded with a Quantity &quot;</span>
+                    <span class="s">&quot;object.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">__class__</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">__rdiv__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Right Division between `Quantity` objects and other objects.&quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Quantity</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">Quantity</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">value</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                            <span class="n">unit</span><span class="o">=</span><span class="n">other</span><span class="o">.</span><span class="n">unit</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">UnitBase</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">Quantity</span><span class="p">(</span><span class="mf">1.</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="n">other</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">Quantity</span><span class="p">(</span><span class="n">other</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="mf">1.</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                    <span class="s">&quot;Object of type &#39;{0}&#39; cannot be diveded with a Quantity &quot;</span>
+                    <span class="s">&quot;object.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">__class__</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">__truediv__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Division between `Quantity` objects. &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__div__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__rtruediv__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Division between `Quantity` objects. &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rdiv__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__pow__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Raise `Quantity` object to a power. &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="s">&#39;unit&#39;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="s">&#39;Cannot raise a Quantity object to a power of something &#39;</span>
+                <span class="s">&#39;with a unit&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Quantity</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">**</span> <span class="n">p</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">unit</span> <span class="o">**</span> <span class="n">p</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__neg__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Minus the quantity. This is useful for doing -q where q is a quantity.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">Quantity</span><span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__pos__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Plus the quantity. This is implemented in case users use +q where q is</span>
+<span class="sd">        a quantity.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">Quantity</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__abs__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Absolute value of the quantity.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">Quantity</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">),</span> <span class="n">unit</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span>
+
+    <span class="c"># Comparison operations</span>
+    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="s">&#39;value&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="s">&#39;to&#39;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">False</span>
+
+    <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="s">&#39;value&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="s">&#39;to&#39;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">!=</span> <span class="n">other</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">True</span>
+
+    <span class="k">def</span> <span class="nf">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Quantity</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&quot;Quantity object cannot be compared to an object &quot;</span>
+                            <span class="s">&quot;of type {0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">__class__</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">__le__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Quantity</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">&lt;=</span> <span class="n">other</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&quot;Quantity object cannot be compared to an object &quot;</span>
+                            <span class="s">&quot;of type {0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">__class__</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">__gt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Quantity</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">&gt;</span> <span class="n">other</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&quot;Quantity object cannot be compared to an object &quot;</span>
+                            <span class="s">&quot;of type {0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">__class__</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">__ge__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Quantity</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">&gt;=</span> <span class="n">other</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&quot;Quantity object cannot be compared to an object &quot;</span>
+                            <span class="s">&quot;of type {0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">__class__</span><span class="p">))</span>
+
+    <span class="c">#other overrides of special functions</span>
+    <span class="k">def</span> <span class="nf">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">hash</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="o">^</span> <span class="nb">hash</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">isscalar</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="s">&quot;&#39;{cls}&#39; object with a scalar value does not support &quot;</span>
+                <span class="s">&quot;indexing&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cls</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Quantity</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">unit</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__nonzero__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Quantities should always be treated as non-False; there is too much</span>
+<span class="sd">        potential for ambiguity otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">True</span>
+
+    <span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">isscalar</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&quot;&#39;{cls}&#39; object with a scalar value has no &quot;</span>
+                            <span class="s">&quot;len()&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cls</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="c"># Numerical types</span>
+    <span class="k">def</span> <span class="nf">__float__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">isscalar</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&#39;Only scalar quantities can be converted to &#39;</span>
+                            <span class="s">&#39;Python scalars&#39;</span><span class="p">)</span>
+        <span class="c"># We show a warning unless the unit is equivalent to unity (i.e. not</span>
+        <span class="c"># just dimensionless, but also with a scale of 1)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">_is_unity</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span> <span class="ow">and</span> <span class="n">WARN_IMPLICIT_NUMERIC_CONVERSION</span><span class="p">():</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;Converting Quantity object in units &#39;{0}&#39; to a Python &quot;</span>
+                     <span class="s">&quot;scalar&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="p">))</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__int__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">isscalar</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&#39;Only scalar quantities can be converted to &#39;</span>
+                            <span class="s">&#39;Python scalars&#39;</span><span class="p">)</span>
+        <span class="c"># We show a warning unless the unit is equivalent to unity (i.e. not</span>
+        <span class="c"># just dimensionless, but also with a scale of 1)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">_is_unity</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span> <span class="ow">and</span> <span class="n">WARN_IMPLICIT_NUMERIC_CONVERSION</span><span class="p">():</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;Converting Quantity object in units &#39;{0}&#39; to a Python &quot;</span>
+                     <span class="s">&quot;scalar&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="p">))</span>
+        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__long__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">isscalar</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&#39;Only scalar quantities can be converted to &#39;</span>
+                            <span class="s">&#39;Python scalars&#39;</span><span class="p">)</span>
+        <span class="c"># We show a warning unless the unit is equivalent to unity (i.e. not</span>
+        <span class="c"># just dimensionless, but also with a scale of 1)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">_is_unity</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span> <span class="ow">and</span> <span class="n">WARN_IMPLICIT_NUMERIC_CONVERSION</span><span class="p">():</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;Converting Quantity object in units &#39;{0}&#39; to a Python &quot;</span>
+                     <span class="s">&quot;scalar&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="p">))</span>
+        <span class="k">return</span> <span class="nb">long</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="c"># Array types</span>
+    <span class="k">def</span> <span class="nf">__array__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c"># We show a warning unless the unit is equivalent to unity (i.e. not</span>
+        <span class="c"># just dimensionless, but also with a scale of 1)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">_is_unity</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span> <span class="ow">and</span> <span class="n">WARN_IMPLICIT_NUMERIC_CONVERSION</span><span class="p">():</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;Converting Quantity object in units &#39;{0}&#39; to a Numpy &quot;</span>
+                     <span class="s">&quot;array&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="c"># Display</span>
+    <span class="c"># TODO: we may want to add a hook for dimensionless quantities?</span>
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&quot;{0} {1:s}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="o">.</span><span class="n">to_string</span><span class="p">())</span>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&quot;&lt;Quantity {0} {1:s}&gt;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="o">.</span><span class="n">to_string</span><span class="p">())</span>
+
+    <span class="k">def</span> <span class="nf">_repr_latex_</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate latex representation of unit name.  This is used by</span>
+<span class="sd">        the IPython notebook to show it all latexified.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        lstr</span>
+<span class="sd">            LaTeX string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c"># Format value</span>
+        <span class="n">latex_value</span> <span class="o">=</span> <span class="s">&quot;{0:g}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s">&quot;e&quot;</span> <span class="ow">in</span> <span class="n">latex_value</span><span class="p">:</span>
+            <span class="n">latex_value</span> <span class="o">=</span> <span class="n">latex_value</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;e&#39;</span><span class="p">,</span> <span class="s">&#39;</span><span class="se">\\</span><span class="s">times 10^{&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;}&#39;</span>
+
+        <span class="c"># Format unit</span>
+        <span class="c"># [1:-1] strips the &#39;$&#39; on either side needed for math mode</span>
+        <span class="n">latex_unit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="o">.</span><span class="n">_repr_latex_</span><span class="p">()[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>  <span class="c"># note this is unicode</span>
+
+        <span class="k">return</span> <span class="s">u&#39;${0} \; {1}$&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">latex_value</span><span class="p">,</span> <span class="n">latex_unit</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Quantity.decompose"><a class="viewcode-back" href="../../../_generated/astropy.units.quantity.Quantity.html#astropy.units.quantity.Quantity.decompose">[docs]</a>    <span class="k">def</span> <span class="nf">decompose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bases</span><span class="o">=</span><span class="p">[]):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generates a new `Quantity` with the units</span>
+<span class="sd">        decomposed. Decomposed units have only irreducible units in</span>
+<span class="sd">        them (see `astropy.units.UnitBase.decompose`).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        bases : sequence of UnitBase, optional</span>
+<span class="sd">            The bases to decompose into.  When not provided,</span>
+<span class="sd">            decomposes down to any irreducible units.  When provided,</span>
+<span class="sd">            the decomposed result will only contain the given units.</span>
+<span class="sd">            This will raises a `UnitsException` if it&#39;s not possible</span>
+<span class="sd">            to do so.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        newq : `~astropy.units.quantity.Quantity`</span>
+<span class="sd">            A new object equal to this quantity with units decomposed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_decompose</span><span class="p">(</span><span class="bp">False</span><span class="p">,</span> <span class="n">bases</span><span class="o">=</span><span class="n">bases</span><span class="p">)</span>
+</div>
+    <span class="k">def</span> <span class="nf">_decompose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">allowscaledunits</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">bases</span><span class="o">=</span><span class="p">[]):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generates a new `Quantity` with the units decomposed. Decomposed</span>
+<span class="sd">        units have only irreducible units in them (see</span>
+<span class="sd">        `astropy.units.UnitBase.decompose`).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        allowscaledunits : bool</span>
+<span class="sd">            If True, the resulting `Quantity` may have a scale factor</span>
+<span class="sd">            associated with it.  If False, any scaling in the unit will</span>
+<span class="sd">            be subsumed into the value of the resulting `Quantity`</span>
+
+<span class="sd">        bases : sequence of UnitBase, optional</span>
+<span class="sd">            The bases to decompose into.  When not provided,</span>
+<span class="sd">            decomposes down to any irreducible units.  When provided,</span>
+<span class="sd">            the decomposed result will only contain the given units.</span>
+<span class="sd">            This will raises a `UnitsException` if it&#39;s not possible</span>
+<span class="sd">            to do so.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        newq : `~astropy.units.quantity.Quantity`</span>
+<span class="sd">            A new object equal to this quantity with units decomposed.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">newu</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="o">.</span><span class="n">decompose</span><span class="p">(</span><span class="n">bases</span><span class="o">=</span><span class="n">bases</span><span class="p">)</span>
+        <span class="n">newval</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">allowscaledunits</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">newu</span><span class="p">,</span> <span class="s">&#39;scale&#39;</span><span class="p">):</span>
+            <span class="n">newval</span> <span class="o">*=</span> <span class="n">newu</span><span class="o">.</span><span class="n">scale</span>
+            <span class="n">newu</span> <span class="o">=</span> <span class="n">newu</span> <span class="o">/</span> <span class="n">Unit</span><span class="p">(</span><span class="n">newu</span><span class="o">.</span><span class="n">scale</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">Quantity</span><span class="p">(</span><span class="n">newval</span><span class="p">,</span> <span class="n">newu</span><span class="p">)</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+
+
+<h3>Page Contents</h3>
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+<footer class="footer">
+  <p class="pull-right"> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright 2011-2013, The Astropy Developers.<br/>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3+. &nbsp;
+    Last built 03 Apr 2013. <br/>
+  </p>
+</footer>
+ <!-- End original user content -->
+
+
+<br>
+<br>
+<br>
+
+
+<style type="text/css">
+  .rtd-badge {
+    position: fixed;
+    display: block;
+    bottom: 5px;
+    height: 40px;
+    text-indent: -9999em;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+  }
+  #version_menu {
+    position: fixed;
+    display: none;
+    bottom: 11px;
+    right: 166px;
+    list-style-type: none;
+    margin: 0;
+  }
+  .footer_popout:hover #version_menu {
+    display: block;
+  }
+  #version_menu li {
+    display: block;
+    float: right;
+  }
+  #version_menu li a {
+    display: block;
+    padding: 6px 10px 4px 10px;
+    margin: 7px 7px 0 0;
+    font-weight: bold;
+    font-size: 14px;
+    height: 20px;
+    line-height: 17px;
+    text-decoration: none;
+    color: #fff;
+    background: #8ca1af url(../images/gradient-light.png) bottom left repeat-x;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 1px #465158;
+    -moz-box-shadow: 0 1px 1px #465158;
+    -webkit-box-shadow: 0 1px 1px #465158;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+  }
+  #version_menu li a:hover {
+    text-decoration: none;
+    background-color: #697983;
+    box-shadow: 0 1px 0px #465158;
+    -moz-box-shadow: 0 1px 0px #465158;
+    -webkit-box-shadow: 0 1px 0px #465158;
+  }
+  .rtd-badge.rtd {
+    background: #3b4449 url(//media.readthedocs.org//images/badge-rtd.png) scroll 0px -46px no-repeat;
+    border: 1px solid #282E32;
+    width: 41px;
+    right: 5px;
+  }
+  .footer_popout:hover .rtd-badge.rtd {
+    background-position: top left;
+    width: 160px;
+  }
+  .rtd-badge.revsys { background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline-sponsored {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys-sm.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 205px;
+    right: 173px;
+  }
+
+</style>
+<div class="rtd_doc_footer">
+  <div class="footer_popout">
+    <a href="//readthedocs.org/projects/astropy/?fromdocs=astropy" class="rtd-badge rtd"> Brought to you by Read the Docs</a>
+    <ul id="version_menu">
+      
+        <li><a href="/en/latest/">latest</a></li>
+      
+        <li><a href="/en/add-mpl-to-rtd-pip-req/">add-mpl-to-rtd-pip-req</a></li>
+      
+        <li><a href="/en/v0.2.1/">v0.2.1</a></li>
+      
+        <li><a href="/en/v0.2/">v0.2</a></li>
+      
+        <li><a href="/en/v0.1/">v0.1</a></li>
+      
+    </ul>
+  </div>
+</div>
+<!-- RTD Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17997319-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+<!-- User Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-30968842-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+  </body>
+</html>

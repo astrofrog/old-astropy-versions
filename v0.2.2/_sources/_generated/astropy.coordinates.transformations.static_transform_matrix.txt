@@ -1,0 +1,8 @@
+
+
+static_transform_matrix
+===========================================================
+
+.. currentmodule:: astropy.coordinates.transformations
+
+.. autofunction:: static_transform_matrix

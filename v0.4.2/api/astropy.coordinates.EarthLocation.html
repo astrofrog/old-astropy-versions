@@ -1,0 +1,454 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>EarthLocation &mdash; Astropy v0.4.2</title>
+    
+    <link rel="stylesheet" href="../_static/bootstrap-astropy.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="https://media.readthedocs.org/css/badge_only.css" type="text/css" />
+    <link rel="stylesheet" href="https://media.readthedocs.org/css/readthedocs-doc-embed.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.4.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/jquery/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/jquery/jquery-migrate-1.2.1.min.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/underscore.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/doctools.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/readthedocs-doc-embed.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="shortcut icon" href="../_static/astropy_logo.ico"/>
+    <link rel="top" title="Astropy v0.4.2" href="../index.html" />
+    <link rel="up" title="Astronomical Coordinate Systems (astropy.coordinates)" href="../coordinates/index.html" />
+    <link rel="next" title="FK4" href="astropy.coordinates.FK4.html" />
+    <link rel="prev" title="DynamicMatrixTransform" href="astropy.coordinates.DynamicMatrixTransform.html" />
+
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,600' rel='stylesheet' type='text/css'/>
+<script type="text/javascript" src="../_static/copybutton.js"></script>
+
+
+<!-- RTD Extra Head -->
+
+
+
+<!-- 
+Read the Docs is acting as the canonical URL for your project. 
+If you want to change it, more info is available in our docs:
+  http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="http://astropy.readthedocs.org/en/latest/api/astropy.coordinates.EarthLocation.html" />
+
+<script type="text/javascript">
+  // This is included here because other places don't have access to the pagename variable.
+  var READTHEDOCS_DATA = {
+    project: "astropy",
+    version: "v0.4.2",
+    language: "en",
+    page: "api/astropy.coordinates.EarthLocation",
+    builder: "sphinx",
+    theme: "bootstrap-astropy",
+    docroot: "/docs/",
+    source_suffix: ".rst",
+    api_host: "https://readthedocs.org/",
+    commit: "542718512637738441b4315bc8f1a98ab8499ddd"
+  }
+  // Old variables
+  var doc_version = "v0.4.2";
+  var doc_slug = "astropy";
+  var page_name = "api/astropy.coordinates.EarthLocation";
+  var html_theme = "bootstrap-astropy";
+</script>
+<!-- RTD Analytics Code -->
+<!-- Included in the header because you don't have a footer block. -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17997319-1']);
+  _gaq.push(['_trackPageview']);
+
+  // User Analytics Code
+  _gaq.push(['user._setAccount', 'UA-30968842-1']);
+  _gaq.push(['user._trackPageview']);
+  // End User Analytics Code
+
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+<!-- end RTD Analytics Code -->
+<!-- end RTD <extrahead> -->
+
+  </head>
+  <body role="document">
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../index.html"><span id="logotext1">astro</span><span id="logotext2">py</span><span id="logotext3">:docs</span></a>
+  <ul>
+    <li><a class="homelink" title="Astropy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../genindex.html">Index</a></li>
+    <li><a title="Module Index" href="../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li class="right">
+	<a href="astropy.coordinates.FK4.html" title="FK4">
+	  next &raquo;
+	</a>
+      </li>
+      <li class="right">
+	<a href="astropy.coordinates.DynamicMatrixTransform.html" title="DynamicMatrixTransform">
+	  &laquo; previous
+	</a>
+	 |
+      </li>
+      <li>
+	<a href="../index.html">Astropy v0.4.2</a>
+	 &raquo;
+      </li>
+      <li><a href="../coordinates/index.html" accesskey="U">Astronomical Coordinate Systems (<code class="docutils literal"><span class="pre">astropy.coordinates</span></code>)</a> &raquo;</li>
+      
+      <li>EarthLocation</li> 
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="earthlocation">
+<h1>EarthLocation<a class="headerlink" href="#earthlocation" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="astropy.coordinates.EarthLocation">
+<em class="property">class </em><code class="descclassname">astropy.coordinates.</code><code class="descname">EarthLocation</code><a class="reference internal" href="../_modules/astropy/coordinates/earth.html#EarthLocation"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.4.x/astropy/coordinates/earth.py#L32" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.coordinates.EarthLocation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="astropy.units.quantity.Quantity.html#astropy.units.quantity.Quantity" title="astropy.units.quantity.Quantity"><code class="xref py py-class docutils literal"><span class="pre">astropy.units.quantity.Quantity</span></code></a></p>
+<p>Location on Earth.</p>
+<p>Initialization is first attempted assuming geocentric (x, y, z) coordinates
+are given; if that fails, another attempt is made assuming geodetic
+coordinates (longitude, latitude, height above a reference ellipsoid).
+Internally, the coordinates are stored as geocentric.</p>
+<p>To ensure a specific type of coordinates is used, use the corresponding
+class methods (<a class="reference internal" href="#astropy.coordinates.EarthLocation.from_geocentric" title="astropy.coordinates.EarthLocation.from_geocentric"><code class="xref py py-obj docutils literal"><span class="pre">from_geocentric</span></code></a> and <a class="reference internal" href="#astropy.coordinates.EarthLocation.from_geodetic" title="astropy.coordinates.EarthLocation.from_geodetic"><code class="xref py py-obj docutils literal"><span class="pre">from_geodetic</span></code></a>) or initialize the
+arguments with names (<code class="docutils literal"><span class="pre">x</span></code>, <code class="docutils literal"><span class="pre">y</span></code>, <code class="docutils literal"><span class="pre">z</span></code> for geocentric; <code class="docutils literal"><span class="pre">lon</span></code>, <code class="docutils literal"><span class="pre">lat</span></code>,
+<code class="docutils literal"><span class="pre">height</span></code> for geodetic).  See the class methods for details.</p>
+<p class="rubric">Notes</p>
+<p>For conversion to and from geodetic coordinates, the ERFA routines
+<code class="docutils literal"><span class="pre">gc2gd</span></code> and <code class="docutils literal"><span class="pre">gd2gc</span></code> are used.  See <a class="reference external" href="https://github.com/liberfa/erfa">https://github.com/liberfa/erfa</a></p>
+<p class="rubric">Attributes Summary</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.coordinates.EarthLocation.ellipsoid" title="astropy.coordinates.EarthLocation.ellipsoid"><code class="xref py py-obj docutils literal"><span class="pre">ellipsoid</span></code></a></td>
+<td>The default ellipsoid used to convert to geodetic coordinates.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#astropy.coordinates.EarthLocation.geocentric" title="astropy.coordinates.EarthLocation.geocentric"><code class="xref py py-obj docutils literal"><span class="pre">geocentric</span></code></a></td>
+<td>Convert to a tuple with X, Y, and Z as quantities</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.coordinates.EarthLocation.geodetic" title="astropy.coordinates.EarthLocation.geodetic"><code class="xref py py-obj docutils literal"><span class="pre">geodetic</span></code></a></td>
+<td>Convert to geodetic coordinates for the default ellipsoid.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#astropy.coordinates.EarthLocation.height" title="astropy.coordinates.EarthLocation.height"><code class="xref py py-obj docutils literal"><span class="pre">height</span></code></a></td>
+<td>Height of the location, for the default ellipsoid.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.coordinates.EarthLocation.latitude" title="astropy.coordinates.EarthLocation.latitude"><code class="xref py py-obj docutils literal"><span class="pre">latitude</span></code></a></td>
+<td>Latitude of the location, for the default ellipsoid.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#astropy.coordinates.EarthLocation.longitude" title="astropy.coordinates.EarthLocation.longitude"><code class="xref py py-obj docutils literal"><span class="pre">longitude</span></code></a></td>
+<td>Longitude of the location, for the default ellipsoid.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.coordinates.EarthLocation.x" title="astropy.coordinates.EarthLocation.x"><code class="xref py py-obj docutils literal"><span class="pre">x</span></code></a></td>
+<td>The X component of the geocentric coordinates.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#astropy.coordinates.EarthLocation.y" title="astropy.coordinates.EarthLocation.y"><code class="xref py py-obj docutils literal"><span class="pre">y</span></code></a></td>
+<td>The Y component of the geocentric coordinates.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.coordinates.EarthLocation.z" title="astropy.coordinates.EarthLocation.z"><code class="xref py py-obj docutils literal"><span class="pre">z</span></code></a></td>
+<td>The Z component of the geocentric coordinates.</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods Summary</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+</tbody>
+</table>
+<p class="rubric">Attributes Documentation</p>
+<dl class="attribute">
+<dt id="astropy.coordinates.EarthLocation.ellipsoid">
+<code class="descname">ellipsoid</code><a class="headerlink" href="#astropy.coordinates.EarthLocation.ellipsoid" title="Permalink to this definition">¶</a></dt>
+<dd><p>The default ellipsoid used to convert to geodetic coordinates.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.coordinates.EarthLocation.geocentric">
+<code class="descname">geocentric</code><a class="headerlink" href="#astropy.coordinates.EarthLocation.geocentric" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert to a tuple with X, Y, and Z as quantities</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.coordinates.EarthLocation.geodetic">
+<code class="descname">geodetic</code><a class="headerlink" href="#astropy.coordinates.EarthLocation.geodetic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert to geodetic coordinates for the default ellipsoid.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.coordinates.EarthLocation.height">
+<code class="descname">height</code><a class="headerlink" href="#astropy.coordinates.EarthLocation.height" title="Permalink to this definition">¶</a></dt>
+<dd><p>Height of the location, for the default ellipsoid.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.coordinates.EarthLocation.latitude">
+<code class="descname">latitude</code><a class="headerlink" href="#astropy.coordinates.EarthLocation.latitude" title="Permalink to this definition">¶</a></dt>
+<dd><p>Latitude of the location, for the default ellipsoid.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.coordinates.EarthLocation.longitude">
+<code class="descname">longitude</code><a class="headerlink" href="#astropy.coordinates.EarthLocation.longitude" title="Permalink to this definition">¶</a></dt>
+<dd><p>Longitude of the location, for the default ellipsoid.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.coordinates.EarthLocation.x">
+<code class="descname">x</code><a class="headerlink" href="#astropy.coordinates.EarthLocation.x" title="Permalink to this definition">¶</a></dt>
+<dd><p>The X component of the geocentric coordinates.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.coordinates.EarthLocation.y">
+<code class="descname">y</code><a class="headerlink" href="#astropy.coordinates.EarthLocation.y" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Y component of the geocentric coordinates.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.coordinates.EarthLocation.z">
+<code class="descname">z</code><a class="headerlink" href="#astropy.coordinates.EarthLocation.z" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Z component of the geocentric coordinates.</p>
+</dd></dl>
+
+<p class="rubric">Methods Documentation</p>
+<dl class="classmethod">
+<dt id="astropy.coordinates.EarthLocation.from_geocentric">
+<em class="property">classmethod </em><code class="descname">from_geocentric</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>z</em>, <em>unit=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/astropy/coordinates/earth.html#EarthLocation.from_geocentric"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.4.x/astropy/coordinates/earth.py#L70" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.coordinates.EarthLocation.from_geocentric" title="Permalink to this definition">¶</a></dt>
+<dd><p>Location on Earth, initialized from geocentric coordinates.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>x, y, z</strong> : <a class="reference internal" href="astropy.units.Quantity.html#astropy.units.Quantity" title="astropy.units.Quantity"><code class="xref py py-obj docutils literal"><span class="pre">Quantity</span></code></a> or array-like</p>
+<blockquote>
+<div><p>Cartesian coordinates.  If not quantities, <code class="docutils literal"><span class="pre">unit</span></code> should be given.</p>
+</div></blockquote>
+<p><strong>unit</strong> : <a class="reference internal" href="astropy.units.UnitBase.html#astropy.units.UnitBase" title="astropy.units.UnitBase"><code class="xref py py-obj docutils literal"><span class="pre">UnitBase</span></code></a> object or None</p>
+<blockquote>
+<div><p>Physical unit of the coordinate values.  If <code class="docutils literal"><span class="pre">x</span></code>, <code class="docutils literal"><span class="pre">y</span></code>, and/or
+<code class="docutils literal"><span class="pre">z</span></code> are quantities, they will be converted to this unit.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first"><strong>astropy.units.UnitsError</strong></p>
+<blockquote>
+<div><p>If the units on <code class="docutils literal"><span class="pre">x</span></code>, <code class="docutils literal"><span class="pre">y</span></code>, and <code class="docutils literal"><span class="pre">z</span></code> do not match or an invalid
+unit is given.</p>
+</div></blockquote>
+<p><strong>ValueError</strong></p>
+<blockquote>
+<div><p>If the shapes of <code class="docutils literal"><span class="pre">x</span></code>, <code class="docutils literal"><span class="pre">y</span></code>, and <code class="docutils literal"><span class="pre">z</span></code> do not match.</p>
+</div></blockquote>
+<p><strong>TypeError</strong></p>
+<blockquote class="last">
+<div><p>If <code class="docutils literal"><span class="pre">x</span></code> is not a <a class="reference internal" href="astropy.units.Quantity.html#astropy.units.Quantity" title="astropy.units.Quantity"><code class="xref py py-obj docutils literal"><span class="pre">Quantity</span></code></a> and no unit is given.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="astropy.coordinates.EarthLocation.from_geodetic">
+<em class="property">classmethod </em><code class="descname">from_geodetic</code><span class="sig-paren">(</span><em>lon</em>, <em>lat</em>, <em>height=0.0</em>, <em>ellipsoid=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/astropy/coordinates/earth.html#EarthLocation.from_geodetic"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.4.x/astropy/coordinates/earth.py#L119" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.coordinates.EarthLocation.from_geodetic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Location on Earth, initialized from geodetic coordinates.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>lon</strong> : <a class="reference internal" href="astropy.coordinates.Longitude.html#astropy.coordinates.Longitude" title="astropy.coordinates.Longitude"><code class="xref py py-obj docutils literal"><span class="pre">Longitude</span></code></a> or float</p>
+<blockquote>
+<div><p>Earth East longitude.  Can be anything that initialises an
+<a class="reference internal" href="astropy.coordinates.Angle.html#astropy.coordinates.Angle" title="astropy.coordinates.Angle"><code class="xref py py-obj docutils literal"><span class="pre">Angle</span></code></a> object (if float, in degrees).</p>
+</div></blockquote>
+<p><strong>lat</strong> : <a class="reference internal" href="astropy.coordinates.Latitude.html#astropy.coordinates.Latitude" title="astropy.coordinates.Latitude"><code class="xref py py-obj docutils literal"><span class="pre">Latitude</span></code></a> or float</p>
+<blockquote>
+<div><p>Earth latitude.  Can be anything that initialises an
+<a class="reference internal" href="astropy.coordinates.Latitude.html#astropy.coordinates.Latitude" title="astropy.coordinates.Latitude"><code class="xref py py-obj docutils literal"><span class="pre">Latitude</span></code></a> object (if float, in degrees).</p>
+</div></blockquote>
+<p><strong>height</strong> : <a class="reference internal" href="astropy.units.Quantity.html#astropy.units.Quantity" title="astropy.units.Quantity"><code class="xref py py-obj docutils literal"><span class="pre">Quantity</span></code></a> or float, optional</p>
+<blockquote>
+<div><p>Height above reference ellipsoid (if float, in meters; default: 0).</p>
+</div></blockquote>
+<p><strong>ellipsoid</strong> : str, optional</p>
+<blockquote>
+<div><p>Name of the reference ellipsoid to use (default: &#8216;WGS84&#8217;).
+Available ellipoids are:  &#8216;WGS84&#8217;, &#8216;GRS80&#8217;, &#8216;WGS72&#8217;.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first"><strong>astropy.units.UnitsError</strong></p>
+<blockquote>
+<div><p>If the units on <code class="docutils literal"><span class="pre">lon</span></code> and <code class="docutils literal"><span class="pre">lat</span></code> are inconsistent with angular
+ones, or that on <code class="docutils literal"><span class="pre">height</span></code> with a length.</p>
+</div></blockquote>
+<p><strong>ValueError</strong></p>
+<blockquote class="last">
+<div><p>If <code class="docutils literal"><span class="pre">lon</span></code>, <code class="docutils literal"><span class="pre">lat</span></code>, and <code class="docutils literal"><span class="pre">height</span></code> do not have the same shape, or
+if <code class="docutils literal"><span class="pre">ellipsoid</span></code> is not recognized as among the ones implemented.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>For the conversion to geocentric coordinates, the ERFA routine
+<code class="docutils literal"><span class="pre">gd2gc</span></code> is used.  See <a class="reference external" href="https://github.com/liberfa/erfa">https://github.com/liberfa/erfa</a></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.coordinates.EarthLocation.to">
+<code class="descname">to</code><span class="sig-paren">(</span><em>unit</em>, <em>equivalencies=[]</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/astropy/coordinates/earth.html#EarthLocation.to"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.4.x/astropy/coordinates/earth.py#L277" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.coordinates.EarthLocation.to" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a new <a class="reference internal" href="astropy.units.Quantity.html#astropy.units.Quantity" title="astropy.units.Quantity"><code class="xref py py-obj docutils literal"><span class="pre">Quantity</span></code></a> object with the specified
+units.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>unit</strong> : <a class="reference internal" href="astropy.units.UnitBase.html#astropy.units.UnitBase" title="astropy.units.UnitBase"><code class="xref py py-obj docutils literal"><span class="pre">UnitBase</span></code></a> instance, str</p>
+<blockquote>
+<div><p>An object that represents the unit to convert to. Must be
+an <a class="reference internal" href="astropy.units.UnitBase.html#astropy.units.UnitBase" title="astropy.units.UnitBase"><code class="xref py py-obj docutils literal"><span class="pre">UnitBase</span></code></a> object or a string parseable
+by the <a class="reference internal" href="../units/index.html#module-astropy.units" title="astropy.units"><code class="xref py py-obj docutils literal"><span class="pre">units</span></code></a> package.</p>
+</div></blockquote>
+<p><strong>equivalencies</strong> : list of equivalence pairs, optional</p>
+<blockquote class="last">
+<div><p>A list of equivalence pairs to try if the units are not
+directly convertible.  See <a class="reference internal" href="../units/equivalencies.html#unit-equivalencies"><span>Equivalencies</span></a>.
+If not provided or <code class="docutils literal"><span class="pre">[]</span></code>, class default equivalencies will be used
+(none for <a class="reference internal" href="astropy.units.Quantity.html#astropy.units.Quantity" title="astropy.units.Quantity"><code class="xref py py-obj docutils literal"><span class="pre">Quantity</span></code></a>, but may be set for subclasses)
+If <a class="reference external" href="http://docs.python.org/library/constants.html#None" title="(in Python v2.7)"><code class="xref py py-obj docutils literal"><span class="pre">None</span></code></a>, no equivalencies will be applied at all, not even any
+set globally or within a context.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.coordinates.EarthLocation.to_geocentric">
+<code class="descname">to_geocentric</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/astropy/coordinates/earth.html#EarthLocation.to_geocentric"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.4.x/astropy/coordinates/earth.py#L240" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.coordinates.EarthLocation.to_geocentric" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert to a tuple with X, Y, and Z as quantities</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.coordinates.EarthLocation.to_geodetic">
+<code class="descname">to_geodetic</code><span class="sig-paren">(</span><em>ellipsoid=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/astropy/coordinates/earth.html#EarthLocation.to_geodetic"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.4.x/astropy/coordinates/earth.py#L185" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.coordinates.EarthLocation.to_geodetic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert to geodetic coordinates.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>ellipsoid</strong> : str, optional</p>
+<blockquote>
+<div><p>Reference ellipsoid to use.  Default is the one the coordinates
+were initialized with.  Available are: &#8216;WGS84&#8217;, &#8216;GRS80&#8217;, &#8216;WGS72&#8217;</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>(lon, lat, height)</strong> : tuple</p>
+<blockquote>
+<div><p>The tuple contains instances of <a class="reference internal" href="astropy.coordinates.Longitude.html#astropy.coordinates.Longitude" title="astropy.coordinates.Longitude"><code class="xref py py-obj docutils literal"><span class="pre">Longitude</span></code></a>,
+<a class="reference internal" href="astropy.coordinates.Latitude.html#astropy.coordinates.Latitude" title="astropy.coordinates.Latitude"><code class="xref py py-obj docutils literal"><span class="pre">Latitude</span></code></a>, and <a class="reference internal" href="astropy.units.Quantity.html#astropy.units.Quantity" title="astropy.units.Quantity"><code class="xref py py-obj docutils literal"><span class="pre">Quantity</span></code></a></p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first"><strong>ValueError</strong></p>
+<blockquote class="last">
+<div><p>if <code class="docutils literal"><span class="pre">ellipsoid</span></code> is not recognized as among the ones implemented.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>For the conversion to geodetic coordinates, the ERFA routine
+<code class="docutils literal"><span class="pre">gc2gd</span></code> is used.  See <a class="reference external" href="https://github.com/liberfa/erfa">https://github.com/liberfa/erfa</a></p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Page Contents</h3>
+<ul>
+<li><a class="reference internal" href="#">EarthLocation</a></li>
+</ul>
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+<footer class="footer">
+  <p class="pull-right">
+    <a href="http://github.com/astropy/astropy/tree/v0.4.x/docs/api/astropy.coordinates.EarthLocation.rst">Edit This Page on Github</a> &nbsp;
+    <a href="../_sources/api/astropy.coordinates.EarthLocation.txt"
+       rel="nofollow">Page Source</a> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright 2011-2014, The Astropy Developers.<br/>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3.1. &nbsp;
+    Last built 14 Aug 2015. <br/>
+  </p>
+</footer>
+  </body>
+</html>

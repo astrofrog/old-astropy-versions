@@ -1,0 +1,268 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Creating patches &mdash; Astropy v0.3.1</title>
+    
+    <link rel="stylesheet" href="../../_static/bootstrap-astropy.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="https://media.readthedocs.org/css/badge_only.css" type="text/css" />
+    <link rel="stylesheet" href="https://media.readthedocs.org/css/readthedocs-doc-embed.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.3.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/jquery/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/jquery/jquery-migrate-1.2.1.min.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/underscore.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/doctools.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/readthedocs-doc-embed.js"></script>
+    <script type="text/javascript" src="../../_static/sidebar.js"></script>
+    <link rel="shortcut icon" href="../../_static/astropy_logo.ico"/>
+    <link rel="top" title="Astropy v0.3.1" href="../../index.html" />
+
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,600' rel='stylesheet' type='text/css'>
+
+<!-- RTD Extra Head -->
+
+
+
+<!-- 
+Read the Docs is acting as the canonical URL for your project. 
+If you want to change it, more info is available in our docs:
+  http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="http://astropy.readthedocs.org/en/latest/development/workflow/patches.html">
+
+<script type="text/javascript">
+  // This is included here because other places don't have access to the pagename variable.
+  var READTHEDOCS_DATA = {
+    project: "astropy",
+    version: "v0.3.1",
+    language: "en",
+    page: "development/workflow/patches",
+    theme: "bootstrap-astropy",
+    docroot: "/docs/",
+    api_host: "https://readthedocs.org"
+  }
+  // Old variables
+  var doc_version = "v0.3.1";
+  var doc_slug = "astropy";
+  var page_name = "development/workflow/patches";
+  var html_theme = "bootstrap-astropy";
+</script>
+<!-- RTD Analytics Code -->
+<!-- Included in the header because you don't have a footer block. -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17997319-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+<!-- end RTD Analytics Code -->
+
+
+<!-- User Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-30968842-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+<!-- End User Analytics Code -->
+
+<!-- end RTD <extrahead> -->
+
+  </head>
+  <body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../../index.html"><span id="logotext1">astro</span><span id="logotext2">py</span><span id="logotext3">:docs</span></a>
+  <ul>
+    <li><a class="homelink" title="Astropy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../../genindex.html">Index</a></li>
+    <li><a title="Module Index" href="../../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li>
+	<a href="../../index.html">Astropy v0.3.1</a>
+	 &raquo;
+      </li>
+      
+       
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="creating-patches">
+<span id="basic-workflow"></span><h1>Creating patches<a class="headerlink" href="#creating-patches" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>If you haven&#8217;t already configured git:</p>
+<div class="highlight-python"><pre>git config --global user.name "Your Name"
+git config --global user.email you@yourdomain.example.com</pre>
+</div>
+<p>Then, the workflow is the following:</p>
+<div class="highlight-python"><pre># Get the repository if you don't have it
+git clone git://github.com/astropy/astropy.git
+
+# Make a branch for your patching
+cd astropy
+git branch the-fix-im-thinking-of
+git checkout the-fix-im-thinking-of
+
+# hack, hack, hack
+
+# Tell git about any new files you've made
+git add somewhere/tests/test_my_bug.py
+
+# Commit work in progress as you go
+git commit -am 'BF - added tests for Funny bug'
+
+# hack hack, hack
+
+# Commit work
+git commit -am 'BF - added fix for Funny bug'
+
+# Make the patch files
+git format-patch -M -C master</pre>
+</div>
+<p>Then, send the generated patch files to the <a class="reference external" href="http://groups.google.com/group/astropy-dev">astropy-dev mailing list</a> —
+where we will thank you warmly.</p>
+</div>
+<div class="section" id="in-detail">
+<h2>In detail<a class="headerlink" href="#in-detail" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Tell git who you are so it can label the commits you&#8217;ve
+made:</p>
+<div class="highlight-python"><pre>git config --global user.name "Your Name"
+git config --global user.email you@yourdomain.example.com</pre>
+</div>
+<p>This is only necessary if you haven&#8217;t already done this, and you haven&#8217;t
+followed <a class="reference internal" href="git_configure.html#configure-git"><em>Configuring git</em></a>.</p>
+</li>
+<li><p class="first">If you don&#8217;t already have one, clone a copy of the
+<a class="reference external" href="http://astropy.org">Astropy</a> repository:</p>
+<div class="highlight-python"><pre>git clone git://github.com/astropy/astropy.git
+cd astropy</pre>
+</div>
+</li>
+<li><p class="first">Make a &#8216;feature branch&#8217;. This will be where you work on your bug fix. It&#8217;s
+nice and safe and leaves you with access to an unmodified copy of the code
+in the main branch:</p>
+<div class="highlight-python"><pre>git branch the-fix-im-thinking-of
+git checkout the-fix-im-thinking-of</pre>
+</div>
+</li>
+<li><p class="first">Do some edits, and commit them as you go:</p>
+<div class="highlight-python"><pre># hack, hack, hack
+
+# Tell git about any new files you've made
+git add somewhere/tests/test_my_bug.py
+
+# Commit work in progress as you go
+git commit -am 'BF - added tests for Funny bug'
+
+# hack hack, hack
+
+# Commit work
+git commit -am 'BF - added fix for Funny bug'</pre>
+</div>
+<p>Note the <tt class="docutils literal"><span class="pre">-am</span></tt> options to <tt class="docutils literal"><span class="pre">commit</span></tt>. The <tt class="docutils literal"><span class="pre">m</span></tt> flag just
+signals that you&#8217;re going to type a message on the command
+line.  The <tt class="docutils literal"><span class="pre">a</span></tt> flag — you can just take on faith —
+or see <a class="reference external" href="http://www.gitready.com/beginner/2009/01/18/the-staging-area.html">why the -a flag?</a>.</p>
+</li>
+<li><p class="first">When you have finished, check you have committed all your changes:</p>
+<div class="highlight-python"><pre>git status</pre>
+</div>
+</li>
+<li><p class="first">Finally, make your commits into patches. You want all the commits since you
+branched from the <tt class="docutils literal"><span class="pre">master</span></tt> branch:</p>
+<div class="highlight-python"><pre>git format-patch -M -C master</pre>
+</div>
+<p>You will now have several files named for the commits:</p>
+<div class="highlight-python"><pre>0001-BF-added-tests-for-Funny-bug.patch
+0002-BF-added-fix-for-Funny-bug.patch</pre>
+</div>
+<p>Send these files to the <a class="reference external" href="http://groups.google.com/group/astropy-dev">astropy-dev mailing list</a>.</p>
+</li>
+</ol>
+<p>When you are done, to switch back to the main copy of the
+code, just return to the <tt class="docutils literal"><span class="pre">master</span></tt> branch:</p>
+<div class="highlight-python"><pre>git checkout master</pre>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"><h3>Page Contents</h3>
+<ul>
+<li><a class="reference internal" href="#">Creating patches</a><ul>
+<li><a class="reference internal" href="#overview">Overview</a></li>
+<li><a class="reference internal" href="#in-detail">In detail</a></li>
+</ul>
+</li>
+</ul>
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+<footer class="footer">
+  <p class="pull-right">
+    <a href="http://github.com/astropy/astropy/tree/v0.3.x/docs/development/workflow/patches.rst">Edit This Page on Github</a> &nbsp;
+    <a href="../../_sources/development/workflow/patches.txt"
+       rel="nofollow">Page Source</a> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright 2011-2013, The Astropy Developers.<br/>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2. &nbsp;
+    Last built 05 Mar 2014. <br/>
+  </p>
+</footer>
+  </body>
+</html>

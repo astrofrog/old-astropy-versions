@@ -1,0 +1,29 @@
+
+
+CompositeStaticMatrixTransform
+==================================================================
+
+.. currentmodule:: astropy.coordinates.transformations
+
+.. autoclass:: CompositeStaticMatrixTransform
+   :show-inheritance:
+
+   
+     
+   
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   

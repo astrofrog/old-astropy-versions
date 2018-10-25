@@ -1,0 +1,625 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>astropy.vo.client.vos_catalog &mdash; Astropy v0.3.1</title>
+    
+    <link rel="stylesheet" href="../../../../_static/bootstrap-astropy.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="https://media.readthedocs.org/css/badge_only.css" type="text/css" />
+    <link rel="stylesheet" href="https://media.readthedocs.org/css/readthedocs-doc-embed.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../',
+        VERSION:     '0.3.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/jquery/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/jquery/jquery-migrate-1.2.1.min.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/underscore.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/doctools.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/readthedocs-doc-embed.js"></script>
+    <script type="text/javascript" src="../../../../_static/sidebar.js"></script>
+    <link rel="shortcut icon" href="../../../../_static/astropy_logo.ico"/>
+    <link rel="top" title="Astropy v0.3.1" href="../../../../index.html" />
+    <link rel="up" title="Module code" href="../../../index.html" />
+
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,600' rel='stylesheet' type='text/css'>
+
+<!-- RTD Extra Head -->
+
+
+
+<!-- 
+Read the Docs is acting as the canonical URL for your project. 
+If you want to change it, more info is available in our docs:
+  http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="http://astropy.readthedocs.org/en/latest/_modules/astropy/vo/client/vos_catalog.html">
+
+<script type="text/javascript">
+  // This is included here because other places don't have access to the pagename variable.
+  var READTHEDOCS_DATA = {
+    project: "astropy",
+    version: "v0.3.1",
+    language: "en",
+    page: "_modules/astropy/vo/client/vos_catalog",
+    theme: "bootstrap-astropy",
+    docroot: "/docs/",
+    api_host: "https://readthedocs.org"
+  }
+  // Old variables
+  var doc_version = "v0.3.1";
+  var doc_slug = "astropy";
+  var page_name = "_modules/astropy/vo/client/vos_catalog";
+  var html_theme = "bootstrap-astropy";
+</script>
+<!-- RTD Analytics Code -->
+<!-- Included in the header because you don't have a footer block. -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17997319-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+<!-- end RTD Analytics Code -->
+
+
+<!-- User Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-30968842-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+<!-- End User Analytics Code -->
+
+<!-- end RTD <extrahead> -->
+
+  </head>
+  <body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../../../../index.html"><span id="logotext1">astro</span><span id="logotext2">py</span><span id="logotext3">:docs</span></a>
+  <ul>
+    <li><a class="homelink" title="Astropy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../../../../genindex.html">Index</a></li>
+    <li><a title="Module Index" href="../../../../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../../../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li>
+	<a href="../../../../index.html">Astropy v0.3.1</a>
+	 &raquo;
+      </li>
+      <li><a href="../../../index.html" accesskey="U">Module code</a> &raquo;</li>
+      
+       
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for astropy.vo.client.vos_catalog</h1><div class="highlight"><pre>
+<span class="c"># Licensed under a 3-clause BSD style license - see LICENSE.rst</span>
+<span class="sd">&quot;&quot;&quot;Common utilities for accessing VO simple services.&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span><span class="p">,</span> <span class="n">division</span>
+
+<span class="c"># STDLIB</span>
+<span class="kn">import</span> <span class="nn">fnmatch</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">urllib</span>
+
+<span class="c"># LOCAL</span>
+<span class="kn">from</span> <span class="nn">...config.configuration</span> <span class="kn">import</span> <span class="n">ConfigurationItem</span>
+<span class="kn">from</span> <span class="nn">...io.votable</span> <span class="kn">import</span> <span class="n">table</span><span class="p">,</span> <span class="n">tree</span>
+<span class="kn">from</span> <span class="nn">...io.votable.exceptions</span> <span class="kn">import</span> <span class="n">vo_raise</span><span class="p">,</span> <span class="n">vo_warn</span><span class="p">,</span> <span class="n">E19</span><span class="p">,</span> <span class="n">W24</span><span class="p">,</span> <span class="n">W25</span>
+<span class="kn">from</span> <span class="nn">...utils.console</span> <span class="kn">import</span> <span class="n">color_print</span>
+<span class="kn">from</span> <span class="nn">...utils.data</span> <span class="kn">import</span> <span class="n">get_readable_fileobj</span>
+
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;VOSCatalog&#39;</span><span class="p">,</span> <span class="s">&#39;VOSDatabase&#39;</span><span class="p">,</span> <span class="s">&#39;get_remote_catalog_db&#39;</span><span class="p">,</span>
+           <span class="s">&#39;call_vo_service&#39;</span><span class="p">,</span> <span class="s">&#39;list_catalogs&#39;</span><span class="p">]</span>
+
+<span class="n">__dbversion__</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="n">VO_PEDANTIC</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">PEDANTIC</span><span class="p">()</span>
+
+<span class="n">BASEURL</span> <span class="o">=</span> <span class="n">ConfigurationItem</span><span class="p">(</span><span class="s">&#39;vos_baseurl&#39;</span><span class="p">,</span>
+                            <span class="s">&#39;http://stsdas.stsci.edu/astrolib/vo_databases/&#39;</span><span class="p">,</span>
+                            <span class="s">&#39;URL where VO Service database file is stored.&#39;</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">VOSError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>  <span class="c"># pragma: no cover</span>
+    <span class="k">pass</span>
+
+
+<div class="viewcode-block" id="VOSCatalog"><a class="viewcode-back" href="../../../../api/astropy.vo.client.vos_catalog.VOSCatalog.html#astropy.vo.client.vos_catalog.VOSCatalog">[docs]</a><span class="k">class</span> <span class="nc">VOSCatalog</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A class to represent VO Service Catalog.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    tree : JSON tree</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tree</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_tree</span> <span class="o">=</span> <span class="n">tree</span>
+
+    <span class="k">def</span> <span class="nf">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">what</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Expose dictionary attributes.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_tree</span><span class="p">,</span> <span class="n">what</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">what</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Expose dictionary key look-up.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tree</span><span class="p">[</span><span class="n">what</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  <span class="c"># pragma: no cover</span>
+        <span class="sd">&quot;&quot;&quot;Show the most important and unique things about a catalog.&quot;&quot;&quot;</span>
+        <span class="n">keys</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;title&#39;</span><span class="p">,</span> <span class="s">&#39;url&#39;</span><span class="p">)</span>
+        <span class="n">out_str</span> <span class="o">=</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s">&#39;{0}: {1}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tree</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+                             <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span> <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tree</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">out_str</span>
+
+<div class="viewcode-block" id="VOSCatalog.dumps"><a class="viewcode-back" href="../../../../api/astropy.vo.client.vos_catalog.VOSCatalog.html#astropy.vo.client.vos_catalog.VOSCatalog.dumps">[docs]</a>    <span class="k">def</span> <span class="nf">dumps</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  <span class="c"># pragma: no cover</span>
+        <span class="sd">&quot;&quot;&quot;Dump the contents into a string.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        s : str</span>
+<span class="sd">            Contents as JSON string dump.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_tree</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+
+</div></div>
+<div class="viewcode-block" id="VOSDatabase"><a class="viewcode-back" href="../../../../api/astropy.vo.client.vos_catalog.VOSDatabase.html#astropy.vo.client.vos_catalog.VOSDatabase">[docs]</a><span class="k">class</span> <span class="nc">VOSDatabase</span><span class="p">(</span><span class="n">VOSCatalog</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A class to represent a collection of `VOSCatalog`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    tree : JSON tree</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    VOSError</span>
+<span class="sd">        If given ``tree`` does not have &#39;catalogs&#39; key.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tree</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_tree</span> <span class="o">=</span> <span class="n">tree</span>
+
+        <span class="k">if</span> <span class="n">tree</span><span class="p">[</span><span class="s">&#39;__version__&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">__dbversion__</span><span class="p">:</span>  <span class="c"># pragma: no cover</span>
+            <span class="n">vo_warn</span><span class="p">(</span><span class="n">W24</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="s">&#39;catalogs&#39;</span> <span class="ow">in</span> <span class="n">tree</span><span class="p">:</span>  <span class="c"># pragma: no cover</span>
+            <span class="k">raise</span> <span class="n">VOSError</span><span class="p">(</span><span class="s">&quot;Invalid VO service catalog database&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_catalogs</span> <span class="o">=</span> <span class="n">tree</span><span class="p">[</span><span class="s">&#39;catalogs&#39;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  <span class="c"># pragma: no cover</span>
+        <span class="sd">&quot;&quot;&quot;Show the most important and unique things about a database.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_catalogs</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+
+<div class="viewcode-block" id="VOSDatabase.get_catalogs"><a class="viewcode-back" href="../../../../api/astropy.vo.client.vos_catalog.VOSDatabase.html#astropy.vo.client.vos_catalog.VOSDatabase.get_catalogs">[docs]</a>    <span class="k">def</span> <span class="nf">get_catalogs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Iterator to get all catalogs.&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_catalogs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">yield</span> <span class="n">key</span><span class="p">,</span> <span class="n">VOSCatalog</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="VOSDatabase.get_catalogs_by_url"><a class="viewcode-back" href="../../../../api/astropy.vo.client.vos_catalog.VOSDatabase.html#astropy.vo.client.vos_catalog.VOSDatabase.get_catalogs_by_url">[docs]</a>    <span class="k">def</span> <span class="nf">get_catalogs_by_url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Like :func:`get_catalogs` but using access URL look-up.&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">cat</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_catalogs</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">cat</span><span class="p">[</span><span class="s">&#39;url&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">url</span><span class="p">:</span>
+                <span class="k">yield</span> <span class="n">key</span><span class="p">,</span> <span class="n">cat</span>
+</div>
+<div class="viewcode-block" id="VOSDatabase.get_catalog"><a class="viewcode-back" href="../../../../api/astropy.vo.client.vos_catalog.VOSDatabase.html#astropy.vo.client.vos_catalog.VOSDatabase.get_catalog">[docs]</a>    <span class="k">def</span> <span class="nf">get_catalog</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get one catalog of given name.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        name : str</span>
+<span class="sd">            Primary key identifying the catalog.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        obj : `VOSCatalog` object</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        VOSError</span>
+<span class="sd">            If catalog is not found.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_catalogs</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">VOSError</span><span class="p">(</span><span class="s">&quot;No catalog &#39;{0}&#39; found.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">VOSCatalog</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_catalogs</span><span class="p">[</span><span class="n">name</span><span class="p">])</span>
+</div>
+<div class="viewcode-block" id="VOSDatabase.get_catalog_by_url"><a class="viewcode-back" href="../../../../api/astropy.vo.client.vos_catalog.VOSDatabase.html#astropy.vo.client.vos_catalog.VOSDatabase.get_catalog_by_url">[docs]</a>    <span class="k">def</span> <span class="nf">get_catalog_by_url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Like :func:`get_catalog` but using access URL look-up.</span>
+<span class="sd">        On multiple matches, only first match is returned.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">out_cat</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">cat</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_catalogs_by_url</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
+            <span class="n">out_cat</span> <span class="o">=</span> <span class="n">cat</span>
+            <span class="k">break</span>
+        <span class="k">if</span> <span class="n">out_cat</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>  <span class="c"># pragma: no cover</span>
+            <span class="k">raise</span> <span class="n">VOSError</span><span class="p">(</span><span class="s">&quot;No catalog with URL &#39;{0}&#39; found.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">url</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">out_cat</span>
+</div>
+<div class="viewcode-block" id="VOSDatabase.list_catalogs"><a class="viewcode-back" href="../../../../api/astropy.vo.client.vos_catalog.VOSDatabase.html#astropy.vo.client.vos_catalog.VOSDatabase.list_catalogs">[docs]</a>    <span class="k">def</span> <span class="nf">list_catalogs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;List catalog names.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        pattern : str or `None`</span>
+<span class="sd">            If given string is anywhere in a catalog name, it is</span>
+<span class="sd">            considered a matching catalog. It accepts patterns as</span>
+<span class="sd">            in :py:mod:`fnmatch` and is case-insensitive.</span>
+<span class="sd">            By default, all catalogs are returned.</span>
+
+<span class="sd">        sort : bool</span>
+<span class="sd">            Sort output in alphabetical order. If not sorted, the</span>
+<span class="sd">            order depends on dictionary hashing. Default is `True`.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        out_arr : list of str</span>
+<span class="sd">            List of catalog names.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">all_catalogs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_catalogs</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">pattern</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">all_catalogs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">out_arr</span> <span class="o">=</span> <span class="n">all_catalogs</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">fnmatch</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="s">&#39;*&#39;</span> <span class="o">+</span> <span class="n">pattern</span> <span class="o">+</span> <span class="s">&#39;*&#39;</span><span class="p">),</span>
+                                 <span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">)</span>
+            <span class="n">out_arr</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">all_catalogs</span> <span class="k">if</span> <span class="n">pattern</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">s</span><span class="p">)]</span>
+
+        <span class="k">if</span> <span class="n">sort</span><span class="p">:</span>
+            <span class="n">out_arr</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">out_arr</span>
+
+</div></div>
+<div class="viewcode-block" id="get_remote_catalog_db"><a class="viewcode-back" href="../../../../api/astropy.vo.client.vos_catalog.get_remote_catalog_db.html#astropy.vo.client.vos_catalog.get_remote_catalog_db">[docs]</a><span class="k">def</span> <span class="nf">get_remote_catalog_db</span><span class="p">(</span><span class="n">dbname</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get a database of VO services (which is a JSON file) from a remote</span>
+<span class="sd">    location.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dbname : str</span>
+<span class="sd">        Prefix of JSON file to download from</span>
+<span class="sd">        ``astropy.vo.client.vos_catalog.BASEURL``.</span>
+
+<span class="sd">    cache : bool</span>
+<span class="sd">        Use caching for VO Service database. Access to actual VO</span>
+<span class="sd">        websites referenced by the database still needs internet</span>
+<span class="sd">        connection.</span>
+
+<span class="sd">    verbose : bool</span>
+<span class="sd">        Show download progress bars.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    obj : `VOSDatabase` object</span>
+<span class="sd">        A database of VO services.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="n">get_readable_fileobj</span><span class="p">(</span><span class="n">BASEURL</span><span class="p">()</span> <span class="o">+</span> <span class="n">dbname</span> <span class="o">+</span> <span class="s">&#39;.json&#39;</span><span class="p">,</span>
+                              <span class="n">encoding</span><span class="o">=</span><span class="s">&#39;utf8&#39;</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="n">cache</span><span class="p">,</span>
+                              <span class="n">show_progress</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span> <span class="k">as</span> <span class="n">fd</span><span class="p">:</span>
+        <span class="n">tree</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">fd</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">VOSDatabase</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
+
+</div>
+<span class="k">def</span> <span class="nf">_get_catalogs</span><span class="p">(</span><span class="n">service_type</span><span class="p">,</span> <span class="n">catalog_db</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Expand ``catalog_db`` to a list of catalogs.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    service_type, catalog_db</span>
+<span class="sd">        See :func:`call_vo_service`.</span>
+
+<span class="sd">    kwargs : dict</span>
+<span class="sd">        Keywords accepted by :func:`get_remote_catalog_db`.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    catalogs : list of tuple</span>
+<span class="sd">        List of catalogs in the form of ``(key, VOSCatalog)``.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">catalog_db</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">catalog_db</span> <span class="o">=</span> <span class="n">get_remote_catalog_db</span><span class="p">(</span><span class="n">service_type</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">catalogs</span> <span class="o">=</span> <span class="n">catalog_db</span><span class="o">.</span><span class="n">get_catalogs</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">catalog_db</span><span class="p">,</span> <span class="n">VOSDatabase</span><span class="p">):</span>
+        <span class="n">catalogs</span> <span class="o">=</span> <span class="n">catalog_db</span><span class="o">.</span><span class="n">get_catalogs</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">catalog_db</span><span class="p">,</span> <span class="p">(</span><span class="n">VOSCatalog</span><span class="p">,</span> <span class="nb">basestring</span><span class="p">)):</span>
+        <span class="n">catalogs</span> <span class="o">=</span> <span class="p">[(</span><span class="bp">None</span><span class="p">,</span> <span class="n">catalog_db</span><span class="p">)]</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">catalog_db</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">catalog_db</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">(</span><span class="n">VOSCatalog</span><span class="p">,</span> <span class="nb">basestring</span><span class="p">))</span> <span class="ow">and</span>
+                    <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">VOSDatabase</span><span class="p">))</span>
+        <span class="n">catalogs</span> <span class="o">=</span> <span class="p">[(</span><span class="bp">None</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">catalog_db</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>  <span class="c"># pragma: no cover</span>
+        <span class="k">raise</span> <span class="n">VOSError</span><span class="p">(</span><span class="s">&#39;catalog_db must be a catalog database, &#39;</span>
+                       <span class="s">&#39;a list of catalogs, or a catalog&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">catalogs</span>
+
+
+<span class="k">def</span> <span class="nf">_vo_service_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">pedantic</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="p">(</span><span class="n">url</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s">&#39;?&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">url</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s">&#39;&amp;&#39;</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="n">VOSError</span><span class="p">(</span><span class="s">&quot;url should already end with &#39;?&#39; or &#39;&amp;&#39;&quot;</span><span class="p">)</span>
+
+    <span class="n">query</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+        <span class="n">query</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;{}={}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">urllib</span><span class="o">.</span><span class="n">quote</span><span class="p">(</span><span class="n">key</span><span class="p">),</span> <span class="n">urllib</span><span class="o">.</span><span class="n">quote_plus</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">))))</span>
+
+    <span class="n">parsed_url</span> <span class="o">=</span> <span class="n">url</span> <span class="o">+</span> <span class="s">&#39;&amp;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">get_readable_fileobj</span><span class="p">(</span><span class="n">parsed_url</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s">&#39;binary&#39;</span><span class="p">,</span>
+                              <span class="n">show_progress</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span> <span class="k">as</span> <span class="n">req</span><span class="p">:</span>
+        <span class="n">tab</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">req</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="n">parsed_url</span><span class="p">,</span> <span class="n">pedantic</span><span class="o">=</span><span class="n">pedantic</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">vo_tab_parse</span><span class="p">(</span><span class="n">tab</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">vo_tab_parse</span><span class="p">(</span><span class="n">tab</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;In case of errors from the server, a complete and correct</span>
+<span class="sd">    &#39;stub&#39; VOTable file may still be returned.  This is to</span>
+<span class="sd">    detect that case.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    tab : `astropy.io.votable.tree.VOTableFile` object</span>
+
+<span class="sd">    url : str</span>
+<span class="sd">        URL used to obtain ``tab``.</span>
+
+<span class="sd">    kwargs : dict</span>
+<span class="sd">        Keywords used to obtain ``tab``, if any.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    out_tab : `astropy.io.votable.tree.Table` object</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    IndexError</span>
+<span class="sd">        Table iterator fails.</span>
+
+<span class="sd">    VOSError</span>
+<span class="sd">        Server returns error message or invalid table.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">tab</span><span class="o">.</span><span class="n">iter_fields_and_params</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">param</span><span class="o">.</span><span class="n">ID</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">param</span><span class="o">.</span><span class="n">ID</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s">&#39;error&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">tree</span><span class="o">.</span><span class="n">Param</span><span class="p">):</span>
+                <span class="n">e</span> <span class="o">=</span> <span class="n">param</span><span class="o">.</span><span class="n">value</span>
+            <span class="k">else</span><span class="p">:</span>  <span class="c"># pragma: no cover</span>
+                <span class="n">e</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+            <span class="k">raise</span> <span class="n">VOSError</span><span class="p">(</span><span class="s">&quot;Catalog server &#39;{0}&#39; returned error &#39;{1}&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">url</span><span class="p">,</span> <span class="n">e</span><span class="p">))</span>
+
+    <span class="k">for</span> <span class="n">info</span> <span class="ow">in</span> <span class="n">tab</span><span class="o">.</span><span class="n">infos</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">info</span><span class="o">.</span><span class="n">name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">info</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s">&#39;error&#39;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">VOSError</span><span class="p">(</span><span class="s">&quot;Catalog server &#39;{0}&#39; returned error &#39;{1}&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">url</span><span class="p">,</span> <span class="n">info</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">tab</span><span class="o">.</span><span class="n">resources</span> <span class="o">==</span> <span class="p">[]:</span>  <span class="c"># pragma: no cover</span>
+        <span class="n">vo_raise</span><span class="p">(</span><span class="n">E19</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">info</span> <span class="ow">in</span> <span class="n">tab</span><span class="o">.</span><span class="n">resources</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">infos</span><span class="p">:</span>
+        <span class="k">if</span> <span class="p">((</span><span class="n">info</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s">&#39;QUERY_STATUS&#39;</span> <span class="ow">and</span> <span class="n">info</span><span class="o">.</span><span class="n">value</span> <span class="o">!=</span> <span class="s">&#39;OK&#39;</span><span class="p">)</span> <span class="ow">or</span>
+                <span class="p">(</span><span class="n">info</span><span class="o">.</span><span class="n">name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">info</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s">&#39;error&#39;</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="n">info</span><span class="o">.</span><span class="n">content</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>  <span class="c"># pragma: no cover</span>
+                <span class="n">long_descr</span> <span class="o">=</span> <span class="s">&#39;:</span><span class="se">\n</span><span class="s">{0}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">info</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">long_descr</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+            <span class="k">raise</span> <span class="n">VOSError</span><span class="p">(</span><span class="s">&quot;Catalog server &#39;{0}&#39; returned status &quot;</span>
+                           <span class="s">&quot;&#39;{1}&#39;{2}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">info</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">long_descr</span><span class="p">))</span>
+
+    <span class="n">out_tab</span> <span class="o">=</span> <span class="n">tab</span><span class="o">.</span><span class="n">get_first_table</span><span class="p">()</span>
+
+    <span class="n">kw_sr</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">kwargs</span> <span class="k">if</span> <span class="s">&#39;sr&#39;</span> <span class="o">==</span> <span class="n">k</span><span class="o">.</span><span class="n">lower</span><span class="p">()]</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">kw_sr</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">sr</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">sr</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">kw_sr</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="k">if</span> <span class="n">sr</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">out_tab</span><span class="o">.</span><span class="n">array</span><span class="o">.</span><span class="n">size</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">VOSError</span><span class="p">(</span><span class="s">&quot;Catalog server &#39;{0}&#39; returned {1} result&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">url</span><span class="p">,</span> <span class="n">out_tab</span><span class="o">.</span><span class="n">array</span><span class="o">.</span><span class="n">size</span><span class="p">))</span>
+
+    <span class="n">out_tab</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="n">url</span>  <span class="c"># Track the URL</span>
+    <span class="k">return</span> <span class="n">out_tab</span>
+
+
+<div class="viewcode-block" id="call_vo_service"><a class="viewcode-back" href="../../../../api/astropy.vo.client.vos_catalog.call_vo_service.html#astropy.vo.client.vos_catalog.call_vo_service">[docs]</a><span class="k">def</span> <span class="nf">call_vo_service</span><span class="p">(</span><span class="n">service_type</span><span class="p">,</span> <span class="n">catalog_db</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">pedantic</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                    <span class="n">verbose</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="p">{}):</span>
+    <span class="sd">&quot;&quot;&quot;Makes a generic VO service call.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    service_type : str</span>
+<span class="sd">        Name of the type of service, e.g., &#39;conesearch_good&#39;.</span>
+<span class="sd">        Used in error messages and to select a catalog database</span>
+<span class="sd">        if ``catalog_db`` is not provided.</span>
+
+<span class="sd">    catalog_db</span>
+<span class="sd">        May be one of the following, in order from easiest to</span>
+<span class="sd">        use to most control:</span>
+
+<span class="sd">            - `None`: A database of ``service_type`` catalogs is downloaded</span>
+<span class="sd">              from ``astropy.vo.client.vos_catalog.BASEURL``.  The first</span>
+<span class="sd">              catalog in the database to successfully return a result is used.</span>
+
+<span class="sd">            - *catalog name*: A name in the database of ``service_type``</span>
+<span class="sd">              catalogs at ``astropy.vo.client.vos_catalog.BASEURL`` is used.</span>
+<span class="sd">              For a list of acceptable names, use :func:`list_catalogs`.</span>
+
+<span class="sd">            - *url*: The prefix of a URL to a IVOA Service for</span>
+<span class="sd">              ``service_type``. Must end in either &#39;?&#39; or &#39;&amp;&#39;.</span>
+
+<span class="sd">            - `VOSCatalog` object: A specific catalog manually downloaded and</span>
+<span class="sd">              selected from the database (see :ref:`vo-sec-client-vos`).</span>
+
+<span class="sd">            - Any of the above 3 options combined in a list, in which case</span>
+<span class="sd">              they are tried in order.</span>
+
+<span class="sd">    pedantic : bool or `None`</span>
+<span class="sd">        When `True`, raise an error when the file violates the spec,</span>
+<span class="sd">        otherwise issue a warning.  Warnings may be controlled using</span>
+<span class="sd">        :py:mod:`warnings` module.</span>
+<span class="sd">        When not provided, uses the configuration setting</span>
+<span class="sd">        ``astropy.io.votable.table.PEDANTIC``, which defaults to `False`.</span>
+
+<span class="sd">    verbose : bool</span>
+<span class="sd">        Verbose output.</span>
+
+<span class="sd">    cache : bool</span>
+<span class="sd">        Use caching for VO Service database. Access to actual VO</span>
+<span class="sd">        websites referenced by the database still needs internet</span>
+<span class="sd">        connection.</span>
+
+<span class="sd">    kwargs : dictionary</span>
+<span class="sd">        Keyword arguments to pass to the catalog service.</span>
+<span class="sd">        No checking is done that the arguments are accepted by</span>
+<span class="sd">        the service, etc.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    obj : `astropy.io.votable.tree.Table` object</span>
+<span class="sd">        First table from first successful VO service request.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    VOSError</span>
+<span class="sd">        If VO service request fails.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">catalogs</span> <span class="o">=</span> <span class="n">_get_catalogs</span><span class="p">(</span><span class="n">service_type</span><span class="p">,</span> <span class="n">catalog_db</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="n">cache</span><span class="p">,</span>
+                             <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">pedantic</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>  <span class="c"># pragma: no cover</span>
+        <span class="n">pedantic</span> <span class="o">=</span> <span class="n">VO_PEDANTIC</span>
+
+    <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">catalog</span> <span class="ow">in</span> <span class="n">catalogs</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">catalog</span><span class="p">,</span> <span class="nb">basestring</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">catalog</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&quot;http&quot;</span><span class="p">):</span>
+                <span class="n">url</span> <span class="o">=</span> <span class="n">catalog</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">remote_db</span> <span class="o">=</span> <span class="n">get_remote_catalog_db</span><span class="p">(</span><span class="n">service_type</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="n">cache</span><span class="p">,</span>
+                                                  <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
+                <span class="n">catalog</span> <span class="o">=</span> <span class="n">remote_db</span><span class="o">.</span><span class="n">get_catalog</span><span class="p">(</span><span class="n">catalog</span><span class="p">)</span>
+                <span class="n">url</span> <span class="o">=</span> <span class="n">catalog</span><span class="p">[</span><span class="s">&#39;url&#39;</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="n">catalog</span><span class="p">[</span><span class="s">&#39;url&#39;</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>  <span class="c"># pragma: no cover</span>
+            <span class="n">color_print</span><span class="p">(</span><span class="s">&#39;Trying {0}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">url</span><span class="p">),</span> <span class="s">&#39;green&#39;</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">_vo_service_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">pedantic</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">vo_warn</span><span class="p">(</span><span class="n">W25</span><span class="p">,</span> <span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)))</span>
+
+    <span class="k">raise</span> <span class="n">VOSError</span><span class="p">(</span><span class="s">&#39;None of the available catalogs returned valid results.&#39;</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="list_catalogs"><a class="viewcode-back" href="../../../../api/astropy.vo.client.vos_catalog.list_catalogs.html#astropy.vo.client.vos_catalog.list_catalogs">[docs]</a><span class="k">def</span> <span class="nf">list_catalogs</span><span class="p">(</span><span class="n">service_type</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;List the catalogs available for the given service type.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    service_type : str</span>
+<span class="sd">        Name of the type of service, e.g., &#39;conesearch_good&#39;.</span>
+
+<span class="sd">    cache : bool</span>
+<span class="sd">        Use caching for VO Service database. Access to actual VO</span>
+<span class="sd">        websites referenced by the database still needs internet</span>
+<span class="sd">        connection.</span>
+
+<span class="sd">    verbose : bool</span>
+<span class="sd">        Show download progress bars.</span>
+
+<span class="sd">    pattern : str or `None`</span>
+<span class="sd">        If given string is anywhere in a catalog name, it is</span>
+<span class="sd">        considered a matching catalog. It accepts patterns as</span>
+<span class="sd">        in :py:mod:`fnmatch` and is case-insensitive.</span>
+<span class="sd">        By default, all catalogs are returned.</span>
+
+<span class="sd">    sort : bool</span>
+<span class="sd">        Sort output in alphabetical order. If not sorted, the</span>
+<span class="sd">        order depends on dictionary hashing. Default is `True`.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    arr : list of str</span>
+<span class="sd">        List of catalog names.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">get_remote_catalog_db</span><span class="p">(</span><span class="n">service_type</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="n">cache</span><span class="p">,</span>
+                                 <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span><span class="o">.</span><span class="n">list_catalogs</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"><h3>Page Contents</h3>
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+<footer class="footer">
+  <p class="pull-right"> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright 2011-2013, The Astropy Developers.<br/>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2. &nbsp;
+    Last built 05 Mar 2014. <br/>
+  </p>
+</footer>
+  </body>
+</html>

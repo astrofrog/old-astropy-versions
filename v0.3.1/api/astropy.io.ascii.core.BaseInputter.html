@@ -1,0 +1,241 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>BaseInputter &mdash; Astropy v0.3.1</title>
+    
+    <link rel="stylesheet" href="../_static/bootstrap-astropy.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="https://media.readthedocs.org/css/badge_only.css" type="text/css" />
+    <link rel="stylesheet" href="https://media.readthedocs.org/css/readthedocs-doc-embed.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.3.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/jquery/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/jquery/jquery-migrate-1.2.1.min.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/underscore.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/doctools.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/readthedocs-doc-embed.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="shortcut icon" href="../_static/astropy_logo.ico"/>
+    <link rel="top" title="Astropy v0.3.1" href="../index.html" />
+    <link rel="up" title="ASCII Tables (astropy.io.ascii)" href="../io/ascii/index.html" />
+    <link rel="next" title="BaseOutputter" href="astropy.io.ascii.core.BaseOutputter.html" />
+    <link rel="prev" title="BaseHeader" href="astropy.io.ascii.core.BaseHeader.html" />
+
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,600' rel='stylesheet' type='text/css'>
+
+<!-- RTD Extra Head -->
+
+
+
+<!-- 
+Read the Docs is acting as the canonical URL for your project. 
+If you want to change it, more info is available in our docs:
+  http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="http://astropy.readthedocs.org/en/latest/api/astropy.io.ascii.core.BaseInputter.html">
+
+<script type="text/javascript">
+  // This is included here because other places don't have access to the pagename variable.
+  var READTHEDOCS_DATA = {
+    project: "astropy",
+    version: "v0.3.1",
+    language: "en",
+    page: "api/astropy.io.ascii.core.BaseInputter",
+    theme: "bootstrap-astropy",
+    docroot: "/docs/",
+    api_host: "https://readthedocs.org"
+  }
+  // Old variables
+  var doc_version = "v0.3.1";
+  var doc_slug = "astropy";
+  var page_name = "api/astropy.io.ascii.core.BaseInputter";
+  var html_theme = "bootstrap-astropy";
+</script>
+<!-- RTD Analytics Code -->
+<!-- Included in the header because you don't have a footer block. -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17997319-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+<!-- end RTD Analytics Code -->
+
+
+<!-- User Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-30968842-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+<!-- End User Analytics Code -->
+
+<!-- end RTD <extrahead> -->
+
+  </head>
+  <body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../index.html"><span id="logotext1">astro</span><span id="logotext2">py</span><span id="logotext3">:docs</span></a>
+  <ul>
+    <li><a class="homelink" title="Astropy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../genindex.html">Index</a></li>
+    <li><a title="Module Index" href="../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li class="right">
+	<a href="astropy.io.ascii.core.BaseOutputter.html" title="BaseOutputter">
+	  next &raquo;
+	</a>
+      </li>
+      <li class="right">
+	<a href="astropy.io.ascii.core.BaseHeader.html" title="BaseHeader">
+	  &laquo; previous
+	</a>
+	 |
+      </li>
+      <li>
+	<a href="../index.html">Astropy v0.3.1</a>
+	 &raquo;
+      </li>
+      <li><a href="../io/ascii/index.html" accesskey="U">ASCII Tables (<tt class="docutils literal"><span class="pre">astropy.io.ascii</span></tt>)</a> &raquo;</li>
+      
+      <li>BaseInputter</li> 
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="baseinputter">
+<h1>BaseInputter<a class="headerlink" href="#baseinputter" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="astropy.io.ascii.core.BaseInputter">
+<em class="property">class </em><tt class="descclassname">astropy.io.ascii.core.</tt><tt class="descname">BaseInputter</tt><a class="reference internal" href="../_modules/astropy/io/ascii/core.html#BaseInputter"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.3.x/astropy/io/ascii/core.py#L120" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.io.ascii.core.BaseInputter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>Get the lines from the table input and return a list of lines.  The input
+table can be one of:</p>
+<ul class="simple">
+<li>File name</li>
+<li>String (newline separated) with all header and data lines (must have at least 2 lines)</li>
+<li>File-like object with read() method</li>
+<li>List of strings</li>
+</ul>
+<p class="rubric">Methods Summary</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.io.ascii.core.BaseInputter.get_lines" title="astropy.io.ascii.core.BaseInputter.get_lines"><tt class="xref py py-obj docutils literal"><span class="pre">get_lines</span></tt></a>(table)</td>
+<td>Get the lines from the <tt class="docutils literal"><span class="pre">table</span></tt> input.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#astropy.io.ascii.core.BaseInputter.process_lines" title="astropy.io.ascii.core.BaseInputter.process_lines"><tt class="xref py py-obj docutils literal"><span class="pre">process_lines</span></tt></a>(lines)</td>
+<td>Process lines for subsequent use.</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods Documentation</p>
+<dl class="method">
+<dt id="astropy.io.ascii.core.BaseInputter.get_lines">
+<tt class="descname">get_lines</tt><big>(</big><em>table</em><big>)</big><a class="reference internal" href="../_modules/astropy/io/ascii/core.html#BaseInputter.get_lines"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.3.x/astropy/io/ascii/core.py#L130" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.io.ascii.core.BaseInputter.get_lines" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the lines from the <tt class="docutils literal"><span class="pre">table</span></tt> input.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>table</strong> &#8211; table input</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">list of lines</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.io.ascii.core.BaseInputter.process_lines">
+<tt class="descname">process_lines</tt><big>(</big><em>lines</em><big>)</big><a class="reference internal" href="../_modules/astropy/io/ascii/core.html#BaseInputter.process_lines"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.3.x/astropy/io/ascii/core.py#L155" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.io.ascii.core.BaseInputter.process_lines" title="Permalink to this definition">¶</a></dt>
+<dd><p>Process lines for subsequent use.  In the default case do nothing.
+This routine is not generally intended for removing comment lines or
+stripping whitespace.  These are done (if needed) in the header and
+data line processing.</p>
+<p>Override this method if something more has to be done to convert raw
+input lines to the table rows.  For example the
+ContinuationLinesInputter derived class accounts for continuation
+characters if a row is split into lines.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"><h3>Page Contents</h3>
+<ul>
+<li><a class="reference internal" href="#">BaseInputter</a></li>
+</ul>
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+<footer class="footer">
+  <p class="pull-right">
+    <a href="http://github.com/astropy/astropy/tree/v0.3.x/docs/api/astropy.io.ascii.core.BaseInputter.rst">Edit This Page on Github</a> &nbsp;
+    <a href="../_sources/api/astropy.io.ascii.core.BaseInputter.txt"
+       rel="nofollow">Page Source</a> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright 2011-2013, The Astropy Developers.<br/>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2. &nbsp;
+    Last built 05 Mar 2014. <br/>
+  </p>
+</footer>
+  </body>
+</html>

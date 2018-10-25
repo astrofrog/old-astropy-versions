@@ -1,0 +1,29 @@
+
+
+Kernel1D
+=================================
+
+.. currentmodule:: astropy.convolution.core
+
+.. autoclass:: Kernel1D
+   :show-inheritance:
+
+   
+     
+   
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   

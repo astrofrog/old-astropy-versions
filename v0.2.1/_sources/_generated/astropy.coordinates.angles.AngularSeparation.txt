@@ -1,0 +1,46 @@
+
+
+AngularSeparation
+============================================
+
+.. currentmodule:: astropy.coordinates.angles
+
+.. autoclass:: AngularSeparation
+   :show-inheritance:
+
+   
+     
+   
+
+   
+   
+
+   .. rubric:: Attributes Summary
+
+   .. autosummary::
+   
+      ~AngularSeparation.arcmins
+      ~AngularSeparation.arcsecs
+
+   
+   
+
+   
+   
+   
+
+   
+   
+
+   .. rubric:: Attributes Documentation
+
+   
+   .. autoattribute:: arcmins
+   .. autoattribute:: arcsecs
+
+   
+   
+
+   
+   
+   

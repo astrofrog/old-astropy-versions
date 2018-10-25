@@ -1,0 +1,48 @@
+
+
+Polynomial1D
+========================================
+
+.. currentmodule:: astropy.modeling.polynomial
+
+.. autoclass:: Polynomial1D
+   :show-inheritance:
+
+   
+     
+   
+
+   
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+   
+      ~Polynomial1D.__call__
+      ~Polynomial1D.fit_deriv
+      ~Polynomial1D.horner
+
+   
+   
+
+   
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Documentation
+
+   
+   .. automethod:: __call__
+   .. automethod:: fit_deriv
+   .. automethod:: horner
+
+   
+   

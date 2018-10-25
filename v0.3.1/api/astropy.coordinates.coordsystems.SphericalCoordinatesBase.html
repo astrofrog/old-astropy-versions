@@ -1,0 +1,631 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>SphericalCoordinatesBase &mdash; Astropy v0.3.1</title>
+    
+    <link rel="stylesheet" href="../_static/bootstrap-astropy.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="https://media.readthedocs.org/css/badge_only.css" type="text/css" />
+    <link rel="stylesheet" href="https://media.readthedocs.org/css/readthedocs-doc-embed.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.3.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/jquery/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/jquery/jquery-migrate-1.2.1.min.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/underscore.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/doctools.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/readthedocs-doc-embed.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="shortcut icon" href="../_static/astropy_logo.ico"/>
+    <link rel="top" title="Astropy v0.3.1" href="../index.html" />
+    <link rel="up" title="Astronomical Coordinate Systems (astropy.coordinates)" href="../coordinates/index.html" />
+    <link rel="next" title="StaticMatrixTransform" href="astropy.coordinates.transformations.StaticMatrixTransform.html" />
+    <link rel="prev" title="RangeError" href="astropy.coordinates.errors.RangeError.html" />
+
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,600' rel='stylesheet' type='text/css'>
+
+<!-- RTD Extra Head -->
+
+
+
+<!-- 
+Read the Docs is acting as the canonical URL for your project. 
+If you want to change it, more info is available in our docs:
+  http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="http://astropy.readthedocs.org/en/latest/api/astropy.coordinates.coordsystems.SphericalCoordinatesBase.html">
+
+<script type="text/javascript">
+  // This is included here because other places don't have access to the pagename variable.
+  var READTHEDOCS_DATA = {
+    project: "astropy",
+    version: "v0.3.1",
+    language: "en",
+    page: "api/astropy.coordinates.coordsystems.SphericalCoordinatesBase",
+    theme: "bootstrap-astropy",
+    docroot: "/docs/",
+    api_host: "https://readthedocs.org"
+  }
+  // Old variables
+  var doc_version = "v0.3.1";
+  var doc_slug = "astropy";
+  var page_name = "api/astropy.coordinates.coordsystems.SphericalCoordinatesBase";
+  var html_theme = "bootstrap-astropy";
+</script>
+<!-- RTD Analytics Code -->
+<!-- Included in the header because you don't have a footer block. -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17997319-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+<!-- end RTD Analytics Code -->
+
+
+<!-- User Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-30968842-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+<!-- End User Analytics Code -->
+
+<!-- end RTD <extrahead> -->
+
+  </head>
+  <body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../index.html"><span id="logotext1">astro</span><span id="logotext2">py</span><span id="logotext3">:docs</span></a>
+  <ul>
+    <li><a class="homelink" title="Astropy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../genindex.html">Index</a></li>
+    <li><a title="Module Index" href="../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li class="right">
+	<a href="astropy.coordinates.transformations.StaticMatrixTransform.html" title="StaticMatrixTransform">
+	  next &raquo;
+	</a>
+      </li>
+      <li class="right">
+	<a href="astropy.coordinates.errors.RangeError.html" title="RangeError">
+	  &laquo; previous
+	</a>
+	 |
+      </li>
+      <li>
+	<a href="../index.html">Astropy v0.3.1</a>
+	 &raquo;
+      </li>
+      <li><a href="../coordinates/index.html" accesskey="U">Astronomical Coordinate Systems (<tt class="docutils literal"><span class="pre">astropy.coordinates</span></tt>)</a> &raquo;</li>
+      
+      <li>SphericalCoordinatesBase</li> 
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="sphericalcoordinatesbase">
+<h1>SphericalCoordinatesBase<a class="headerlink" href="#sphericalcoordinatesbase" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="astropy.coordinates.coordsystems.SphericalCoordinatesBase">
+<em class="property">class </em><tt class="descclassname">astropy.coordinates.coordsystems.</tt><tt class="descname">SphericalCoordinatesBase</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/astropy/coordinates/coordsystems.html#SphericalCoordinatesBase"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.3.x/astropy/coordinates/coordsystems.py#L23" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.coordinates.coordsystems.SphericalCoordinatesBase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>Abstract superclass for all coordinate classes representing points
+in three dimensions.</p>
+<p class="rubric">Notes</p>
+<p>Subclasses must implement <tt class="xref py py-obj docutils literal"><span class="pre">__init__</span></tt>, and define the <a class="reference internal" href="#astropy.coordinates.coordsystems.SphericalCoordinatesBase.latangle" title="astropy.coordinates.coordsystems.SphericalCoordinatesBase.latangle"><tt class="xref py py-obj docutils literal"><span class="pre">latangle</span></tt></a> and
+<a class="reference internal" href="#astropy.coordinates.coordsystems.SphericalCoordinatesBase.lonangle" title="astropy.coordinates.coordsystems.SphericalCoordinatesBase.lonangle"><tt class="xref py py-obj docutils literal"><span class="pre">lonangle</span></tt></a> properties.  They may also override the <a class="reference internal" href="#astropy.coordinates.coordsystems.SphericalCoordinatesBase.equinox" title="astropy.coordinates.coordsystems.SphericalCoordinatesBase.equinox"><tt class="xref py py-obj docutils literal"><span class="pre">equinox</span></tt></a>
+property, or leave it unaltered to indicate the coordinates are
+equinoxless.</p>
+<p><tt class="xref py py-obj docutils literal"><span class="pre">_initialize_latlon</span></tt> is provided to implement typical
+initialization features, and should be called from a subclass&#8217;
+<tt class="xref py py-obj docutils literal"><span class="pre">__init__</span></tt>.  See the classes in
+<tt class="xref py py-obj docutils literal"><span class="pre">astropy.coordinates.builtin_systems</span></tt> for examples of this.</p>
+<p class="rubric">Attributes Summary</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.coordinates.coordsystems.SphericalCoordinatesBase.cartesian" title="astropy.coordinates.coordsystems.SphericalCoordinatesBase.cartesian"><tt class="xref py py-obj docutils literal"><span class="pre">cartesian</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#astropy.coordinates.coordsystems.SphericalCoordinatesBase.distance" title="astropy.coordinates.coordsystems.SphericalCoordinatesBase.distance"><tt class="xref py py-obj docutils literal"><span class="pre">distance</span></tt></a></td>
+<td>The radial distance for this coordinate object as an <tt class="xref py py-obj docutils literal"><span class="pre">Distance</span></tt> object.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.coordinates.coordsystems.SphericalCoordinatesBase.equinox" title="astropy.coordinates.coordsystems.SphericalCoordinatesBase.equinox"><tt class="xref py py-obj docutils literal"><span class="pre">equinox</span></tt></a></td>
+<td>The equinox of this system, or None to indicate no equinox specified.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#astropy.coordinates.coordsystems.SphericalCoordinatesBase.isscalar" title="astropy.coordinates.coordsystems.SphericalCoordinatesBase.isscalar"><tt class="xref py py-obj docutils literal"><span class="pre">isscalar</span></tt></a></td>
+<td>True if this coordinate contains scalar angles/distances, or False if</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.coordinates.coordsystems.SphericalCoordinatesBase.latangle" title="astropy.coordinates.coordsystems.SphericalCoordinatesBase.latangle"><tt class="xref py py-obj docutils literal"><span class="pre">latangle</span></tt></a></td>
+<td>The latitudinal/elevation angle for these coordinates as an <a class="reference internal" href="astropy.coordinates.angles.Angle.html#astropy.coordinates.angles.Angle" title="astropy.coordinates.angles.Angle"><tt class="xref py py-obj docutils literal"><span class="pre">Angle</span></tt></a> object.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#astropy.coordinates.coordsystems.SphericalCoordinatesBase.lonangle" title="astropy.coordinates.coordsystems.SphericalCoordinatesBase.lonangle"><tt class="xref py py-obj docutils literal"><span class="pre">lonangle</span></tt></a></td>
+<td>The longitudinal/azimuthal angle for these coordinates as an <a class="reference internal" href="astropy.coordinates.angles.Angle.html#astropy.coordinates.angles.Angle" title="astropy.coordinates.angles.Angle"><tt class="xref py py-obj docutils literal"><span class="pre">Angle</span></tt></a> object.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.coordinates.coordsystems.SphericalCoordinatesBase.shape" title="astropy.coordinates.coordsystems.SphericalCoordinatesBase.shape"><tt class="xref py py-obj docutils literal"><span class="pre">shape</span></tt></a></td>
+<td>A tuple with the dimensions of the array that stores this object&#8217;s coordinates.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#astropy.coordinates.coordsystems.SphericalCoordinatesBase.x" title="astropy.coordinates.coordsystems.SphericalCoordinatesBase.x"><tt class="xref py py-obj docutils literal"><span class="pre">x</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.coordinates.coordsystems.SphericalCoordinatesBase.y" title="astropy.coordinates.coordsystems.SphericalCoordinatesBase.y"><tt class="xref py py-obj docutils literal"><span class="pre">y</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#astropy.coordinates.coordsystems.SphericalCoordinatesBase.z" title="astropy.coordinates.coordsystems.SphericalCoordinatesBase.z"><tt class="xref py py-obj docutils literal"><span class="pre">z</span></tt></a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods Summary</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.coordinates.coordsystems.SphericalCoordinatesBase.from_name" title="astropy.coordinates.coordsystems.SphericalCoordinatesBase.from_name"><tt class="xref py py-obj docutils literal"><span class="pre">from_name</span></tt></a>(name)</td>
+<td>Given a name, query the CDS name resolver to attempt to retrieve coordinate information for that object.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#astropy.coordinates.coordsystems.SphericalCoordinatesBase.is_transformable_to" title="astropy.coordinates.coordsystems.SphericalCoordinatesBase.is_transformable_to"><tt class="xref py py-obj docutils literal"><span class="pre">is_transformable_to</span></tt></a>(tosys)</td>
+<td>Determines if this coordinate can be transformed to a particular system.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.coordinates.coordsystems.SphericalCoordinatesBase.match_to_catalog_3d" title="astropy.coordinates.coordsystems.SphericalCoordinatesBase.match_to_catalog_3d"><tt class="xref py py-obj docutils literal"><span class="pre">match_to_catalog_3d</span></tt></a>(catalogcoord[,&nbsp;nthneighbor])</td>
+<td>Finds the nearest 3-dimensional matches of this coordinate to a set of catalog coordinates.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#astropy.coordinates.coordsystems.SphericalCoordinatesBase.match_to_catalog_sky" title="astropy.coordinates.coordsystems.SphericalCoordinatesBase.match_to_catalog_sky"><tt class="xref py py-obj docutils literal"><span class="pre">match_to_catalog_sky</span></tt></a>(catalogcoord[,&nbsp;nthneighbor])</td>
+<td>Finds the nearest on-sky matches of this coordinate in a set of catalog coordinates.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.coordinates.coordsystems.SphericalCoordinatesBase.separation" title="astropy.coordinates.coordsystems.SphericalCoordinatesBase.separation"><tt class="xref py py-obj docutils literal"><span class="pre">separation</span></tt></a>(other)</td>
+<td>Computes on-sky separation between this coordinate and another.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#astropy.coordinates.coordsystems.SphericalCoordinatesBase.separation_3d" title="astropy.coordinates.coordsystems.SphericalCoordinatesBase.separation_3d"><tt class="xref py py-obj docutils literal"><span class="pre">separation_3d</span></tt></a>(other)</td>
+<td>Computes three dimensional separation between this coordinate and another.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.coordinates.coordsystems.SphericalCoordinatesBase.to_string" title="astropy.coordinates.coordsystems.SphericalCoordinatesBase.to_string"><tt class="xref py py-obj docutils literal"><span class="pre">to_string</span></tt></a>([style])</td>
+<td>A string representation of the coordinates.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#astropy.coordinates.coordsystems.SphericalCoordinatesBase.transform_to" title="astropy.coordinates.coordsystems.SphericalCoordinatesBase.transform_to"><tt class="xref py py-obj docutils literal"><span class="pre">transform_to</span></tt></a>(tosys)</td>
+<td>Transform this coordinate to a new system.</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes Documentation</p>
+<dl class="attribute">
+<dt id="astropy.coordinates.coordsystems.SphericalCoordinatesBase.cartesian">
+<tt class="descname">cartesian</tt><a class="reference internal" href="../_modules/astropy/coordinates/coordsystems.html#SphericalCoordinatesBase.cartesian"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astropy.coordinates.coordsystems.SphericalCoordinatesBase.cartesian" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.coordinates.coordsystems.SphericalCoordinatesBase.distance">
+<tt class="descname">distance</tt><a class="reference internal" href="../_modules/astropy/coordinates/coordsystems.html#SphericalCoordinatesBase.distance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astropy.coordinates.coordsystems.SphericalCoordinatesBase.distance" title="Permalink to this definition">¶</a></dt>
+<dd><p>The radial distance for this coordinate object as an
+<tt class="xref py py-obj docutils literal"><span class="pre">Distance</span></tt> object.</p>
+<p>If set as a tuple, the tuple will be passed into the
+<tt class="xref py py-obj docutils literal"><span class="pre">Distance</span></tt> constructor.</p>
+<p>Alternatively, this may be <a class="reference external" href="http://docs.python.org/library/constants.html#None" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">None</span></tt></a>, indicating an unknown/not given
+distance. Where necessary, this object will be interpreted as angles on
+the unit sphere.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.coordinates.coordsystems.SphericalCoordinatesBase.equinox">
+<tt class="descname">equinox</tt><a class="reference internal" href="../_modules/astropy/coordinates/coordsystems.html#SphericalCoordinatesBase.equinox"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astropy.coordinates.coordsystems.SphericalCoordinatesBase.equinox" title="Permalink to this definition">¶</a></dt>
+<dd><p>The equinox of this system, or None to indicate no equinox specified.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.coordinates.coordsystems.SphericalCoordinatesBase.isscalar">
+<tt class="descname">isscalar</tt><a class="reference internal" href="../_modules/astropy/coordinates/coordsystems.html#SphericalCoordinatesBase.isscalar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astropy.coordinates.coordsystems.SphericalCoordinatesBase.isscalar" title="Permalink to this definition">¶</a></dt>
+<dd><p>True if this coordinate contains scalar angles/distances, or False if
+they are array-like</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.coordinates.coordsystems.SphericalCoordinatesBase.latangle">
+<tt class="descname">latangle</tt><a class="reference internal" href="../_modules/astropy/coordinates/coordsystems.html#SphericalCoordinatesBase.latangle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astropy.coordinates.coordsystems.SphericalCoordinatesBase.latangle" title="Permalink to this definition">¶</a></dt>
+<dd><p>The latitudinal/elevation angle for these coordinates as an
+<a class="reference internal" href="astropy.coordinates.angles.Angle.html#astropy.coordinates.angles.Angle" title="astropy.coordinates.angles.Angle"><tt class="xref py py-obj docutils literal"><span class="pre">Angle</span></tt></a> object.</p>
+<p>Subclasses will often provide properties returning the same object, but
+with a name more appropriate for the particular subclass.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.coordinates.coordsystems.SphericalCoordinatesBase.lonangle">
+<tt class="descname">lonangle</tt><a class="reference internal" href="../_modules/astropy/coordinates/coordsystems.html#SphericalCoordinatesBase.lonangle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astropy.coordinates.coordsystems.SphericalCoordinatesBase.lonangle" title="Permalink to this definition">¶</a></dt>
+<dd><p>The longitudinal/azimuthal angle for these coordinates as an
+<a class="reference internal" href="astropy.coordinates.angles.Angle.html#astropy.coordinates.angles.Angle" title="astropy.coordinates.angles.Angle"><tt class="xref py py-obj docutils literal"><span class="pre">Angle</span></tt></a> object.</p>
+<p>Subclasses will often provide properties returning the same object, but
+with a name more appropriate for the particular subclass.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.coordinates.coordsystems.SphericalCoordinatesBase.shape">
+<tt class="descname">shape</tt><a class="reference internal" href="../_modules/astropy/coordinates/coordsystems.html#SphericalCoordinatesBase.shape"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astropy.coordinates.coordsystems.SphericalCoordinatesBase.shape" title="Permalink to this definition">¶</a></dt>
+<dd><p>A tuple with the dimensions of the array that stores this object&#8217;s
+coordinates. If this is a single coordinate, this will be an empty
+tuple. (See <a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.shape.html#numpy.ndarray.shape" title="(in NumPy v1.8)"><tt class="xref py py-obj docutils literal"><span class="pre">numpy.ndarray.shape</span></tt></a>)</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.coordinates.coordsystems.SphericalCoordinatesBase.x">
+<tt class="descname">x</tt><a class="reference internal" href="../_modules/astropy/coordinates/coordsystems.html#SphericalCoordinatesBase.x"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astropy.coordinates.coordsystems.SphericalCoordinatesBase.x" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.coordinates.coordsystems.SphericalCoordinatesBase.y">
+<tt class="descname">y</tt><a class="reference internal" href="../_modules/astropy/coordinates/coordsystems.html#SphericalCoordinatesBase.y"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astropy.coordinates.coordsystems.SphericalCoordinatesBase.y" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.coordinates.coordsystems.SphericalCoordinatesBase.z">
+<tt class="descname">z</tt><a class="reference internal" href="../_modules/astropy/coordinates/coordsystems.html#SphericalCoordinatesBase.z"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astropy.coordinates.coordsystems.SphericalCoordinatesBase.z" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p class="rubric">Methods Documentation</p>
+<dl class="classmethod">
+<dt id="astropy.coordinates.coordsystems.SphericalCoordinatesBase.from_name">
+<em class="property">classmethod </em><tt class="descname">from_name</tt><big>(</big><em>name</em><big>)</big><a class="reference internal" href="../_modules/astropy/coordinates/coordsystems.html#SphericalCoordinatesBase.from_name"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.3.x/astropy/coordinates/coordsystems.py#L685" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.coordinates.coordsystems.SphericalCoordinatesBase.from_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a name, query the CDS name resolver to attempt to retrieve
+coordinate information for that object. The search database, sesame
+url, and  query timeout can be set through configuration items in
+<tt class="xref py py-obj docutils literal"><span class="pre">astropy.coordinates.name_resolve</span></tt> &#8211; see docstring for
+<a class="reference internal" href="astropy.coordinates.name_resolve.get_icrs_coordinates.html#astropy.coordinates.name_resolve.get_icrs_coordinates" title="astropy.coordinates.name_resolve.get_icrs_coordinates"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.coordinates.name_resolve.get_icrs_coordinates</span></tt></a> for more
+information.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>name</strong> : str</p>
+<blockquote>
+<div><p>The name of the object to get coordinates for, e.g. m42.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>coord</strong> : SphericalCoordinatesBase</p>
+<blockquote class="last">
+<div><p>Instance of a Coordinates class, specified by the class this is
+called on, e.g. if <tt class="xref py py-obj docutils literal"><span class="pre">Galactic.from_name('m42')</span></tt>, will
+get an instance of <tt class="xref py py-obj docutils literal"><span class="pre">Galactic</span></tt> representing the
+position of M42.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.coordinates.coordsystems.SphericalCoordinatesBase.is_transformable_to">
+<tt class="descname">is_transformable_to</tt><big>(</big><em>tosys</em><big>)</big><a class="reference internal" href="../_modules/astropy/coordinates/coordsystems.html#SphericalCoordinatesBase.is_transformable_to"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.3.x/astropy/coordinates/coordsystems.py#L615" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.coordinates.coordsystems.SphericalCoordinatesBase.is_transformable_to" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determines if this coordinate can be transformed to a particular system.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>tosys</strong> : class</p>
+<blockquote>
+<div><p>The system to transform this coordinate into.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>transformable</strong> : bool or str</p>
+<blockquote class="last">
+<div><p>True if this can be trasnformed to <tt class="xref py py-obj docutils literal"><span class="pre">tosys</span></tt>, False if not. The
+string &#8216;same&#8217; if <tt class="xref py py-obj docutils literal"><span class="pre">tosys</span></tt> is the same system as this object
+(i.e. no transformation is needed).</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.coordinates.coordsystems.SphericalCoordinatesBase.match_to_catalog_3d">
+<tt class="descname">match_to_catalog_3d</tt><big>(</big><em>catalogcoord</em>, <em>nthneighbor=1</em><big>)</big><a class="reference internal" href="../_modules/astropy/coordinates/coordsystems.html#SphericalCoordinatesBase.match_to_catalog_3d"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.3.x/astropy/coordinates/coordsystems.py#L494" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.coordinates.coordsystems.SphericalCoordinatesBase.match_to_catalog_3d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finds the nearest 3-dimensional matches of this coordinate to a set
+of catalog coordinates.</p>
+<p>This finds the 3-dimensional closest neighbor, which is only different
+from the on-sky distance if <a class="reference internal" href="#astropy.coordinates.coordsystems.SphericalCoordinatesBase.distance" title="astropy.coordinates.coordsystems.SphericalCoordinatesBase.distance"><tt class="xref py py-obj docutils literal"><span class="pre">distance</span></tt></a> is set in this object or the
+<tt class="xref py py-obj docutils literal"><span class="pre">catalogcoord</span></tt> object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>catalogcoord</strong> : <tt class="xref py py-obj docutils literal"><span class="pre">SphericalCoordinatesBase</span></tt></p>
+<blockquote>
+<div><p>The base catalog in which to search for matches. Typically this
+will be a coordinate object that is an array (i.e.,
+<tt class="docutils literal"><span class="pre">catalogcoord.isscalar</span> <span class="pre">==</span> <span class="pre">False</span></tt>)</p>
+</div></blockquote>
+<p><strong>nthneighbor</strong> : int, optional</p>
+<blockquote>
+<div><p>Which closest neighbor to search for.  Typically <tt class="docutils literal"><span class="pre">1</span></tt> is desired here,
+as that is correct for matching one set of coordinates to another.
+The next likely use case is <tt class="docutils literal"><span class="pre">2</span></tt>, for matching a coordinate catalog
+against <em>itself</em> (<tt class="docutils literal"><span class="pre">1</span></tt> is inappropriate because each point will find
+itself as the closest match).</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>idx</strong> : integer array</p>
+<blockquote>
+<div><p>Indecies into <tt class="xref py py-obj docutils literal"><span class="pre">catalogcoord</span></tt> to get the matched points for each
+<tt class="xref py py-obj docutils literal"><span class="pre">matchcoord</span></tt>. Shape matches this coordinate.</p>
+</div></blockquote>
+<p><strong>sep2d</strong> : <tt class="xref py py-obj docutils literal"><span class="pre">Angle</span></tt></p>
+<blockquote>
+<div><p>The on-sky separation between the closest match for each <tt class="xref py py-obj docutils literal"><span class="pre">matchcoord</span></tt> and
+the <tt class="xref py py-obj docutils literal"><span class="pre">matchcoord</span></tt>. Shape matches <tt class="xref py py-obj docutils literal"><span class="pre">matchcoord</span></tt>.</p>
+</div></blockquote>
+<p><strong>dist3d</strong> : <a class="reference internal" href="astropy.units.quantity.Quantity.html#astropy.units.quantity.Quantity" title="astropy.units.quantity.Quantity"><tt class="xref py py-obj docutils literal"><span class="pre">Quantity</span></tt></a></p>
+<blockquote class="last">
+<div><p>The 3D distance between the closest match for each <tt class="xref py py-obj docutils literal"><span class="pre">matchcoord</span></tt> and
+the <tt class="xref py py-obj docutils literal"><span class="pre">matchcoord</span></tt>. Shape matches this coordinate.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="astropy.coordinates.matching.match_coordinates_3d.html#astropy.coordinates.matching.match_coordinates_3d" title="astropy.coordinates.matching.match_coordinates_3d"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.coordinates.matching.match_coordinates_3d</span></tt></a></p>
+</div>
+<p class="rubric">Notes</p>
+<p>This method requires <tt class="xref py py-obj docutils literal"><span class="pre">scipy</span></tt> to be installed or it will fail.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.coordinates.coordsystems.SphericalCoordinatesBase.match_to_catalog_sky">
+<tt class="descname">match_to_catalog_sky</tt><big>(</big><em>catalogcoord</em>, <em>nthneighbor=1</em><big>)</big><a class="reference internal" href="../_modules/astropy/coordinates/coordsystems.html#SphericalCoordinatesBase.match_to_catalog_sky"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.3.x/astropy/coordinates/coordsystems.py#L540" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.coordinates.coordsystems.SphericalCoordinatesBase.match_to_catalog_sky" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finds the nearest on-sky matches of this coordinate in a set of
+catalog coordinates.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>catalogcoord</strong> : <tt class="xref py py-obj docutils literal"><span class="pre">SphericalCoordinatesBase</span></tt></p>
+<blockquote>
+<div><p>The base catalog in which to search for matches. Typically this
+will be a coordinate object that is an array (i.e.,
+<tt class="docutils literal"><span class="pre">catalogcoord.isscalar</span> <span class="pre">==</span> <span class="pre">False</span></tt>)</p>
+</div></blockquote>
+<p><strong>nthneighbor</strong> : int, optional</p>
+<blockquote>
+<div><p>Which closest neighbor to search for.  Typically <tt class="docutils literal"><span class="pre">1</span></tt> is desired here,
+as that is correct for matching one set of coordinates to another.
+The next likely use case is <tt class="docutils literal"><span class="pre">2</span></tt>, for matching a coordinate catalog
+against <em>itself</em> (<tt class="docutils literal"><span class="pre">1</span></tt> is inappropriate because each point will find
+itself as the closest match).</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>idx</strong> : integer array</p>
+<blockquote>
+<div><p>Indecies into <tt class="xref py py-obj docutils literal"><span class="pre">catalogcoord</span></tt> to get the matched points for each
+<tt class="xref py py-obj docutils literal"><span class="pre">matchcoord</span></tt>. Shape matches this coordinate.</p>
+</div></blockquote>
+<p><strong>sep2d</strong> : <tt class="xref py py-obj docutils literal"><span class="pre">Angle</span></tt></p>
+<blockquote>
+<div><p>The on-sky separation between the closest match for each <tt class="xref py py-obj docutils literal"><span class="pre">matchcoord</span></tt> and
+the <tt class="xref py py-obj docutils literal"><span class="pre">matchcoord</span></tt>. Shape matches <tt class="xref py py-obj docutils literal"><span class="pre">matchcoord</span></tt>.</p>
+</div></blockquote>
+<p><strong>dist3d</strong> : <a class="reference internal" href="astropy.units.quantity.Quantity.html#astropy.units.quantity.Quantity" title="astropy.units.quantity.Quantity"><tt class="xref py py-obj docutils literal"><span class="pre">Quantity</span></tt></a></p>
+<blockquote class="last">
+<div><p>The 3D distance between the closest match for each <tt class="xref py py-obj docutils literal"><span class="pre">matchcoord</span></tt> and
+the <tt class="xref py py-obj docutils literal"><span class="pre">matchcoord</span></tt>. Shape matches this coordinate.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last"><a class="reference internal" href="astropy.coordinates.matching.match_coordinates_sky.html#astropy.coordinates.matching.match_coordinates_sky" title="astropy.coordinates.matching.match_coordinates_sky"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.coordinates.matching.match_coordinates_sky</span></tt></a></p>
+</div>
+<p class="rubric">Notes</p>
+<p>This method requires <tt class="xref py py-obj docutils literal"><span class="pre">scipy</span></tt> to be installed or it will fail.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.coordinates.coordsystems.SphericalCoordinatesBase.separation">
+<tt class="descname">separation</tt><big>(</big><em>other</em><big>)</big><a class="reference internal" href="../_modules/astropy/coordinates/coordsystems.html#SphericalCoordinatesBase.separation"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.3.x/astropy/coordinates/coordsystems.py#L423" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.coordinates.coordsystems.SphericalCoordinatesBase.separation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes on-sky separation between this coordinate and another.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>other</strong> : <a class="reference internal" href="#astropy.coordinates.coordsystems.SphericalCoordinatesBase" title="astropy.coordinates.coordsystems.SphericalCoordinatesBase"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalCoordinatesBase</span></tt></a></p>
+<blockquote>
+<div><p>The coordinate to get the separation to.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>sep</strong> : <a class="reference internal" href="astropy.coordinates.angles.Angle.html#astropy.coordinates.angles.Angle" title="astropy.coordinates.angles.Angle"><tt class="xref py py-obj docutils literal"><span class="pre">Angle</span></tt></a></p>
+<blockquote class="last">
+<div><p>The on-sky separation between this and the <tt class="xref py py-obj docutils literal"><span class="pre">other</span></tt> coordinate.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>The separation is calculated using the Vincenty formula, which
+is stable at all locations, including poles and antipodes <a class="reference internal" href="#r2" id="id1">[R2]</a>.</p>
+<table class="docutils citation" frame="void" id="r2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[R2]</a></td><td><a class="reference external" href="http://en.wikipedia.org/wiki/Great-circle_distance">http://en.wikipedia.org/wiki/Great-circle_distance</a></td></tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.coordinates.coordsystems.SphericalCoordinatesBase.separation_3d">
+<tt class="descname">separation_3d</tt><big>(</big><em>other</em><big>)</big><a class="reference internal" href="../_modules/astropy/coordinates/coordsystems.html#SphericalCoordinatesBase.separation_3d"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.3.x/astropy/coordinates/coordsystems.py#L456" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.coordinates.coordsystems.SphericalCoordinatesBase.separation_3d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes three dimensional separation between this coordinate
+and another.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>other</strong> : <a class="reference internal" href="#astropy.coordinates.coordsystems.SphericalCoordinatesBase" title="astropy.coordinates.coordsystems.SphericalCoordinatesBase"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalCoordinatesBase</span></tt></a></p>
+<blockquote>
+<div><p>The coordinate system to get the distance to.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>sep</strong> : <tt class="xref py py-obj docutils literal"><span class="pre">Distance</span></tt></p>
+<blockquote>
+<div><p>The real-space distance between these two coordinates.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first"><strong>ValueError</strong> :</p>
+<blockquote class="last">
+<div><p>If this or the other coordinate do not have distances.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.coordinates.coordsystems.SphericalCoordinatesBase.to_string">
+<tt class="descname">to_string</tt><big>(</big><em>style=None</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/astropy/coordinates/coordsystems.html#SphericalCoordinatesBase.to_string"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.3.x/astropy/coordinates/coordsystems.py#L719" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.coordinates.coordsystems.SphericalCoordinatesBase.to_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>A string representation of the coordinates.</p>
+<p>See <tt class="xref py py-meth docutils literal"><span class="pre">astropy.coordinates.Angle.to_string()</span></tt> for details and keyword
+arguments (the two angles forming the coordinates are are both
+<tt class="xref py py-class docutils literal"><span class="pre">astropy.coordinates.Angle</span></tt> instances). Keyword arguments are passed to
+<tt class="xref py py-meth docutils literal"><span class="pre">astropy.coordinates.Angle.to_string()</span></tt>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>style</strong> : {&#8216;hmsdms&#8217;, &#8216;dms&#8217;, &#8216;decimal&#8217;, None}</p>
+<blockquote>
+<div><p>The formatting specification to use. These encode the three most
+common ways to represent coordinates. If <a class="reference external" href="http://docs.python.org/library/constants.html#None" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">None</span></tt></a> is passed, the
+defaults for the current coordinate class is used.</p>
+</div></blockquote>
+<p><strong>kwargs</strong> :</p>
+<blockquote class="last">
+<div><p>Keyword arguments are passed to <tt class="xref py py-meth docutils literal"><span class="pre">astropy.coordinates.Angle.to_string()</span></tt>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.coordinates.coordsystems.SphericalCoordinatesBase.transform_to">
+<tt class="descname">transform_to</tt><big>(</big><em>tosys</em><big>)</big><a class="reference internal" href="../_modules/astropy/coordinates/coordsystems.html#SphericalCoordinatesBase.transform_to"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.3.x/astropy/coordinates/coordsystems.py#L583" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.coordinates.coordsystems.SphericalCoordinatesBase.transform_to" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform this coordinate to a new system.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>tosys</strong> : class</p>
+<blockquote>
+<div><p>The system to transform this coordinate into.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>transcoord</strong> :</p>
+<blockquote>
+<div><p>A new object with this coordinate represented in the <tt class="xref py py-obj docutils literal"><span class="pre">tosys</span></tt> system.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first"><strong>ValueError</strong> :</p>
+<blockquote class="last">
+<div><p>If there is no possible transformation route.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"><h3>Page Contents</h3>
+<ul>
+<li><a class="reference internal" href="#">SphericalCoordinatesBase</a></li>
+</ul>
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+<footer class="footer">
+  <p class="pull-right">
+    <a href="http://github.com/astropy/astropy/tree/v0.3.x/docs/api/astropy.coordinates.coordsystems.SphericalCoordinatesBase.rst">Edit This Page on Github</a> &nbsp;
+    <a href="../_sources/api/astropy.coordinates.coordsystems.SphericalCoordinatesBase.txt"
+       rel="nofollow">Page Source</a> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright 2011-2013, The Astropy Developers.<br/>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2. &nbsp;
+    Last built 05 Mar 2014. <br/>
+  </p>
+</footer>
+  </body>
+</html>

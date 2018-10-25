@@ -1,0 +1,44 @@
+
+
+Parametric2DModel
+=======================================
+
+.. currentmodule:: astropy.modeling.core
+
+.. autoclass:: Parametric2DModel
+   :show-inheritance:
+
+   
+
+   
+   
+
+   .. rubric:: Attributes Summary
+
+   .. autosummary::
+   
+      ~Parametric2DModel.n_inputs
+      ~Parametric2DModel.n_outputs
+
+   
+   
+
+   
+   
+   
+
+   
+   
+
+   .. rubric:: Attributes Documentation
+
+   
+   .. autoattribute:: n_inputs
+   .. autoattribute:: n_outputs
+
+   
+   
+
+   
+   
+   

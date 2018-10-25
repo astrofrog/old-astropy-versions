@@ -1,0 +1,383 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+
+    <title>astropy.io.ascii.sextractor &mdash; Astropy v0.2.1</title>
+<!-- RTD <head> -->
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/underscore.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/doctools.js"></script>
+
+<script type="text/javascript">
+  // This is included here for Javascript that doesn't have access to the templates.
+  var doc_version = "v0.2.1";
+  var doc_slug = "astropy";
+</script>
+
+<script type="text/javascript" src="//media.readthedocs.org/javascript/rtd.js"></script>
+<!-- end RTD <head> -->
+
+    
+    <link rel="stylesheet" href="../../../../_static/bootstrap-astropy.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../',
+        VERSION:     '0.2.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../../_static/sidebar.js"></script>
+    <link rel="shortcut icon" href="../../../../_static/astropy_logo.ico"/>
+    <link rel="top" title="Astropy v0.2.1" href="../../../../index.html" />
+    <link rel="up" title="Module code" href="../../../index.html" /> 
+  </head>
+  <body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../../../../index.html"></a>
+  <ul>
+    <li><a class="homelink" title="AstroPy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../../../../genindex.html">Index</a></li>
+    <li><a title="Python Module Index" href="../../../../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../../../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li>
+	<a href="../../../../index.html">Astropy v0.2.1</a>
+	 &raquo;
+      </li>
+      <li><a href="../../../index.html" accesskey="U">Module code</a> &raquo;</li>
+      
+       
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for astropy.io.ascii.sextractor</h1><div class="highlight"><pre>
+<span class="c"># Licensed under a 3-clause BSD style license - see LICENSE.rst</span>
+<span class="sd">&quot;&quot;&quot; sextractor.py:</span>
+<span class="sd">  Classes to read SExtractor table format</span>
+
+<span class="sd">Built on daophot.py:</span>
+<span class="sd">:Copyright: Smithsonian Astrophysical Observatory (2011)</span>
+<span class="sd">:Author: Tom Aldcroft (aldcroft@head.cfa.harvard.edu)</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c">##</span>
+<span class="c">## Redistribution and use in source and binary forms, with or without</span>
+<span class="c">## modification, are permitted provided that the following conditions are met:</span>
+<span class="c">##     * Redistributions of source code must retain the above copyright</span>
+<span class="c">##       notice, this list of conditions and the following disclaimer.</span>
+<span class="c">##     * Redistributions in binary form must reproduce the above copyright</span>
+<span class="c">##       notice, this list of conditions and the following disclaimer in the</span>
+<span class="c">##       documentation and/or other materials provided with the distribution.</span>
+<span class="c">##     * Neither the name of the Smithsonian Astrophysical Observatory nor the</span>
+<span class="c">##       names of its contributors may be used to endorse or promote products</span>
+<span class="c">##       derived from this software without specific prior written permission.</span>
+<span class="c">##</span>
+<span class="c">## THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot; AND</span>
+<span class="c">## ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED</span>
+<span class="c">## WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE</span>
+<span class="c">## DISCLAIMED. IN NO EVENT SHALL &lt;COPYRIGHT HOLDER&gt; BE LIABLE FOR ANY</span>
+<span class="c">## DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES</span>
+<span class="c">## (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;</span>
+<span class="c">## LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND</span>
+<span class="c">## ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT</span>
+<span class="c">## (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS</span>
+<span class="c">## SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span>
+
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">core</span>
+
+
+<div class="viewcode-block" id="SExtractor"><a class="viewcode-back" href="../../../../_generated/astropy.io.ascii.sextractor.SExtractor.html#astropy.io.ascii.sextractor.SExtractor">[docs]</a><span class="k">class</span> <span class="nc">SExtractor</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">BaseReader</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Read a SExtractor file.</span>
+<span class="sd">       SExtractor is a package for faint-galaxy photometry.</span>
+<span class="sd">       Bertin &amp; Arnouts 1996, A&amp;A Supp. 317, 393.</span>
+<span class="sd">       http://www.astromatic.net/software/sextractor</span>
+
+<span class="sd">    Example::</span>
+
+<span class="sd">      # 1 NUMBER</span>
+<span class="sd">      # 2 ALPHA_J2000</span>
+<span class="sd">      # 3 DELTA_J2000</span>
+<span class="sd">      # 4 FLUX_RADIUS</span>
+<span class="sd">      # 7 MAG_AUTO</span>
+<span class="sd">      1 32.23222 10.1211 0.8 1.2 1.4 18.1</span>
+<span class="sd">      2 38.12321 -88.1321 2.2 2.4 3.1 17.0</span>
+
+<span class="sd">    Note the skipped numbers since flux_radius has 3 columns.  The three FLUX_RADIUS</span>
+<span class="sd">    columns will be named FLUX_RADIUS, FLUX_RADIUS_1, FLUX_RADIUS_2</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">BaseReader</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">header</span> <span class="o">=</span> <span class="n">SExtractorHeader</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inputter</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">ContinuationLinesInputter</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">splitter</span><span class="o">.</span><span class="n">delimiter</span> <span class="o">=</span> <span class="s">&#39; &#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">start_line</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">comment</span> <span class="o">=</span> <span class="s">r&#39;\s*#&#39;</span>  <span class="c"># Comments embedded in the data start with #</span>
+
+<div class="viewcode-block" id="SExtractor.read"><a class="viewcode-back" href="../../../../_generated/astropy.io.ascii.sextractor.SExtractor.html#astropy.io.ascii.sextractor.SExtractor.read">[docs]</a>    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">):</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">BaseReader</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">table</span> <span class="o">=</span> <span class="n">output</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cols</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">cols</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">table</span>
+</div>
+<div class="viewcode-block" id="SExtractor.write"><a class="viewcode-back" href="../../../../_generated/astropy.io.ascii.sextractor.SExtractor.html#astropy.io.ascii.sextractor.SExtractor.write">[docs]</a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+
+</div></div>
+<span class="k">class</span> <span class="nc">SExtractorHeader</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">BaseHeader</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Read the header from a file produced by SExtractor.&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">BaseHeader</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">comment</span> <span class="o">=</span> <span class="s">r&#39;^\s*#\s*\S\D.*&#39;</span>  <span class="c"># Find lines that dont have &quot;# digit&quot;</span>
+
+    <span class="k">def</span> <span class="nf">get_cols</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lines</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize the header Column objects from the table ``lines`` for a SExtractor</span>
+<span class="sd">        header.  The SExtractor header is specialized so that we just copy the entire BaseHeader</span>
+<span class="sd">        get_cols routine and modify as needed.</span>
+
+<span class="sd">        :param lines: list of table lines</span>
+<span class="sd">        :returns: list of table Columns</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c"># This assumes that the columns are listed in order, one per line with a</span>
+        <span class="c"># header comment string of the format: &quot;# 1 ID&quot;</span>
+        <span class="c"># However, some may be missing and must be inferred from skipped column numbers</span>
+        <span class="n">columns</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">re_name_def</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;^\s*#\s*([0-9]+).*&#39;</span><span class="p">)</span>  <span class="c"># E.g. &#39;# 1 ID&#39;</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;#&#39;</span><span class="p">):</span>
+                <span class="k">break</span>                   <span class="c"># End of header lines</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">match</span> <span class="o">=</span> <span class="n">re_name_def</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
+                    <span class="n">words</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s">&#39;#&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                    <span class="n">colnumber</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">words</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="c"># First string is the column number</span>
+                    <span class="n">colname</span> <span class="o">=</span> <span class="n">words</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>   <span class="c"># second string is the column name</span>
+                    <span class="n">columns</span><span class="p">[</span><span class="n">colnumber</span><span class="p">]</span> <span class="o">=</span> <span class="n">colname</span>
+        <span class="c"># Handle skipped column numbers</span>
+        <span class="n">colnumbers</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">columns</span><span class="o">.</span><span class="n">iterkeys</span><span class="p">())</span>
+        <span class="n">previous_column</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">colnumbers</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">n</span> <span class="o">!=</span> <span class="n">previous_column</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">previous_column</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">n</span><span class="p">):</span>
+                    <span class="n">column_name</span> <span class="o">=</span> <span class="n">columns</span><span class="p">[</span><span class="n">previous_column</span><span class="p">]</span><span class="o">+</span><span class="s">&quot;_</span><span class="si">%d</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">c</span><span class="o">-</span><span class="n">previous_column</span><span class="p">)</span>
+                    <span class="n">columns</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">column_name</span>
+            <span class="n">previous_column</span> <span class="o">=</span> <span class="n">n</span>
+
+        <span class="c"># Add the columns in order to self.names</span>
+        <span class="n">colnumbers</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">columns</span><span class="o">.</span><span class="n">iterkeys</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">names</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">colnumbers</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">columns</span><span class="p">[</span><span class="n">n</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">names</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">InconsistentTableError</span><span class="p">(</span><span class="s">&#39;No column names found in SExtractor header&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_cols_from_names</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+
+
+<h3>Page Contents</h3>
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+<footer class="footer">
+  <p class="pull-right"> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright 2011-2013, The Astropy Developers.<br/>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3+. &nbsp;
+    Last built 03 Apr 2013. <br/>
+  </p>
+</footer>
+ <!-- End original user content -->
+
+
+<br>
+<br>
+<br>
+
+
+<style type="text/css">
+  .rtd-badge {
+    position: fixed;
+    display: block;
+    bottom: 5px;
+    height: 40px;
+    text-indent: -9999em;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+  }
+  #version_menu {
+    position: fixed;
+    display: none;
+    bottom: 11px;
+    right: 166px;
+    list-style-type: none;
+    margin: 0;
+  }
+  .footer_popout:hover #version_menu {
+    display: block;
+  }
+  #version_menu li {
+    display: block;
+    float: right;
+  }
+  #version_menu li a {
+    display: block;
+    padding: 6px 10px 4px 10px;
+    margin: 7px 7px 0 0;
+    font-weight: bold;
+    font-size: 14px;
+    height: 20px;
+    line-height: 17px;
+    text-decoration: none;
+    color: #fff;
+    background: #8ca1af url(../images/gradient-light.png) bottom left repeat-x;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 1px #465158;
+    -moz-box-shadow: 0 1px 1px #465158;
+    -webkit-box-shadow: 0 1px 1px #465158;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+  }
+  #version_menu li a:hover {
+    text-decoration: none;
+    background-color: #697983;
+    box-shadow: 0 1px 0px #465158;
+    -moz-box-shadow: 0 1px 0px #465158;
+    -webkit-box-shadow: 0 1px 0px #465158;
+  }
+  .rtd-badge.rtd {
+    background: #3b4449 url(//media.readthedocs.org//images/badge-rtd.png) scroll 0px -46px no-repeat;
+    border: 1px solid #282E32;
+    width: 41px;
+    right: 5px;
+  }
+  .footer_popout:hover .rtd-badge.rtd {
+    background-position: top left;
+    width: 160px;
+  }
+  .rtd-badge.revsys { background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline-sponsored {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys-sm.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 205px;
+    right: 173px;
+  }
+
+</style>
+<div class="rtd_doc_footer">
+  <div class="footer_popout">
+    <a href="//readthedocs.org/projects/astropy/?fromdocs=astropy" class="rtd-badge rtd"> Brought to you by Read the Docs</a>
+    <ul id="version_menu">
+      
+        <li><a href="/en/latest/">latest</a></li>
+      
+        <li><a href="/en/add-mpl-to-rtd-pip-req/">add-mpl-to-rtd-pip-req</a></li>
+      
+        <li><a href="/en/v0.2.1/">v0.2.1</a></li>
+      
+        <li><a href="/en/v0.2/">v0.2</a></li>
+      
+        <li><a href="/en/v0.1/">v0.1</a></li>
+      
+    </ul>
+  </div>
+</div>
+<!-- RTD Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17997319-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+<!-- User Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-30968842-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+  </body>
+</html>

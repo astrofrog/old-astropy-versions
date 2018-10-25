@@ -1,0 +1,44 @@
+
+
+SIP
+===============================
+
+.. currentmodule:: astropy.modeling.polynomial
+
+.. autoclass:: SIP
+   :show-inheritance:
+
+   
+     
+   
+
+   
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+   
+      ~SIP.inverse
+
+   
+   
+
+   
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Documentation
+
+   
+   .. automethod:: inverse
+
+   
+   

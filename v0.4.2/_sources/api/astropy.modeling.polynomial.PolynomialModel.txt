@@ -1,0 +1,63 @@
+
+
+PolynomialModel
+===========================================
+
+.. currentmodule:: astropy.modeling.polynomial
+
+.. autoclass:: PolynomialModel
+   :show-inheritance:
+
+   
+     
+   
+
+   
+   
+
+   .. rubric:: Attributes Summary
+
+   .. autosummary::
+   
+      ~PolynomialModel.degree
+      ~PolynomialModel.n_inputs
+      ~PolynomialModel.n_outputs
+
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+   
+      ~PolynomialModel.get_num_coeff
+
+   
+   
+
+   
+   
+
+   .. rubric:: Attributes Documentation
+
+   
+   .. autoattribute:: degree
+   .. autoattribute:: n_inputs
+   .. autoattribute:: n_outputs
+
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Documentation
+
+   
+   .. automethod:: get_num_coeff
+
+   
+   

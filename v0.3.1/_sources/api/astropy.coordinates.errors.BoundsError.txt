@@ -1,0 +1,8 @@
+
+
+BoundsError
+======================================
+
+.. currentmodule:: astropy.coordinates.errors
+
+.. autoexception:: BoundsError

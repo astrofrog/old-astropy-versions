@@ -1,0 +1,61 @@
+
+.. include:: ../time/references.txt
+
+
+TimeString
+============================
+
+.. currentmodule:: astropy.time.core
+
+.. autoclass:: TimeString
+   :show-inheritance:
+
+   
+
+   
+   
+
+   .. rubric:: Attributes Summary
+
+   .. autosummary::
+   
+      ~TimeString.vals
+
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+   
+      ~TimeString.set_jds
+      ~TimeString.str_kwargs
+
+   
+   
+
+   
+   
+
+   .. rubric:: Attributes Documentation
+
+   
+   .. autoattribute:: vals
+
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Documentation
+
+   
+   .. automethod:: set_jds
+   .. automethod:: str_kwargs
+
+   
+   

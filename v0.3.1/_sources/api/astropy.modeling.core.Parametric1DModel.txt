@@ -1,0 +1,27 @@
+
+
+Parametric1DModel
+=======================================
+
+.. currentmodule:: astropy.modeling.core
+
+.. autoclass:: Parametric1DModel
+   :show-inheritance:
+
+   
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   

@@ -1,0 +1,65 @@
+
+
+FK5
+=======================================
+
+.. currentmodule:: astropy.coordinates.builtin_systems
+
+.. autoclass:: FK5
+   :show-inheritance:
+
+   
+     
+   
+
+   
+   
+
+   .. rubric:: Attributes Summary
+
+   .. autosummary::
+   
+      ~FK5.dec
+      ~FK5.equinox
+      ~FK5.obstime
+      ~FK5.ra
+
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+   
+      ~FK5.precess_to
+
+   
+   
+
+   
+   
+
+   .. rubric:: Attributes Documentation
+
+   
+   .. autoattribute:: dec
+   .. autoattribute:: equinox
+   .. autoattribute:: obstime
+   .. autoattribute:: ra
+
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Documentation
+
+   
+   .. automethod:: precess_to
+
+   
+   

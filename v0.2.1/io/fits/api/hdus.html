@@ -1,0 +1,1490 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+
+    <title>Header Data Units &mdash; Astropy v0.2.1</title>
+<!-- RTD <head> -->
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/underscore.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/doctools.js"></script>
+
+<script type="text/javascript">
+  // This is included here for Javascript that doesn't have access to the templates.
+  var doc_version = "v0.2.1";
+  var doc_slug = "astropy";
+</script>
+
+<script type="text/javascript" src="//media.readthedocs.org/javascript/rtd.js"></script>
+<!-- end RTD <head> -->
+
+    
+    <link rel="stylesheet" href="../../../_static/bootstrap-astropy.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.2.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/sidebar.js"></script>
+    <link rel="shortcut icon" href="../../../_static/astropy_logo.ico"/>
+    <link rel="top" title="Astropy v0.2.1" href="../../../index.html" />
+    <link rel="up" title="FITS File handling (astropy.io.fits)" href="../index.html" />
+    <link rel="next" title="Headers" href="headers.html" />
+    <link rel="prev" title="HDU Lists" href="hdulists.html" /> 
+  </head>
+  <body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../../../index.html"></a>
+  <ul>
+    <li><a class="homelink" title="AstroPy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../../../genindex.html">Index</a></li>
+    <li><a title="Python Module Index" href="../../../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li class="right">
+	<a href="headers.html" title="Headers">
+	  next &raquo;
+	</a>
+      </li>
+      <li class="right">
+	<a href="hdulists.html" title="HDU Lists">
+	  &laquo; previous
+	</a>
+	 |
+      </li>
+      <li>
+	<a href="../../../index.html">Astropy v0.2.1</a>
+	 &raquo;
+      </li>
+      <li><a href="../index.html" accesskey="U">FITS File handling (<tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">astropy.io.fits</span></tt>)</a> &raquo;</li>
+      
+      <li>Header Data Units</li> 
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="header-data-units">
+<h1>Header Data Units<a class="headerlink" href="#header-data-units" title="Permalink to this headline">¶</a></h1>
+<p>The <a class="reference internal" href="images.html#astropy.io.fits.ImageHDU" title="astropy.io.fits.ImageHDU"><tt class="xref py py-class docutils literal"><span class="pre">ImageHDU</span></tt></a> and <a class="reference internal" href="images.html#astropy.io.fits.CompImageHDU" title="astropy.io.fits.CompImageHDU"><tt class="xref py py-class docutils literal"><span class="pre">CompImageHDU</span></tt></a> classes are discussed in the
+section on <a class="reference internal" href="images.html#images"><em>Images</em></a>.</p>
+<p>The <a class="reference internal" href="tables.html#astropy.io.fits.TableHDU" title="astropy.io.fits.TableHDU"><tt class="xref py py-class docutils literal"><span class="pre">TableHDU</span></tt></a> and <a class="reference internal" href="tables.html#astropy.io.fits.BinTableHDU" title="astropy.io.fits.BinTableHDU"><tt class="xref py py-class docutils literal"><span class="pre">BinTableHDU</span></tt></a> classes are discussed in the
+section on <a class="reference internal" href="tables.html#tables"><em>Tables</em></a>.</p>
+<div class="section" id="primaryhdu">
+<h2><a class="reference internal" href="#astropy.io.fits.PrimaryHDU" title="astropy.io.fits.PrimaryHDU"><tt class="xref py py-class docutils literal"><span class="pre">PrimaryHDU</span></tt></a><a class="headerlink" href="#primaryhdu" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="astropy.io.fits.PrimaryHDU">
+<em class="property">class </em><tt class="descclassname">astropy.io.fits.</tt><tt class="descname">PrimaryHDU</tt><big>(</big><em>data=None</em>, <em>header=None</em>, <em>do_not_scale_image_data=False</em>, <em>uint=False</em>, <em>scale_back=False</em><big>)</big><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/io/fits.py#L762" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.io.fits.PrimaryHDU" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">astropy.io.fits.hdu.image._ImageBaseHDU</span></tt></p>
+<p>FITS primary HDU class.</p>
+<dl class="method">
+<dt id="astropy.io.fits.PrimaryHDU.add_checksum">
+<tt class="descname">add_checksum</tt><big>(</big><em>when=None</em>, <em>override_datasum=False</em>, <em>blocking='standard'</em><big>)</big><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/io/fits.py#L1100" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.io.fits.PrimaryHDU.add_checksum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add the <tt class="docutils literal"><span class="pre">CHECKSUM</span></tt> and <tt class="docutils literal"><span class="pre">DATASUM</span></tt> cards to this HDU with
+the values set to the checksum calculated for the HDU and the
+data respectively.  The addition of the <tt class="docutils literal"><span class="pre">DATASUM</span></tt> card may
+be overridden.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>when</strong> : str, optional</p>
+<blockquote>
+<div><p>comment string for the cards; by default the comments
+will represent the time when the checksum was calculated</p>
+</div></blockquote>
+<p><strong>override_datasum</strong> : bool, optional</p>
+<blockquote>
+<div><p>add the <tt class="docutils literal"><span class="pre">CHECKSUM</span></tt> card only</p>
+</div></blockquote>
+<p><strong>blocking: str, optional</strong> :</p>
+<blockquote class="last">
+<div><p>&#8220;standard&#8221; or &#8220;nonstandard&#8221;, compute sum 2880 bytes at a time, or
+not</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>For testing purposes, first call <a class="reference internal" href="#astropy.io.fits.PrimaryHDU.add_datasum" title="astropy.io.fits.PrimaryHDU.add_datasum"><tt class="xref py py-obj docutils literal"><span class="pre">add_datasum</span></tt></a> with a <tt class="xref py py-obj docutils literal"><span class="pre">when</span></tt>
+argument, then call <a class="reference internal" href="#astropy.io.fits.PrimaryHDU.add_checksum" title="astropy.io.fits.PrimaryHDU.add_checksum"><tt class="xref py py-obj docutils literal"><span class="pre">add_checksum</span></tt></a> with a <tt class="xref py py-obj docutils literal"><span class="pre">when</span></tt> argument and
+<tt class="xref py py-obj docutils literal"><span class="pre">override_datasum</span></tt> set to <a class="reference external" href="http://docs.python.org/library/constants.html#True" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">True</span></tt></a>.  This will provide
+consistent comments for both cards and enable the generation
+of a <tt class="docutils literal"><span class="pre">CHECKSUM</span></tt> card with a consistent value.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.io.fits.PrimaryHDU.add_datasum">
+<tt class="descname">add_datasum</tt><big>(</big><em>when=None</em>, <em>blocking='standard'</em><big>)</big><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/io/fits.py#L1064" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.io.fits.PrimaryHDU.add_datasum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add the <tt class="docutils literal"><span class="pre">DATASUM</span></tt> card to this HDU with the value set to the
+checksum calculated for the data.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>when</strong> : str, optional</p>
+<blockquote>
+<div><p>Comment string for the card that by default represents the
+time when the checksum was calculated</p>
+</div></blockquote>
+<p><strong>blocking: str, optional</strong> :</p>
+<blockquote>
+<div><p>&#8220;standard&#8221; or &#8220;nonstandard&#8221;, compute sum 2880 bytes at a time, or
+not</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>checksum</strong> : int</p>
+<blockquote class="last">
+<div><p>The calculated datasum</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>For testing purposes, provide a <tt class="xref py py-obj docutils literal"><span class="pre">when</span></tt> argument to enable the
+comment value in the card to remain consistent.  This will
+enable the generation of a <tt class="docutils literal"><span class="pre">CHECKSUM</span></tt> card with a consistent
+value.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.io.fits.PrimaryHDU.copy">
+<tt class="descname">copy</tt><big>(</big><big>)</big><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/io/fits.py#L819" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.io.fits.PrimaryHDU.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make a copy of the HDU, both header and data are copied.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.io.fits.PrimaryHDU.filebytes">
+<tt class="descname">filebytes</tt><big>(</big><big>)</big><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/io/fits.py#L761" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.io.fits.PrimaryHDU.filebytes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates and returns the number of bytes that this HDU will write to
+a file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><strong>None</strong> :</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><strong>Number of bytes</strong> :</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.io.fits.PrimaryHDU.fileinfo">
+<tt class="descname">fileinfo</tt><big>(</big><big>)</big><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/io/fits.py#L779" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.io.fits.PrimaryHDU.fileinfo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a dictionary detailing information about the locations
+of this HDU within any associated file.  The values are only
+valid after a read or write of the associated file with no
+intervening changes to the <a class="reference internal" href="hdulists.html#astropy.io.fits.HDUList" title="astropy.io.fits.HDUList"><tt class="xref py py-obj docutils literal"><span class="pre">HDUList</span></tt></a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>None</strong> :</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>dictionary or None</strong> :</p>
+<blockquote class="last">
+<div><p>The dictionary details information about the locations of
+this HDU within an associated file.  Returns <a class="reference external" href="http://docs.python.org/library/constants.html#None" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">None</span></tt></a> when
+the HDU is not associated with a file.</p>
+<p>Dictionary contents:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="15%" />
+<col width="85%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><p class="first last">Key</p>
+</th>
+<th class="head"><p class="first last">Value</p>
+</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><p class="first last">file</p>
+</td>
+<td><p class="first last">File object associated with the HDU</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p class="first last">filemode</p>
+</td>
+<td><p class="first last">Mode in which the file was opened (readonly, copyonwrite,
+update, append, ostream)</p>
+</td>
+</tr>
+<tr class="row-even"><td><p class="first last">hdrLoc</p>
+</td>
+<td><p class="first last">Starting byte location of header in file</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p class="first last">datLoc</p>
+</td>
+<td><p class="first last">Starting byte location of data block in file</p>
+</td>
+</tr>
+<tr class="row-even"><td><p class="first last">datSpan</p>
+</td>
+<td><p class="first last">Data size including padding</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="astropy.io.fits.PrimaryHDU.fromstring">
+<em class="property">classmethod </em><tt class="descname">fromstring</tt><big>(</big><em>data</em>, <em>fileobj=None</em>, <em>offset=0</em>, <em>checksum=False</em>, <em>ignore_missing_end=False</em>, <em>**kwargs</em><big>)</big><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/io/fits.py#L166" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.io.fits.PrimaryHDU.fromstring" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a new HDU object of the appropriate type from a string
+containing the HDU&#8217;s entire header and, optionally, its data.</p>
+<p>Note: When creating a new HDU from a string without a backing file
+object, the data of that HDU may be read-only.  It depends on whether
+the underlying string was an immutable Python str/bytes object, or some
+kind of read-write memory buffer such as a <a class="reference external" href="http://docs.python.org/library/stdtypes.html#memoryview" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">memoryview</span></tt></a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>data</strong> : str, bytearray, memoryview, ndarray</p>
+<blockquote>
+<div><p>A byte string contining the HDU&#8217;s header and, optionally, its data.
+If <tt class="xref py py-obj docutils literal"><span class="pre">fileobj</span></tt> is not specified, and the length of <tt class="xref py py-obj docutils literal"><span class="pre">data</span></tt> extends
+beyond the header, then the trailing data is taken to be the HDU&#8217;s
+data.  If <tt class="xref py py-obj docutils literal"><span class="pre">fileobj</span></tt> is specified then the trailing data is ignored.</p>
+</div></blockquote>
+<p><strong>fileobj</strong> : file (optional)</p>
+<blockquote>
+<div><p>The file-like object that this HDU was read from.</p>
+</div></blockquote>
+<p><strong>offset</strong> : int (optional)</p>
+<blockquote>
+<div><p>If <tt class="xref py py-obj docutils literal"><span class="pre">fileobj</span></tt> is specified, the offset into the file-like object at
+which this HDU begins.</p>
+</div></blockquote>
+<p><strong>checksum</strong> : bool (optional)</p>
+<blockquote>
+<div><p>Check the HDU&#8217;s checksum and/or datasum.</p>
+</div></blockquote>
+<p><strong>ignore_missing_end</strong> : bool (optional)</p>
+<blockquote>
+<div><p>Ignore a missing end card in the header data.  Note that without
+the end card the end of the header can&#8217;t be found, so the entire
+data is just assumed to be the header.</p>
+</div></blockquote>
+<p><strong>kwargs</strong> : (optional)</p>
+<blockquote class="last">
+<div><p>May contain additional keyword arguments specific to an HDU type.
+Any unrecognized kwargs are simply ignored.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="astropy.io.fits.PrimaryHDU.readfrom">
+<em class="property">classmethod </em><tt class="descname">readfrom</tt><big>(</big><em>fileobj</em>, <em>checksum=False</em>, <em>ignore_missing_end=False</em>, <em>**kwargs</em><big>)</big><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/io/fits.py#L282" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.io.fits.PrimaryHDU.readfrom" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read the HDU from a file.  Normally an HDU should be opened with
+<tt class="xref py py-obj docutils literal"><span class="pre">fitsopen()</span></tt> which reads the entire HDU list in a FITS file.  But this
+method is still provided for symmetry with <a class="reference internal" href="files.html#astropy.io.fits.writeto" title="astropy.io.fits.writeto"><tt class="xref py py-obj docutils literal"><span class="pre">writeto()</span></tt></a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>fileobj</strong> : file object or file-like object</p>
+<blockquote>
+<div><p>Input FITS file.  The file&#8217;s seek pointer is assumed to be at the
+beginning of the HDU.</p>
+</div></blockquote>
+<p><strong>checksum</strong> : bool</p>
+<blockquote>
+<div><p>If <a class="reference external" href="http://docs.python.org/library/constants.html#True" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">True</span></tt></a>, verifies that both <tt class="docutils literal"><span class="pre">DATASUM</span></tt> and
+<tt class="docutils literal"><span class="pre">CHECKSUM</span></tt> card values (when present in the HDU header)
+match the header and data of all HDU&#8217;s in the file.</p>
+</div></blockquote>
+<p><strong>ignore_missing_end</strong> : bool</p>
+<blockquote class="last">
+<div><p>Do not issue an exception when opening a file that is
+missing an <tt class="docutils literal"><span class="pre">END</span></tt> card in the last header.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.io.fits.PrimaryHDU.req_cards">
+<tt class="descname">req_cards</tt><big>(</big><em>keyword</em>, <em>pos</em>, <em>test</em>, <em>fix_value</em>, <em>option</em>, <em>errlist</em><big>)</big><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/io/fits.py#L986" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.io.fits.PrimaryHDU.req_cards" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check the existence, location, and value of a required <a class="reference internal" href="cards.html#astropy.io.fits.Card" title="astropy.io.fits.Card"><tt class="xref py py-obj docutils literal"><span class="pre">Card</span></tt></a>.</p>
+<p>TODO: Write about parameters</p>
+<p>If <tt class="xref py py-obj docutils literal"><span class="pre">pos</span></tt> = <a class="reference external" href="http://docs.python.org/library/constants.html#None" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">None</span></tt></a>, it can be anywhere.  If the card does not exist,
+the new card will have the <tt class="xref py py-obj docutils literal"><span class="pre">fix_value</span></tt> as its value when created.
+Also check the card&#8217;s value by using the <a class="reference external" href="http://docs.python.org/library/test.html#test" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">test</span></tt></a> argument.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.io.fits.PrimaryHDU.run_option">
+<tt class="descname">run_option</tt><big>(</big><em>option='warn'</em>, <em>err_text=''</em>, <em>fix_text='Fixed.'</em>, <em>fix=None</em>, <em>fixable=True</em><big>)</big><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/io/fits.py#L26" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.io.fits.PrimaryHDU.run_option" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute the verification with selected option.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.io.fits.PrimaryHDU.scale">
+<tt class="descname">scale</tt><big>(</big><em>type=None</em>, <em>option='old'</em>, <em>bscale=1</em>, <em>bzero=0</em><big>)</big><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/io/fits.py#L318" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.io.fits.PrimaryHDU.scale" title="Permalink to this definition">¶</a></dt>
+<dd><p>Scale image data by using <tt class="docutils literal"><span class="pre">BSCALE</span></tt>/<tt class="docutils literal"><span class="pre">BZERO</span></tt>.</p>
+<p>Call to this method will scale <tt class="xref py py-obj docutils literal"><span class="pre">data</span></tt> and update the keywords
+of <tt class="docutils literal"><span class="pre">BSCALE</span></tt> and <tt class="docutils literal"><span class="pre">BZERO</span></tt> in <tt class="xref py py-obj docutils literal"><span class="pre">_header</span></tt>.  This method should
+only be used right before writing to the output file, as the
+data will be scaled and is therefore not very usable after the
+call.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>type</strong> : str, optional</p>
+<blockquote>
+<div><p>destination data type, use a string representing a numpy
+dtype name, (e.g. <tt class="docutils literal"><span class="pre">'uint8'</span></tt>, <tt class="docutils literal"><span class="pre">'int16'</span></tt>, <tt class="docutils literal"><span class="pre">'float32'</span></tt>
+etc.).  If is <a class="reference external" href="http://docs.python.org/library/constants.html#None" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">None</span></tt></a>, use the current data type.</p>
+</div></blockquote>
+<p><strong>option</strong> : str</p>
+<blockquote>
+<div><p>How to scale the data: if <tt class="docutils literal"><span class="pre">&quot;old&quot;</span></tt>, use the original
+<tt class="docutils literal"><span class="pre">BSCALE</span></tt> and <tt class="docutils literal"><span class="pre">BZERO</span></tt> values when the data was
+read/created. If <tt class="docutils literal"><span class="pre">&quot;minmax&quot;</span></tt>, use the minimum and maximum
+of the data to scale.  The option will be overwritten by
+any user specified <tt class="xref py py-obj docutils literal"><span class="pre">bscale</span></tt>/<tt class="xref py py-obj docutils literal"><span class="pre">bzero</span></tt> values.</p>
+</div></blockquote>
+<p><strong>bscale, bzero</strong> : int, optional</p>
+<blockquote class="last">
+<div><p>User-specified <tt class="docutils literal"><span class="pre">BSCALE</span></tt> and <tt class="docutils literal"><span class="pre">BZERO</span></tt> values.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.io.fits.PrimaryHDU.section">
+<tt class="descname">section</tt><a class="headerlink" href="#astropy.io.fits.PrimaryHDU.section" title="Permalink to this definition">¶</a></dt>
+<dd><p>Access a section of the image array without loading the entire array
+into memory.  The <tt class="xref py py-class docutils literal"><span class="pre">Section</span></tt> object returned by this attribute is
+not meant to be used directly by itself.  Rather, slices of the section
+return the appropriate slice of the data, and loads <em>only</em> that section
+into memory.</p>
+<p>Sections are mostly obsoleted by memmap support, but should still be
+used to deal with very large scaled images.  See the
+<a class="reference internal" href="../usage/image.html#data-sections"><em>Data Sections</em></a> section of the PyFITS documentation for more
+details.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.io.fits.PrimaryHDU.shape">
+<tt class="descname">shape</tt><a class="headerlink" href="#astropy.io.fits.PrimaryHDU.shape" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shape of the image array&#8211;should be equivalent to <tt class="docutils literal"><span class="pre">self.data.shape</span></tt>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.io.fits.PrimaryHDU.size">
+<tt class="descname">size</tt><a class="headerlink" href="#astropy.io.fits.PrimaryHDU.size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Size (in bytes) of the data portion of the HDU.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.io.fits.PrimaryHDU.update_ext_name">
+<tt class="descname">update_ext_name</tt><big>(</big><em>value</em>, <em>comment=None</em>, <em>before=None</em>, <em>after=None</em>, <em>savecomment=False</em><big>)</big><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/io/fits.py#L834" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.io.fits.PrimaryHDU.update_ext_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the extension name associated with the HDU.</p>
+<p>If the keyword already exists in the Header, it&#8217;s value and/or comment
+will be updated.  If it does not exist, a new card will be created
+and it will be placed before or after the specified location.
+If no <tt class="xref py py-obj docutils literal"><span class="pre">before</span></tt> or <tt class="xref py py-obj docutils literal"><span class="pre">after</span></tt> is specified, it will be appended at
+the end.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>value</strong> : str</p>
+<blockquote>
+<div><p>value to be used for the new extension name</p>
+</div></blockquote>
+<p><strong>comment</strong> : str, optional</p>
+<blockquote>
+<div><p>to be used for updating, default=None.</p>
+</div></blockquote>
+<p><strong>before</strong> : str or int, optional</p>
+<blockquote>
+<div><p>name of the keyword, or index of the <a class="reference internal" href="cards.html#astropy.io.fits.Card" title="astropy.io.fits.Card"><tt class="xref py py-obj docutils literal"><span class="pre">Card</span></tt></a> before which
+the new card will be placed in the Header.  The argument
+<tt class="xref py py-obj docutils literal"><span class="pre">before</span></tt> takes precedence over <tt class="xref py py-obj docutils literal"><span class="pre">after</span></tt> if both specified.</p>
+</div></blockquote>
+<p><strong>after</strong> : str or int, optional</p>
+<blockquote>
+<div><p>name of the keyword, or index of the <a class="reference internal" href="cards.html#astropy.io.fits.Card" title="astropy.io.fits.Card"><tt class="xref py py-obj docutils literal"><span class="pre">Card</span></tt></a> after which
+the new card will be placed in the Header.</p>
+</div></blockquote>
+<p><strong>savecomment</strong> : bool, optional</p>
+<blockquote class="last">
+<div><p>When <a class="reference external" href="http://docs.python.org/library/constants.html#True" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">True</span></tt></a>, preserve the current comment for an existing
+keyword.  The argument <tt class="xref py py-obj docutils literal"><span class="pre">savecomment</span></tt> takes precedence over
+<tt class="xref py py-obj docutils literal"><span class="pre">comment</span></tt> if both specified.  If <tt class="xref py py-obj docutils literal"><span class="pre">comment</span></tt> is not
+specified then the current comment will automatically be
+preserved.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.io.fits.PrimaryHDU.update_ext_version">
+<tt class="descname">update_ext_version</tt><big>(</big><em>value</em>, <em>comment=None</em>, <em>before=None</em>, <em>after=None</em>, <em>savecomment=False</em><big>)</big><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/io/fits.py#L876" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.io.fits.PrimaryHDU.update_ext_version" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the extension version associated with the HDU.</p>
+<p>If the keyword already exists in the Header, it&#8217;s value and/or comment
+will be updated.  If it does not exist, a new card will be created
+and it will be placed before or after the specified location.
+If no <tt class="xref py py-obj docutils literal"><span class="pre">before</span></tt> or <tt class="xref py py-obj docutils literal"><span class="pre">after</span></tt> is specified, it will be appended at
+the end.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>value</strong> : str</p>
+<blockquote>
+<div><p>value to be used for the new extension version</p>
+</div></blockquote>
+<p><strong>comment</strong> : str, optional</p>
+<blockquote>
+<div><p>to be used for updating, default=None.</p>
+</div></blockquote>
+<p><strong>before</strong> : str or int, optional</p>
+<blockquote>
+<div><p>name of the keyword, or index of the <a class="reference internal" href="cards.html#astropy.io.fits.Card" title="astropy.io.fits.Card"><tt class="xref py py-obj docutils literal"><span class="pre">Card</span></tt></a> before which
+the new card will be placed in the Header.  The argument
+<tt class="xref py py-obj docutils literal"><span class="pre">before</span></tt> takes precedence over <tt class="xref py py-obj docutils literal"><span class="pre">after</span></tt> if both specified.</p>
+</div></blockquote>
+<p><strong>after</strong> : str or int, optional</p>
+<blockquote>
+<div><p>name of the keyword, or index of the <a class="reference internal" href="cards.html#astropy.io.fits.Card" title="astropy.io.fits.Card"><tt class="xref py py-obj docutils literal"><span class="pre">Card</span></tt></a> after which
+the new card will be placed in the Header.</p>
+</div></blockquote>
+<p><strong>savecomment</strong> : bool, optional</p>
+<blockquote class="last">
+<div><p>When <a class="reference external" href="http://docs.python.org/library/constants.html#True" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">True</span></tt></a>, preserve the current comment for an existing
+keyword.  The argument <tt class="xref py py-obj docutils literal"><span class="pre">savecomment</span></tt> takes precedence over
+<tt class="xref py py-obj docutils literal"><span class="pre">comment</span></tt> if both specified.  If <tt class="xref py py-obj docutils literal"><span class="pre">comment</span></tt> is not
+specified then the current comment will automatically be
+preserved.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.io.fits.PrimaryHDU.verify">
+<tt class="descname">verify</tt><big>(</big><em>option='warn'</em><big>)</big><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/io/fits.py#L48" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.io.fits.PrimaryHDU.verify" title="Permalink to this definition">¶</a></dt>
+<dd><p>Verify all values in the instance.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>option</strong> : str</p>
+<blockquote class="last">
+<div><p>Output verification option.  Must be one of <tt class="docutils literal"><span class="pre">&quot;fix&quot;</span></tt>,
+<tt class="docutils literal"><span class="pre">&quot;silentfix&quot;</span></tt>, <tt class="docutils literal"><span class="pre">&quot;ignore&quot;</span></tt>, <tt class="docutils literal"><span class="pre">&quot;warn&quot;</span></tt>, or
+<tt class="docutils literal"><span class="pre">&quot;exception&quot;</span></tt>.  See <a class="reference internal" href="verification.html#verify"><em>Verification options</em></a> for more info.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.io.fits.PrimaryHDU.verify_checksum">
+<tt class="descname">verify_checksum</tt><big>(</big><em>blocking='standard'</em><big>)</big><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/io/fits.py#L1178" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.io.fits.PrimaryHDU.verify_checksum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Verify that the value in the <tt class="docutils literal"><span class="pre">CHECKSUM</span></tt> keyword matches the
+value calculated for the current HDU CHECKSUM.</p>
+<dl class="docutils">
+<dt>blocking: str, optional</dt>
+<dd>&#8220;standard&#8221; or &#8220;nonstandard&#8221;, compute sum 2880 bytes at a time, or
+not</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>valid</strong> : int</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>0 - failure</li>
+<li>1 - success</li>
+<li>2 - no <tt class="docutils literal"><span class="pre">CHECKSUM</span></tt> keyword present</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.io.fits.PrimaryHDU.verify_datasum">
+<tt class="descname">verify_datasum</tt><big>(</big><em>blocking='standard'</em><big>)</big><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/io/fits.py#L1148" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.io.fits.PrimaryHDU.verify_datasum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Verify that the value in the <tt class="docutils literal"><span class="pre">DATASUM</span></tt> keyword matches the value
+calculated for the <tt class="docutils literal"><span class="pre">DATASUM</span></tt> of the current HDU data.</p>
+<dl class="docutils">
+<dt>blocking: str, optional</dt>
+<dd>&#8220;standard&#8221; or &#8220;nonstandard&#8221;, compute sum 2880 bytes at a time, or
+not</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>valid</strong> : int</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>0 - failure</li>
+<li>1 - success</li>
+<li>2 - no <tt class="docutils literal"><span class="pre">DATASUM</span></tt> keyword present</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.io.fits.PrimaryHDU.writeto">
+<tt class="descname">writeto</tt><big>(</big><em>name</em>, <em>output_verify='exception'</em>, <em>clobber=False</em>, <em>checksum=False</em><big>)</big><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/io/fits.py#L323" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.io.fits.PrimaryHDU.writeto" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write the HDU to a new file.  This is a convenience method to
+provide a user easier output interface if only one HDU needs
+to be written to a file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>name</strong> : file path, file object or file-like object</p>
+<blockquote>
+<div><p>Output FITS file.  If opened, must be opened for append
+(&#8220;ab+&#8221;)).</p>
+</div></blockquote>
+<p><strong>output_verify</strong> : str</p>
+<blockquote>
+<div><p>Output verification option.  Must be one of <tt class="docutils literal"><span class="pre">&quot;fix&quot;</span></tt>,
+<tt class="docutils literal"><span class="pre">&quot;silentfix&quot;</span></tt>, <tt class="docutils literal"><span class="pre">&quot;ignore&quot;</span></tt>, <tt class="docutils literal"><span class="pre">&quot;warn&quot;</span></tt>, or
+<tt class="docutils literal"><span class="pre">&quot;exception&quot;</span></tt>.  See <a class="reference internal" href="verification.html#verify"><em>Verification options</em></a> for more info.</p>
+</div></blockquote>
+<p><strong>clobber</strong> : bool</p>
+<blockquote>
+<div><p>Overwrite the output file if exists.</p>
+</div></blockquote>
+<p><strong>checksum</strong> : bool</p>
+<blockquote class="last">
+<div><p>When <a class="reference external" href="http://docs.python.org/library/constants.html#True" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">True</span></tt></a> adds both <tt class="docutils literal"><span class="pre">DATASUM</span></tt> and <tt class="docutils literal"><span class="pre">CHECKSUM</span></tt> cards
+to the header of the HDU when written to the file.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="groupshdu">
+<h2><a class="reference internal" href="#astropy.io.fits.GroupsHDU" title="astropy.io.fits.GroupsHDU"><tt class="xref py py-class docutils literal"><span class="pre">GroupsHDU</span></tt></a><a class="headerlink" href="#groupshdu" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="astropy.io.fits.GroupsHDU">
+<em class="property">class </em><tt class="descclassname">astropy.io.fits.</tt><tt class="descname">GroupsHDU</tt><big>(</big><em>data=None</em>, <em>header=None</em>, <em>name=None</em><big>)</big><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/io/fits.py#L235" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.io.fits.GroupsHDU" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">astropy.io.fits.hdu.image.PrimaryHDU</span></tt>, <tt class="xref py py-class docutils literal"><span class="pre">astropy.io.fits.hdu.table._TableLikeHDU</span></tt></p>
+<p>FITS Random Groups HDU class.</p>
+<dl class="method">
+<dt id="astropy.io.fits.GroupsHDU.add_checksum">
+<tt class="descname">add_checksum</tt><big>(</big><em>when=None</em>, <em>override_datasum=False</em>, <em>blocking='standard'</em><big>)</big><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/io/fits.py#L1100" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.io.fits.GroupsHDU.add_checksum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add the <tt class="docutils literal"><span class="pre">CHECKSUM</span></tt> and <tt class="docutils literal"><span class="pre">DATASUM</span></tt> cards to this HDU with
+the values set to the checksum calculated for the HDU and the
+data respectively.  The addition of the <tt class="docutils literal"><span class="pre">DATASUM</span></tt> card may
+be overridden.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>when</strong> : str, optional</p>
+<blockquote>
+<div><p>comment string for the cards; by default the comments
+will represent the time when the checksum was calculated</p>
+</div></blockquote>
+<p><strong>override_datasum</strong> : bool, optional</p>
+<blockquote>
+<div><p>add the <tt class="docutils literal"><span class="pre">CHECKSUM</span></tt> card only</p>
+</div></blockquote>
+<p><strong>blocking: str, optional</strong> :</p>
+<blockquote class="last">
+<div><p>&#8220;standard&#8221; or &#8220;nonstandard&#8221;, compute sum 2880 bytes at a time, or
+not</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>For testing purposes, first call <a class="reference internal" href="#astropy.io.fits.GroupsHDU.add_datasum" title="astropy.io.fits.GroupsHDU.add_datasum"><tt class="xref py py-obj docutils literal"><span class="pre">add_datasum</span></tt></a> with a <tt class="xref py py-obj docutils literal"><span class="pre">when</span></tt>
+argument, then call <a class="reference internal" href="#astropy.io.fits.GroupsHDU.add_checksum" title="astropy.io.fits.GroupsHDU.add_checksum"><tt class="xref py py-obj docutils literal"><span class="pre">add_checksum</span></tt></a> with a <tt class="xref py py-obj docutils literal"><span class="pre">when</span></tt> argument and
+<tt class="xref py py-obj docutils literal"><span class="pre">override_datasum</span></tt> set to <a class="reference external" href="http://docs.python.org/library/constants.html#True" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">True</span></tt></a>.  This will provide
+consistent comments for both cards and enable the generation
+of a <tt class="docutils literal"><span class="pre">CHECKSUM</span></tt> card with a consistent value.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.io.fits.GroupsHDU.add_datasum">
+<tt class="descname">add_datasum</tt><big>(</big><em>when=None</em>, <em>blocking='standard'</em><big>)</big><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/io/fits.py#L1064" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.io.fits.GroupsHDU.add_datasum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add the <tt class="docutils literal"><span class="pre">DATASUM</span></tt> card to this HDU with the value set to the
+checksum calculated for the data.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>when</strong> : str, optional</p>
+<blockquote>
+<div><p>Comment string for the card that by default represents the
+time when the checksum was calculated</p>
+</div></blockquote>
+<p><strong>blocking: str, optional</strong> :</p>
+<blockquote>
+<div><p>&#8220;standard&#8221; or &#8220;nonstandard&#8221;, compute sum 2880 bytes at a time, or
+not</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>checksum</strong> : int</p>
+<blockquote class="last">
+<div><p>The calculated datasum</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>For testing purposes, provide a <tt class="xref py py-obj docutils literal"><span class="pre">when</span></tt> argument to enable the
+comment value in the card to remain consistent.  This will
+enable the generation of a <tt class="docutils literal"><span class="pre">CHECKSUM</span></tt> card with a consistent
+value.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.io.fits.GroupsHDU.copy">
+<tt class="descname">copy</tt><big>(</big><big>)</big><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/io/fits.py#L819" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.io.fits.GroupsHDU.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make a copy of the HDU, both header and data are copied.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.io.fits.GroupsHDU.data">
+<tt class="descname">data</tt><a class="headerlink" href="#astropy.io.fits.GroupsHDU.data" title="Permalink to this definition">¶</a></dt>
+<dd><p>The data of a random group FITS file will be like a binary table&#8217;s
+data.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.io.fits.GroupsHDU.filebytes">
+<tt class="descname">filebytes</tt><big>(</big><big>)</big><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/io/fits.py#L761" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.io.fits.GroupsHDU.filebytes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates and returns the number of bytes that this HDU will write to
+a file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><strong>None</strong> :</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><strong>Number of bytes</strong> :</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.io.fits.GroupsHDU.fileinfo">
+<tt class="descname">fileinfo</tt><big>(</big><big>)</big><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/io/fits.py#L779" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.io.fits.GroupsHDU.fileinfo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a dictionary detailing information about the locations
+of this HDU within any associated file.  The values are only
+valid after a read or write of the associated file with no
+intervening changes to the <a class="reference internal" href="hdulists.html#astropy.io.fits.HDUList" title="astropy.io.fits.HDUList"><tt class="xref py py-obj docutils literal"><span class="pre">HDUList</span></tt></a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>None</strong> :</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>dictionary or None</strong> :</p>
+<blockquote class="last">
+<div><p>The dictionary details information about the locations of
+this HDU within an associated file.  Returns <a class="reference external" href="http://docs.python.org/library/constants.html#None" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">None</span></tt></a> when
+the HDU is not associated with a file.</p>
+<p>Dictionary contents:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="15%" />
+<col width="85%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><p class="first last">Key</p>
+</th>
+<th class="head"><p class="first last">Value</p>
+</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><p class="first last">file</p>
+</td>
+<td><p class="first last">File object associated with the HDU</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p class="first last">filemode</p>
+</td>
+<td><p class="first last">Mode in which the file was opened (readonly, copyonwrite,
+update, append, ostream)</p>
+</td>
+</tr>
+<tr class="row-even"><td><p class="first last">hdrLoc</p>
+</td>
+<td><p class="first last">Starting byte location of header in file</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p class="first last">datLoc</p>
+</td>
+<td><p class="first last">Starting byte location of data block in file</p>
+</td>
+</tr>
+<tr class="row-even"><td><p class="first last">datSpan</p>
+</td>
+<td><p class="first last">Data size including padding</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="astropy.io.fits.GroupsHDU.fromstring">
+<em class="property">classmethod </em><tt class="descname">fromstring</tt><big>(</big><em>data</em>, <em>fileobj=None</em>, <em>offset=0</em>, <em>checksum=False</em>, <em>ignore_missing_end=False</em>, <em>**kwargs</em><big>)</big><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/io/fits.py#L166" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.io.fits.GroupsHDU.fromstring" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a new HDU object of the appropriate type from a string
+containing the HDU&#8217;s entire header and, optionally, its data.</p>
+<p>Note: When creating a new HDU from a string without a backing file
+object, the data of that HDU may be read-only.  It depends on whether
+the underlying string was an immutable Python str/bytes object, or some
+kind of read-write memory buffer such as a <a class="reference external" href="http://docs.python.org/library/stdtypes.html#memoryview" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">memoryview</span></tt></a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>data</strong> : str, bytearray, memoryview, ndarray</p>
+<blockquote>
+<div><p>A byte string contining the HDU&#8217;s header and, optionally, its data.
+If <tt class="xref py py-obj docutils literal"><span class="pre">fileobj</span></tt> is not specified, and the length of <a class="reference internal" href="#astropy.io.fits.GroupsHDU.data" title="astropy.io.fits.GroupsHDU.data"><tt class="xref py py-obj docutils literal"><span class="pre">data</span></tt></a> extends
+beyond the header, then the trailing data is taken to be the HDU&#8217;s
+data.  If <tt class="xref py py-obj docutils literal"><span class="pre">fileobj</span></tt> is specified then the trailing data is ignored.</p>
+</div></blockquote>
+<p><strong>fileobj</strong> : file (optional)</p>
+<blockquote>
+<div><p>The file-like object that this HDU was read from.</p>
+</div></blockquote>
+<p><strong>offset</strong> : int (optional)</p>
+<blockquote>
+<div><p>If <tt class="xref py py-obj docutils literal"><span class="pre">fileobj</span></tt> is specified, the offset into the file-like object at
+which this HDU begins.</p>
+</div></blockquote>
+<p><strong>checksum</strong> : bool (optional)</p>
+<blockquote>
+<div><p>Check the HDU&#8217;s checksum and/or datasum.</p>
+</div></blockquote>
+<p><strong>ignore_missing_end</strong> : bool (optional)</p>
+<blockquote>
+<div><p>Ignore a missing end card in the header data.  Note that without
+the end card the end of the header can&#8217;t be found, so the entire
+data is just assumed to be the header.</p>
+</div></blockquote>
+<p><strong>kwargs</strong> : (optional)</p>
+<blockquote class="last">
+<div><p>May contain additional keyword arguments specific to an HDU type.
+Any unrecognized kwargs are simply ignored.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.io.fits.GroupsHDU.parnames">
+<tt class="descname">parnames</tt><a class="headerlink" href="#astropy.io.fits.GroupsHDU.parnames" title="Permalink to this definition">¶</a></dt>
+<dd><p>The names of the group parameters as described by the header.</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="astropy.io.fits.GroupsHDU.readfrom">
+<em class="property">classmethod </em><tt class="descname">readfrom</tt><big>(</big><em>fileobj</em>, <em>checksum=False</em>, <em>ignore_missing_end=False</em>, <em>**kwargs</em><big>)</big><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/io/fits.py#L282" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.io.fits.GroupsHDU.readfrom" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read the HDU from a file.  Normally an HDU should be opened with
+<tt class="xref py py-obj docutils literal"><span class="pre">fitsopen()</span></tt> which reads the entire HDU list in a FITS file.  But this
+method is still provided for symmetry with <a class="reference internal" href="files.html#astropy.io.fits.writeto" title="astropy.io.fits.writeto"><tt class="xref py py-obj docutils literal"><span class="pre">writeto()</span></tt></a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>fileobj</strong> : file object or file-like object</p>
+<blockquote>
+<div><p>Input FITS file.  The file&#8217;s seek pointer is assumed to be at the
+beginning of the HDU.</p>
+</div></blockquote>
+<p><strong>checksum</strong> : bool</p>
+<blockquote>
+<div><p>If <a class="reference external" href="http://docs.python.org/library/constants.html#True" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">True</span></tt></a>, verifies that both <tt class="docutils literal"><span class="pre">DATASUM</span></tt> and
+<tt class="docutils literal"><span class="pre">CHECKSUM</span></tt> card values (when present in the HDU header)
+match the header and data of all HDU&#8217;s in the file.</p>
+</div></blockquote>
+<p><strong>ignore_missing_end</strong> : bool</p>
+<blockquote class="last">
+<div><p>Do not issue an exception when opening a file that is
+missing an <tt class="docutils literal"><span class="pre">END</span></tt> card in the last header.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.io.fits.GroupsHDU.req_cards">
+<tt class="descname">req_cards</tt><big>(</big><em>keyword</em>, <em>pos</em>, <em>test</em>, <em>fix_value</em>, <em>option</em>, <em>errlist</em><big>)</big><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/io/fits.py#L986" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.io.fits.GroupsHDU.req_cards" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check the existence, location, and value of a required <a class="reference internal" href="cards.html#astropy.io.fits.Card" title="astropy.io.fits.Card"><tt class="xref py py-obj docutils literal"><span class="pre">Card</span></tt></a>.</p>
+<p>TODO: Write about parameters</p>
+<p>If <tt class="xref py py-obj docutils literal"><span class="pre">pos</span></tt> = <a class="reference external" href="http://docs.python.org/library/constants.html#None" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">None</span></tt></a>, it can be anywhere.  If the card does not exist,
+the new card will have the <tt class="xref py py-obj docutils literal"><span class="pre">fix_value</span></tt> as its value when created.
+Also check the card&#8217;s value by using the <a class="reference external" href="http://docs.python.org/library/test.html#test" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">test</span></tt></a> argument.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.io.fits.GroupsHDU.run_option">
+<tt class="descname">run_option</tt><big>(</big><em>option='warn'</em>, <em>err_text=''</em>, <em>fix_text='Fixed.'</em>, <em>fix=None</em>, <em>fixable=True</em><big>)</big><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/io/fits.py#L26" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.io.fits.GroupsHDU.run_option" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute the verification with selected option.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.io.fits.GroupsHDU.scale">
+<tt class="descname">scale</tt><big>(</big><em>type=None</em>, <em>option='old'</em>, <em>bscale=1</em>, <em>bzero=0</em><big>)</big><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/io/fits.py#L318" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.io.fits.GroupsHDU.scale" title="Permalink to this definition">¶</a></dt>
+<dd><p>Scale image data by using <tt class="docutils literal"><span class="pre">BSCALE</span></tt>/<tt class="docutils literal"><span class="pre">BZERO</span></tt>.</p>
+<p>Call to this method will scale <a class="reference internal" href="#astropy.io.fits.GroupsHDU.data" title="astropy.io.fits.GroupsHDU.data"><tt class="xref py py-obj docutils literal"><span class="pre">data</span></tt></a> and update the keywords
+of <tt class="docutils literal"><span class="pre">BSCALE</span></tt> and <tt class="docutils literal"><span class="pre">BZERO</span></tt> in <tt class="xref py py-obj docutils literal"><span class="pre">_header</span></tt>.  This method should
+only be used right before writing to the output file, as the
+data will be scaled and is therefore not very usable after the
+call.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>type</strong> : str, optional</p>
+<blockquote>
+<div><p>destination data type, use a string representing a numpy
+dtype name, (e.g. <tt class="docutils literal"><span class="pre">'uint8'</span></tt>, <tt class="docutils literal"><span class="pre">'int16'</span></tt>, <tt class="docutils literal"><span class="pre">'float32'</span></tt>
+etc.).  If is <a class="reference external" href="http://docs.python.org/library/constants.html#None" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">None</span></tt></a>, use the current data type.</p>
+</div></blockquote>
+<p><strong>option</strong> : str</p>
+<blockquote>
+<div><p>How to scale the data: if <tt class="docutils literal"><span class="pre">&quot;old&quot;</span></tt>, use the original
+<tt class="docutils literal"><span class="pre">BSCALE</span></tt> and <tt class="docutils literal"><span class="pre">BZERO</span></tt> values when the data was
+read/created. If <tt class="docutils literal"><span class="pre">&quot;minmax&quot;</span></tt>, use the minimum and maximum
+of the data to scale.  The option will be overwritten by
+any user specified <tt class="xref py py-obj docutils literal"><span class="pre">bscale</span></tt>/<tt class="xref py py-obj docutils literal"><span class="pre">bzero</span></tt> values.</p>
+</div></blockquote>
+<p><strong>bscale, bzero</strong> : int, optional</p>
+<blockquote class="last">
+<div><p>User-specified <tt class="docutils literal"><span class="pre">BSCALE</span></tt> and <tt class="docutils literal"><span class="pre">BZERO</span></tt> values.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.io.fits.GroupsHDU.section">
+<tt class="descname">section</tt><a class="headerlink" href="#astropy.io.fits.GroupsHDU.section" title="Permalink to this definition">¶</a></dt>
+<dd><p>Access a section of the image array without loading the entire array
+into memory.  The <tt class="xref py py-class docutils literal"><span class="pre">Section</span></tt> object returned by this attribute is
+not meant to be used directly by itself.  Rather, slices of the section
+return the appropriate slice of the data, and loads <em>only</em> that section
+into memory.</p>
+<p>Sections are mostly obsoleted by memmap support, but should still be
+used to deal with very large scaled images.  See the
+<a class="reference internal" href="../usage/image.html#data-sections"><em>Data Sections</em></a> section of the PyFITS documentation for more
+details.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.io.fits.GroupsHDU.shape">
+<tt class="descname">shape</tt><a class="headerlink" href="#astropy.io.fits.GroupsHDU.shape" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shape of the image array&#8211;should be equivalent to <tt class="docutils literal"><span class="pre">self.data.shape</span></tt>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.io.fits.GroupsHDU.size">
+<tt class="descname">size</tt><a class="headerlink" href="#astropy.io.fits.GroupsHDU.size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the size (in bytes) of the HDU&#8217;s data part.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.io.fits.GroupsHDU.update_ext_name">
+<tt class="descname">update_ext_name</tt><big>(</big><em>value</em>, <em>comment=None</em>, <em>before=None</em>, <em>after=None</em>, <em>savecomment=False</em><big>)</big><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/io/fits.py#L834" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.io.fits.GroupsHDU.update_ext_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the extension name associated with the HDU.</p>
+<p>If the keyword already exists in the Header, it&#8217;s value and/or comment
+will be updated.  If it does not exist, a new card will be created
+and it will be placed before or after the specified location.
+If no <tt class="xref py py-obj docutils literal"><span class="pre">before</span></tt> or <tt class="xref py py-obj docutils literal"><span class="pre">after</span></tt> is specified, it will be appended at
+the end.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>value</strong> : str</p>
+<blockquote>
+<div><p>value to be used for the new extension name</p>
+</div></blockquote>
+<p><strong>comment</strong> : str, optional</p>
+<blockquote>
+<div><p>to be used for updating, default=None.</p>
+</div></blockquote>
+<p><strong>before</strong> : str or int, optional</p>
+<blockquote>
+<div><p>name of the keyword, or index of the <a class="reference internal" href="cards.html#astropy.io.fits.Card" title="astropy.io.fits.Card"><tt class="xref py py-obj docutils literal"><span class="pre">Card</span></tt></a> before which
+the new card will be placed in the Header.  The argument
+<tt class="xref py py-obj docutils literal"><span class="pre">before</span></tt> takes precedence over <tt class="xref py py-obj docutils literal"><span class="pre">after</span></tt> if both specified.</p>
+</div></blockquote>
+<p><strong>after</strong> : str or int, optional</p>
+<blockquote>
+<div><p>name of the keyword, or index of the <a class="reference internal" href="cards.html#astropy.io.fits.Card" title="astropy.io.fits.Card"><tt class="xref py py-obj docutils literal"><span class="pre">Card</span></tt></a> after which
+the new card will be placed in the Header.</p>
+</div></blockquote>
+<p><strong>savecomment</strong> : bool, optional</p>
+<blockquote class="last">
+<div><p>When <a class="reference external" href="http://docs.python.org/library/constants.html#True" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">True</span></tt></a>, preserve the current comment for an existing
+keyword.  The argument <tt class="xref py py-obj docutils literal"><span class="pre">savecomment</span></tt> takes precedence over
+<tt class="xref py py-obj docutils literal"><span class="pre">comment</span></tt> if both specified.  If <tt class="xref py py-obj docutils literal"><span class="pre">comment</span></tt> is not
+specified then the current comment will automatically be
+preserved.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.io.fits.GroupsHDU.update_ext_version">
+<tt class="descname">update_ext_version</tt><big>(</big><em>value</em>, <em>comment=None</em>, <em>before=None</em>, <em>after=None</em>, <em>savecomment=False</em><big>)</big><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/io/fits.py#L876" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.io.fits.GroupsHDU.update_ext_version" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the extension version associated with the HDU.</p>
+<p>If the keyword already exists in the Header, it&#8217;s value and/or comment
+will be updated.  If it does not exist, a new card will be created
+and it will be placed before or after the specified location.
+If no <tt class="xref py py-obj docutils literal"><span class="pre">before</span></tt> or <tt class="xref py py-obj docutils literal"><span class="pre">after</span></tt> is specified, it will be appended at
+the end.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>value</strong> : str</p>
+<blockquote>
+<div><p>value to be used for the new extension version</p>
+</div></blockquote>
+<p><strong>comment</strong> : str, optional</p>
+<blockquote>
+<div><p>to be used for updating, default=None.</p>
+</div></blockquote>
+<p><strong>before</strong> : str or int, optional</p>
+<blockquote>
+<div><p>name of the keyword, or index of the <a class="reference internal" href="cards.html#astropy.io.fits.Card" title="astropy.io.fits.Card"><tt class="xref py py-obj docutils literal"><span class="pre">Card</span></tt></a> before which
+the new card will be placed in the Header.  The argument
+<tt class="xref py py-obj docutils literal"><span class="pre">before</span></tt> takes precedence over <tt class="xref py py-obj docutils literal"><span class="pre">after</span></tt> if both specified.</p>
+</div></blockquote>
+<p><strong>after</strong> : str or int, optional</p>
+<blockquote>
+<div><p>name of the keyword, or index of the <a class="reference internal" href="cards.html#astropy.io.fits.Card" title="astropy.io.fits.Card"><tt class="xref py py-obj docutils literal"><span class="pre">Card</span></tt></a> after which
+the new card will be placed in the Header.</p>
+</div></blockquote>
+<p><strong>savecomment</strong> : bool, optional</p>
+<blockquote class="last">
+<div><p>When <a class="reference external" href="http://docs.python.org/library/constants.html#True" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">True</span></tt></a>, preserve the current comment for an existing
+keyword.  The argument <tt class="xref py py-obj docutils literal"><span class="pre">savecomment</span></tt> takes precedence over
+<tt class="xref py py-obj docutils literal"><span class="pre">comment</span></tt> if both specified.  If <tt class="xref py py-obj docutils literal"><span class="pre">comment</span></tt> is not
+specified then the current comment will automatically be
+preserved.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.io.fits.GroupsHDU.verify">
+<tt class="descname">verify</tt><big>(</big><em>option='warn'</em><big>)</big><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/io/fits.py#L48" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.io.fits.GroupsHDU.verify" title="Permalink to this definition">¶</a></dt>
+<dd><p>Verify all values in the instance.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>option</strong> : str</p>
+<blockquote class="last">
+<div><p>Output verification option.  Must be one of <tt class="docutils literal"><span class="pre">&quot;fix&quot;</span></tt>,
+<tt class="docutils literal"><span class="pre">&quot;silentfix&quot;</span></tt>, <tt class="docutils literal"><span class="pre">&quot;ignore&quot;</span></tt>, <tt class="docutils literal"><span class="pre">&quot;warn&quot;</span></tt>, or
+<tt class="docutils literal"><span class="pre">&quot;exception&quot;</span></tt>.  See <a class="reference internal" href="verification.html#verify"><em>Verification options</em></a> for more info.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.io.fits.GroupsHDU.verify_checksum">
+<tt class="descname">verify_checksum</tt><big>(</big><em>blocking='standard'</em><big>)</big><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/io/fits.py#L1178" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.io.fits.GroupsHDU.verify_checksum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Verify that the value in the <tt class="docutils literal"><span class="pre">CHECKSUM</span></tt> keyword matches the
+value calculated for the current HDU CHECKSUM.</p>
+<dl class="docutils">
+<dt>blocking: str, optional</dt>
+<dd>&#8220;standard&#8221; or &#8220;nonstandard&#8221;, compute sum 2880 bytes at a time, or
+not</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>valid</strong> : int</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>0 - failure</li>
+<li>1 - success</li>
+<li>2 - no <tt class="docutils literal"><span class="pre">CHECKSUM</span></tt> keyword present</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.io.fits.GroupsHDU.verify_datasum">
+<tt class="descname">verify_datasum</tt><big>(</big><em>blocking='standard'</em><big>)</big><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/io/fits.py#L1148" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.io.fits.GroupsHDU.verify_datasum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Verify that the value in the <tt class="docutils literal"><span class="pre">DATASUM</span></tt> keyword matches the value
+calculated for the <tt class="docutils literal"><span class="pre">DATASUM</span></tt> of the current HDU data.</p>
+<dl class="docutils">
+<dt>blocking: str, optional</dt>
+<dd>&#8220;standard&#8221; or &#8220;nonstandard&#8221;, compute sum 2880 bytes at a time, or
+not</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>valid</strong> : int</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>0 - failure</li>
+<li>1 - success</li>
+<li>2 - no <tt class="docutils literal"><span class="pre">DATASUM</span></tt> keyword present</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.io.fits.GroupsHDU.writeto">
+<tt class="descname">writeto</tt><big>(</big><em>name</em>, <em>output_verify='exception'</em>, <em>clobber=False</em>, <em>checksum=False</em><big>)</big><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/io/fits.py#L323" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.io.fits.GroupsHDU.writeto" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write the HDU to a new file.  This is a convenience method to
+provide a user easier output interface if only one HDU needs
+to be written to a file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>name</strong> : file path, file object or file-like object</p>
+<blockquote>
+<div><p>Output FITS file.  If opened, must be opened for append
+(&#8220;ab+&#8221;)).</p>
+</div></blockquote>
+<p><strong>output_verify</strong> : str</p>
+<blockquote>
+<div><p>Output verification option.  Must be one of <tt class="docutils literal"><span class="pre">&quot;fix&quot;</span></tt>,
+<tt class="docutils literal"><span class="pre">&quot;silentfix&quot;</span></tt>, <tt class="docutils literal"><span class="pre">&quot;ignore&quot;</span></tt>, <tt class="docutils literal"><span class="pre">&quot;warn&quot;</span></tt>, or
+<tt class="docutils literal"><span class="pre">&quot;exception&quot;</span></tt>.  See <a class="reference internal" href="verification.html#verify"><em>Verification options</em></a> for more info.</p>
+</div></blockquote>
+<p><strong>clobber</strong> : bool</p>
+<blockquote>
+<div><p>Overwrite the output file if exists.</p>
+</div></blockquote>
+<p><strong>checksum</strong> : bool</p>
+<blockquote class="last">
+<div><p>When <a class="reference external" href="http://docs.python.org/library/constants.html#True" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">True</span></tt></a> adds both <tt class="docutils literal"><span class="pre">DATASUM</span></tt> and <tt class="docutils literal"><span class="pre">CHECKSUM</span></tt> cards
+to the header of the HDU when written to the file.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="groupdata">
+<h2><a class="reference internal" href="#astropy.io.fits.GroupData" title="astropy.io.fits.GroupData"><tt class="xref py py-class docutils literal"><span class="pre">GroupData</span></tt></a><a class="headerlink" href="#groupdata" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="astropy.io.fits.GroupData">
+<em class="property">class </em><tt class="descclassname">astropy.io.fits.</tt><tt class="descname">GroupData</tt><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/io/fits.py#L86" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.io.fits.GroupData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">astropy.io.fits.fitsrec.FITS_rec</span></tt></p>
+<p>Random groups data object.</p>
+<p>Allows structured access to FITS Group data in a manner analogous
+to tables.</p>
+<dl class="method">
+<dt id="astropy.io.fits.GroupData.par">
+<tt class="descname">par</tt><big>(</big><em>parname</em><big>)</big><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/io/fits.py#L214" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.io.fits.GroupData.par" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the group parameter values.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="group">
+<h2><tt class="xref py py-class docutils literal"><span class="pre">Group</span></tt><a class="headerlink" href="#group" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt>
+<em class="property">class </em><tt class="descclassname">astropy.io.fits.</tt><tt class="descname">GroupData</tt><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/io/fits.py#L86" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">astropy.io.fits.fitsrec.FITS_rec</span></tt></p>
+<p>Random groups data object.</p>
+<p>Allows structured access to FITS Group data in a manner analogous
+to tables.</p>
+<dl class="method">
+<dt>
+<tt class="descname">par</tt><big>(</big><em>parname</em><big>)</big><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/io/fits.py#L214" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a></dt>
+<dd><p>Get the group parameter values.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="streaminghdu">
+<h2><a class="reference internal" href="#astropy.io.fits.StreamingHDU" title="astropy.io.fits.StreamingHDU"><tt class="xref py py-class docutils literal"><span class="pre">StreamingHDU</span></tt></a><a class="headerlink" href="#streaminghdu" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="astropy.io.fits.StreamingHDU">
+<em class="property">class </em><tt class="descclassname">astropy.io.fits.</tt><tt class="descname">StreamingHDU</tt><big>(</big><em>name</em>, <em>header</em><big>)</big><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/io/fits.py#L15" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.io.fits.StreamingHDU" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>A class that provides the capability to stream data to a FITS file
+instead of requiring data to all be written at once.</p>
+<p>The following pseudocode illustrates its use:</p>
+<div class="highlight-python"><pre>header = astropy.io.fits.Header()
+
+for all the cards you need in the header:
+    header[key] = (value, comment)
+
+shdu = astropy.io.fits.StreamingHDU('filename.fits', header)
+
+for each piece of data:
+    shdu.write(data)
+
+shdu.close()</pre>
+</div>
+<dl class="method">
+<dt id="astropy.io.fits.StreamingHDU.close">
+<tt class="descname">close</tt><big>(</big><big>)</big><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/io/fits.py#L229" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.io.fits.StreamingHDU.close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Close the physical FITS file.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.io.fits.StreamingHDU.size">
+<tt class="descname">size</tt><a class="headerlink" href="#astropy.io.fits.StreamingHDU.size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the size (in bytes) of the data portion of the HDU.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.io.fits.StreamingHDU.write">
+<tt class="descname">write</tt><big>(</big><em>data</em><big>)</big><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.2.1/astropy/io/fits.py#L140" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.io.fits.StreamingHDU.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write the given data to the stream.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>data</strong> : ndarray</p>
+<blockquote>
+<div><p>Data to stream to the file.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>writecomplete</strong> : int</p>
+<blockquote class="last">
+<div><p>Flag that when <a class="reference external" href="http://docs.python.org/library/constants.html#True" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">True</span></tt></a> indicates that all of the required
+data has been written to the stream.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>Only the amount of data specified in the header provided to
+the class constructor may be written to the stream.  If the
+provided data would cause the stream to overflow, an <tt class="xref py py-obj docutils literal"><span class="pre">IOError</span></tt>
+exception is raised and the data is not written.  Once
+sufficient data has been written to the stream to satisfy the
+amount specified in the header, the stream is padded to fill a
+complete FITS block and no more data will be accepted.  An
+attempt to write more data after the stream has been filled
+will raise an <tt class="xref py py-obj docutils literal"><span class="pre">IOError</span></tt> exception.  If the dtype of the input
+data does not match what is expected by the header, a
+<tt class="xref py py-obj docutils literal"><span class="pre">TypeError</span></tt> exception is raised.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+
+
+<h3>Page Contents</h3>
+<ul>
+<li><a class="reference internal" href="#">Header Data Units</a><ul>
+<li><a class="reference internal" href="#primaryhdu"><tt class="docutils literal"><span class="pre">PrimaryHDU</span></tt></a></li>
+<li><a class="reference internal" href="#groupshdu"><tt class="docutils literal"><span class="pre">GroupsHDU</span></tt></a></li>
+<li><a class="reference internal" href="#groupdata"><tt class="docutils literal"><span class="pre">GroupData</span></tt></a></li>
+<li><a class="reference internal" href="#group"><tt class="docutils literal"><span class="pre">Group</span></tt></a></li>
+<li><a class="reference internal" href="#streaminghdu"><tt class="docutils literal"><span class="pre">StreamingHDU</span></tt></a></li>
+</ul>
+</li>
+</ul>
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+<footer class="footer">
+  <p class="pull-right">
+    <a href="http://github.com/astropy/astropy/tree/v0.2.1/docs/io/fits/api/hdus.rst">Edit This Page on Github</a> &nbsp;
+    <a href="../../../_sources/io/fits/api/hdus.txt"
+       rel="nofollow">Page Source</a> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright 2011-2013, The Astropy Developers.<br/>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3+. &nbsp;
+    Last built 03 Apr 2013. <br/>
+  </p>
+</footer>
+ <!-- End original user content -->
+
+
+<br>
+<br>
+<br>
+
+
+<style type="text/css">
+  .rtd-badge {
+    position: fixed;
+    display: block;
+    bottom: 5px;
+    height: 40px;
+    text-indent: -9999em;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+  }
+  #version_menu {
+    position: fixed;
+    display: none;
+    bottom: 11px;
+    right: 166px;
+    list-style-type: none;
+    margin: 0;
+  }
+  .footer_popout:hover #version_menu {
+    display: block;
+  }
+  #version_menu li {
+    display: block;
+    float: right;
+  }
+  #version_menu li a {
+    display: block;
+    padding: 6px 10px 4px 10px;
+    margin: 7px 7px 0 0;
+    font-weight: bold;
+    font-size: 14px;
+    height: 20px;
+    line-height: 17px;
+    text-decoration: none;
+    color: #fff;
+    background: #8ca1af url(../images/gradient-light.png) bottom left repeat-x;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 1px #465158;
+    -moz-box-shadow: 0 1px 1px #465158;
+    -webkit-box-shadow: 0 1px 1px #465158;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+  }
+  #version_menu li a:hover {
+    text-decoration: none;
+    background-color: #697983;
+    box-shadow: 0 1px 0px #465158;
+    -moz-box-shadow: 0 1px 0px #465158;
+    -webkit-box-shadow: 0 1px 0px #465158;
+  }
+  .rtd-badge.rtd {
+    background: #3b4449 url(//media.readthedocs.org//images/badge-rtd.png) scroll 0px -46px no-repeat;
+    border: 1px solid #282E32;
+    width: 41px;
+    right: 5px;
+  }
+  .footer_popout:hover .rtd-badge.rtd {
+    background-position: top left;
+    width: 160px;
+  }
+  .rtd-badge.revsys { background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline-sponsored {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys-sm.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 205px;
+    right: 173px;
+  }
+
+</style>
+<div class="rtd_doc_footer">
+  <div class="footer_popout">
+    <a href="//readthedocs.org/projects/astropy/?fromdocs=astropy" class="rtd-badge rtd"> Brought to you by Read the Docs</a>
+    <ul id="version_menu">
+      
+        <li><a href="/en/latest/">latest</a></li>
+      
+        <li><a href="/en/add-mpl-to-rtd-pip-req/">add-mpl-to-rtd-pip-req</a></li>
+      
+        <li><a href="/en/v0.2.1/">v0.2.1</a></li>
+      
+        <li><a href="/en/v0.2/">v0.2</a></li>
+      
+        <li><a href="/en/v0.1/">v0.1</a></li>
+      
+    </ul>
+  </div>
+</div>
+<!-- RTD Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17997319-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+<!-- User Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-30968842-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+  </body>
+</html>

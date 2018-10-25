@@ -1,0 +1,10 @@
+
+.. include:: ../wcs/references.txt
+
+
+UnitConverter
+=========================
+
+.. currentmodule:: astropy.wcs
+
+.. autofunction:: UnitConverter

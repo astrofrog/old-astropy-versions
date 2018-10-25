@@ -1,0 +1,44 @@
+
+
+Sky2Pix_CAR
+========================================
+
+.. currentmodule:: astropy.modeling.projections
+
+.. autoclass:: Sky2Pix_CAR
+   :show-inheritance:
+
+   
+
+   
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+   
+      ~Sky2Pix_CAR.__call__
+      ~Sky2Pix_CAR.inverse
+
+   
+   
+
+   
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Documentation
+
+   
+   .. automethod:: __call__
+   .. automethod:: inverse
+
+   
+   

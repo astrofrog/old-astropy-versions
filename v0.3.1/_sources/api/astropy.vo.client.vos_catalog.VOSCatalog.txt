@@ -1,0 +1,44 @@
+
+
+VOSCatalog
+========================================
+
+.. currentmodule:: astropy.vo.client.vos_catalog
+
+.. autoclass:: VOSCatalog
+   :show-inheritance:
+
+   
+     
+   
+
+   
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+   
+      ~VOSCatalog.dumps
+
+   
+   
+
+   
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Documentation
+
+   
+   .. automethod:: dumps
+
+   
+   

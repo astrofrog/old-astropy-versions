@@ -1,0 +1,348 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Kernel &mdash; Astropy v0.3.1</title>
+    
+    <link rel="stylesheet" href="../_static/bootstrap-astropy.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="https://media.readthedocs.org/css/badge_only.css" type="text/css" />
+    <link rel="stylesheet" href="https://media.readthedocs.org/css/readthedocs-doc-embed.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.3.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/jquery/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/jquery/jquery-migrate-1.2.1.min.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/underscore.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/doctools.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/readthedocs-doc-embed.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="shortcut icon" href="../_static/astropy_logo.ico"/>
+    <link rel="top" title="Astropy v0.3.1" href="../index.html" />
+    <link rel="up" title="Convolution and filtering (astropy.convolution)" href="../convolution/index.html" />
+    <link rel="next" title="Kernel1D" href="astropy.convolution.core.Kernel1D.html" />
+    <link rel="prev" title="Gaussian2DKernel" href="astropy.convolution.kernels.Gaussian2DKernel.html" />
+
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,600' rel='stylesheet' type='text/css'>
+
+<!-- RTD Extra Head -->
+
+
+
+<!-- 
+Read the Docs is acting as the canonical URL for your project. 
+If you want to change it, more info is available in our docs:
+  http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="http://astropy.readthedocs.org/en/latest/api/astropy.convolution.core.Kernel.html">
+
+<script type="text/javascript">
+  // This is included here because other places don't have access to the pagename variable.
+  var READTHEDOCS_DATA = {
+    project: "astropy",
+    version: "v0.3.1",
+    language: "en",
+    page: "api/astropy.convolution.core.Kernel",
+    theme: "bootstrap-astropy",
+    docroot: "/docs/",
+    api_host: "https://readthedocs.org"
+  }
+  // Old variables
+  var doc_version = "v0.3.1";
+  var doc_slug = "astropy";
+  var page_name = "api/astropy.convolution.core.Kernel";
+  var html_theme = "bootstrap-astropy";
+</script>
+<!-- RTD Analytics Code -->
+<!-- Included in the header because you don't have a footer block. -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17997319-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+<!-- end RTD Analytics Code -->
+
+
+<!-- User Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-30968842-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+<!-- End User Analytics Code -->
+
+<!-- end RTD <extrahead> -->
+
+  </head>
+  <body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../index.html"><span id="logotext1">astro</span><span id="logotext2">py</span><span id="logotext3">:docs</span></a>
+  <ul>
+    <li><a class="homelink" title="Astropy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../genindex.html">Index</a></li>
+    <li><a title="Module Index" href="../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li class="right">
+	<a href="astropy.convolution.core.Kernel1D.html" title="Kernel1D">
+	  next &raquo;
+	</a>
+      </li>
+      <li class="right">
+	<a href="astropy.convolution.kernels.Gaussian2DKernel.html" title="Gaussian2DKernel">
+	  &laquo; previous
+	</a>
+	 |
+      </li>
+      <li>
+	<a href="../index.html">Astropy v0.3.1</a>
+	 &raquo;
+      </li>
+      <li><a href="../convolution/index.html" accesskey="U">Convolution and filtering (<tt class="docutils literal"><span class="pre">astropy.convolution</span></tt>)</a> &raquo;</li>
+      
+      <li>Kernel</li> 
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="kernel">
+<h1>Kernel<a class="headerlink" href="#kernel" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="astropy.convolution.core.Kernel">
+<em class="property">class </em><tt class="descclassname">astropy.convolution.core.</tt><tt class="descname">Kernel</tt><big>(</big><em>array</em><big>)</big><a class="reference internal" href="../_modules/astropy/convolution/core.html#Kernel"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.3.x/astropy/convolution/core.py#L29" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.convolution.core.Kernel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>Convolution kernel base class.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>array</strong> : ndarray</p>
+<blockquote class="last">
+<div><p>Kernel array.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes Summary</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.convolution.core.Kernel.array" title="astropy.convolution.core.Kernel.array"><tt class="xref py py-obj docutils literal"><span class="pre">array</span></tt></a></td>
+<td>Filter kernel array.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#astropy.convolution.core.Kernel.center" title="astropy.convolution.core.Kernel.center"><tt class="xref py py-obj docutils literal"><span class="pre">center</span></tt></a></td>
+<td>Index of the kernel center.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.convolution.core.Kernel.dimension" title="astropy.convolution.core.Kernel.dimension"><tt class="xref py py-obj docutils literal"><span class="pre">dimension</span></tt></a></td>
+<td>Kernel dimension.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#astropy.convolution.core.Kernel.is_bool" title="astropy.convolution.core.Kernel.is_bool"><tt class="xref py py-obj docutils literal"><span class="pre">is_bool</span></tt></a></td>
+<td>Indicates if kernel is bool.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.convolution.core.Kernel.model" title="astropy.convolution.core.Kernel.model"><tt class="xref py py-obj docutils literal"><span class="pre">model</span></tt></a></td>
+<td>Kernel response model.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#astropy.convolution.core.Kernel.normalization" title="astropy.convolution.core.Kernel.normalization"><tt class="xref py py-obj docutils literal"><span class="pre">normalization</span></tt></a></td>
+<td>Kernel normalization factor</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.convolution.core.Kernel.separable" title="astropy.convolution.core.Kernel.separable"><tt class="xref py py-obj docutils literal"><span class="pre">separable</span></tt></a></td>
+<td>Indicates if the filter kernel is separable.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#astropy.convolution.core.Kernel.shape" title="astropy.convolution.core.Kernel.shape"><tt class="xref py py-obj docutils literal"><span class="pre">shape</span></tt></a></td>
+<td>Shape of the kernel array.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.convolution.core.Kernel.truncation" title="astropy.convolution.core.Kernel.truncation"><tt class="xref py py-obj docutils literal"><span class="pre">truncation</span></tt></a></td>
+<td>Deviation from the normalization to one.</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods Summary</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.convolution.core.Kernel.normalize" title="astropy.convolution.core.Kernel.normalize"><tt class="xref py py-obj docutils literal"><span class="pre">normalize</span></tt></a>([mode])</td>
+<td>Force normalization of filter kernel.</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes Documentation</p>
+<dl class="attribute">
+<dt id="astropy.convolution.core.Kernel.array">
+<tt class="descname">array</tt><a class="reference internal" href="../_modules/astropy/convolution/core.html#Kernel.array"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astropy.convolution.core.Kernel.array" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filter kernel array.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.convolution.core.Kernel.center">
+<tt class="descname">center</tt><a class="reference internal" href="../_modules/astropy/convolution/core.html#Kernel.center"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astropy.convolution.core.Kernel.center" title="Permalink to this definition">¶</a></dt>
+<dd><p>Index of the kernel center.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.convolution.core.Kernel.dimension">
+<tt class="descname">dimension</tt><a class="reference internal" href="../_modules/astropy/convolution/core.html#Kernel.dimension"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astropy.convolution.core.Kernel.dimension" title="Permalink to this definition">¶</a></dt>
+<dd><p>Kernel dimension.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.convolution.core.Kernel.is_bool">
+<tt class="descname">is_bool</tt><a class="reference internal" href="../_modules/astropy/convolution/core.html#Kernel.is_bool"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astropy.convolution.core.Kernel.is_bool" title="Permalink to this definition">¶</a></dt>
+<dd><p>Indicates if kernel is bool.</p>
+<p>If the kernel is bool the multiplication in the convolution could
+be omitted, to increase the performance.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.convolution.core.Kernel.model">
+<tt class="descname">model</tt><a class="reference internal" href="../_modules/astropy/convolution/core.html#Kernel.model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astropy.convolution.core.Kernel.model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Kernel response model.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.convolution.core.Kernel.normalization">
+<tt class="descname">normalization</tt><a class="reference internal" href="../_modules/astropy/convolution/core.html#Kernel.normalization"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astropy.convolution.core.Kernel.normalization" title="Permalink to this definition">¶</a></dt>
+<dd><p>Kernel normalization factor</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.convolution.core.Kernel.separable">
+<tt class="descname">separable</tt><a class="reference internal" href="../_modules/astropy/convolution/core.html#Kernel.separable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astropy.convolution.core.Kernel.separable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Indicates if the filter kernel is separable.</p>
+<p>A 2D filter is separable, when its filter array can be written as the
+outer product of two 1D arrays.</p>
+<p>If a filter kernel is separable, higher dimension convolutions will be
+performed by applying the 1D filter array consecutively on every dimension.
+This is significantly faster, than using a filter array with the same
+dimension.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.convolution.core.Kernel.shape">
+<tt class="descname">shape</tt><a class="reference internal" href="../_modules/astropy/convolution/core.html#Kernel.shape"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astropy.convolution.core.Kernel.shape" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shape of the kernel array.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.convolution.core.Kernel.truncation">
+<tt class="descname">truncation</tt><a class="reference internal" href="../_modules/astropy/convolution/core.html#Kernel.truncation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astropy.convolution.core.Kernel.truncation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deviation from the normalization to one.</p>
+</dd></dl>
+
+<p class="rubric">Methods Documentation</p>
+<dl class="method">
+<dt id="astropy.convolution.core.Kernel.normalize">
+<tt class="descname">normalize</tt><big>(</big><em>mode='integral'</em><big>)</big><a class="reference internal" href="../_modules/astropy/convolution/core.html#Kernel.normalize"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.3.x/astropy/convolution/core.py#L94" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.convolution.core.Kernel.normalize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Force normalization of filter kernel.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>mode</strong> : str</p>
+<blockquote class="last">
+<div><dl class="docutils">
+<dt>One of the following modes:</dt>
+<dd><ul class="first last">
+<li><dl class="first docutils">
+<dt>&#8216;integral&#8217; (default)</dt>
+<dd><p class="first last">Kernel normalized such that its integral = 1.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>&#8216;peak&#8217;</dt>
+<dd><p class="first last">Kernel normalized such that its peak = 1.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"><h3>Page Contents</h3>
+<ul>
+<li><a class="reference internal" href="#">Kernel</a></li>
+</ul>
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+<footer class="footer">
+  <p class="pull-right">
+    <a href="http://github.com/astropy/astropy/tree/v0.3.x/docs/api/astropy.convolution.core.Kernel.rst">Edit This Page on Github</a> &nbsp;
+    <a href="../_sources/api/astropy.convolution.core.Kernel.txt"
+       rel="nofollow">Page Source</a> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright 2011-2013, The Astropy Developers.<br/>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2. &nbsp;
+    Last built 05 Mar 2014. <br/>
+  </p>
+</footer>
+  </body>
+</html>

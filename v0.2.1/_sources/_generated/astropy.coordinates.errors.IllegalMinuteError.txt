@@ -1,0 +1,8 @@
+
+
+IllegalMinuteError
+=============================================
+
+.. currentmodule:: astropy.coordinates.errors
+
+.. autoexception:: IllegalMinuteError

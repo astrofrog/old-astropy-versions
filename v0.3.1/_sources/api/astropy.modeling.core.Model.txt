@@ -1,0 +1,77 @@
+
+
+Model
+===========================
+
+.. currentmodule:: astropy.modeling.core
+
+.. autoclass:: Model
+   :show-inheritance:
+
+   
+     
+   
+
+   
+   
+
+   .. rubric:: Attributes Summary
+
+   .. autosummary::
+   
+      ~Model.fittable
+      ~Model.linear
+      ~Model.n_inputs
+      ~Model.n_outputs
+      ~Model.param_dim
+      ~Model.param_names
+      ~Model.param_sets
+
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+   
+      ~Model.add_model
+      ~Model.copy
+      ~Model.inverse
+      ~Model.invert
+
+   
+   
+
+   
+   
+
+   .. rubric:: Attributes Documentation
+
+   
+   .. autoattribute:: fittable
+   .. autoattribute:: linear
+   .. autoattribute:: n_inputs
+   .. autoattribute:: n_outputs
+   .. autoattribute:: param_dim
+   .. autoattribute:: param_names
+   .. autoattribute:: param_sets
+
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Documentation
+
+   
+   .. automethod:: add_model
+   .. automethod:: copy
+   .. automethod:: inverse
+   .. automethod:: invert
+
+   
+   

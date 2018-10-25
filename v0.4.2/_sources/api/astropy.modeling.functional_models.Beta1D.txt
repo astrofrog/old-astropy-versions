@@ -1,0 +1,69 @@
+
+
+Beta1D
+=========================================
+
+.. currentmodule:: astropy.modeling.functional_models
+
+.. autoclass:: Beta1D
+   :show-inheritance:
+
+   
+     
+   
+
+   
+   
+
+   .. rubric:: Attributes Summary
+
+   .. autosummary::
+   
+      ~Beta1D.alpha
+      ~Beta1D.amplitude
+      ~Beta1D.gamma
+      ~Beta1D.param_names
+      ~Beta1D.x_0
+
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+   
+      ~Beta1D.eval
+      ~Beta1D.fit_deriv
+
+   
+   
+
+   
+   
+
+   .. rubric:: Attributes Documentation
+
+   
+   .. autoattribute:: alpha
+   .. autoattribute:: amplitude
+   .. autoattribute:: gamma
+   .. autoattribute:: param_names
+   .. autoattribute:: x_0
+
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Documentation
+
+   
+   .. automethod:: eval
+   .. automethod:: fit_deriv
+
+   
+   

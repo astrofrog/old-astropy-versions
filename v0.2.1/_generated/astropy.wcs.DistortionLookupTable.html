@@ -1,0 +1,398 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+
+    <title>DistortionLookupTable &mdash; Astropy v0.2.1</title>
+<!-- RTD <head> -->
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/underscore.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/doctools.js"></script>
+
+<script type="text/javascript">
+  // This is included here for Javascript that doesn't have access to the templates.
+  var doc_version = "v0.2.1";
+  var doc_slug = "astropy";
+</script>
+
+<script type="text/javascript" src="//media.readthedocs.org/javascript/rtd.js"></script>
+<!-- end RTD <head> -->
+
+    
+    <link rel="stylesheet" href="../_static/bootstrap-astropy.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.2.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="shortcut icon" href="../_static/astropy_logo.ico"/>
+    <link rel="top" title="Astropy v0.2.1" href="../index.html" />
+    <link rel="up" title="World Coordinate System (astropy.wcs)" href="../wcs/index.html" />
+    <link rel="next" title="FITSFixedWarning" href="astropy.wcs.wcs.FITSFixedWarning.html" />
+    <link rel="prev" title="find_all_wcs" href="astropy.wcs.wcs.find_all_wcs.html" /> 
+  </head>
+  <body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../index.html"></a>
+  <ul>
+    <li><a class="homelink" title="AstroPy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../genindex.html">Index</a></li>
+    <li><a title="Python Module Index" href="../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li class="right">
+	<a href="astropy.wcs.wcs.FITSFixedWarning.html" title="FITSFixedWarning">
+	  next &raquo;
+	</a>
+      </li>
+      <li class="right">
+	<a href="astropy.wcs.wcs.find_all_wcs.html" title="find_all_wcs">
+	  &laquo; previous
+	</a>
+	 |
+      </li>
+      <li>
+	<a href="../index.html">Astropy v0.2.1</a>
+	 &raquo;
+      </li>
+      <li><a href="../wcs/index.html" accesskey="U">World Coordinate System (<tt class="docutils literal docutils literal"><span class="pre">astropy.wcs</span></tt>)</a> &raquo;</li>
+      
+      <li>DistortionLookupTable</li> 
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="distortionlookuptable">
+<h1>DistortionLookupTable<a class="headerlink" href="#distortionlookuptable" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="astropy.wcs.DistortionLookupTable">
+<em class="property">class </em><tt class="descclassname">astropy.wcs.</tt><tt class="descname">DistortionLookupTable</tt><a class="headerlink" href="#astropy.wcs.DistortionLookupTable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>Represents a single lookup table for a <a class="reference external" href="http://www.atnf.csiro.au/people/mcalabre/WCS/index.html">Paper IV</a> distortion
+transformation.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>table</strong> : 2-dimensional array</p>
+<blockquote>
+<div><p>The distortion lookup table.</p>
+</div></blockquote>
+<p><strong>crpix</strong> : 2-tuple</p>
+<blockquote>
+<div><p>The distortion array reference pixel</p>
+</div></blockquote>
+<p><strong>crval</strong> : 2-tuple</p>
+<blockquote>
+<div><p>The image array pixel coordinate</p>
+</div></blockquote>
+<p><strong>cdelt</strong> : 2-tuple</p>
+<blockquote class="last">
+<div><p>The grid step size</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes Summary</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.wcs.DistortionLookupTable.cdelt" title="astropy.wcs.DistortionLookupTable.cdelt"><tt class="xref py py-obj docutils literal"><span class="pre">cdelt</span></tt></a></td>
+<td><tt class="docutils literal"><span class="pre">double</span> <span class="pre">array[naxis]</span></tt> Coordinate increments (<tt class="docutils literal"><span class="pre">CDELTia</span></tt>) for each</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#astropy.wcs.DistortionLookupTable.crpix" title="astropy.wcs.DistortionLookupTable.crpix"><tt class="xref py py-obj docutils literal"><span class="pre">crpix</span></tt></a></td>
+<td><tt class="docutils literal"><span class="pre">double</span> <span class="pre">array[naxis]</span></tt> Coordinate reference pixels (<tt class="docutils literal"><span class="pre">CRPIXja</span></tt>) for</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.wcs.DistortionLookupTable.crval" title="astropy.wcs.DistortionLookupTable.crval"><tt class="xref py py-obj docutils literal"><span class="pre">crval</span></tt></a></td>
+<td><tt class="docutils literal"><span class="pre">double</span> <span class="pre">array[naxis]</span></tt> Coordinate reference values (<tt class="docutils literal"><span class="pre">CRVALia</span></tt>) for</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#astropy.wcs.DistortionLookupTable.data" title="astropy.wcs.DistortionLookupTable.data"><tt class="xref py py-obj docutils literal"><span class="pre">data</span></tt></a></td>
+<td><tt class="docutils literal"><span class="pre">float</span> <span class="pre">array</span></tt> The array data for the</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods Summary</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.wcs.DistortionLookupTable.get_offset" title="astropy.wcs.DistortionLookupTable.get_offset"><tt class="xref py py-obj docutils literal"><span class="pre">get_offset</span></tt></a>(x,&nbsp;y)&nbsp;-&gt;&nbsp;(x,&nbsp;y)</td>
+<td>Returns the offset as defined in the distortion lookup table.</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes Documentation</p>
+<dl class="attribute">
+<dt id="astropy.wcs.DistortionLookupTable.cdelt">
+<tt class="descname">cdelt</tt><a class="headerlink" href="#astropy.wcs.DistortionLookupTable.cdelt" title="Permalink to this definition">¶</a></dt>
+<dd><p><tt class="docutils literal"><span class="pre">double</span> <span class="pre">array[naxis]</span></tt> Coordinate increments (<tt class="docutils literal"><span class="pre">CDELTia</span></tt>) for each
+coord axis.</p>
+<p>If a <tt class="docutils literal"><span class="pre">CDi_ja</span></tt> linear transformation matrix is present, a warning is
+raised and <a class="reference internal" href="astropy.wcs.Wcsprm.html#astropy.wcs.Wcsprm.cdelt" title="astropy.wcs.Wcsprm.cdelt"><tt class="xref py py-obj docutils literal"><span class="pre">cdelt</span></tt></a> is ignored.  The <tt class="docutils literal"><span class="pre">CDi_ja</span></tt>
+matrix may be deleted by:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">del</span> <span class="n">wcs</span><span class="o">.</span><span class="n">wcs</span><span class="o">.</span><span class="n">cd</span>
+</pre></div>
+</div>
+<p>An undefined value is represented by NaN.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.wcs.DistortionLookupTable.crpix">
+<tt class="descname">crpix</tt><a class="headerlink" href="#astropy.wcs.DistortionLookupTable.crpix" title="Permalink to this definition">¶</a></dt>
+<dd><p><tt class="docutils literal"><span class="pre">double</span> <span class="pre">array[naxis]</span></tt> Coordinate reference pixels (<tt class="docutils literal"><span class="pre">CRPIXja</span></tt>) for
+each pixel axis.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.wcs.DistortionLookupTable.crval">
+<tt class="descname">crval</tt><a class="headerlink" href="#astropy.wcs.DistortionLookupTable.crval" title="Permalink to this definition">¶</a></dt>
+<dd><p><tt class="docutils literal"><span class="pre">double</span> <span class="pre">array[naxis]</span></tt> Coordinate reference values (<tt class="docutils literal"><span class="pre">CRVALia</span></tt>) for
+each coordinate axis.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.wcs.DistortionLookupTable.data">
+<tt class="descname">data</tt><a class="headerlink" href="#astropy.wcs.DistortionLookupTable.data" title="Permalink to this definition">¶</a></dt>
+<dd><p><tt class="docutils literal"><span class="pre">float</span> <span class="pre">array</span></tt> The array data for the
+<a class="reference internal" href="#astropy.wcs.DistortionLookupTable" title="astropy.wcs.DistortionLookupTable"><tt class="xref py py-obj docutils literal"><span class="pre">DistortionLookupTable</span></tt></a>.</p>
+</dd></dl>
+
+<p class="rubric">Methods Documentation</p>
+<dl class="method">
+<dt id="astropy.wcs.DistortionLookupTable.get_offset">
+<tt class="descname">get_offset</tt><big>(</big><em>x</em>, <em>y) -&gt; (x</em>, <em>y</em><big>)</big><a class="headerlink" href="#astropy.wcs.DistortionLookupTable.get_offset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the offset as defined in the distortion lookup table.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>coordinate</strong> : coordinate pair</p>
+<blockquote class="last">
+<div><p>The offset from the distortion table for pixel point (<em>x</em>, <em>y</em>).</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+
+
+<h3>Page Contents</h3>
+<ul>
+<li><a class="reference internal" href="#">DistortionLookupTable</a></li>
+</ul>
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+<footer class="footer">
+  <p class="pull-right">
+    <a href="../_sources/_generated/astropy.wcs.DistortionLookupTable.txt"
+       rel="nofollow">Page Source</a> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright 2011-2013, The Astropy Developers.<br/>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3+. &nbsp;
+    Last built 03 Apr 2013. <br/>
+  </p>
+</footer>
+ <!-- End original user content -->
+
+
+<br>
+<br>
+<br>
+
+
+<style type="text/css">
+  .rtd-badge {
+    position: fixed;
+    display: block;
+    bottom: 5px;
+    height: 40px;
+    text-indent: -9999em;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+  }
+  #version_menu {
+    position: fixed;
+    display: none;
+    bottom: 11px;
+    right: 166px;
+    list-style-type: none;
+    margin: 0;
+  }
+  .footer_popout:hover #version_menu {
+    display: block;
+  }
+  #version_menu li {
+    display: block;
+    float: right;
+  }
+  #version_menu li a {
+    display: block;
+    padding: 6px 10px 4px 10px;
+    margin: 7px 7px 0 0;
+    font-weight: bold;
+    font-size: 14px;
+    height: 20px;
+    line-height: 17px;
+    text-decoration: none;
+    color: #fff;
+    background: #8ca1af url(../images/gradient-light.png) bottom left repeat-x;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 1px #465158;
+    -moz-box-shadow: 0 1px 1px #465158;
+    -webkit-box-shadow: 0 1px 1px #465158;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+  }
+  #version_menu li a:hover {
+    text-decoration: none;
+    background-color: #697983;
+    box-shadow: 0 1px 0px #465158;
+    -moz-box-shadow: 0 1px 0px #465158;
+    -webkit-box-shadow: 0 1px 0px #465158;
+  }
+  .rtd-badge.rtd {
+    background: #3b4449 url(//media.readthedocs.org//images/badge-rtd.png) scroll 0px -46px no-repeat;
+    border: 1px solid #282E32;
+    width: 41px;
+    right: 5px;
+  }
+  .footer_popout:hover .rtd-badge.rtd {
+    background-position: top left;
+    width: 160px;
+  }
+  .rtd-badge.revsys { background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline-sponsored {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys-sm.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 205px;
+    right: 173px;
+  }
+
+</style>
+<div class="rtd_doc_footer">
+  <div class="footer_popout">
+    <a href="//readthedocs.org/projects/astropy/?fromdocs=astropy" class="rtd-badge rtd"> Brought to you by Read the Docs</a>
+    <ul id="version_menu">
+      
+        <li><a href="/en/latest/">latest</a></li>
+      
+        <li><a href="/en/add-mpl-to-rtd-pip-req/">add-mpl-to-rtd-pip-req</a></li>
+      
+        <li><a href="/en/v0.2.1/">v0.2.1</a></li>
+      
+        <li><a href="/en/v0.2/">v0.2</a></li>
+      
+        <li><a href="/en/v0.1/">v0.1</a></li>
+      
+    </ul>
+  </div>
+</div>
+<!-- RTD Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17997319-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+<!-- User Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-30968842-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+  </body>
+</html>

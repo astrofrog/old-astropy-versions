@@ -1,0 +1,8 @@
+
+
+get_current_unit_registry
+============================================
+
+.. currentmodule:: astropy.units.core
+
+.. autofunction:: get_current_unit_registry

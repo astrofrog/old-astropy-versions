@@ -1,0 +1,540 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+
+    <title>Installation &mdash; Astropy v0.2.1</title>
+<!-- RTD <head> -->
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/underscore.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/doctools.js"></script>
+
+<script type="text/javascript">
+  // This is included here for Javascript that doesn't have access to the templates.
+  var doc_version = "v0.2.1";
+  var doc_slug = "astropy";
+</script>
+
+<script type="text/javascript" src="//media.readthedocs.org/javascript/rtd.js"></script>
+<!-- end RTD <head> -->
+
+    
+    <link rel="stylesheet" href="_static/bootstrap-astropy.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.2.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/sidebar.js"></script>
+    <link rel="shortcut icon" href="_static/astropy_logo.ico"/>
+    <link rel="top" title="Astropy v0.2.1" href="index.html" />
+    <link rel="next" title="Getting Started with Astropy" href="getting_started.html" />
+    <link rel="prev" title="Overview" href="overview.html" /> 
+  </head>
+  <body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="index.html"></a>
+  <ul>
+    <li><a class="homelink" title="AstroPy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="genindex.html">Index</a></li>
+    <li><a title="Python Module Index" href="py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li class="right">
+	<a href="getting_started.html" title="Getting Started with Astropy">
+	  next &raquo;
+	</a>
+      </li>
+      <li class="right">
+	<a href="overview.html" title="Overview">
+	  &laquo; previous
+	</a>
+	 |
+      </li>
+      <li>
+	<a href="index.html">Astropy v0.2.1</a>
+	 &raquo;
+      </li>
+      
+      <li>Installation</li> 
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
+<p>Astropy has the following strict requirements:</p>
+<ul class="simple">
+<li><a class="reference external" href="http://www.python.org/">Python</a> 2.6, 2.7, 3.1 or 3.2</li>
+<li><a class="reference external" href="http://www.numpy.org/">Numpy</a> 1.4 or later</li>
+</ul>
+<p>Astropy also depends on other packages for optional features:</p>
+<ul class="simple">
+<li><a class="reference external" href="http://alfven.org/wp/hdf5-for-python/">h5py</a>: To read/write
+<a class="reference internal" href="_generated/astropy.table.table.Table.html#astropy.table.table.Table" title="astropy.table.table.Table"><tt class="xref py py-class docutils literal"><span class="pre">Table</span></tt></a> objects from/to HDF5 files</li>
+<li><a class="reference external" href="http://www.scipy.org/">scipy</a>: To power a variety of features (currently
+mainly cosmology-related functionality)</li>
+<li><a class="reference external" href="http://www.xmlsoft.org/">xmllint</a>: To validate VOTABLE XML files.</li>
+</ul>
+<p>However, note that these only need to be installed if those particular features
+are needed. Astropy will import even if these dependencies are not installed.</p>
+</div>
+<div class="section" id="installing-astropy">
+<h2>Installing Astropy<a class="headerlink" href="#installing-astropy" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="using-pip">
+<h3>Using <tt class="xref py py-obj docutils literal"><span class="pre">pip</span></tt><a class="headerlink" href="#using-pip" title="Permalink to this headline">¶</a></h3>
+<p>To install Astropy with <tt class="xref py py-obj docutils literal"><span class="pre">pip</span></tt>, simply run:</p>
+<div class="highlight-python"><pre>pip install astropy</pre>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">You will need a C compiler (e.g. <tt class="docutils literal"><span class="pre">gcc</span></tt> or <tt class="docutils literal"><span class="pre">clang</span></tt>) to be
+installed (see <a class="reference internal" href="#building-from-source">Building from source</a> below) for the installation
+to succeed.</p>
+</div>
+</div>
+<div class="section" id="binary-installers">
+<h3>Binary installers<a class="headerlink" href="#binary-installers" title="Permalink to this headline">¶</a></h3>
+<p>Binary installers are available on Windows for Python 2.6, 2.7, 3.1, and 3.2
+at <a class="reference external" href="https://pypi.python.org/pypi/astropy">PyPI</a>.</p>
+</div>
+<div class="section" id="testing-an-installed-astropy">
+<h3>Testing an installed Astropy<a class="headerlink" href="#testing-an-installed-astropy" title="Permalink to this headline">¶</a></h3>
+<p>The easiest way to test your installed version of astropy is running
+correctly is to use the <tt class="xref py py-func docutils literal"><span class="pre">astropy.test()</span></tt> function:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">astropy</span>
+<span class="n">astropy</span><span class="o">.</span><span class="n">test</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The tests should run and print out any failures, which you can report at
+the <a class="reference external" href="http://github.com/astropy/astropy/issues">Astropy issue tracker</a>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This way of running the tests may not work if you do it in the
+astropy source distribution.  See <a class="reference internal" href="#sourcebuildtest"><em>Testing a source code build of Astropy</em></a> for how to
+run the tests from the source code directory, or <a class="reference internal" href="development/testguide.html#running-tests"><em>Running Tests</em></a>
+for more details.</p>
+</div>
+</div>
+</div>
+<div class="section" id="building-from-source">
+<h2>Building from source<a class="headerlink" href="#building-from-source" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="prerequisites">
+<h3>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h3>
+<p>You will need a compiler suite and the development headers for Python and
+Numpy in order to build Astropy. On Linux, using the package manager for your
+distribution will usually be the easiest route, while on MacOS X you will
+need the XCode command line tools.</p>
+<p>The <a class="reference external" href="http://docs.scipy.org/doc/numpy/user/install.html">instructions for building Numpy from source</a> are also a good
+resource for setting up your environment to build Python packages.</p>
+<p>You will also need <a class="reference external" href="http://cython.org/">Cython</a> installed to build
+from source, unless you are installing a numbered release. (The releases
+packages have the necessary C files packaged with them, and hence do not
+require Cython.)</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If you are using MacOS X, you will need to the XCode command line
+tools.  One way to get them is to install <a class="reference external" href="https://developer.apple.com/xcode/">XCode</a>. If you are using OS X 10.7
+(Lion) or later, you must also explicitly install the command line
+tools. You can do this by opening the XCode application, going to
+<strong>Preferences</strong>, then <strong>Downloads</strong>, and then under <strong>Components</strong>,
+click on the Install button to the right of <strong>Command Line Tools</strong>.
+Alternatively, on 10.7 (Lion) or later, you do not need to install
+XCode, you can download just the command line tools from
+<a class="reference external" href="https://developer.apple.com/downloads/index.action">https://developer.apple.com/downloads/index.action</a> (requires an Apple
+developer account).</p>
+</div>
+</div>
+<div class="section" id="obtaining-the-source-packages">
+<h3>Obtaining the source packages<a class="headerlink" href="#obtaining-the-source-packages" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="source-packages">
+<h4>Source packages<a class="headerlink" href="#source-packages" title="Permalink to this headline">¶</a></h4>
+<p>The latest stable source package for Astropy can be <a class="reference external" href="https://pypi.python.org/pypi/astropy">downloaded here</a>.</p>
+</div>
+<div class="section" id="development-repository">
+<h4>Development repository<a class="headerlink" href="#development-repository" title="Permalink to this headline">¶</a></h4>
+<p>The latest development version of Astropy can be cloned from github
+using this command:</p>
+<div class="highlight-python"><pre>git clone git://github.com/astropy/astropy.git</pre>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If you wish to participate in the development of Astropy, see
+<a class="reference internal" href="index.html#developer-docs"><em>Developer Documentation</em></a>.  This document covers only the basics
+necessary to install Astropy.</p>
+</div>
+</div>
+</div>
+<div class="section" id="building-and-installing">
+<h3>Building and Installing<a class="headerlink" href="#building-and-installing" title="Permalink to this headline">¶</a></h3>
+<p>Astropy uses the Python <a class="reference external" href="http://docs.python.org/install/index.html">distutils framework</a> for building and
+installing and requires the
+<a class="reference external" href="http://pypi.python.org/pypi/distribute">distribute</a> extension&#8211;the later is
+automatically downloaded when running <tt class="docutils literal"><span class="pre">python</span> <span class="pre">setup.py</span></tt> if it is not already
+provided by your system.</p>
+<p>To build Astropy (from the root of the source tree):</p>
+<div class="highlight-python"><pre>python setup.py build</pre>
+</div>
+<p>To install Astropy (from the root of the source tree):</p>
+<div class="highlight-python"><pre>python setup.py install</pre>
+</div>
+</div>
+<div class="section" id="troubleshooting">
+<h3>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this headline">¶</a></h3>
+<p>If you get an error mentioning that you do not have the correct permissions to
+install Astropy into the default <tt class="docutils literal"><span class="pre">site-packages</span></tt> directory, you can try
+installing with:</p>
+<div class="highlight-python"><pre>python setup.py install --user</pre>
+</div>
+<p>which will install into a default directory in your home directory.</p>
+<div class="section" id="external-c-libraries">
+<h4>External C libraries<a class="headerlink" href="#external-c-libraries" title="Permalink to this headline">¶</a></h4>
+<p>The Astropy source ships with the C source code of a number of
+libraries.  By default, these internal copies are used to build
+Astropy.  However, if you wish to use the system-wide installation of
+one of those libraries, you can pass one or more of the
+<tt class="xref py py-obj docutils literal"><span class="pre">--use-system-X</span></tt> flags to the <tt class="xref py py-obj docutils literal"><span class="pre">setup.py</span> <span class="pre">build</span></tt> command.</p>
+<p>For example, to build Astropy using the system <tt class="xref py py-obj docutils literal"><span class="pre">libexpat</span></tt>, use:</p>
+<div class="highlight-python"><pre>python setup.py build --use-system-expat</pre>
+</div>
+<p>To build using all of the system libraries, use:</p>
+<div class="highlight-python"><pre>python setup.py build --use-system-libraries</pre>
+</div>
+<p>To see which system libraries Astropy knows how to build against, use:</p>
+<div class="highlight-python"><pre>python setup.py build --help</pre>
+</div>
+<p>As with all distutils commandline options, they may also be provided
+in a <tt class="xref py py-obj docutils literal"><span class="pre">setup.cfg</span></tt> in the same directory as <tt class="xref py py-obj docutils literal"><span class="pre">setup.py</span></tt>.  For example, to
+use the system <tt class="xref py py-obj docutils literal"><span class="pre">libexpat</span></tt>, add the following to the <tt class="xref py py-obj docutils literal"><span class="pre">setup.cfg</span></tt> file:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="n">build</span><span class="p">]</span>
+<span class="n">use_system_expat</span><span class="o">=</span><span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="compatibility-packages">
+<h4>Compatibility packages<a class="headerlink" href="#compatibility-packages" title="Permalink to this headline">¶</a></h4>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">This feature is still experimental, and you may run into
+unexpected issues with other packages, so we strongly
+recommend simply updating your code to use Astropy if
+possible, rather than rely on these compatibility packages.</p>
+</div>
+<p>Optionally, it is possible to install &#8216;compatibility&#8217; packages that
+emulate the behavior of previous packages that have now been
+incorporated into Astropy. These are:</p>
+<ul class="simple">
+<li><a class="reference external" href="http://www.stsci.edu/institute/software_hardware/pyfits/">PyFITS</a></li>
+<li><a class="reference external" href="https://trac.assembla.com/astrolib/">vo</a></li>
+<li><a class="reference external" href="https://trac.assembla.com/astrolib/">PyWCS</a></li>
+</ul>
+<p>If you build Astropy with:</p>
+<div class="highlight-python"><pre>python setup.py build --enable-legacy
+python setup.py install</pre>
+</div>
+<p>or simply:</p>
+<div class="highlight-python"><pre>python setup.py install --enable-legacy</pre>
+</div>
+<p>then you will be able to import these modules from your scripts as if
+the original packages had been installed. Using:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">pyfits</span>
+<span class="kn">import</span> <span class="nn">vo</span>
+<span class="kn">import</span> <span class="nn">pywcs</span>
+</pre></div>
+</div>
+<p>will then be equivalent to:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">astropy.io</span> <span class="kn">import</span> <span class="n">fits</span> <span class="k">as</span> <span class="n">pyfits</span>
+<span class="kn">from</span> <span class="nn">astropy.io</span> <span class="kn">import</span> <span class="n">vo</span>
+<span class="kn">from</span> <span class="nn">astropy</span> <span class="kn">import</span> <span class="n">wcs</span> <span class="k">as</span> <span class="n">pywcs</span>
+</pre></div>
+</div>
+<p>In order to install the compatibility packages none of the
+original packages should be present.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If you are interested in testing out existing code with Astropy
+without modifying the import statements, but don&#8217;t want to
+uninstall existing packages, you can use <a class="reference external" href="http://www.virtualenv.org/">virtualenv</a> to set up a clean environment.</p>
+</div>
+</div>
+</div>
+<div class="section" id="building-documentation">
+<span id="builddocs"></span><h3>Building documentation<a class="headerlink" href="#building-documentation" title="Permalink to this headline">¶</a></h3>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Building the documentation is in general not necessary unless you
+are writing new documentation or do not have internet access, because
+the latest (and archive) versions of astropy&#8217;s documentation should
+be available at <a class="reference external" href="http://docs.astropy.org">docs.astropy.org</a> .</p>
+</div>
+<p>Building the documentation requires the Astropy source code and some additional
+packages:</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="http://sphinx.pocoo.org">Sphinx</a> (and its dependencies) 1.0 or later</li>
+<li><a class="reference external" href="http://www.graphviz.org">Graphviz</a></li>
+</ul>
+</div></blockquote>
+<p>There are two ways to build the Astropy documentation. The most straightforward
+way is to execute the command (from the astropy source directory):</p>
+<div class="highlight-python"><pre>python setup.py build_sphinx</pre>
+</div>
+<p>The documentation will be built in the <tt class="docutils literal"><span class="pre">docs/_build/html</span></tt> directory, and can
+be read by pointing a web browser to <tt class="docutils literal"><span class="pre">docs/_build/html/index.html</span></tt>.</p>
+<p>The above method builds the API documentation from the source code.
+Alternatively, you can do:</p>
+<div class="highlight-python"><pre>cd docs
+make html</pre>
+</div>
+<p>And the documentation will be generated in the same location, but using the
+<em>installed</em> version of Astropy.</p>
+</div>
+<div class="section" id="testing-a-source-code-build-of-astropy">
+<span id="sourcebuildtest"></span><h3>Testing a source code build of Astropy<a class="headerlink" href="#testing-a-source-code-build-of-astropy" title="Permalink to this headline">¶</a></h3>
+<p>The easiest way to test that your Astropy built correctly (without
+installing astropy) is to run this from the root of the source tree:</p>
+<div class="highlight-python"><pre>python setup.py test</pre>
+</div>
+<p>There are also alternative methods of <a class="reference internal" href="development/testguide.html#running-tests"><em>Running Tests</em></a>.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+
+
+<h3>Page Contents</h3>
+<ul>
+<li><a class="reference internal" href="#">Installation</a><ul>
+<li><a class="reference internal" href="#requirements">Requirements</a></li>
+<li><a class="reference internal" href="#installing-astropy">Installing Astropy</a><ul>
+<li><a class="reference internal" href="#using-pip">Using <tt class="docutils literal"><span class="pre">pip</span></tt></a></li>
+<li><a class="reference internal" href="#binary-installers">Binary installers</a></li>
+<li><a class="reference internal" href="#testing-an-installed-astropy">Testing an installed Astropy</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#building-from-source">Building from source</a><ul>
+<li><a class="reference internal" href="#prerequisites">Prerequisites</a></li>
+<li><a class="reference internal" href="#obtaining-the-source-packages">Obtaining the source packages</a><ul>
+<li><a class="reference internal" href="#source-packages">Source packages</a></li>
+<li><a class="reference internal" href="#development-repository">Development repository</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#building-and-installing">Building and Installing</a></li>
+<li><a class="reference internal" href="#troubleshooting">Troubleshooting</a><ul>
+<li><a class="reference internal" href="#external-c-libraries">External C libraries</a></li>
+<li><a class="reference internal" href="#compatibility-packages">Compatibility packages</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#building-documentation">Building documentation</a></li>
+<li><a class="reference internal" href="#testing-a-source-code-build-of-astropy">Testing a source code build of Astropy</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+<footer class="footer">
+  <p class="pull-right">
+    <a href="http://github.com/astropy/astropy/tree/v0.2.1/docs/install.rst">Edit This Page on Github</a> &nbsp;
+    <a href="_sources/install.txt"
+       rel="nofollow">Page Source</a> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright 2011-2013, The Astropy Developers.<br/>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3+. &nbsp;
+    Last built 03 Apr 2013. <br/>
+  </p>
+</footer>
+ <!-- End original user content -->
+
+
+<br>
+<br>
+<br>
+
+
+<style type="text/css">
+  .rtd-badge {
+    position: fixed;
+    display: block;
+    bottom: 5px;
+    height: 40px;
+    text-indent: -9999em;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+  }
+  #version_menu {
+    position: fixed;
+    display: none;
+    bottom: 11px;
+    right: 166px;
+    list-style-type: none;
+    margin: 0;
+  }
+  .footer_popout:hover #version_menu {
+    display: block;
+  }
+  #version_menu li {
+    display: block;
+    float: right;
+  }
+  #version_menu li a {
+    display: block;
+    padding: 6px 10px 4px 10px;
+    margin: 7px 7px 0 0;
+    font-weight: bold;
+    font-size: 14px;
+    height: 20px;
+    line-height: 17px;
+    text-decoration: none;
+    color: #fff;
+    background: #8ca1af url(../images/gradient-light.png) bottom left repeat-x;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 1px #465158;
+    -moz-box-shadow: 0 1px 1px #465158;
+    -webkit-box-shadow: 0 1px 1px #465158;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+  }
+  #version_menu li a:hover {
+    text-decoration: none;
+    background-color: #697983;
+    box-shadow: 0 1px 0px #465158;
+    -moz-box-shadow: 0 1px 0px #465158;
+    -webkit-box-shadow: 0 1px 0px #465158;
+  }
+  .rtd-badge.rtd {
+    background: #3b4449 url(//media.readthedocs.org//images/badge-rtd.png) scroll 0px -46px no-repeat;
+    border: 1px solid #282E32;
+    width: 41px;
+    right: 5px;
+  }
+  .footer_popout:hover .rtd-badge.rtd {
+    background-position: top left;
+    width: 160px;
+  }
+  .rtd-badge.revsys { background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline-sponsored {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys-sm.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 205px;
+    right: 173px;
+  }
+
+</style>
+<div class="rtd_doc_footer">
+  <div class="footer_popout">
+    <a href="//readthedocs.org/projects/astropy/?fromdocs=astropy" class="rtd-badge rtd"> Brought to you by Read the Docs</a>
+    <ul id="version_menu">
+      
+        <li><a href="/en/latest/">latest</a></li>
+      
+        <li><a href="/en/add-mpl-to-rtd-pip-req/">add-mpl-to-rtd-pip-req</a></li>
+      
+        <li><a href="/en/v0.2.1/">v0.2.1</a></li>
+      
+        <li><a href="/en/v0.2/">v0.2</a></li>
+      
+        <li><a href="/en/v0.1/">v0.1</a></li>
+      
+    </ul>
+  </div>
+</div>
+<!-- RTD Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17997319-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+<!-- User Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-30968842-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+  </body>
+</html>

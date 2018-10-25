@@ -1,0 +1,52 @@
+
+
+VOSDatabase
+=========================================
+
+.. currentmodule:: astropy.vo.client.vos_catalog
+
+.. autoclass:: VOSDatabase
+   :show-inheritance:
+
+   
+     
+   
+
+   
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+   
+      ~VOSDatabase.get_catalog
+      ~VOSDatabase.get_catalog_by_url
+      ~VOSDatabase.get_catalogs
+      ~VOSDatabase.get_catalogs_by_url
+      ~VOSDatabase.list_catalogs
+
+   
+   
+
+   
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Documentation
+
+   
+   .. automethod:: get_catalog
+   .. automethod:: get_catalog_by_url
+   .. automethod:: get_catalogs
+   .. automethod:: get_catalogs_by_url
+   .. automethod:: list_catalogs
+
+   
+   

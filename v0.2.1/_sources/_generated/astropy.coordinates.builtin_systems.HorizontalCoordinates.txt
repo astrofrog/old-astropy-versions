@@ -1,0 +1,50 @@
+
+
+HorizontalCoordinates
+=========================================================
+
+.. currentmodule:: astropy.coordinates.builtin_systems
+
+.. autoclass:: HorizontalCoordinates
+   :show-inheritance:
+
+   
+     
+   
+
+   
+   
+
+   .. rubric:: Attributes Summary
+
+   .. autosummary::
+   
+      ~HorizontalCoordinates.equinox
+      ~HorizontalCoordinates.latangle
+      ~HorizontalCoordinates.lonangle
+      ~HorizontalCoordinates.obstime
+
+   
+   
+
+   
+   
+   
+
+   
+   
+
+   .. rubric:: Attributes Documentation
+
+   
+   .. autoattribute:: equinox
+   .. autoattribute:: latangle
+   .. autoattribute:: lonangle
+   .. autoattribute:: obstime
+
+   
+   
+
+   
+   
+   

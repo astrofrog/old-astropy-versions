@@ -1,0 +1,65 @@
+
+
+FK4NoETermCoordinates
+=========================================================
+
+.. currentmodule:: astropy.coordinates.builtin_systems
+
+.. autoclass:: FK4NoETermCoordinates
+   :show-inheritance:
+
+   
+     
+   
+
+   
+   
+
+   .. rubric:: Attributes Summary
+
+   .. autosummary::
+   
+      ~FK4NoETermCoordinates.equinox
+      ~FK4NoETermCoordinates.latangle
+      ~FK4NoETermCoordinates.lonangle
+      ~FK4NoETermCoordinates.obstime
+
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+   
+      ~FK4NoETermCoordinates.precess_to
+
+   
+   
+
+   
+   
+
+   .. rubric:: Attributes Documentation
+
+   
+   .. autoattribute:: equinox
+   .. autoattribute:: latangle
+   .. autoattribute:: lonangle
+   .. autoattribute:: obstime
+
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Documentation
+
+   
+   .. automethod:: precess_to
+
+   
+   

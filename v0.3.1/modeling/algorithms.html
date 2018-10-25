@@ -1,0 +1,249 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Algorithms &mdash; Astropy v0.3.1</title>
+    
+    <link rel="stylesheet" href="../_static/bootstrap-astropy.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="https://media.readthedocs.org/css/badge_only.css" type="text/css" />
+    <link rel="stylesheet" href="https://media.readthedocs.org/css/readthedocs-doc-embed.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.3.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/jquery/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/jquery/jquery-migrate-1.2.1.min.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/underscore.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/doctools.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/readthedocs-doc-embed.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="shortcut icon" href="../_static/astropy_logo.ico"/>
+    <link rel="top" title="Astropy v0.3.1" href="../index.html" />
+    <link rel="up" title="Models And Fitting (astropy.modeling)" href="index.html" />
+    <link rel="next" title="Models Design Goals" href="design.html" />
+    <link rel="prev" title="Defining New Model Classes" href="new.html" />
+
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,600' rel='stylesheet' type='text/css'>
+
+<!-- RTD Extra Head -->
+
+
+
+<!-- 
+Read the Docs is acting as the canonical URL for your project. 
+If you want to change it, more info is available in our docs:
+  http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="http://astropy.readthedocs.org/en/latest/modeling/algorithms.html">
+
+<script type="text/javascript">
+  // This is included here because other places don't have access to the pagename variable.
+  var READTHEDOCS_DATA = {
+    project: "astropy",
+    version: "v0.3.1",
+    language: "en",
+    page: "modeling/algorithms",
+    theme: "bootstrap-astropy",
+    docroot: "/docs/",
+    api_host: "https://readthedocs.org"
+  }
+  // Old variables
+  var doc_version = "v0.3.1";
+  var doc_slug = "astropy";
+  var page_name = "modeling/algorithms";
+  var html_theme = "bootstrap-astropy";
+</script>
+<!-- RTD Analytics Code -->
+<!-- Included in the header because you don't have a footer block. -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17997319-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+<!-- end RTD Analytics Code -->
+
+
+<!-- User Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-30968842-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+<!-- End User Analytics Code -->
+
+<!-- end RTD <extrahead> -->
+
+  </head>
+  <body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../index.html"><span id="logotext1">astro</span><span id="logotext2">py</span><span id="logotext3">:docs</span></a>
+  <ul>
+    <li><a class="homelink" title="Astropy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../genindex.html">Index</a></li>
+    <li><a title="Module Index" href="../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li class="right">
+	<a href="design.html" title="Models Design Goals">
+	  next &raquo;
+	</a>
+      </li>
+      <li class="right">
+	<a href="new.html" title="Defining New Model Classes">
+	  &laquo; previous
+	</a>
+	 |
+      </li>
+      <li>
+	<a href="../index.html">Astropy v0.3.1</a>
+	 &raquo;
+      </li>
+      <li><a href="index.html" accesskey="U">Models And Fitting (<tt class="docutils literal"><span class="pre">astropy.modeling</span></tt>)</a> &raquo;</li>
+      
+      <li>Algorithms</li> 
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="algorithms">
+<h1>Algorithms<a class="headerlink" href="#algorithms" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="univariate-polynomial-evaluation">
+<h2>Univariate polynomial evaluation<a class="headerlink" href="#univariate-polynomial-evaluation" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>The evaluation of 1D polynomials uses Horner&#8217;s algorithm.</li>
+<li>The evaluation of 1D Chebyshev and Legendre polynomials uses Clenshaw&#8217;s
+algorithm.</li>
+</ul>
+</div>
+<div class="section" id="multivariate-polynomial-evaluation">
+<h2>Multivariate polynomial evaluation<a class="headerlink" href="#multivariate-polynomial-evaluation" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p class="first">Multivariate Polynomials are evaluated following the algorithm in <a class="footnote-reference" href="#id2" id="id1">[1]</a> .  The
+algorithm uses the following notation:</p>
+<ul>
+<li><p class="first"><strong>multiindex</strong> is a tuple of non-negative integers for which the length is
+defined in the following way:</p>
+<div class="math">
+<p><img src="../_images/math/3ac1ba0db7af4ab1c090b051f859bca959a96515.png" alt="\alpha = (\alpha1, \alpha2, \alpha3),  |\alpha| = \alpha1+\alpha2+\alpha3"/></p>
+</div></li>
+<li><p class="first"><strong>inverse lexical order</strong> is the ordering of monomials in such a way that
+<img class="math" src="../_images/math/1a5db5b481964814a36a2f3c148c155053afcc31.png" alt="{x^a &lt; x^b}"/> if and only if there exists <img class="math" src="../_images/math/35379169403ec9f826b49bf081547901769271a8.png" alt="{1 \le i \le n}"/>
+such that <img class="math" src="../_images/math/251d7c2d89ab78fa42dc468000cb507ec7fa1a98.png" alt="{a_n = b_n, \dots, a_{i+1} = b_{i+1}, a_i &lt; b_i}"/>.</p>
+<p>In this ordering <img class="math" src="../_images/math/d75b68c677421786b2162186a28a11a6bc88a45e.png" alt="y^2 &gt; x^2*y"/> and <img class="math" src="../_images/math/2cb938c15d8992776535b53c2e70d8476f235227.png" alt="x*y &gt; y"/></p>
+</li>
+<li><p class="first"><strong>Multivariate Horner scheme</strong> uses d+1 variables <img class="math" src="../_images/math/187fb708c01b9cfd796dc6e9d9ec8cba89ee3169.png" alt="r_0, ...,r_d"/> to
+store intermediate results, where <em>d</em> denotes the number of variables.</p>
+<p>Algorithm:</p>
+<ol class="arabic simple">
+<li>Set <em>di</em> to the max number of variables (2 for a 2D polynomial).</li>
+<li>Set <img class="math" src="../_images/math/630f232dcbff18b52c950e05ea525a8a119ff77b.png" alt="r_0"/> to <img class="math" src="../_images/math/f9661e101f1ed5a2ddea4ad38b2354bf00e921ec.png" alt="c_{\alpha(0)}"/>, where c is a list of
+coeeficients for each multiindex in inverse lexical order.</li>
+<li>For each monomial, n, in the polynomial:<ul>
+<li>determine <img class="math" src="../_images/math/c8e54d1a42591214542d67052b2357a0fe130e3f.png" alt="k = max \{1 \leq j \leq di: \alpha(n)_j \neq \alpha(n-1)_j\}"/></li>
+<li>Set <img class="math" src="../_images/math/53f7f4a976b1698e69c88c330e5913fc44ffe405.png" alt="r_k := l_k(x)* (r_0 + r_1 + \dots + r_k)"/></li>
+<li>Set <img class="math" src="../_images/math/8573689b4701ca4c712910a9e0612e36fd781705.png" alt="r_0 = c_{\alpha(n)}, r_1 = \dots r_{k-1} = 0."/></li>
+</ul>
+</li>
+<li>return <img class="math" src="../_images/math/82d5646ad65f0e9e9ac58a47a263e6c113b6d2a2.png" alt="r_0 + \dots + r_{di}"/></li>
+</ol>
+</li>
+</ul>
+</li>
+<li><p class="first">The evaluation of multivariate Chebyshev and Legendre polynomials uses a
+variation of the above Horner&#8217;s scheme, in which every Legendre or Chebyshev
+function is considered a separate variable.  In this case the length of the
+<img class="math" src="../_images/math/10f32377ac67d94f764f12a15ea987e88c85d3e1.png" alt="\alpha"/> indices tuple is equal to the number of functions in x plus
+the number of functions in y.  In addition the Chebyshev and Legendre
+functions are cached for efficiency.</p>
+</li>
+</ul>
+<table class="docutils footnote" frame="void" id="id2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td><ol class="first last upperalpha simple" start="10">
+<li><ol class="first upperalpha" start="13">
+<li>Pena, Thomas Sauer, &#8220;On the Multivariate Horner Scheme&#8221;, SIAM Journal on Numerical Analysis, Vol 37, No. 4</li>
+</ol>
+</li>
+</ol>
+</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"><h3>Page Contents</h3>
+<ul>
+<li><a class="reference internal" href="#">Algorithms</a><ul>
+<li><a class="reference internal" href="#univariate-polynomial-evaluation">Univariate polynomial evaluation</a></li>
+<li><a class="reference internal" href="#multivariate-polynomial-evaluation">Multivariate polynomial evaluation</a></li>
+</ul>
+</li>
+</ul>
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+<footer class="footer">
+  <p class="pull-right">
+    <a href="http://github.com/astropy/astropy/tree/v0.3.x/docs/modeling/algorithms.rst">Edit This Page on Github</a> &nbsp;
+    <a href="../_sources/modeling/algorithms.txt"
+       rel="nofollow">Page Source</a> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright 2011-2013, The Astropy Developers.<br/>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2. &nbsp;
+    Last built 05 Mar 2014. <br/>
+  </p>
+</footer>
+  </body>
+</html>

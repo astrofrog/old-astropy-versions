@@ -1,0 +1,59 @@
+
+
+SLSQPFitter
+====================================
+
+.. currentmodule:: astropy.modeling.fitting
+
+.. autoclass:: SLSQPFitter
+   :show-inheritance:
+
+   
+     
+   
+
+   
+   
+
+   .. rubric:: Attributes Summary
+
+   .. autosummary::
+   
+      ~SLSQPFitter.supported_constraints
+
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+   
+      ~SLSQPFitter.errorfunc
+
+   
+   
+
+   
+   
+
+   .. rubric:: Attributes Documentation
+
+   
+   .. autoattribute:: supported_constraints
+
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Documentation
+
+   
+   .. automethod:: errorfunc
+
+   
+   

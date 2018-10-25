@@ -1,0 +1,246 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Overview &mdash; Astropy v0.3.1</title>
+    
+    <link rel="stylesheet" href="_static/bootstrap-astropy.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="https://media.readthedocs.org/css/badge_only.css" type="text/css" />
+    <link rel="stylesheet" href="https://media.readthedocs.org/css/readthedocs-doc-embed.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.3.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/jquery/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/jquery/jquery-migrate-1.2.1.min.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/underscore.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/doctools.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/readthedocs-doc-embed.js"></script>
+    <script type="text/javascript" src="_static/sidebar.js"></script>
+    <link rel="shortcut icon" href="_static/astropy_logo.ico"/>
+    <link rel="top" title="Astropy v0.3.1" href="index.html" />
+    <link rel="next" title="Installation" href="install.html" />
+    <link rel="prev" title="Full Changelog" href="changelog.html" />
+
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,600' rel='stylesheet' type='text/css'>
+
+<!-- RTD Extra Head -->
+
+
+
+<!-- 
+Read the Docs is acting as the canonical URL for your project. 
+If you want to change it, more info is available in our docs:
+  http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="http://astropy.readthedocs.org/en/latest/overview.html">
+
+<script type="text/javascript">
+  // This is included here because other places don't have access to the pagename variable.
+  var READTHEDOCS_DATA = {
+    project: "astropy",
+    version: "v0.3.1",
+    language: "en",
+    page: "overview",
+    theme: "bootstrap-astropy",
+    docroot: "/docs/",
+    api_host: "https://readthedocs.org"
+  }
+  // Old variables
+  var doc_version = "v0.3.1";
+  var doc_slug = "astropy";
+  var page_name = "overview";
+  var html_theme = "bootstrap-astropy";
+</script>
+<!-- RTD Analytics Code -->
+<!-- Included in the header because you don't have a footer block. -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17997319-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+<!-- end RTD Analytics Code -->
+
+
+<!-- User Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-30968842-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+<!-- End User Analytics Code -->
+
+<!-- end RTD <extrahead> -->
+
+  </head>
+  <body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="index.html"><span id="logotext1">astro</span><span id="logotext2">py</span><span id="logotext3">:docs</span></a>
+  <ul>
+    <li><a class="homelink" title="Astropy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="genindex.html">Index</a></li>
+    <li><a title="Module Index" href="py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li class="right">
+	<a href="install.html" title="Installation">
+	  next &raquo;
+	</a>
+      </li>
+      <li class="right">
+	<a href="changelog.html" title="Full Changelog">
+	  &laquo; previous
+	</a>
+	 |
+      </li>
+      <li>
+	<a href="index.html">Astropy v0.3.1</a>
+	 &raquo;
+      </li>
+      
+      <li>Overview</li> 
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
+<p>Here we describe a broad overview of the Astropy project and its parts.</p>
+<div class="section" id="astropy-project-concept">
+<h2>Astropy Project Concept<a class="headerlink" href="#astropy-project-concept" title="Permalink to this headline">¶</a></h2>
+<p>The &#8220;Astropy Project&#8221; is distinct from the <tt class="xref py py-obj docutils literal"><span class="pre">astropy</span></tt> package. The
+Astropy Project is a process intended to facilitate communication and
+interoperability of python packages/codes in astronomy and astrophysics.
+The project thus encompasses the <tt class="xref py py-obj docutils literal"><span class="pre">astropy</span></tt> core package (which provides
+a common framework), all &#8220;affiliated packages&#8221; (described below in
+<tt class="xref py py-obj docutils literal"><span class="pre">Affiliated</span> <span class="pre">Packages</span></tt>), and a general community aimed at bringing
+resources together and not duplicating efforts.</p>
+</div>
+<div class="section" id="astropy-core-package">
+<h2><tt class="xref py py-obj docutils literal"><span class="pre">astropy</span></tt> Core Package<a class="headerlink" href="#astropy-core-package" title="Permalink to this headline">¶</a></h2>
+<p>The <tt class="xref py py-obj docutils literal"><span class="pre">astropy</span></tt> package (alternatively known as the &#8220;core&#8221; package)
+contains various classes, utilities, and a packaging framework intended
+to provide commonly-used astronomy tools. It is divided into a variety
+of sub-packages, which are documented in the remainder of this
+documentation (see <a class="reference internal" href="index.html#user-docs"><em>User Documentation</em></a> for documentation of these
+components).</p>
+<p>The core also provides this documentation, and a variety of utilities
+that simplify starting other python astronomy/astrophysics packages. As
+described in the following section, these simplify the process of
+creating affiliated packages.</p>
+</div>
+<div class="section" id="affiliated-packages">
+<h2>Affiliated Packages<a class="headerlink" href="#affiliated-packages" title="Permalink to this headline">¶</a></h2>
+<p>The Astropy project includes the concept of &#8220;affiliated packages.&#8221; An
+affiliated package is an astronomy-related python package that is not
+part of the <tt class="xref py py-obj docutils literal"><span class="pre">astropy</span></tt> core source code, but has requested to be included
+in the general community effort of the Astropy project. Such a package
+may be a candidate for eventual inclusion in the main <tt class="xref py py-obj docutils literal"><span class="pre">astropy</span></tt> package
+(although this is not required). Until then, however, it is a separate
+package, and may not be in the <tt class="xref py py-obj docutils literal"><span class="pre">astropy</span></tt> namespace.</p>
+<p>The authoritative list of current affiliated packages is available at
+<a class="reference external" href="http://affiliated.astropy.org">http://affiliated.astropy.org</a>, including a machine-readable <a class="reference external" href="http://affiliated.astropy.org/registry.json">JSON file</a>.</p>
+<p>If you are interested in starting an affiliated package, or have a
+package you are interested in making more compatible with astropy, the
+<tt class="xref py py-obj docutils literal"><span class="pre">astropy</span></tt> core package includes features that simplify and homogenize
+package management. Astropy provides a <a class="reference external" href="http://github.com/astropy/package-template">package template</a> that provides a common
+way to organize a package, to make your life simpler. You can use this
+template either with a new package you are starting or an existing
+package to give it most of the organizational tools Astropy provides,
+including the documentation, testing, and Cython-building tools.  See
+the <a class="reference external" href="https://github.com/astropy/package-template/blob/master/README.rst">usage instructions in the template</a> for further details.</p>
+<p>To then get your package listed on the registry, take a look at the
+<a class="reference external" href="http://affiliated.astropy.org#affiliated-instructions">guidelines for becoming an affiliated package</a>, and then post
+your intent on the <a class="reference external" href="http://groups.google.com/group/astropy-dev">astropy-dev mailing list</a>.  The Astropy
+coordination committee, in consultation with the community, will provide
+you feedback on the package, and will add it to the registry when it is
+approved.</p>
+</div>
+<div class="section" id="community">
+<h2>Community<a class="headerlink" href="#community" title="Permalink to this headline">¶</a></h2>
+<p>Aside from the actual code, Astropy is also a community of astronomy-
+associated users and developers that agree that sharing utilities is
+healthy for the community and the science it produces. This community is
+of course central to accomplishing anything with the code itself. We
+follow the <a class="reference external" href="http://www.python.org/psf/codeofconduct/">Python Software Foundation Code of Conduct</a> and welcome anyone who
+wishes to contribute to the project.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"><h3>Page Contents</h3>
+<ul>
+<li><a class="reference internal" href="#">Overview</a><ul>
+<li><a class="reference internal" href="#astropy-project-concept">Astropy Project Concept</a></li>
+<li><a class="reference internal" href="#astropy-core-package"><tt class="docutils literal"><span class="pre">astropy</span></tt> Core Package</a></li>
+<li><a class="reference internal" href="#affiliated-packages">Affiliated Packages</a></li>
+<li><a class="reference internal" href="#community">Community</a></li>
+</ul>
+</li>
+</ul>
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+<footer class="footer">
+  <p class="pull-right">
+    <a href="http://github.com/astropy/astropy/tree/v0.3.x/docs/overview.rst">Edit This Page on Github</a> &nbsp;
+    <a href="_sources/overview.txt"
+       rel="nofollow">Page Source</a> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright 2011-2013, The Astropy Developers.<br/>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2. &nbsp;
+    Last built 05 Mar 2014. <br/>
+  </p>
+</footer>
+  </body>
+</html>

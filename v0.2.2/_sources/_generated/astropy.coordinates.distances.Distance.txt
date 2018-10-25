@@ -1,0 +1,73 @@
+
+
+Distance
+======================================
+
+.. currentmodule:: astropy.coordinates.distances
+
+.. autoclass:: Distance
+   :show-inheritance:
+
+   
+     
+   
+
+   
+   
+
+   .. rubric:: Attributes Summary
+
+   .. autosummary::
+   
+      ~Distance.Mpc
+      ~Distance.au
+      ~Distance.km
+      ~Distance.kpc
+      ~Distance.lightyear
+      ~Distance.m
+      ~Distance.pc
+      ~Distance.z
+
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+   
+      ~Distance.compute_z
+
+   
+   
+
+   
+   
+
+   .. rubric:: Attributes Documentation
+
+   
+   .. autoattribute:: Mpc
+   .. autoattribute:: au
+   .. autoattribute:: km
+   .. autoattribute:: kpc
+   .. autoattribute:: lightyear
+   .. autoattribute:: m
+   .. autoattribute:: pc
+   .. autoattribute:: z
+
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Documentation
+
+   
+   .. automethod:: compute_z
+
+   
+   

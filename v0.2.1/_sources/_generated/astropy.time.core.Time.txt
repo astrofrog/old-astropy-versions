@@ -1,0 +1,87 @@
+
+.. include:: ../time/references.txt
+
+
+Time
+======================
+
+.. currentmodule:: astropy.time.core
+
+.. autoclass:: Time
+   :show-inheritance:
+
+   
+     
+   
+
+   
+   
+
+   .. rubric:: Attributes Summary
+
+   .. autosummary::
+   
+      ~Time.FORMATS
+      ~Time.SCALES
+      ~Time.delta_tdb_tt
+      ~Time.delta_ut1_utc
+      ~Time.format
+      ~Time.in_subfmt
+      ~Time.jd1
+      ~Time.jd2
+      ~Time.out_subfmt
+      ~Time.precision
+      ~Time.scale
+      ~Time.val
+      ~Time.vals
+
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+   
+      ~Time.copy
+      ~Time.replicate
+
+   
+   
+
+   
+   
+
+   .. rubric:: Attributes Documentation
+
+   
+   .. autoattribute:: FORMATS
+   .. autoattribute:: SCALES
+   .. autoattribute:: delta_tdb_tt
+   .. autoattribute:: delta_ut1_utc
+   .. autoattribute:: format
+   .. autoattribute:: in_subfmt
+   .. autoattribute:: jd1
+   .. autoattribute:: jd2
+   .. autoattribute:: out_subfmt
+   .. autoattribute:: precision
+   .. autoattribute:: scale
+   .. autoattribute:: val
+   .. autoattribute:: vals
+
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Documentation
+
+   
+   .. automethod:: copy
+   .. automethod:: replicate
+
+   
+   

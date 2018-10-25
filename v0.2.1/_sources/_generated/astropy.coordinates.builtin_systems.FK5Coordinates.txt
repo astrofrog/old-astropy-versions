@@ -1,0 +1,65 @@
+
+
+FK5Coordinates
+==================================================
+
+.. currentmodule:: astropy.coordinates.builtin_systems
+
+.. autoclass:: FK5Coordinates
+   :show-inheritance:
+
+   
+     
+   
+
+   
+   
+
+   .. rubric:: Attributes Summary
+
+   .. autosummary::
+   
+      ~FK5Coordinates.equinox
+      ~FK5Coordinates.latangle
+      ~FK5Coordinates.lonangle
+      ~FK5Coordinates.obstime
+
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+   
+      ~FK5Coordinates.precess_to
+
+   
+   
+
+   
+   
+
+   .. rubric:: Attributes Documentation
+
+   
+   .. autoattribute:: equinox
+   .. autoattribute:: latangle
+   .. autoattribute:: lonangle
+   .. autoattribute:: obstime
+
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Documentation
+
+   
+   .. automethod:: precess_to
+
+   
+   

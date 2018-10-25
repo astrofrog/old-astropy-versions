@@ -1,0 +1,1678 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+
+    <title>astropy.units.core &mdash; Astropy v0.2.1</title>
+<!-- RTD <head> -->
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/underscore.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/doctools.js"></script>
+
+<script type="text/javascript">
+  // This is included here for Javascript that doesn't have access to the templates.
+  var doc_version = "v0.2.1";
+  var doc_slug = "astropy";
+</script>
+
+<script type="text/javascript" src="//media.readthedocs.org/javascript/rtd.js"></script>
+<!-- end RTD <head> -->
+
+    
+    <link rel="stylesheet" href="../../../_static/bootstrap-astropy.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.2.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/sidebar.js"></script>
+    <link rel="shortcut icon" href="../../../_static/astropy_logo.ico"/>
+    <link rel="top" title="Astropy v0.2.1" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../../../index.html"></a>
+  <ul>
+    <li><a class="homelink" title="AstroPy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../../../genindex.html">Index</a></li>
+    <li><a title="Python Module Index" href="../../../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li>
+	<a href="../../../index.html">Astropy v0.2.1</a>
+	 &raquo;
+      </li>
+      <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li>
+      
+       
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for astropy.units.core</h1><div class="highlight"><pre>
+<span class="c"># -*- coding: utf-8 -*-</span>
+<span class="c"># Licensed under a 3-clause BSD style license - see LICENSE.rst</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Core units classes and functions</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="p">(</span><span class="n">absolute_import</span><span class="p">,</span> <span class="n">division</span><span class="p">,</span> <span class="n">print_function</span><span class="p">,</span>
+                        <span class="n">unicode_literals</span><span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">inspect</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">textwrap</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">ma</span>
+
+<span class="kn">from</span> <span class="nn">..utils.compat.fractions</span> <span class="kn">import</span> <span class="n">Fraction</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">format</span> <span class="k">as</span> <span class="n">unit_format</span>
+
+<span class="c"># TODO: Support functional units, e.g. log(x), ln(x)</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s">&#39;UnitsException&#39;</span><span class="p">,</span> <span class="s">&#39;UnitsWarning&#39;</span><span class="p">,</span> <span class="s">&#39;UnitBase&#39;</span><span class="p">,</span> <span class="s">&#39;NamedUnit&#39;</span><span class="p">,</span>
+    <span class="s">&#39;IrreducibleUnit&#39;</span><span class="p">,</span> <span class="s">&#39;Unit&#39;</span><span class="p">,</span> <span class="s">&#39;def_unit&#39;</span><span class="p">,</span> <span class="s">&#39;CompositeUnit&#39;</span><span class="p">,</span>
+    <span class="s">&#39;PrefixUnit&#39;</span><span class="p">,</span> <span class="s">&#39;UnrecognizedUnit&#39;</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="UnitsException"><a class="viewcode-back" href="../../../_generated/astropy.units.core.UnitsException.html#astropy.units.core.UnitsException">[docs]</a><span class="k">class</span> <span class="nc">UnitsException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The base class for unit-specific exceptions.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span>
+
+</div>
+<div class="viewcode-block" id="UnitsWarning"><a class="viewcode-back" href="../../../_generated/astropy.units.core.UnitsWarning.html#astropy.units.core.UnitsWarning">[docs]</a><span class="k">class</span> <span class="nc">UnitsWarning</span><span class="p">(</span><span class="ne">Warning</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The base class for unit-specific exceptions.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span>
+
+</div>
+<div class="viewcode-block" id="UnitBase"><a class="viewcode-back" href="../../../_generated/astropy.units.core.UnitBase.html#astropy.units.core.UnitBase">[docs]</a><span class="k">class</span> <span class="nc">UnitBase</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Abstract base class for units.</span>
+
+<span class="sd">    Most of the arithmetic operations on units are defined in this</span>
+<span class="sd">    base class.</span>
+
+<span class="sd">    Should not be instantiated by users directly.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_registry</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">_namespace</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="c"># Make sure that __rmul__ of units gets called over the __mul__ of Numpy</span>
+    <span class="c"># arrays to avoid element-wise multiplication.</span>
+    <span class="n">__array_priority__</span> <span class="o">=</span> <span class="mi">1000</span>
+
+    <span class="k">def</span> <span class="nf">__deepcopy__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">memo</span><span class="p">):</span>
+        <span class="c"># This may look odd, but the units conversion will be very</span>
+        <span class="c"># broken after deep-copying if we don&#39;t guarantee that a given</span>
+        <span class="c"># physical unit corresponds to only one instance</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="nf">_repr_latex_</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate latex representation of unit name.  This is used by</span>
+<span class="sd">        the IPython notebook to print a unit with a nice layout.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Latex string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">unit_format</span><span class="o">.</span><span class="n">Latex</span><span class="p">()</span><span class="o">.</span><span class="n">to_string</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return string representation for unit&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">unit_format</span><span class="o">.</span><span class="n">Generic</span><span class="p">()</span><span class="o">.</span><span class="n">to_string</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;Unit(&quot;&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;&quot;)&#39;</span>
+
+<div class="viewcode-block" id="UnitBase.to_string"><a class="viewcode-back" href="../../../_generated/astropy.units.core.UnitBase.html#astropy.units.core.UnitBase.to_string">[docs]</a>    <span class="k">def</span> <span class="nf">to_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s">&#39;generic&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Output the unit in the given format as a string.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        format : `astropy.format.Base` instance or str</span>
+<span class="sd">            The name of a format or a formatter object.  If not</span>
+<span class="sd">            provided, defaults to the generic format.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">unit_format</span><span class="o">.</span><span class="n">get_format</span><span class="p">(</span><span class="n">format</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">f</span><span class="o">.</span><span class="n">to_string</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</div>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_get_namespace</span><span class="p">():</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the namespace that units will be registered to.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">UnitBase</span><span class="o">.</span><span class="n">_namespace</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_set_namespace</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the namespace that units will be registered to.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">UnitBase</span><span class="o">.</span><span class="n">_namespace</span> <span class="o">=</span> <span class="n">d</span>
+
+    <span class="k">def</span> <span class="nf">__pow__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">Fraction</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c"># allow two possible floating point fractions, all others illegal</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">int</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">p</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">p</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s">&quot;floating values for unit powers must be integers or &quot;</span>
+                    <span class="s">&quot;integers + 0.5&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">CompositeUnit</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="p">],</span> <span class="p">[</span><span class="n">p</span><span class="p">])</span><span class="o">.</span><span class="n">_simplify</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">__div__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
+        <span class="c"># Strictly speaking, we should be using old-style division here.</span>
+        <span class="c"># However, I think it&#39;s less surprising for this to behave the</span>
+        <span class="c"># same way whether __future__ division is being used or not</span>
+        <span class="kn">from</span> <span class="nn">.quantity</span> <span class="kn">import</span> <span class="n">Quantity</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">UnitBase</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">CompositeUnit</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="p">,</span> <span class="n">m</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">_simplify</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">Quantity</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">Quantity</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span> <span class="o">/</span> <span class="n">m</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Quantity</span><span class="p">(</span><span class="mf">1.</span> <span class="o">/</span> <span class="n">m</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__rdiv__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">.quantity</span> <span class="kn">import</span> <span class="n">Quantity</span>
+        <span class="k">return</span> <span class="n">Quantity</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">CompositeUnit</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">_simplify</span><span class="p">())</span>
+
+    <span class="k">def</span> <span class="nf">__truediv__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__div__</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__rtruediv__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rdiv__</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">.quantity</span> <span class="kn">import</span> <span class="n">Quantity</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">UnitBase</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">CompositeUnit</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="p">,</span> <span class="n">m</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">_simplify</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">Quantity</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">Quantity</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span> <span class="o">*</span> <span class="n">m</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Quantity</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__rmul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">.quantity</span> <span class="kn">import</span> <span class="n">Quantity</span>
+        <span class="k">return</span> <span class="n">Quantity</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="k">def</span> <span class="nf">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="c"># Since this class defines __eq__, it will become unhashable</span>
+            <span class="c"># on Python 3.x, so we need to define our own hash.</span>
+            <span class="k">return</span> <span class="nb">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">other</span> <span class="o">=</span> <span class="n">Unit</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">parse_strict</span><span class="o">=</span><span class="s">&#39;silent&#39;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="n">UnitsException</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">False</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="mf">1.0</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">UnitsException</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">False</span>
+
+    <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="p">(</span><span class="bp">self</span> <span class="o">==</span> <span class="n">other</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="n">other</span> <span class="o">=</span> <span class="n">Unit</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1.</span>
+
+    <span class="k">def</span> <span class="nf">__gt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="n">other</span> <span class="o">=</span> <span class="n">Unit</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">1.</span>
+
+    <span class="k">def</span> <span class="nf">__le__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="n">other</span> <span class="o">=</span> <span class="n">Unit</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mf">1.</span>
+
+    <span class="k">def</span> <span class="nf">__ge__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="n">other</span> <span class="o">=</span> <span class="n">Unit</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mf">1.</span>
+
+    <span class="k">def</span> <span class="nf">__neg__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span> <span class="o">*</span> <span class="o">-</span><span class="mf">1.</span>
+
+    <span class="k">def</span> <span class="nf">_simplify</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compresses a possibly composite unit down to a single</span>
+<span class="sd">        instance.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+<div class="viewcode-block" id="UnitBase.is_equivalent"><a class="viewcode-back" href="../../../_generated/astropy.units.core.UnitBase.html#astropy.units.core.UnitBase.is_equivalent">[docs]</a>    <span class="k">def</span> <span class="nf">is_equivalent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="n">equivalencies</span><span class="o">=</span><span class="p">[]):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns `True` if this unit is equivalent to `other`.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        other : unit object or string</span>
+<span class="sd">           The unit to convert to.</span>
+
+<span class="sd">        equivalencies : list of equivalence pairs, optional</span>
+<span class="sd">           A list of equivalence pairs to try if the units are not</span>
+<span class="sd">           directly convertible.  See :ref:`unit_equivalencies`.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">other</span> <span class="o">=</span> <span class="n">Unit</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">parse_strict</span><span class="o">=</span><span class="s">&#39;silent&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">UnrecognizedUnit</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">False</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="p">(</span><span class="bp">self</span> <span class="o">/</span> <span class="n">other</span><span class="p">)</span><span class="o">.</span><span class="n">_dimensionless_constant</span><span class="p">()</span>
+        <span class="k">except</span> <span class="n">UnitsException</span><span class="p">:</span>
+            <span class="n">unit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">decompose</span><span class="p">()</span>
+            <span class="n">other</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">decompose</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">equiv</span> <span class="ow">in</span> <span class="n">equivalencies</span><span class="p">:</span>
+                <span class="n">a</span> <span class="o">=</span> <span class="n">equiv</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">b</span> <span class="o">=</span> <span class="n">equiv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">unit</span><span class="o">.</span><span class="n">is_equivalent</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="ow">and</span> <span class="n">other</span><span class="o">.</span><span class="n">is_equivalent</span><span class="p">(</span><span class="n">b</span><span class="p">)):</span>
+                    <span class="k">return</span> <span class="bp">True</span>
+                <span class="k">elif</span> <span class="p">(</span><span class="n">unit</span><span class="o">.</span><span class="n">is_equivalent</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="ow">and</span> <span class="n">other</span><span class="o">.</span><span class="n">is_equivalent</span><span class="p">(</span><span class="n">a</span><span class="p">)):</span>
+                    <span class="k">return</span> <span class="bp">True</span>
+            <span class="k">return</span> <span class="bp">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">True</span>
+</div>
+    <span class="k">def</span> <span class="nf">_apply_equivalences</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">unit</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="n">equivalencies</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Internal function (used from `get_converter`) to apply</span>
+<span class="sd">        equivalence pairs.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">def</span> <span class="nf">make_converter</span><span class="p">(</span><span class="n">scale1</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="n">scale2</span><span class="p">):</span>
+            <span class="k">def</span> <span class="nf">convert</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">_condition_arg</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">*</span> <span class="n">scale1</span><span class="p">)</span> <span class="o">*</span> <span class="n">scale2</span>
+            <span class="k">return</span> <span class="n">convert</span>
+
+        <span class="n">orig_unit</span> <span class="o">=</span> <span class="n">unit</span>
+        <span class="n">orig_other</span> <span class="o">=</span> <span class="n">other</span>
+
+        <span class="n">unit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">decompose</span><span class="p">()</span>
+        <span class="n">other</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">decompose</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">equiv</span> <span class="ow">in</span> <span class="n">equivalencies</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">equiv</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="n">funit</span><span class="p">,</span> <span class="n">tunit</span> <span class="o">=</span> <span class="n">equiv</span>
+                <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">equiv</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+                <span class="n">funit</span><span class="p">,</span> <span class="n">tunit</span><span class="p">,</span> <span class="n">a</span> <span class="o">=</span> <span class="n">equiv</span>
+                <span class="n">b</span> <span class="o">=</span> <span class="n">a</span>
+            <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">equiv</span><span class="p">)</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
+                <span class="n">funit</span><span class="p">,</span> <span class="n">tunit</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">equiv</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Invalid equivalence entry&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">unit</span><span class="o">.</span><span class="n">is_equivalent</span><span class="p">(</span><span class="n">funit</span><span class="p">)</span> <span class="ow">and</span> <span class="n">other</span><span class="o">.</span><span class="n">is_equivalent</span><span class="p">(</span><span class="n">tunit</span><span class="p">)):</span>
+                <span class="n">scale1</span> <span class="o">=</span> <span class="p">(</span><span class="n">unit</span> <span class="o">/</span> <span class="n">funit</span><span class="p">)</span><span class="o">.</span><span class="n">_dimensionless_constant</span><span class="p">()</span>
+                <span class="n">scale2</span> <span class="o">=</span> <span class="p">(</span><span class="n">tunit</span> <span class="o">/</span> <span class="n">other</span><span class="p">)</span><span class="o">.</span><span class="n">_dimensionless_constant</span><span class="p">()</span>
+                <span class="k">return</span> <span class="n">make_converter</span><span class="p">(</span><span class="n">scale1</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">scale2</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">is_equivalent</span><span class="p">(</span><span class="n">funit</span><span class="p">)</span> <span class="ow">and</span> <span class="n">unit</span><span class="o">.</span><span class="n">is_equivalent</span><span class="p">(</span><span class="n">tunit</span><span class="p">)):</span>
+                <span class="n">scale1</span> <span class="o">=</span> <span class="p">(</span><span class="n">unit</span> <span class="o">/</span> <span class="n">tunit</span><span class="p">)</span><span class="o">.</span><span class="n">_dimensionless_constant</span><span class="p">()</span>
+                <span class="n">scale2</span> <span class="o">=</span> <span class="p">(</span><span class="n">funit</span> <span class="o">/</span> <span class="n">other</span><span class="p">)</span><span class="o">.</span><span class="n">_dimensionless_constant</span><span class="p">()</span>
+                <span class="k">return</span> <span class="n">make_converter</span><span class="p">(</span><span class="n">scale1</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">scale2</span><span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">get_err_str</span><span class="p">(</span><span class="n">unit</span><span class="p">):</span>
+            <span class="n">unit_str</span> <span class="o">=</span> <span class="n">unit</span><span class="o">.</span><span class="n">to_string</span><span class="p">(</span><span class="s">&#39;unscaled&#39;</span><span class="p">)</span>
+            <span class="n">physical_type</span> <span class="o">=</span> <span class="n">unit</span><span class="o">.</span><span class="n">physical_type</span>
+            <span class="k">if</span> <span class="n">physical_type</span> <span class="o">!=</span> <span class="s">&#39;unknown&#39;</span><span class="p">:</span>
+                <span class="n">unit_str</span> <span class="o">=</span> <span class="s">&quot;&#39;{0}&#39; ({1})&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">unit_str</span><span class="p">,</span> <span class="n">physical_type</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">unit_str</span> <span class="o">=</span> <span class="s">&quot;&#39;{0}&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">unit_str</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">unit_str</span>
+
+        <span class="n">unit_str</span> <span class="o">=</span> <span class="n">get_err_str</span><span class="p">(</span><span class="n">orig_unit</span><span class="p">)</span>
+        <span class="n">other_str</span> <span class="o">=</span> <span class="n">get_err_str</span><span class="p">(</span><span class="n">orig_other</span><span class="p">)</span>
+
+        <span class="k">raise</span> <span class="n">UnitsException</span><span class="p">(</span>
+            <span class="s">&quot;{0} and {1} are not convertible&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">unit_str</span><span class="p">,</span> <span class="n">other_str</span><span class="p">))</span>
+
+<div class="viewcode-block" id="UnitBase.get_converter"><a class="viewcode-back" href="../../../_generated/astropy.units.core.UnitBase.html#astropy.units.core.UnitBase.get_converter">[docs]</a>    <span class="k">def</span> <span class="nf">get_converter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="n">equivalencies</span><span class="o">=</span><span class="p">[]):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the conversion function to convert values from `self`</span>
+<span class="sd">        to the specified unit.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        other : unit object or string</span>
+<span class="sd">           The unit to convert to.</span>
+
+<span class="sd">        equivalencies : list of equivalence pairs, optional</span>
+<span class="sd">           A list of equivalence pairs to try if the units are not</span>
+<span class="sd">           directly convertible.  See :ref:`unit_equivalencies`.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        func : callable</span>
+<span class="sd">            A callable that normally expects a single argument that is</span>
+<span class="sd">            a scalar value or an array of values (or anything that may</span>
+<span class="sd">            be converted to an array).</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        UnitsException</span>
+<span class="sd">            If units are inconsistent</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">other</span> <span class="o">=</span> <span class="n">Unit</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">scale</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span> <span class="o">/</span> <span class="n">other</span><span class="p">)</span><span class="o">.</span><span class="n">_dimensionless_constant</span><span class="p">()</span>
+        <span class="k">except</span> <span class="n">UnitsException</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_apply_equivalences</span><span class="p">(</span>
+                <span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="n">equivalencies</span><span class="p">)</span>
+        <span class="k">return</span> <span class="k">lambda</span> <span class="n">val</span><span class="p">:</span> <span class="n">scale</span> <span class="o">*</span> <span class="n">_condition_arg</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="UnitBase.to"><a class="viewcode-back" href="../../../_generated/astropy.units.core.UnitBase.html#astropy.units.core.UnitBase.to">[docs]</a>    <span class="k">def</span> <span class="nf">to</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">equivalencies</span><span class="o">=</span><span class="p">[]):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the converted values in the specified unit.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        other : unit object or string</span>
+<span class="sd">            The unit to convert to.</span>
+
+<span class="sd">        value : scalar int or float, or sequence that can be converted to array, optional</span>
+<span class="sd">            Value(s) in the current unit to be converted to the</span>
+<span class="sd">            specified unit.  If not provided, defaults to 1.0</span>
+
+<span class="sd">        equivalencies : list of equivalence pairs, optional</span>
+<span class="sd">           A list of equivalence pairs to try if the units are not</span>
+<span class="sd">           directly convertible.  See :ref:`unit_equivalencies`.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        values : scalar or array</span>
+<span class="sd">            Converted value(s). Input value sequences are returned as</span>
+<span class="sd">            numpy arrays.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        UnitException</span>
+<span class="sd">            If units are inconsistent</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">other</span> <span class="o">=</span> <span class="n">Unit</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_converter</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">equivalencies</span><span class="o">=</span><span class="n">equivalencies</span><span class="p">)(</span><span class="n">value</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="UnitBase.in_units"><a class="viewcode-back" href="../../../_generated/astropy.units.core.UnitBase.html#astropy.units.core.UnitBase.in_units">[docs]</a>    <span class="k">def</span> <span class="nf">in_units</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">equivalencies</span><span class="o">=</span><span class="p">[]):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Alias for `to` for backward compatibility with pynbody.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">to</span><span class="p">(</span>
+            <span class="n">other</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">value</span><span class="p">,</span> <span class="n">equivalencies</span><span class="o">=</span><span class="n">equivalencies</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="UnitBase.decompose"><a class="viewcode-back" href="../../../_generated/astropy.units.core.UnitBase.html#astropy.units.core.UnitBase.decompose">[docs]</a>    <span class="k">def</span> <span class="nf">decompose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bases</span><span class="o">=</span><span class="p">[]):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a unit object composed of only irreducible units.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        bases : sequence of UnitBase, optional</span>
+<span class="sd">            The bases to decompose into.  When not provided,</span>
+<span class="sd">            decomposes down to any irreducible units.  When provided,</span>
+<span class="sd">            the decomposed result will only contain the given units.</span>
+<span class="sd">            This will raises a `UnitsException` if it&#39;s not possible</span>
+<span class="sd">            to do so.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        unit : CompositeUnit object</span>
+<span class="sd">            New object containing only irreducible unit objects.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
+</div>
+    <span class="k">def</span> <span class="nf">_compose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">equivalencies</span><span class="o">=</span><span class="p">[],</span> <span class="n">namespace</span><span class="o">=</span><span class="p">[],</span> <span class="n">max_depth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">is_final_result</span><span class="p">(</span><span class="n">unit</span><span class="p">):</span>
+            <span class="c"># Returns True if this result contains only the expected</span>
+            <span class="c"># units</span>
+            <span class="k">for</span> <span class="n">base</span> <span class="ow">in</span> <span class="n">unit</span><span class="o">.</span><span class="n">_bases</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">base</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">namespace</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="bp">False</span>
+            <span class="k">return</span> <span class="bp">True</span>
+
+        <span class="k">def</span> <span class="nf">sort_results</span><span class="p">(</span><span class="n">results</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">):</span>
+                <span class="k">return</span> <span class="p">[]</span>
+
+            <span class="c"># Sort the results so the simplest ones appear first.</span>
+            <span class="c"># Simplest is defined as &quot;the minimum sum of absolute</span>
+            <span class="c"># powers&quot; (i.e. the fewest bases), and preference should</span>
+            <span class="c"># be given to results where the sum of powers is positive</span>
+            <span class="c"># and the scale is exactly equal to 1.0</span>
+            <span class="n">results</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">powers</span><span class="p">)))</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">powers</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">0.0</span><span class="p">)</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">scale</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">))</span>
+
+            <span class="n">last_result</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">filtered</span> <span class="o">=</span> <span class="p">[</span><span class="n">last_result</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">results</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+                <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">result</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">str</span><span class="p">(</span><span class="n">last_result</span><span class="p">):</span>
+                    <span class="n">filtered</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+                <span class="n">last_result</span> <span class="o">=</span> <span class="n">result</span>
+
+            <span class="k">return</span> <span class="n">filtered</span>
+
+        <span class="n">unit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">decompose</span><span class="p">()</span>
+
+        <span class="c"># Prevent too many levels of recursion</span>
+        <span class="k">if</span> <span class="n">depth</span> <span class="o">&gt;=</span> <span class="n">max_depth</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[</span><span class="n">unit</span><span class="p">]</span>
+
+        <span class="c"># Special case for dimensionless unit</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">unit</span><span class="o">.</span><span class="n">_bases</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[</span><span class="n">unit</span><span class="p">]</span>
+
+        <span class="c"># Make a list including all of the equivalent units</span>
+        <span class="n">units</span> <span class="o">=</span> <span class="p">[</span><span class="n">unit</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">equiv</span> <span class="ow">in</span> <span class="n">equivalencies</span><span class="p">:</span>
+            <span class="n">funit</span><span class="p">,</span> <span class="n">tunit</span> <span class="o">=</span> <span class="n">equiv</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_equivalent</span><span class="p">(</span><span class="n">funit</span><span class="p">):</span>
+                <span class="n">units</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tunit</span><span class="o">.</span><span class="n">decompose</span><span class="p">())</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_equivalent</span><span class="p">(</span><span class="n">tunit</span><span class="p">):</span>
+                <span class="n">units</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">funit</span><span class="o">.</span><span class="n">decompose</span><span class="p">())</span>
+
+        <span class="c"># Store partial results</span>
+        <span class="n">partial_results</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c"># Store final results that reduce to a single unit or pair of</span>
+        <span class="c"># units</span>
+        <span class="n">final_results</span> <span class="o">=</span> <span class="p">[</span><span class="nb">set</span><span class="p">(),</span> <span class="nb">set</span><span class="p">()]</span>
+
+        <span class="k">for</span> <span class="n">tunit</span> <span class="ow">in</span> <span class="n">namespace</span><span class="p">:</span>
+            <span class="n">tunit_decomposed</span> <span class="o">=</span> <span class="n">tunit</span><span class="o">.</span><span class="n">decompose</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">units</span><span class="p">:</span>
+                <span class="c"># If the unit is a base unit, look for an exact match</span>
+                <span class="c"># to one of the bases of the target unit.  If found,</span>
+                <span class="c"># factor by the same power as the target unit&#39;s base.</span>
+                <span class="c"># This allows us to factor out fractional powers</span>
+                <span class="c"># without needing to do an exhaustive search.</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">tunit_decomposed</span><span class="o">.</span><span class="n">bases</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">base</span><span class="p">,</span> <span class="n">power</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">_bases</span><span class="p">,</span> <span class="n">u</span><span class="o">.</span><span class="n">_powers</span><span class="p">):</span>
+                        <span class="k">if</span> <span class="n">tunit_decomposed</span><span class="o">.</span><span class="n">is_equivalent</span><span class="p">(</span><span class="n">base</span><span class="p">):</span>
+                            <span class="n">tunit</span> <span class="o">=</span> <span class="n">tunit</span> <span class="o">**</span> <span class="n">power</span>
+                            <span class="n">tunit_decomposed</span> <span class="o">=</span> <span class="n">tunit_decomposed</span> <span class="o">**</span> <span class="n">power</span>
+                            <span class="k">break</span>
+
+                <span class="n">composed</span> <span class="o">=</span> <span class="p">(</span><span class="n">u</span> <span class="o">/</span> <span class="n">tunit_decomposed</span><span class="p">)</span><span class="o">.</span><span class="n">decompose</span><span class="p">()</span>
+                <span class="n">factored</span> <span class="o">=</span> <span class="n">composed</span> <span class="o">*</span> <span class="n">tunit</span>
+                <span class="n">len_bases</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">composed</span><span class="o">.</span><span class="n">_bases</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">is_final_result</span><span class="p">(</span><span class="n">factored</span><span class="p">)</span> <span class="ow">and</span> <span class="n">len_bases</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">final_results</span><span class="p">[</span><span class="n">len_bases</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">factored</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">partial_results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                        <span class="p">(</span><span class="n">len_bases</span><span class="p">,</span> <span class="n">composed</span><span class="p">,</span> <span class="n">tunit</span><span class="p">))</span>
+
+        <span class="c"># Do we have any minimal results?</span>
+        <span class="k">for</span> <span class="n">final_result</span> <span class="ow">in</span> <span class="n">final_results</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">final_result</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">sort_results</span><span class="p">(</span><span class="n">final_result</span><span class="p">)</span>
+
+        <span class="n">partial_results</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+        <span class="c"># ...we have to recurse and try to further compose</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">len_bases</span><span class="p">,</span> <span class="n">composed</span><span class="p">,</span> <span class="n">tunit</span> <span class="ow">in</span> <span class="n">partial_results</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">composed_list</span> <span class="o">=</span> <span class="n">composed</span><span class="o">.</span><span class="n">_compose</span><span class="p">(</span>
+                    <span class="n">equivalencies</span><span class="o">=</span><span class="n">equivalencies</span><span class="p">,</span> <span class="n">namespace</span><span class="o">=</span><span class="n">namespace</span><span class="p">,</span>
+                    <span class="n">max_depth</span><span class="o">=</span><span class="n">max_depth</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="n">depth</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">except</span> <span class="n">UnitsException</span><span class="p">:</span>
+                <span class="n">composed_list</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">subcomposed</span> <span class="ow">in</span> <span class="n">composed_list</span><span class="p">:</span>
+                <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">subcomposed</span><span class="o">.</span><span class="n">_bases</span><span class="p">),</span> <span class="n">subcomposed</span><span class="p">,</span> <span class="n">tunit</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">):</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+            <span class="n">min_length</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">subresults</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">len_bases</span><span class="p">,</span> <span class="n">composed</span><span class="p">,</span> <span class="n">tunit</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">len_bases</span> <span class="o">&gt;</span> <span class="n">min_length</span><span class="p">:</span>
+                    <span class="k">break</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">factored</span> <span class="o">=</span> <span class="n">composed</span> <span class="o">*</span> <span class="n">tunit</span>
+                    <span class="k">if</span> <span class="n">is_final_result</span><span class="p">(</span><span class="n">factored</span><span class="p">):</span>
+                        <span class="n">subresults</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">composed</span> <span class="o">*</span> <span class="n">tunit</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">subresults</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">sort_results</span><span class="p">(</span><span class="n">subresults</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">base</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">bases</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">base</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">namespace</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">UnitsException</span><span class="p">(</span>
+                    <span class="s">&quot;Cannot represent unit {0} in terms of the given &quot;</span>
+                    <span class="s">&quot;units&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="p">]</span>
+
+<div class="viewcode-block" id="UnitBase.compose"><a class="viewcode-back" href="../../../_generated/astropy.units.core.UnitBase.html#astropy.units.core.UnitBase.compose">[docs]</a>    <span class="k">def</span> <span class="nf">compose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">equivalencies</span><span class="o">=</span><span class="p">[],</span> <span class="n">units</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the simplest possible composite unit(s) that represent</span>
+<span class="sd">        the given unit.  Since there may be multiple equally simple</span>
+<span class="sd">        compositions of the unit, a list of units is always returned.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        equivalencies : list of equivalence pairs, optional</span>
+<span class="sd">            A list of equivalence pairs to also list.  See</span>
+<span class="sd">            :ref:`unit_equivalencies`.</span>
+
+<span class="sd">        units : set of units to compose to, optional</span>
+<span class="sd">            If not provided, any known units may be used to compose</span>
+<span class="sd">            into.  Otherwise, ``units`` is a dict, module or sequence</span>
+<span class="sd">            containing the units to compose into.</span>
+
+<span class="sd">        max_depth : int, optional</span>
+<span class="sd">            The maximum recursion depth to use when composing into</span>
+<span class="sd">            composite units.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        units : list of `CompositeUnit`</span>
+<span class="sd">            A list of candidate compositions.  These will all be</span>
+<span class="sd">            equally simple, but it may not be possible to</span>
+<span class="sd">            automatically determine which of the candidates are</span>
+<span class="sd">            better.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">def</span> <span class="nf">filter_units</span><span class="p">(</span><span class="n">units</span><span class="p">):</span>
+            <span class="n">filtered_namespace</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">tunit</span> <span class="ow">in</span> <span class="n">units</span><span class="p">:</span>
+                <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">tunit</span><span class="p">,</span> <span class="n">UnitBase</span><span class="p">)</span> <span class="ow">and</span>
+                        <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tunit</span><span class="p">,</span> <span class="n">PrefixUnit</span><span class="p">)):</span>
+                    <span class="n">filtered_namespace</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">tunit</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">filtered_namespace</span>
+
+        <span class="k">if</span> <span class="n">units</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">units</span> <span class="o">=</span> <span class="n">filter_units</span><span class="p">(</span><span class="n">UnitBase</span><span class="o">.</span><span class="n">_registry</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">units</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="n">units</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">units</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+        <span class="k">elif</span> <span class="n">inspect</span><span class="o">.</span><span class="n">ismodule</span><span class="p">(</span><span class="n">units</span><span class="p">):</span>
+            <span class="n">units</span> <span class="o">=</span> <span class="n">filter_units</span><span class="p">(</span><span class="nb">vars</span><span class="p">(</span><span class="n">units</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">units</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">units</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compose</span><span class="p">(</span>
+            <span class="n">equivalencies</span><span class="o">=</span><span class="n">equivalencies</span><span class="p">,</span> <span class="n">namespace</span><span class="o">=</span><span class="n">units</span><span class="p">,</span>
+            <span class="n">max_depth</span><span class="o">=</span><span class="n">max_depth</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="UnitBase.to_system"><a class="viewcode-back" href="../../../_generated/astropy.units.core.UnitBase.html#astropy.units.core.UnitBase.to_system">[docs]</a>    <span class="k">def</span> <span class="nf">to_system</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">system</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Converts this unit into ones belonging to the given system.</span>
+<span class="sd">        Since more than one result may be possible, a list is always</span>
+<span class="sd">        returned.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        system : module</span>
+<span class="sd">            The module that defines the unit system.  Commonly used</span>
+<span class="sd">            ones include `astropy.units.si` and `astropy.units.cgs`.</span>
+
+<span class="sd">            To use your own module it must contain unit objects and a</span>
+<span class="sd">            sequence member named `bases` containing the base units of</span>
+<span class="sd">            the system.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        units : list of `CompositeUnit`</span>
+<span class="sd">            The list is ranked so that units containing only the base</span>
+<span class="sd">            units of that system will appear first.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">bases</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">system</span><span class="o">.</span><span class="n">bases</span><span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">score</span><span class="p">(</span><span class="n">compose</span><span class="p">):</span>
+            <span class="nb">sum</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">base</span> <span class="ow">in</span> <span class="n">compose</span><span class="o">.</span><span class="n">_bases</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">base</span> <span class="ow">in</span> <span class="n">bases</span><span class="p">:</span>
+                    <span class="nb">sum</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">return</span> <span class="nb">sum</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">compose</span><span class="o">.</span><span class="n">_bases</span><span class="p">))</span>
+
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">decompose</span><span class="p">(</span><span class="n">bases</span><span class="o">=</span><span class="n">bases</span><span class="p">)</span>
+        <span class="n">composed</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">units</span><span class="o">=</span><span class="n">system</span><span class="p">)</span>
+        <span class="n">composed</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">composed</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">score</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">composed</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="UnitBase.physical_type"><a class="viewcode-back" href="../../../_generated/astropy.units.core.UnitBase.html#astropy.units.core.UnitBase.physical_type">[docs]</a>    <span class="k">def</span> <span class="nf">physical_type</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the physical type on the unit.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; u.m.physical_type</span>
+<span class="sd">        &#39;length&#39;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">physical</span>
+        <span class="k">return</span> <span class="n">physical</span><span class="o">.</span><span class="n">get_physical_type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</div>
+    <span class="k">class</span> <span class="nc">EquivalentUnitsList</span><span class="p">(</span><span class="nb">list</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A class to handle pretty-printing the result of</span>
+<span class="sd">        `find_equivalent_units`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">return</span> <span class="s">&quot;[]&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+                    <span class="n">irred</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">decompose</span><span class="p">()</span><span class="o">.</span><span class="n">to_string</span><span class="p">()</span>
+                    <span class="k">if</span> <span class="n">irred</span> <span class="o">==</span> <span class="n">u</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
+                        <span class="n">irred</span> <span class="o">=</span> <span class="s">&quot;irreducible&quot;</span>
+                    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">u</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">irred</span><span class="p">,</span> <span class="s">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">aliases</span><span class="p">)))</span>
+
+                <span class="n">lines</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+                <span class="n">lines</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="s">&#39;Primary name&#39;</span><span class="p">,</span> <span class="s">&#39;Unit definition&#39;</span><span class="p">,</span> <span class="s">&#39;Aliases&#39;</span><span class="p">))</span>
+                <span class="n">widths</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">line</span><span class="p">):</span>
+                        <span class="n">widths</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">widths</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="nb">len</span><span class="p">(</span><span class="n">col</span><span class="p">))</span>
+
+                <span class="n">f</span> <span class="o">=</span> <span class="s">&quot;  {{0:&lt;{0}s}} | {{1:&lt;{1}s}} | {{2:&lt;{2}s}}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">widths</span><span class="p">)</span>
+                <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">line</span><span class="p">)</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">]</span>
+                <span class="n">lines</span> <span class="o">=</span> <span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span>
+                         <span class="p">[</span><span class="s">&#39;[&#39;</span><span class="p">]</span> <span class="o">+</span>
+                         <span class="p">[</span><span class="s">&#39;{0} ,&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">[</span><span class="mi">1</span><span class="p">:]]</span> <span class="o">+</span>
+                         <span class="p">[</span><span class="s">&#39;]&#39;</span><span class="p">])</span>
+                <span class="k">return</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
+
+<div class="viewcode-block" id="UnitBase.find_equivalent_units"><a class="viewcode-back" href="../../../_generated/astropy.units.core.UnitBase.html#astropy.units.core.UnitBase.find_equivalent_units">[docs]</a>    <span class="k">def</span> <span class="nf">find_equivalent_units</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">equivalencies</span><span class="o">=</span><span class="p">[],</span> <span class="n">units</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a list of all the units that are the same type as the</span>
+<span class="sd">        specified unit.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        u : Unit instance or string</span>
+<span class="sd">            The `Unit` to find similar units to.</span>
+
+<span class="sd">        equivalencies : list of equivalence pairs, optional</span>
+<span class="sd">            A list of equivalence pairs to also list.  See</span>
+<span class="sd">            :ref:`unit_equivalencies`.</span>
+
+<span class="sd">        units : set of units to search in, optional</span>
+<span class="sd">            If not provided, all defined units will be searched for</span>
+<span class="sd">            equivalencies.  Otherwise, may be a dict, module or</span>
+<span class="sd">            sequence containing the units to search for equivalencies.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        units : list of `UnitBase`</span>
+<span class="sd">            A list of unit objects that match `u`.  A subclass of</span>
+<span class="sd">            `list` (`EquivalentUnitsList`) is returned that</span>
+<span class="sd">            pretty-prints the list of units when output.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span>
+            <span class="n">equivalencies</span><span class="o">=</span><span class="n">equivalencies</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="n">units</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">x</span><span class="o">.</span><span class="n">_bases</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">results</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">_bases</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">EquivalentUnitsList</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+
+</div></div>
+<div class="viewcode-block" id="NamedUnit"><a class="viewcode-back" href="../../../_generated/astropy.units.core.NamedUnit.html#astropy.units.core.NamedUnit">[docs]</a><span class="k">class</span> <span class="nc">NamedUnit</span><span class="p">(</span><span class="n">UnitBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The base class of units that have a name.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    st : str or list of str</span>
+<span class="sd">        The name of the unit.  If a list, the first element is the</span>
+<span class="sd">        canonical (short) name, and the rest of the elements are</span>
+<span class="sd">        aliases.</span>
+
+<span class="sd">    register : boolean, optional</span>
+<span class="sd">        When `True`, also register the unit in the standard unit</span>
+<span class="sd">        namespace.  Default is `False`.</span>
+
+<span class="sd">    doc : str, optional</span>
+<span class="sd">        A docstring describing the unit.</span>
+
+<span class="sd">    format : dict, optional</span>
+<span class="sd">        A mapping to format-specific representations of this unit.</span>
+<span class="sd">        For example, for the ``Ohm`` unit, it might be nice to have it</span>
+<span class="sd">        displayed as ``\\Omega`` by the ``latex`` formatter.  In that</span>
+<span class="sd">        case, `format` argument should be set to::</span>
+
+<span class="sd">            {&#39;latex&#39;: r&#39;\\Omega&#39;}</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If any of the given unit names are already in the registry.</span>
+
+<span class="sd">    ValueError</span>
+<span class="sd">        If any of the given unit names are not valid Python tokens.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">st</span><span class="p">,</span> <span class="n">register</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="n">UnitBase</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">st</span><span class="p">,</span> <span class="p">(</span><span class="nb">bytes</span><span class="p">,</span> <span class="nb">unicode</span><span class="p">)):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">st</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">st</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s">&quot;st list must have at least one entry&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_names</span> <span class="o">=</span> <span class="n">st</span><span class="p">[:]</span>
+
+        <span class="k">if</span> <span class="n">format</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">format</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_format</span> <span class="o">=</span> <span class="n">format</span>
+
+        <span class="k">if</span> <span class="n">doc</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">doc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generate_doc</span><span class="p">()</span>
+
+        <span class="n">doc</span> <span class="o">=</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+        <span class="n">doc</span> <span class="o">=</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="n">doc</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_register_unit</span><span class="p">(</span><span class="n">register</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_generate_doc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate a docstring for the unit if the user didn&#39;t supply</span>
+<span class="sd">        one.  This is only used from the constructor and may be</span>
+<span class="sd">        overridden in subclasses.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">names</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">names</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s">&quot;{1} ({0})&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">names</span><span class="p">[:</span><span class="mi">2</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">names</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<div class="viewcode-block" id="NamedUnit.get_format_name"><a class="viewcode-back" href="../../../_generated/astropy.units.core.NamedUnit.html#astropy.units.core.NamedUnit.get_format_name">[docs]</a>    <span class="k">def</span> <span class="nf">get_format_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">format</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get a name for this unit that is specific to a particular</span>
+<span class="sd">        format.</span>
+
+<span class="sd">        Uses the dictionary passed into the `format` kwarg in the</span>
+<span class="sd">        constructor.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        format : str</span>
+<span class="sd">            The name of the format</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        name : str</span>
+<span class="sd">            The name of the unit for the given format.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">format</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="NamedUnit.names"><a class="viewcode-back" href="../../../_generated/astropy.units.core.NamedUnit.html#astropy.units.core.NamedUnit.names">[docs]</a>    <span class="k">def</span> <span class="nf">names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns all of the names associated with this unit.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_names</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="NamedUnit.name"><a class="viewcode-back" href="../../../_generated/astropy.units.core.NamedUnit.html#astropy.units.core.NamedUnit.name">[docs]</a>    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the canonical (short) name associated with this unit.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_names</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="NamedUnit.aliases"><a class="viewcode-back" href="../../../_generated/astropy.units.core.NamedUnit.html#astropy.units.core.NamedUnit.aliases">[docs]</a>    <span class="k">def</span> <span class="nf">aliases</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the alias (long) names for this unit.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_names</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+</div>
+    <span class="k">def</span> <span class="nf">_register_unit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">register</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Registers the unit in the registry, and optionally in another</span>
+<span class="sd">        namespace.  It is registered under all of the names and</span>
+<span class="sd">        aliases given to the constructor.</span>
+
+<span class="sd">        The namespace used is set with `UnitBase._set_namespace`.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        register : bool</span>
+<span class="sd">            When `True`, register the unit in the external namespace</span>
+<span class="sd">            as well as the central registry.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_names</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">UnitsException</span><span class="p">(</span><span class="s">&quot;unit has no string representation&quot;</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">st</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_names</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s">&quot;^[A-Za-z_]+$&quot;</span><span class="p">,</span> <span class="n">st</span><span class="p">):</span>
+                <span class="c"># will cause problems for simple string parser in</span>
+                <span class="c"># unit() factory</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s">&quot;Invalid unit name {0!r}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">st</span><span class="p">))</span>
+
+            <span class="k">if</span> <span class="n">register</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">st</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_namespace</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                        <span class="s">&quot;Object with name {0!r} already exists &quot;</span>
+                        <span class="s">&quot;in namespace ({1})&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                            <span class="n">st</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_namespace</span><span class="p">[</span><span class="n">st</span><span class="p">]</span><span class="o">.</span><span class="n">__doc__</span><span class="p">))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_namespace</span><span class="p">[</span><span class="n">st</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_registry</span><span class="p">[</span><span class="n">st</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span>
+
+</div>
+<div class="viewcode-block" id="IrreducibleUnit"><a class="viewcode-back" href="../../../_generated/astropy.units.core.IrreducibleUnit.html#astropy.units.core.IrreducibleUnit">[docs]</a><span class="k">class</span> <span class="nc">IrreducibleUnit</span><span class="p">(</span><span class="n">NamedUnit</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Irreducible units are the units that all other units are defined</span>
+<span class="sd">    in terms of.</span>
+
+<span class="sd">    Examples are meters, seconds, kilograms, amperes, etc.  There is</span>
+<span class="sd">    only once instance of such a unit per type.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="IrreducibleUnit.scale"><a class="viewcode-back" href="../../../_generated/astropy.units.core.IrreducibleUnit.html#astropy.units.core.IrreducibleUnit.scale">[docs]</a>    <span class="k">def</span> <span class="nf">scale</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the scale of the unit.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mf">1.0</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="IrreducibleUnit.bases"><a class="viewcode-back" href="../../../_generated/astropy.units.core.IrreducibleUnit.html#astropy.units.core.IrreducibleUnit.bases">[docs]</a>    <span class="k">def</span> <span class="nf">bases</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the bases of the unit.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="p">]</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="IrreducibleUnit.powers"><a class="viewcode-back" href="../../../_generated/astropy.units.core.IrreducibleUnit.html#astropy.units.core.IrreducibleUnit.powers">[docs]</a>    <span class="k">def</span> <span class="nf">powers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the powers of the unit.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">]</span>
+</div>
+<div class="viewcode-block" id="IrreducibleUnit.decompose"><a class="viewcode-back" href="../../../_generated/astropy.units.core.IrreducibleUnit.html#astropy.units.core.IrreducibleUnit.decompose">[docs]</a>    <span class="k">def</span> <span class="nf">decompose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bases</span><span class="o">=</span><span class="p">[]):</span>
+        <span class="n">bases</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">bases</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">bases</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span> <span class="ow">in</span> <span class="n">bases</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">base</span> <span class="ow">in</span> <span class="n">bases</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_equivalent</span><span class="p">(</span><span class="n">base</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="n">CompositeUnit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">base</span><span class="p">),</span> <span class="p">[</span><span class="n">base</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+            <span class="k">raise</span> <span class="n">UnitsException</span><span class="p">(</span>
+                <span class="s">&quot;Unit {0} can not be decomposed into the requested &quot;</span>
+                <span class="s">&quot;bases&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">CompositeUnit</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">])</span></div>
+    <span class="n">decompose</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="n">UnitBase</span><span class="o">.</span><span class="n">decompose</span><span class="o">.</span><span class="n">__doc__</span>
+
+</div>
+<div class="viewcode-block" id="UnrecognizedUnit"><a class="viewcode-back" href="../../../_generated/astropy.units.core.UnrecognizedUnit.html#astropy.units.core.UnrecognizedUnit">[docs]</a><span class="k">class</span> <span class="nc">UnrecognizedUnit</span><span class="p">(</span><span class="n">IrreducibleUnit</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A unit that did not parse correctly.  This allows for</span>
+<span class="sd">    roundtripping it as a string, but no unit operations actually work</span>
+<span class="sd">    on it.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    st : str</span>
+<span class="sd">        The name of the unit.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">st</span><span class="p">):</span>
+        <span class="n">IrreducibleUnit</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">st</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&quot;UnrecognizedUnit({0})&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+
+<div class="viewcode-block" id="UnrecognizedUnit.to_string"><a class="viewcode-back" href="../../../_generated/astropy.units.core.UnrecognizedUnit.html#astropy.units.core.UnrecognizedUnit.to_string">[docs]</a>    <span class="k">def</span> <span class="nf">to_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s">&#39;generic&#39;</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+</div>
+    <span class="k">def</span> <span class="nf">_register_unit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">register</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">_unrecognized_operator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s">&quot;The unit {0!r} is unrecognized, so all arithmetic operations &quot;</span>
+            <span class="s">&quot;with it are invalid.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+
+    <span class="n">__pow__</span> <span class="o">=</span> <span class="n">__div__</span> <span class="o">=</span> <span class="n">__rdiv__</span> <span class="o">=</span> <span class="n">__truediv__</span> <span class="o">=</span> <span class="n">__rtruediv__</span> <span class="o">=</span> <span class="n">__mul__</span> <span class="o">=</span> \
+               <span class="n">__rmul__</span> <span class="o">=</span> <span class="n">__lt__</span> <span class="o">=</span> <span class="n">__gt__</span> <span class="o">=</span> <span class="n">__le__</span> <span class="o">=</span> <span class="n">__ge__</span> <span class="o">=</span> <span class="n">__neg__</span> <span class="o">=</span> \
+               <span class="n">_unrecognized_operator</span>
+
+    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="n">other</span> <span class="o">=</span> <span class="n">Unit</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">parse_strict</span><span class="o">=</span><span class="s">&#39;silent&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">UnrecognizedUnit</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">name</span>
+
+    <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="p">(</span><span class="bp">self</span> <span class="o">==</span> <span class="n">other</span><span class="p">)</span>
+
+<div class="viewcode-block" id="UnrecognizedUnit.is_equivalent"><a class="viewcode-back" href="../../../_generated/astropy.units.core.UnrecognizedUnit.html#astropy.units.core.UnrecognizedUnit.is_equivalent">[docs]</a>    <span class="k">def</span> <span class="nf">is_equivalent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="n">equivalencies</span><span class="o">=</span><span class="p">[]):</span>
+        <span class="k">return</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span>
+</div>
+<div class="viewcode-block" id="UnrecognizedUnit.get_converter"><a class="viewcode-back" href="../../../_generated/astropy.units.core.UnrecognizedUnit.html#astropy.units.core.UnrecognizedUnit.get_converter">[docs]</a>    <span class="k">def</span> <span class="nf">get_converter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">,</span> <span class="n">equivalencies</span><span class="o">=</span><span class="p">[]):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s">&quot;The unit {0!r} is unrecognized.  It can not be converted &quot;</span>
+            <span class="s">&quot;to other units.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+</div>
+<div class="viewcode-block" id="UnrecognizedUnit.get_format_name"><a class="viewcode-back" href="../../../_generated/astropy.units.core.UnrecognizedUnit.html#astropy.units.core.UnrecognizedUnit.get_format_name">[docs]</a>    <span class="k">def</span> <span class="nf">get_format_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">format</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+
+</div></div>
+<span class="k">class</span> <span class="nc">_UnitMetaClass</span><span class="p">(</span><span class="nb">type</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This metaclass exists because the Unit constructor should</span>
+<span class="sd">    sometimes return instances that already exist.  This &quot;overrides&quot;</span>
+<span class="sd">    the constructor before the new instance is actually created, so we</span>
+<span class="sd">    can return an existing one.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">represents</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">register</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+                 <span class="n">doc</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">parse_strict</span><span class="o">=</span><span class="s">&#39;raise&#39;</span><span class="p">):</span>
+
+        <span class="kn">from</span> <span class="nn">.quantity</span> <span class="kn">import</span> <span class="n">Quantity</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">represents</span><span class="p">,</span> <span class="n">Quantity</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">represents</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">represents</span> <span class="o">=</span> <span class="n">represents</span><span class="o">.</span><span class="n">unit</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">represents</span><span class="o">.</span><span class="n">unit</span><span class="p">,</span> <span class="n">CompositeUnit</span><span class="p">):</span>
+                <span class="n">represents</span> <span class="o">=</span> <span class="n">CompositeUnit</span><span class="p">(</span><span class="n">represents</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                                           <span class="n">bases</span><span class="o">=</span><span class="n">represents</span><span class="o">.</span><span class="n">unit</span><span class="o">.</span><span class="n">bases</span><span class="p">,</span>
+                                           <span class="n">powers</span><span class="o">=</span><span class="n">represents</span><span class="o">.</span><span class="n">unit</span><span class="o">.</span><span class="n">powers</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">represents</span> <span class="o">=</span> <span class="n">CompositeUnit</span><span class="p">(</span><span class="n">represents</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                                           <span class="n">bases</span><span class="o">=</span><span class="p">[</span><span class="n">represents</span><span class="o">.</span><span class="n">unit</span><span class="p">],</span> <span class="n">powers</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">Quantity</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">unit</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">unit</span><span class="p">,</span> <span class="n">CompositeUnit</span><span class="p">):</span>
+                <span class="n">s</span> <span class="o">=</span> <span class="n">CompositeUnit</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">value</span> <span class="o">*</span> <span class="n">s</span><span class="o">.</span><span class="n">unit</span><span class="o">.</span><span class="n">scale</span><span class="p">,</span> <span class="n">bases</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">unit</span><span class="o">.</span><span class="n">bases</span><span class="p">,</span>
+                                  <span class="n">powers</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">unit</span><span class="o">.</span><span class="n">powers</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">s</span> <span class="o">=</span> <span class="n">CompositeUnit</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">bases</span><span class="o">=</span><span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">unit</span><span class="p">],</span> <span class="n">powers</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">represents</span><span class="p">,</span> <span class="n">UnitBase</span><span class="p">):</span>
+            <span class="c"># This has the effect of calling the real __new__ and</span>
+            <span class="c"># __init__ on the Unit class.</span>
+            <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">_UnitMetaClass</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__call__</span><span class="p">(</span>
+                <span class="n">s</span><span class="p">,</span> <span class="n">represents</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="n">format</span><span class="p">,</span> <span class="n">register</span><span class="o">=</span><span class="n">register</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="n">doc</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&quot;Can not convert {0!r} to a unit&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">s</span><span class="p">))</span>
+
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">UnitBase</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">s</span>
+
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="p">(</span><span class="nb">bytes</span><span class="p">,</span> <span class="nb">unicode</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="c"># Return the NULL unit</span>
+                <span class="k">return</span> <span class="n">CompositeUnit</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="p">[],</span> <span class="p">[])</span>
+
+            <span class="k">if</span> <span class="n">format</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">format</span> <span class="o">=</span> <span class="s">&#39;generic&#39;</span>
+
+            <span class="n">f</span> <span class="o">=</span> <span class="n">unit_format</span><span class="o">.</span><span class="n">get_format</span><span class="p">(</span><span class="n">format</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">f</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">parse_strict</span> <span class="o">==</span> <span class="s">&#39;raise&#39;</span><span class="p">:</span>
+                    <span class="k">raise</span>
+                <span class="k">elif</span> <span class="n">parse_strict</span> <span class="o">==</span> <span class="s">&#39;warn&#39;</span><span class="p">:</span>
+                    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                        <span class="s">&quot;&#39;{0}&#39; did not parse using format &#39;{1}&#39;. {2}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                            <span class="n">s</span><span class="p">,</span> <span class="n">format</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)),</span> <span class="n">UnitsWarning</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">parse_strict</span> <span class="o">!=</span> <span class="s">&#39;silent&#39;</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                        <span class="s">&quot;&#39;parse_strict&#39; must be &#39;warn&#39;, &#39;raise&#39; or &#39;silent&#39;&quot;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">UnrecognizedUnit</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">integer</span><span class="p">)):</span>
+            <span class="k">return</span> <span class="n">CompositeUnit</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="p">[],</span> <span class="p">[])</span>
+
+        <span class="k">elif</span> <span class="n">s</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;None is not a valid Unit&quot;</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&quot;{0} can not be converted to a Unit&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">s</span><span class="p">))</span>
+
+
+<div class="viewcode-block" id="Unit"><a class="viewcode-back" href="../../../_generated/astropy.units.core.Unit.html#astropy.units.core.Unit">[docs]</a><span class="k">class</span> <span class="nc">Unit</span><span class="p">(</span><span class="n">NamedUnit</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The main unit class.</span>
+
+<span class="sd">    There are a number of different ways to construct a Unit, but</span>
+<span class="sd">    always returns a `UnitBase` instance.  If the arguments refer to</span>
+<span class="sd">    an already-existing unit, that existing unit instance is returned,</span>
+<span class="sd">    rather than a new one.</span>
+
+<span class="sd">    - From a string::</span>
+
+<span class="sd">        Unit(s, format=None, parse_strict=&#39;silent&#39;)</span>
+
+<span class="sd">      Construct from a string representing a (possibly compound) unit.</span>
+
+<span class="sd">      The optional `format` keyword argument specifies the format the</span>
+<span class="sd">      string is in, by default ``&quot;generic&quot;``.  For a description of</span>
+<span class="sd">      the available formats, see `astropy.units.format`.</span>
+
+<span class="sd">      The optional `parse_strict` keyword controls what happens when an</span>
+<span class="sd">      unrecognized unit string is passed in.  It may be one of the following:</span>
+
+<span class="sd">         - ``&#39;raise&#39;``: (default) raise a ValueError exception.</span>
+
+<span class="sd">         - ``&#39;warn&#39;``: emit a Warning, and return an</span>
+<span class="sd">           `UnrecognizedUnit` instance.</span>
+
+<span class="sd">         - ``&#39;silent&#39;``: return an `UnrecognizedUnit` instance.</span>
+
+<span class="sd">    - From a number::</span>
+
+<span class="sd">        Unit(number)</span>
+
+<span class="sd">      Creates a dimensionless unit.</span>
+
+<span class="sd">    - From a `UnitBase` instance::</span>
+
+<span class="sd">        Unit(unit)</span>
+
+<span class="sd">      Returns the given unit unchanged.</span>
+
+<span class="sd">    - From `None`::</span>
+
+<span class="sd">        Unit()</span>
+
+<span class="sd">      Returns the null unit.</span>
+
+<span class="sd">    - The last form, which creates a new `Unit` is described in detail</span>
+<span class="sd">      below.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    st : str or list of str</span>
+<span class="sd">        The name of the unit.  If a list, the first element is the</span>
+<span class="sd">        canonical (short) name, and the rest of the elements are</span>
+<span class="sd">        aliases.</span>
+
+<span class="sd">    represents : UnitBase instance</span>
+<span class="sd">        The unit that this named unit represents.</span>
+
+<span class="sd">    register : boolean, optional</span>
+<span class="sd">        When `True`, also register the unit in the standard unit</span>
+<span class="sd">        namespace.  Default is `False`.</span>
+
+<span class="sd">    doc : str, optional</span>
+<span class="sd">        A docstring describing the unit.</span>
+
+<span class="sd">    format : dict, optional</span>
+<span class="sd">        A mapping to format-specific representations of this unit.</span>
+<span class="sd">        For example, for the ``Ohm`` unit, it might be nice to have it</span>
+<span class="sd">        displayed as ``\\Omega`` by the ``latex`` formatter.  In that</span>
+<span class="sd">        case, `format` argument should be set to::</span>
+
+<span class="sd">            {&#39;latex&#39;: r&#39;\\Omega&#39;}</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If any of the given unit names are already in the registry.</span>
+
+<span class="sd">    ValueError</span>
+<span class="sd">        If any of the given unit names are not valid Python tokens.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">__metaclass__</span> <span class="o">=</span> <span class="n">_UnitMetaClass</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">st</span><span class="p">,</span> <span class="n">represents</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">register</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                 <span class="n">format</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+
+        <span class="n">represents</span> <span class="o">=</span> <span class="n">Unit</span><span class="p">(</span><span class="n">represents</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_represents</span> <span class="o">=</span> <span class="n">represents</span>
+
+        <span class="n">NamedUnit</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">st</span><span class="p">,</span> <span class="n">register</span><span class="o">=</span><span class="n">register</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="n">doc</span><span class="p">,</span>
+                           <span class="n">format</span><span class="o">=</span><span class="n">format</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Unit.decompose"><a class="viewcode-back" href="../../../_generated/astropy.units.core.Unit.html#astropy.units.core.Unit.decompose">[docs]</a>    <span class="k">def</span> <span class="nf">decompose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bases</span><span class="o">=</span><span class="p">[]):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_represents</span><span class="o">.</span><span class="n">decompose</span><span class="p">(</span><span class="n">bases</span><span class="o">=</span><span class="n">bases</span><span class="p">)</span></div>
+    <span class="n">decompose</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="n">UnitBase</span><span class="o">.</span><span class="n">decompose</span><span class="o">.</span><span class="n">__doc__</span>
+
+</div>
+<div class="viewcode-block" id="PrefixUnit"><a class="viewcode-back" href="../../../_generated/astropy.units.core.PrefixUnit.html#astropy.units.core.PrefixUnit">[docs]</a><span class="k">class</span> <span class="nc">PrefixUnit</span><span class="p">(</span><span class="n">Unit</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A unit that is simply a SI-prefixed version of another unit.</span>
+
+<span class="sd">    For example, `mm` is a `PrefixUnit` of ``.001 * m``.</span>
+
+<span class="sd">    The constructor is the same as for `Unit`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span>
+
+</div>
+<div class="viewcode-block" id="CompositeUnit"><a class="viewcode-back" href="../../../_generated/astropy.units.core.CompositeUnit.html#astropy.units.core.CompositeUnit">[docs]</a><span class="k">class</span> <span class="nc">CompositeUnit</span><span class="p">(</span><span class="n">UnitBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a composite unit using expressions of previously defined</span>
+<span class="sd">    units.</span>
+
+<span class="sd">    Direct use of this class is not recommended. Instead use the</span>
+<span class="sd">    factory function `Unit(...)` and arithmetic operators to compose</span>
+<span class="sd">    units.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    scale : number</span>
+<span class="sd">        A scaling factor for the unit.</span>
+
+<span class="sd">    bases : sequence of `UnitBase`</span>
+<span class="sd">        A sequence of units this unit is composed of.</span>
+
+<span class="sd">    powers : sequence of numbers</span>
+<span class="sd">        A sequence of powers (in parallel with `bases`) for each</span>
+<span class="sd">        of the base units.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">powers</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">scale</span> <span class="o">==</span> <span class="mf">1.</span><span class="p">:</span>
+            <span class="n">scale</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_scale</span> <span class="o">=</span> <span class="n">scale</span>
+        <span class="k">for</span> <span class="n">base</span> <span class="ow">in</span> <span class="n">bases</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="n">UnitBase</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&quot;bases must be sequence of UnitBase instances&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_bases</span> <span class="o">=</span> <span class="n">bases</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_powers</span> <span class="o">=</span> <span class="n">powers</span>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_bases</span><span class="p">):</span>
+            <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">CompositeUnit</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__repr__</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_scale</span> <span class="o">!=</span> <span class="mf">1.0</span><span class="p">:</span>
+                <span class="k">return</span> <span class="s">&#39;Unit(dimensionless with a scale of {0})&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_scale</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="s">&#39;Unit(dimensionless)&#39;</span>
+
+    <span class="k">def</span> <span class="nf">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">parts</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">((</span><span class="nb">hash</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bases</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_powers</span><span class="p">)</span>
+        <span class="n">parts</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+        <span class="k">return</span> <span class="nb">hash</span><span class="p">(</span><span class="nb">tuple</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">_scale</span><span class="p">]</span> <span class="o">+</span> <span class="n">parts</span><span class="p">))</span>
+
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="CompositeUnit.scale"><a class="viewcode-back" href="../../../_generated/astropy.units.core.CompositeUnit.html#astropy.units.core.CompositeUnit.scale">[docs]</a>    <span class="k">def</span> <span class="nf">scale</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the scale of the composite unit.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_scale</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="CompositeUnit.bases"><a class="viewcode-back" href="../../../_generated/astropy.units.core.CompositeUnit.html#astropy.units.core.CompositeUnit.bases">[docs]</a>    <span class="k">def</span> <span class="nf">bases</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the bases of the composite unit.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bases</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="CompositeUnit.powers"><a class="viewcode-back" href="../../../_generated/astropy.units.core.CompositeUnit.html#astropy.units.core.CompositeUnit.powers">[docs]</a>    <span class="k">def</span> <span class="nf">powers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the powers of the composite unit.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_powers</span>
+</div>
+    <span class="k">def</span> <span class="nf">_expand_and_gather</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">decompose</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">bases</span><span class="o">=</span><span class="p">[]):</span>
+        <span class="k">def</span> <span class="nf">add_unit</span><span class="p">(</span><span class="n">unit</span><span class="p">,</span> <span class="n">power</span><span class="p">,</span> <span class="n">scale</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">bases</span><span class="p">)</span> <span class="ow">and</span> <span class="n">unit</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">bases</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">base</span> <span class="ow">in</span> <span class="n">bases</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">unit</span><span class="o">.</span><span class="n">is_equivalent</span><span class="p">(</span><span class="n">base</span><span class="p">):</span>
+                        <span class="n">scale</span> <span class="o">*=</span> <span class="n">unit</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">base</span><span class="p">)</span> <span class="o">**</span> <span class="n">power</span>
+                        <span class="n">unit</span> <span class="o">=</span> <span class="n">base</span>
+                        <span class="k">break</span>
+
+            <span class="n">new_parts</span><span class="p">[</span><span class="n">unit</span><span class="p">]</span> <span class="o">=</span> <span class="n">power</span> <span class="o">+</span> <span class="n">new_parts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">unit</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">scale</span>
+
+        <span class="n">new_parts</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">scale</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span>
+
+        <span class="k">for</span> <span class="n">b</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bases</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">powers</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">decompose</span> <span class="ow">and</span> <span class="p">(</span><span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">bases</span><span class="p">)</span> <span class="ow">or</span> <span class="n">b</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">bases</span><span class="p">):</span>
+                <span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">decompose</span><span class="p">(</span><span class="n">bases</span><span class="o">=</span><span class="n">bases</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">CompositeUnit</span><span class="p">):</span>
+                <span class="n">scale</span> <span class="o">*=</span> <span class="n">b</span><span class="o">.</span><span class="n">scale</span> <span class="o">**</span> <span class="n">p</span>
+                <span class="k">for</span> <span class="n">b_sub</span><span class="p">,</span> <span class="n">p_sub</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">bases</span><span class="p">,</span> <span class="n">b</span><span class="o">.</span><span class="n">powers</span><span class="p">):</span>
+                    <span class="n">scale</span> <span class="o">=</span> <span class="n">add_unit</span><span class="p">(</span><span class="n">b_sub</span><span class="p">,</span> <span class="n">p_sub</span> <span class="o">*</span> <span class="n">p</span><span class="p">,</span> <span class="n">scale</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">scale</span> <span class="o">=</span> <span class="n">add_unit</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">scale</span><span class="p">)</span>
+
+        <span class="n">new_parts</span> <span class="o">=</span> <span class="p">[(</span><span class="n">b</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span> <span class="ow">in</span> <span class="n">new_parts</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">p</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="n">new_parts</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_bases</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">new_parts</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_powers</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">new_parts</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_scale</span> <span class="o">=</span> <span class="n">scale</span>
+
+    <span class="k">def</span> <span class="nf">__copy__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        For compatibility with python copy module.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">CompositeUnit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_scale</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bases</span><span class="p">[:],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_powers</span><span class="p">[:])</span>
+
+    <span class="k">def</span> <span class="nf">_simplify</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_expand_and_gather</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span>
+    <span class="n">_simplify</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="n">UnitBase</span><span class="o">.</span><span class="n">_simplify</span><span class="o">.</span><span class="n">__doc__</span>
+
+<div class="viewcode-block" id="CompositeUnit.decompose"><a class="viewcode-back" href="../../../_generated/astropy.units.core.CompositeUnit.html#astropy.units.core.CompositeUnit.decompose">[docs]</a>    <span class="k">def</span> <span class="nf">decompose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bases</span><span class="o">=</span><span class="p">[]):</span>
+        <span class="k">for</span> <span class="n">base</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">bases</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="n">IrreducibleUnit</span><span class="p">)</span> <span class="ow">or</span>
+                    <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">bases</span><span class="p">)</span> <span class="ow">and</span> <span class="n">base</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">bases</span><span class="p">)):</span>
+                <span class="k">break</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span>
+
+        <span class="n">x</span> <span class="o">=</span> <span class="n">CompositeUnit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bases</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">powers</span><span class="p">)</span>
+        <span class="n">x</span><span class="o">.</span><span class="n">_expand_and_gather</span><span class="p">(</span><span class="bp">True</span><span class="p">,</span> <span class="n">bases</span><span class="o">=</span><span class="n">bases</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">x</span></div>
+    <span class="n">decompose</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="n">UnitBase</span><span class="o">.</span><span class="n">decompose</span><span class="o">.</span><span class="n">__doc__</span>
+
+    <span class="k">def</span> <span class="nf">_dimensionless_constant</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        If this unit is dimensionless, return its scalar quantity.</span>
+
+<span class="sd">        Direct use of this method is not recommended. It is generally</span>
+<span class="sd">        better to use the `to` or `get_converter` methods</span>
+<span class="sd">        instead.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">decompose</span><span class="p">()</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">scale</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">bases</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">UnitsException</span><span class="p">(</span>
+                <span class="s">&quot;&#39;{0}&#39; is not dimensionless&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">to_string</span><span class="p">()))</span>
+        <span class="k">return</span> <span class="n">c</span>
+
+</div>
+<span class="n">si_prefixes</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">([</span><span class="s">&#39;Y&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s">&#39;yotta&#39;</span><span class="p">],</span> <span class="mf">1e24</span><span class="p">),</span>
+    <span class="p">([</span><span class="s">&#39;Z&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s">&#39;zetta&#39;</span><span class="p">],</span> <span class="mf">1e21</span><span class="p">),</span>
+    <span class="p">([</span><span class="s">&#39;E&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s">&#39;exa&#39;</span><span class="p">],</span> <span class="mf">1e18</span><span class="p">),</span>
+    <span class="p">([</span><span class="s">&#39;P&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s">&#39;peta&#39;</span><span class="p">],</span> <span class="mf">1e15</span><span class="p">),</span>
+    <span class="p">([</span><span class="s">&#39;T&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s">&#39;tera&#39;</span><span class="p">],</span> <span class="mf">1e12</span><span class="p">),</span>
+    <span class="p">([</span><span class="s">&#39;G&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s">&#39;giga&#39;</span><span class="p">],</span> <span class="mf">1e9</span><span class="p">),</span>
+    <span class="p">([</span><span class="s">&#39;M&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s">&#39;mega&#39;</span><span class="p">],</span> <span class="mf">1e6</span><span class="p">),</span>
+    <span class="p">([</span><span class="s">&#39;k&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s">&#39;kilo&#39;</span><span class="p">],</span> <span class="mf">1e3</span><span class="p">),</span>
+    <span class="p">([</span><span class="s">&#39;h&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s">&#39;hecto&#39;</span><span class="p">],</span> <span class="mf">1e2</span><span class="p">),</span>
+    <span class="p">([</span><span class="s">&#39;da&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s">&#39;deka&#39;</span><span class="p">,</span> <span class="s">&#39;deca&#39;</span><span class="p">],</span> <span class="mf">1e1</span><span class="p">),</span>
+    <span class="p">([</span><span class="s">&#39;d&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s">&#39;deci&#39;</span><span class="p">],</span> <span class="mf">1e-1</span><span class="p">),</span>
+    <span class="p">([</span><span class="s">&#39;c&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s">&#39;centi&#39;</span><span class="p">],</span> <span class="mf">1e-2</span><span class="p">),</span>
+    <span class="p">([</span><span class="s">&#39;m&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s">&#39;milli&#39;</span><span class="p">],</span> <span class="mf">1e-3</span><span class="p">),</span>
+    <span class="p">([</span><span class="s">&#39;u&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s">&#39;micro&#39;</span><span class="p">],</span> <span class="mf">1e-6</span><span class="p">),</span>
+    <span class="p">([</span><span class="s">&#39;n&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s">&#39;nano&#39;</span><span class="p">],</span> <span class="mf">1e-9</span><span class="p">),</span>
+    <span class="p">([</span><span class="s">&#39;p&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s">&#39;pico&#39;</span><span class="p">],</span> <span class="mf">1e-12</span><span class="p">),</span>
+    <span class="p">([</span><span class="s">&#39;f&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s">&#39;femto&#39;</span><span class="p">],</span> <span class="mf">1e-15</span><span class="p">),</span>
+    <span class="p">([</span><span class="s">&#39;a&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s">&#39;atto&#39;</span><span class="p">],</span> <span class="mf">1e-18</span><span class="p">),</span>
+    <span class="p">([</span><span class="s">&#39;z&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s">&#39;zepto&#39;</span><span class="p">],</span> <span class="mf">1e-21</span><span class="p">),</span>
+    <span class="p">([</span><span class="s">&#39;y&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s">&#39;yocto&#39;</span><span class="p">],</span> <span class="mf">1e-24</span><span class="p">)</span>
+<span class="p">]</span>
+
+
+<span class="k">def</span> <span class="nf">_add_prefixes</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">excludes</span><span class="o">=</span><span class="p">[],</span> <span class="n">register</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Set up all of the standard metric prefixes for a unit.  This</span>
+<span class="sd">    function should not be used directly, but instead use the</span>
+<span class="sd">    `prefixes` kwarg on `def_unit`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    excludes : list of str, optional</span>
+<span class="sd">        Any prefixes to exclude from creation to avoid namespace</span>
+<span class="sd">        collisions.</span>
+
+<span class="sd">    register : bool, optional</span>
+<span class="sd">        When `True`, also register the unit in the standard unit</span>
+<span class="sd">        namespace.  Default is `False`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">short</span><span class="p">,</span> <span class="nb">long</span><span class="p">,</span> <span class="n">factor</span> <span class="ow">in</span> <span class="n">si_prefixes</span><span class="p">:</span>
+        <span class="n">names</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">format</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">prefix</span> <span class="ow">in</span> <span class="n">short</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">prefix</span> <span class="ow">in</span> <span class="n">excludes</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="k">for</span> <span class="n">alias</span> <span class="ow">in</span> <span class="p">[</span><span class="n">u</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">u</span><span class="o">.</span><span class="n">aliases</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">2</span><span class="p">]:</span>
+                <span class="n">names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">prefix</span> <span class="o">+</span> <span class="n">alias</span><span class="p">)</span>
+
+                <span class="c"># This is a hack to use Greek mu as a prefix</span>
+                <span class="c"># for some formatters.</span>
+                <span class="k">if</span> <span class="n">prefix</span> <span class="o">==</span> <span class="s">&#39;u&#39;</span><span class="p">:</span>
+                    <span class="n">format</span><span class="p">[</span><span class="s">&#39;latex&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">r&#39;\mu &#39;</span> <span class="o">+</span> <span class="n">u</span><span class="o">.</span><span class="n">get_format_name</span><span class="p">(</span><span class="s">&#39;latex&#39;</span><span class="p">)</span>
+                    <span class="n">format</span><span class="p">[</span><span class="s">&#39;unicode&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;μ&#39;</span> <span class="o">+</span> <span class="n">u</span><span class="o">.</span><span class="n">get_format_name</span><span class="p">(</span><span class="s">&#39;unicode&#39;</span><span class="p">)</span>
+
+                <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">u</span><span class="o">.</span><span class="n">_format</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="n">format</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">prefix</span> <span class="o">+</span> <span class="n">val</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">prefix</span> <span class="ow">in</span> <span class="nb">long</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">prefix</span> <span class="ow">in</span> <span class="n">excludes</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="k">for</span> <span class="n">alias</span> <span class="ow">in</span> <span class="n">u</span><span class="o">.</span><span class="n">aliases</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">alias</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+                    <span class="n">names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">prefix</span> <span class="o">+</span> <span class="n">alias</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">names</span><span class="p">):</span>
+            <span class="n">PrefixUnit</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="n">CompositeUnit</span><span class="p">(</span><span class="n">factor</span><span class="p">,</span> <span class="p">[</span><span class="n">u</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
+                       <span class="n">register</span><span class="o">=</span><span class="n">register</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="n">format</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="def_unit"><a class="viewcode-back" href="../../../_generated/astropy.units.core.def_unit.html#astropy.units.core.def_unit">[docs]</a><span class="k">def</span> <span class="nf">def_unit</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">represents</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">register</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+             <span class="n">format</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">prefixes</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">exclude_prefixes</span><span class="o">=</span><span class="p">[]):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Factory function for defining new units.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    names : str or list of str</span>
+<span class="sd">        The name of the unit.  If a list, the first element is the</span>
+<span class="sd">        canonical (short) name, and the rest of the elements are</span>
+<span class="sd">        aliases.</span>
+
+<span class="sd">    represents : UnitBase instance, optional</span>
+<span class="sd">        The unit that this named unit represents.  If not provided,</span>
+<span class="sd">        a new `IrreducibleUnit` is created.</span>
+
+<span class="sd">    register : boolean, optional</span>
+<span class="sd">        When `True`, also register the unit in the standard unit</span>
+<span class="sd">        namespace.  Default is `False`.</span>
+
+<span class="sd">    doc : str, optional</span>
+<span class="sd">        A docstring describing the unit.</span>
+
+<span class="sd">    format : dict, optional</span>
+<span class="sd">        A mapping to format-specific representations of this unit.</span>
+<span class="sd">        For example, for the ``Ohm`` unit, it might be nice to</span>
+<span class="sd">        have it displayed as ``\\Omega`` by the ``latex``</span>
+<span class="sd">        formatter.  In that case, `format` argument should be set</span>
+<span class="sd">        to::</span>
+
+<span class="sd">            {&#39;latex&#39;: r&#39;\\Omega&#39;}</span>
+
+<span class="sd">    prefixes : bool, optional</span>
+<span class="sd">        When `True`, generate all of the SI prefixed versions of the</span>
+<span class="sd">        unit as well.  For example, for a given unit `m`, will generate</span>
+<span class="sd">        `mm`, `cm`, `km`, etc.  Default is `False`.  This function</span>
+<span class="sd">        always returns the base unit object, even if multiple scaled</span>
+<span class="sd">        versions of the unit were created.</span>
+
+<span class="sd">    exclude_prefixes : list of str, optional</span>
+<span class="sd">        If any of the SI prefixes need to be excluded, they may be</span>
+<span class="sd">        listed here.  For example, `Pa` can be interpreted either as</span>
+<span class="sd">        &quot;petaannum&quot; or &quot;Pascal&quot;.  Therefore, when defining the</span>
+<span class="sd">        prefixes for `a`, `exclude_prefixes` should be set to</span>
+<span class="sd">        ``[&quot;P&quot;]``.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    unit : `UnitBase` object</span>
+<span class="sd">        The newly-defined unit, or a matching unit that was already</span>
+<span class="sd">        defined.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">register</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">register</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="k">if</span> <span class="n">represents</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">Unit</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">represents</span><span class="p">,</span> <span class="n">register</span><span class="o">=</span><span class="n">register</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="n">doc</span><span class="p">,</span>
+                      <span class="n">format</span><span class="o">=</span><span class="n">format</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">IrreducibleUnit</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">register</span><span class="o">=</span><span class="n">register</span><span class="p">,</span> <span class="n">doc</span><span class="o">=</span><span class="n">doc</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="n">format</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">prefixes</span><span class="p">:</span>
+        <span class="n">_add_prefixes</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">excludes</span><span class="o">=</span><span class="n">exclude_prefixes</span><span class="p">,</span> <span class="n">register</span><span class="o">=</span><span class="n">register</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">result</span>
+
+</div>
+<span class="k">def</span> <span class="nf">_condition_arg</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Validate value is acceptable for conversion purposes.</span>
+
+<span class="sd">    Will convert into an array if not a scalar, and can be converted</span>
+<span class="sd">    into an array</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    value: int or float value, or sequence of such values</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Scalar value or numpy array</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If value is not as expected</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">long</span><span class="p">)):</span>
+        <span class="k">return</span> <span class="n">value</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">avalue</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">avalue</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">kind</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;i&#39;</span><span class="p">,</span> <span class="s">&#39;f&#39;</span><span class="p">]:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Must be convertable to int or float array&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">ma</span><span class="o">.</span><span class="n">isMaskedArray</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">value</span>
+            <span class="k">return</span> <span class="n">avalue</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s">&quot;Value not scalar compatible or convertable into a float or &quot;</span>
+                <span class="s">&quot;integer array&quot;</span><span class="p">)</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+
+
+<h3>Page Contents</h3>
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+<footer class="footer">
+  <p class="pull-right"> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright 2011-2013, The Astropy Developers.<br/>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3+. &nbsp;
+    Last built 03 Apr 2013. <br/>
+  </p>
+</footer>
+ <!-- End original user content -->
+
+
+<br>
+<br>
+<br>
+
+
+<style type="text/css">
+  .rtd-badge {
+    position: fixed;
+    display: block;
+    bottom: 5px;
+    height: 40px;
+    text-indent: -9999em;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+  }
+  #version_menu {
+    position: fixed;
+    display: none;
+    bottom: 11px;
+    right: 166px;
+    list-style-type: none;
+    margin: 0;
+  }
+  .footer_popout:hover #version_menu {
+    display: block;
+  }
+  #version_menu li {
+    display: block;
+    float: right;
+  }
+  #version_menu li a {
+    display: block;
+    padding: 6px 10px 4px 10px;
+    margin: 7px 7px 0 0;
+    font-weight: bold;
+    font-size: 14px;
+    height: 20px;
+    line-height: 17px;
+    text-decoration: none;
+    color: #fff;
+    background: #8ca1af url(../images/gradient-light.png) bottom left repeat-x;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 1px #465158;
+    -moz-box-shadow: 0 1px 1px #465158;
+    -webkit-box-shadow: 0 1px 1px #465158;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+  }
+  #version_menu li a:hover {
+    text-decoration: none;
+    background-color: #697983;
+    box-shadow: 0 1px 0px #465158;
+    -moz-box-shadow: 0 1px 0px #465158;
+    -webkit-box-shadow: 0 1px 0px #465158;
+  }
+  .rtd-badge.rtd {
+    background: #3b4449 url(//media.readthedocs.org//images/badge-rtd.png) scroll 0px -46px no-repeat;
+    border: 1px solid #282E32;
+    width: 41px;
+    right: 5px;
+  }
+  .footer_popout:hover .rtd-badge.rtd {
+    background-position: top left;
+    width: 160px;
+  }
+  .rtd-badge.revsys { background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline-sponsored {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys-sm.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 205px;
+    right: 173px;
+  }
+
+</style>
+<div class="rtd_doc_footer">
+  <div class="footer_popout">
+    <a href="//readthedocs.org/projects/astropy/?fromdocs=astropy" class="rtd-badge rtd"> Brought to you by Read the Docs</a>
+    <ul id="version_menu">
+      
+        <li><a href="/en/latest/">latest</a></li>
+      
+        <li><a href="/en/add-mpl-to-rtd-pip-req/">add-mpl-to-rtd-pip-req</a></li>
+      
+        <li><a href="/en/v0.2.1/">v0.2.1</a></li>
+      
+        <li><a href="/en/v0.2/">v0.2</a></li>
+      
+        <li><a href="/en/v0.1/">v0.1</a></li>
+      
+    </ul>
+  </div>
+</div>
+<!-- RTD Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17997319-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+<!-- User Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-30968842-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+  </body>
+</html>

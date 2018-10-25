@@ -1,0 +1,292 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>UnitConverter &mdash; Astropy v0.3.1</title>
+    
+    <link rel="stylesheet" href="../_static/bootstrap-astropy.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="https://media.readthedocs.org/css/badge_only.css" type="text/css" />
+    <link rel="stylesheet" href="https://media.readthedocs.org/css/readthedocs-doc-embed.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.3.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/jquery/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/jquery/jquery-migrate-1.2.1.min.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/underscore.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/doctools.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/readthedocs-doc-embed.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="shortcut icon" href="../_static/astropy_logo.ico"/>
+    <link rel="top" title="Astropy v0.3.1" href="../index.html" />
+    <link rel="up" title="World Coordinate System (astropy.wcs)" href="../wcs/index.html" />
+    <link rel="next" title="find_all_wcs" href="astropy.wcs.wcs.find_all_wcs.html" />
+    <link rel="prev" title="Wcsprm" href="astropy.wcs.Wcsprm.html" />
+
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,600' rel='stylesheet' type='text/css'>
+
+<!-- RTD Extra Head -->
+
+
+
+<!-- 
+Read the Docs is acting as the canonical URL for your project. 
+If you want to change it, more info is available in our docs:
+  http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="http://astropy.readthedocs.org/en/latest/api/astropy.wcs.UnitConverter.html">
+
+<script type="text/javascript">
+  // This is included here because other places don't have access to the pagename variable.
+  var READTHEDOCS_DATA = {
+    project: "astropy",
+    version: "v0.3.1",
+    language: "en",
+    page: "api/astropy.wcs.UnitConverter",
+    theme: "bootstrap-astropy",
+    docroot: "/docs/",
+    api_host: "https://readthedocs.org"
+  }
+  // Old variables
+  var doc_version = "v0.3.1";
+  var doc_slug = "astropy";
+  var page_name = "api/astropy.wcs.UnitConverter";
+  var html_theme = "bootstrap-astropy";
+</script>
+<!-- RTD Analytics Code -->
+<!-- Included in the header because you don't have a footer block. -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17997319-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+<!-- end RTD Analytics Code -->
+
+
+<!-- User Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-30968842-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+<!-- End User Analytics Code -->
+
+<!-- end RTD <extrahead> -->
+
+  </head>
+  <body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../index.html"><span id="logotext1">astro</span><span id="logotext2">py</span><span id="logotext3">:docs</span></a>
+  <ul>
+    <li><a class="homelink" title="Astropy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../genindex.html">Index</a></li>
+    <li><a title="Module Index" href="../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li class="right">
+	<a href="astropy.wcs.wcs.find_all_wcs.html" title="find_all_wcs">
+	  next &raquo;
+	</a>
+      </li>
+      <li class="right">
+	<a href="astropy.wcs.Wcsprm.html" title="Wcsprm">
+	  &laquo; previous
+	</a>
+	 |
+      </li>
+      <li>
+	<a href="../index.html">Astropy v0.3.1</a>
+	 &raquo;
+      </li>
+      <li><a href="../wcs/index.html" accesskey="U">World Coordinate System (<tt class="docutils literal"><span class="pre">astropy.wcs</span></tt>)</a> &raquo;</li>
+      
+      <li>UnitConverter</li> 
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="unitconverter">
+<h1>UnitConverter<a class="headerlink" href="#unitconverter" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="astropy.wcs.UnitConverter">
+<tt class="descclassname">astropy.wcs.</tt><tt class="descname">UnitConverter</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.3.x/astropy/wcs.py#L412" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.wcs.UnitConverter" title="Permalink to this definition">¶</a></dt>
+<dd><div class="deprecated">
+<p><span class="versionmodified">Deprecated since version 0.2: </span>Use astropy.units instead.</p>
+</div>
+<p>UnitConverter(have, want, translate_units=&#8217;&#8216;)</p>
+<p>An object for converting from one system of units to another.</p>
+<p>Use the returned object&#8217;s <tt class="xref py py-obj docutils literal"><span class="pre">convert</span></tt> method
+to convert values from <em>have</em> to <em>want</em>.</p>
+<p>This function is permissive in accepting whitespace in all contexts in
+a units specification where it does not create ambiguity (e.g. not
+between a metric prefix and a basic unit string), including in strings
+like <tt class="docutils literal"><span class="pre">&quot;log</span> <span class="pre">(m</span> <span class="pre">**</span> <span class="pre">2)&quot;</span></tt> which is formally disallowed.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Deprecated in Astropy 0.2</p>
+<p class="last"><a class="reference internal" href="#astropy.wcs.UnitConverter" title="astropy.wcs.UnitConverter"><tt class="xref py py-obj docutils literal"><span class="pre">UnitConverter</span></tt></a> will be removed in a future version of astropy.
+The <a class="reference internal" href="../units/index.html#module-astropy.units" title="astropy.units"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.units</span></tt></a> package should be used instead.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>have</strong> : str</p>
+<blockquote>
+<div><p>FITS unit string to convert from, with or without surrounding
+square brackets (for inline specifications); text following the
+closing bracket is ignored.</p>
+</div></blockquote>
+<p><strong>want</strong> : str</p>
+<blockquote>
+<div><p>FITS unit string to convert to, with or without surrounding square
+brackets (for inline specifications); text following the closing
+bracket is ignored.</p>
+</div></blockquote>
+<p><strong>ctrl</strong> : str, optional</p>
+<blockquote>
+<div><p>Do potentially unsafe translations of non-standard unit strings.</p>
+<p>Although <tt class="docutils literal"><span class="pre">&quot;S&quot;</span></tt> is commonly used to represent seconds, its
+recognizes <tt class="docutils literal"><span class="pre">&quot;S&quot;</span></tt> formally as Siemens, however rarely that may
+be translation to <tt class="docutils literal"><span class="pre">&quot;s&quot;</span></tt> is potentially unsafe since the
+standard used.  The same applies to <tt class="docutils literal"><span class="pre">&quot;H&quot;</span></tt> for hours (Henry),
+and <tt class="docutils literal"><span class="pre">&quot;D&quot;</span></tt> for days (Debye).</p>
+<p>This string controls what to do in such cases, and is
+case-insensitive.</p>
+<ul class="simple">
+<li>If the string contains <tt class="docutils literal"><span class="pre">&quot;s&quot;</span></tt>, translate <tt class="docutils literal"><span class="pre">&quot;S&quot;</span></tt> to <tt class="docutils literal"><span class="pre">&quot;s&quot;</span></tt>.</li>
+<li>If the string contains <tt class="docutils literal"><span class="pre">&quot;h&quot;</span></tt>, translate <tt class="docutils literal"><span class="pre">&quot;H&quot;</span></tt> to <tt class="docutils literal"><span class="pre">&quot;h&quot;</span></tt>.</li>
+<li>If the string contains <tt class="docutils literal"><span class="pre">&quot;d&quot;</span></tt>, translate <tt class="docutils literal"><span class="pre">&quot;D&quot;</span></tt> to <tt class="docutils literal"><span class="pre">&quot;d&quot;</span></tt>.</li>
+</ul>
+<p>Thus <tt class="docutils literal"><span class="pre">''</span></tt> doesn&#8217;t do any unsafe translations, whereas <tt class="docutils literal"><span class="pre">'shd'</span></tt>
+does all of them.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first"><strong>ValueError</strong> :</p>
+<blockquote>
+<div><p>Invalid numeric multiplier.</p>
+</div></blockquote>
+<p><strong>SyntaxError</strong> :</p>
+<blockquote>
+<div><p>Dangling binary operator.</p>
+</div></blockquote>
+<p><strong>SyntaxError</strong> :</p>
+<blockquote>
+<div><p>Invalid symbol in INITIAL context.</p>
+</div></blockquote>
+<p><strong>SyntaxError</strong> :</p>
+<blockquote>
+<div><p>Function in invalid context.</p>
+</div></blockquote>
+<p><strong>SyntaxError</strong> :</p>
+<blockquote>
+<div><p>Invalid symbol in EXPON context.</p>
+</div></blockquote>
+<p><strong>SyntaxError</strong> :</p>
+<blockquote>
+<div><p>Unbalanced bracket.</p>
+</div></blockquote>
+<p><strong>SyntaxError</strong> :</p>
+<blockquote>
+<div><p>Unbalanced parenthesis.</p>
+</div></blockquote>
+<p><strong>SyntaxError</strong> :</p>
+<blockquote>
+<div><p>Consecutive binary operators.</p>
+</div></blockquote>
+<p><strong>SyntaxError</strong> :</p>
+<blockquote>
+<div><p>Internal parser error.</p>
+</div></blockquote>
+<p><strong>SyntaxError</strong> :</p>
+<blockquote>
+<div><p>Non-conformant unit specifications.</p>
+</div></blockquote>
+<p><strong>SyntaxError</strong> :</p>
+<blockquote>
+<div><p>Non-conformant functions.</p>
+</div></blockquote>
+<p><strong>ValueError</strong> :</p>
+<blockquote class="last">
+<div><p>Potentially unsafe translation.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"><h3>Page Contents</h3>
+<ul>
+<li><a class="reference internal" href="#">UnitConverter</a></li>
+</ul>
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+<footer class="footer">
+  <p class="pull-right">
+    <a href="http://github.com/astropy/astropy/tree/v0.3.x/docs/api/astropy.wcs.UnitConverter.rst">Edit This Page on Github</a> &nbsp;
+    <a href="../_sources/api/astropy.wcs.UnitConverter.txt"
+       rel="nofollow">Page Source</a> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright 2011-2013, The Astropy Developers.<br/>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2. &nbsp;
+    Last built 05 Mar 2014. <br/>
+  </p>
+</footer>
+  </body>
+</html>

@@ -1,0 +1,46 @@
+
+
+Chebyshev1D
+=======================================
+
+.. currentmodule:: astropy.modeling.polynomial
+
+.. autoclass:: Chebyshev1D
+   :show-inheritance:
+
+   
+     
+   
+
+   
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+   
+      ~Chebyshev1D.clenshaw
+      ~Chebyshev1D.deriv
+
+   
+   
+
+   
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Documentation
+
+   
+   .. automethod:: clenshaw
+   .. automethod:: deriv
+
+   
+   

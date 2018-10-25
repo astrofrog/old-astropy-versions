@@ -1,0 +1,67 @@
+
+
+Angle
+================================
+
+.. currentmodule:: astropy.coordinates.angles
+
+.. autoclass:: Angle
+   :show-inheritance:
+
+   
+
+   
+   
+
+   .. rubric:: Attributes Summary
+
+   .. autosummary::
+   
+      ~Angle.dms
+      ~Angle.hms
+      ~Angle.hour
+
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+   
+      ~Angle.format
+      ~Angle.is_within_bounds
+      ~Angle.to_string
+      ~Angle.wrap_at
+
+   
+   
+
+   
+   
+
+   .. rubric:: Attributes Documentation
+
+   
+   .. autoattribute:: dms
+   .. autoattribute:: hms
+   .. autoattribute:: hour
+
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Documentation
+
+   
+   .. automethod:: format
+   .. automethod:: is_within_bounds
+   .. automethod:: to_string
+   .. automethod:: wrap_at
+
+   
+   

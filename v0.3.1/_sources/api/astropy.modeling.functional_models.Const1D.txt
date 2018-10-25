@@ -1,0 +1,63 @@
+
+
+Const1D
+==========================================
+
+.. currentmodule:: astropy.modeling.functional_models
+
+.. autoclass:: Const1D
+   :show-inheritance:
+
+   
+     
+   
+
+   
+   
+
+   .. rubric:: Attributes Summary
+
+   .. autosummary::
+   
+      ~Const1D.amplitude
+      ~Const1D.param_names
+
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+   
+      ~Const1D.deriv
+      ~Const1D.eval
+
+   
+   
+
+   
+   
+
+   .. rubric:: Attributes Documentation
+
+   
+   .. autoattribute:: amplitude
+   .. autoattribute:: param_names
+
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Documentation
+
+   
+   .. automethod:: deriv
+   .. automethod:: eval
+
+   
+   

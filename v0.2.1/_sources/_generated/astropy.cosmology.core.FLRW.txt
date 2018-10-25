@@ -1,0 +1,133 @@
+
+
+FLRW
+===========================
+
+.. currentmodule:: astropy.cosmology.core
+
+.. autoclass:: FLRW
+   :show-inheritance:
+
+   
+     
+   
+
+   
+   
+
+   .. rubric:: Attributes Summary
+
+   .. autosummary::
+   
+      ~FLRW.H0
+      ~FLRW.Neff
+      ~FLRW.Ode0
+      ~FLRW.Ogamma0
+      ~FLRW.Ok0
+      ~FLRW.Om0
+      ~FLRW.Onu0
+      ~FLRW.Tcmb0
+      ~FLRW.critical_density0
+      ~FLRW.h
+      ~FLRW.hubble_distance
+      ~FLRW.hubble_time
+
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+   
+      ~FLRW.H
+      ~FLRW.Ode
+      ~FLRW.Ogamma
+      ~FLRW.Ok
+      ~FLRW.Om
+      ~FLRW.Onu
+      ~FLRW.Tcmb
+      ~FLRW.absorption_distance
+      ~FLRW.age
+      ~FLRW.angular_diameter_distance
+      ~FLRW.angular_diameter_distance_z1z2
+      ~FLRW.arcsec_per_kpc_comoving
+      ~FLRW.arcsec_per_kpc_proper
+      ~FLRW.comoving_distance
+      ~FLRW.comoving_transverse_distance
+      ~FLRW.comoving_volume
+      ~FLRW.critical_density
+      ~FLRW.de_density_scale
+      ~FLRW.distmod
+      ~FLRW.efunc
+      ~FLRW.inv_efunc
+      ~FLRW.kpc_comoving_per_arcmin
+      ~FLRW.kpc_proper_per_arcmin
+      ~FLRW.lookback_time
+      ~FLRW.luminosity_distance
+      ~FLRW.scale_factor
+      ~FLRW.w
+
+   
+   
+
+   
+   
+
+   .. rubric:: Attributes Documentation
+
+   
+   .. autoattribute:: H0
+   .. autoattribute:: Neff
+   .. autoattribute:: Ode0
+   .. autoattribute:: Ogamma0
+   .. autoattribute:: Ok0
+   .. autoattribute:: Om0
+   .. autoattribute:: Onu0
+   .. autoattribute:: Tcmb0
+   .. autoattribute:: critical_density0
+   .. autoattribute:: h
+   .. autoattribute:: hubble_distance
+   .. autoattribute:: hubble_time
+
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Documentation
+
+   
+   .. automethod:: H
+   .. automethod:: Ode
+   .. automethod:: Ogamma
+   .. automethod:: Ok
+   .. automethod:: Om
+   .. automethod:: Onu
+   .. automethod:: Tcmb
+   .. automethod:: absorption_distance
+   .. automethod:: age
+   .. automethod:: angular_diameter_distance
+   .. automethod:: angular_diameter_distance_z1z2
+   .. automethod:: arcsec_per_kpc_comoving
+   .. automethod:: arcsec_per_kpc_proper
+   .. automethod:: comoving_distance
+   .. automethod:: comoving_transverse_distance
+   .. automethod:: comoving_volume
+   .. automethod:: critical_density
+   .. automethod:: de_density_scale
+   .. automethod:: distmod
+   .. automethod:: efunc
+   .. automethod:: inv_efunc
+   .. automethod:: kpc_comoving_per_arcmin
+   .. automethod:: kpc_proper_per_arcmin
+   .. automethod:: lookback_time
+   .. automethod:: luminosity_distance
+   .. automethod:: scale_factor
+   .. automethod:: w
+
+   
+   

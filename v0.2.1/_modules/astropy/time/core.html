@@ -1,0 +1,1437 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+
+    <title>astropy.time.core &mdash; Astropy v0.2.1</title>
+<!-- RTD <head> -->
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/underscore.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/doctools.js"></script>
+
+<script type="text/javascript">
+  // This is included here for Javascript that doesn't have access to the templates.
+  var doc_version = "v0.2.1";
+  var doc_slug = "astropy";
+</script>
+
+<script type="text/javascript" src="//media.readthedocs.org/javascript/rtd.js"></script>
+<!-- end RTD <head> -->
+
+    
+    <link rel="stylesheet" href="../../../_static/bootstrap-astropy.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.2.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/sidebar.js"></script>
+    <link rel="shortcut icon" href="../../../_static/astropy_logo.ico"/>
+    <link rel="top" title="Astropy v0.2.1" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../../../index.html"></a>
+  <ul>
+    <li><a class="homelink" title="AstroPy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../../../genindex.html">Index</a></li>
+    <li><a title="Python Module Index" href="../../../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li>
+	<a href="../../../index.html">Astropy v0.2.1</a>
+	 &raquo;
+      </li>
+      <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li>
+      
+       
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for astropy.time.core</h1><div class="highlight"><pre>
+<span class="c"># Licensed under a 3-clause BSD style license - see LICENSE.rst</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">The astropy.time package provides functionality for manipulating times and</span>
+<span class="sd">dates. Specific emphasis is placed on supporting time scales (e.g. UTC, TAI,</span>
+<span class="sd">UT1) and time representations (e.g. JD, MJD, ISO 8601) that are used in</span>
+<span class="sd">astronomy.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">itertools</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;Time&#39;</span><span class="p">,</span> <span class="s">&#39;TimeDelta&#39;</span><span class="p">,</span> <span class="s">&#39;TimeFormat&#39;</span><span class="p">,</span> <span class="s">&#39;TimeJD&#39;</span><span class="p">,</span> <span class="s">&#39;TimeMJD&#39;</span><span class="p">,</span>
+           <span class="s">&#39;TimeFromEpoch&#39;</span><span class="p">,</span> <span class="s">&#39;TimeUnix&#39;</span><span class="p">,</span> <span class="s">&#39;TimeCxcSec&#39;</span><span class="p">,</span> <span class="s">&#39;TimeString&#39;</span><span class="p">,</span>
+           <span class="s">&#39;TimeISO&#39;</span><span class="p">,</span> <span class="s">&#39;TimeISOT&#39;</span><span class="p">,</span> <span class="s">&#39;TimeYearDayTime&#39;</span><span class="p">,</span> <span class="s">&#39;TimeEpochDate&#39;</span><span class="p">,</span>
+           <span class="s">&#39;TimeBesselianEpoch&#39;</span><span class="p">,</span> <span class="s">&#39;TimeJulianEpoch&#39;</span><span class="p">,</span> <span class="s">&#39;TimeDeltaFormat&#39;</span><span class="p">,</span>
+           <span class="s">&#39;TimeDeltaSec&#39;</span><span class="p">,</span> <span class="s">&#39;TimeDeltaJD&#39;</span><span class="p">,</span> <span class="s">&#39;ScaleValueError&#39;</span><span class="p">,</span>
+           <span class="s">&#39;OperandTypeError&#39;</span><span class="p">,</span> <span class="s">&#39;TimeEpochDateString&#39;</span><span class="p">,</span>
+           <span class="s">&#39;TimeBesselianEpochString&#39;</span><span class="p">,</span> <span class="s">&#39;TimeJulianEpochString&#39;</span><span class="p">,</span>
+           <span class="s">&#39;TIME_FORMATS&#39;</span><span class="p">,</span> <span class="s">&#39;TIME_DELTA_FORMATS&#39;</span><span class="p">,</span> <span class="s">&#39;TIME_SCALES&#39;</span><span class="p">,</span>
+           <span class="s">&#39;TIME_DELTA_SCALES&#39;</span><span class="p">]</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="c"># Not guaranteed available at setup time</span>
+    <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">sofa_time</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">_ASTROPY_SETUP_</span><span class="p">:</span>
+        <span class="k">raise</span>
+
+<span class="n">MJD_ZERO</span> <span class="o">=</span> <span class="mf">2400000.5</span>
+<span class="n">SECS_PER_DAY</span> <span class="o">=</span> <span class="mi">86400</span>
+
+<span class="c"># These both get filled in at end after TimeFormat subclasses defined</span>
+<span class="n">TIME_FORMATS</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">TIME_DELTA_FORMATS</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="n">TIME_SCALES</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;tai&#39;</span><span class="p">,</span> <span class="s">&#39;tcb&#39;</span><span class="p">,</span> <span class="s">&#39;tcg&#39;</span><span class="p">,</span> <span class="s">&#39;tdb&#39;</span><span class="p">,</span> <span class="s">&#39;tt&#39;</span><span class="p">,</span> <span class="s">&#39;ut1&#39;</span><span class="p">,</span> <span class="s">&#39;utc&#39;</span><span class="p">)</span>
+<span class="n">TIME_DELTA_SCALES</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;tai&#39;</span><span class="p">,)</span>
+
+<span class="n">MULTI_HOPS</span> <span class="o">=</span> <span class="p">{(</span><span class="s">&#39;tai&#39;</span><span class="p">,</span> <span class="s">&#39;tcb&#39;</span><span class="p">):</span> <span class="p">(</span><span class="s">&#39;tt&#39;</span><span class="p">,</span> <span class="s">&#39;tdb&#39;</span><span class="p">),</span>
+              <span class="p">(</span><span class="s">&#39;tai&#39;</span><span class="p">,</span> <span class="s">&#39;tcg&#39;</span><span class="p">):</span> <span class="p">(</span><span class="s">&#39;tt&#39;</span><span class="p">,),</span>
+              <span class="p">(</span><span class="s">&#39;tai&#39;</span><span class="p">,</span> <span class="s">&#39;ut1&#39;</span><span class="p">):</span> <span class="p">(</span><span class="s">&#39;utc&#39;</span><span class="p">,),</span>
+              <span class="p">(</span><span class="s">&#39;tai&#39;</span><span class="p">,</span> <span class="s">&#39;tdb&#39;</span><span class="p">):</span> <span class="p">(</span><span class="s">&#39;tt&#39;</span><span class="p">,),</span>
+              <span class="p">(</span><span class="s">&#39;tcb&#39;</span><span class="p">,</span> <span class="s">&#39;tcg&#39;</span><span class="p">):</span> <span class="p">(</span><span class="s">&#39;tdb&#39;</span><span class="p">,</span> <span class="s">&#39;tt&#39;</span><span class="p">),</span>
+              <span class="p">(</span><span class="s">&#39;tcb&#39;</span><span class="p">,</span> <span class="s">&#39;tt&#39;</span><span class="p">):</span> <span class="p">(</span><span class="s">&#39;tdb&#39;</span><span class="p">,),</span>
+              <span class="p">(</span><span class="s">&#39;tcb&#39;</span><span class="p">,</span> <span class="s">&#39;ut1&#39;</span><span class="p">):</span> <span class="p">(</span><span class="s">&#39;tdb&#39;</span><span class="p">,</span> <span class="s">&#39;tt&#39;</span><span class="p">,</span> <span class="s">&#39;tai&#39;</span><span class="p">,</span> <span class="s">&#39;utc&#39;</span><span class="p">),</span>
+              <span class="p">(</span><span class="s">&#39;tcb&#39;</span><span class="p">,</span> <span class="s">&#39;utc&#39;</span><span class="p">):</span> <span class="p">(</span><span class="s">&#39;tdb&#39;</span><span class="p">,</span> <span class="s">&#39;tt&#39;</span><span class="p">,</span> <span class="s">&#39;tai&#39;</span><span class="p">),</span>
+              <span class="p">(</span><span class="s">&#39;tcg&#39;</span><span class="p">,</span> <span class="s">&#39;tdb&#39;</span><span class="p">):</span> <span class="p">(</span><span class="s">&#39;tt&#39;</span><span class="p">,</span> <span class="s">&#39;tdb&#39;</span><span class="p">),</span>
+              <span class="p">(</span><span class="s">&#39;tcg&#39;</span><span class="p">,</span> <span class="s">&#39;ut1&#39;</span><span class="p">):</span> <span class="p">(</span><span class="s">&#39;tt&#39;</span><span class="p">,</span> <span class="s">&#39;tai&#39;</span><span class="p">,</span> <span class="s">&#39;utc&#39;</span><span class="p">),</span>
+              <span class="p">(</span><span class="s">&#39;tcg&#39;</span><span class="p">,</span> <span class="s">&#39;utc&#39;</span><span class="p">):</span> <span class="p">(</span><span class="s">&#39;tt&#39;</span><span class="p">,</span> <span class="s">&#39;tai&#39;</span><span class="p">),</span>
+              <span class="p">(</span><span class="s">&#39;tdb&#39;</span><span class="p">,</span> <span class="s">&#39;ut1&#39;</span><span class="p">):</span> <span class="p">(</span><span class="s">&#39;tt&#39;</span><span class="p">,</span> <span class="s">&#39;tai&#39;</span><span class="p">,</span> <span class="s">&#39;utc&#39;</span><span class="p">),</span>
+              <span class="p">(</span><span class="s">&#39;tdb&#39;</span><span class="p">,</span> <span class="s">&#39;utc&#39;</span><span class="p">):</span> <span class="p">(</span><span class="s">&#39;tt&#39;</span><span class="p">,</span> <span class="s">&#39;tai&#39;</span><span class="p">),</span>
+              <span class="p">(</span><span class="s">&#39;tt&#39;</span><span class="p">,</span> <span class="s">&#39;ut1&#39;</span><span class="p">):</span> <span class="p">(</span><span class="s">&#39;tai&#39;</span><span class="p">,</span> <span class="s">&#39;utc&#39;</span><span class="p">),</span>
+              <span class="p">(</span><span class="s">&#39;tt&#39;</span><span class="p">,</span> <span class="s">&#39;utc&#39;</span><span class="p">):</span> <span class="p">(</span><span class="s">&#39;tai&#39;</span><span class="p">,),</span>
+              <span class="p">}</span>
+
+
+<div class="viewcode-block" id="Time"><a class="viewcode-back" href="../../../_generated/astropy.time.core.Time.html#astropy.time.core.Time">[docs]</a><span class="k">class</span> <span class="nc">Time</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represent and manipulate times and dates for astronomy.</span>
+
+<span class="sd">    A Time object is initialized with one or more times in the ``val``</span>
+<span class="sd">    argument.  The input times in ``val`` must conform to the specified</span>
+<span class="sd">    ``format`` and must correspond to the specified time ``scale``.  The</span>
+<span class="sd">    optional ``val2`` time input should be supplied only for numeric input</span>
+<span class="sd">    formats (e.g. JD) where very high precision (better than 64-bit precision)</span>
+<span class="sd">    is required.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    val : sequence, str, number, or `~astropy.time.Time` object</span>
+<span class="sd">        Value(s) to initialize the time or times.</span>
+<span class="sd">    val2 : sequence, str, or number; optional</span>
+<span class="sd">        Value(s) to initialize the time or times</span>
+<span class="sd">    format : str, optional</span>
+<span class="sd">        Format of input value(s)</span>
+<span class="sd">    scale : str, optional</span>
+<span class="sd">        Time scale of input value(s)</span>
+<span class="sd">    opt : dict, optional</span>
+<span class="sd">        options</span>
+<span class="sd">    lat : float, optional</span>
+<span class="sd">        Earth latitude of observer (decimal degrees)</span>
+<span class="sd">    lon : float, optional</span>
+<span class="sd">        Earth longitude of observer (decimal degrees)</span>
+<span class="sd">    copy : bool, optional</span>
+<span class="sd">        Make a copy of the input values</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_precision</span> <span class="o">=</span> <span class="mi">3</span>  <span class="c"># Precision when for seconds as floating point</span>
+    <span class="n">_in_subfmt</span> <span class="o">=</span> <span class="s">&#39;*&#39;</span>  <span class="c"># Select subformat for inputting string times</span>
+    <span class="n">_out_subfmt</span> <span class="o">=</span> <span class="s">&#39;*&#39;</span>  <span class="c"># Select subformat for outputting string times</span>
+
+    <span class="n">SCALES</span> <span class="o">=</span> <span class="n">TIME_SCALES</span>
+    <span class="sd">&quot;&quot;&quot;List of time scales&quot;&quot;&quot;</span>
+
+    <span class="n">FORMATS</span> <span class="o">=</span> <span class="n">TIME_FORMATS</span>
+    <span class="sd">&quot;&quot;&quot;Dict of time formats&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__new__</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">val2</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                <span class="n">precision</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">in_subfmt</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">out_subfmt</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                <span class="n">lat</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">lon</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">cls</span><span class="p">):</span>
+            <span class="bp">self</span> <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">replicate</span><span class="p">(</span><span class="n">format</span><span class="o">=</span><span class="n">format</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="n">copy</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">Time</span><span class="p">,</span> <span class="n">cls</span><span class="p">)</span><span class="o">.</span><span class="n">__new__</span><span class="p">(</span><span class="n">cls</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">val2</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                 <span class="n">precision</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">in_subfmt</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">out_subfmt</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                 <span class="n">lat</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">lon</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">lat</span> <span class="o">=</span> <span class="n">lat</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lon</span> <span class="o">=</span> <span class="n">lon</span>
+        <span class="k">if</span> <span class="n">precision</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">precision</span> <span class="o">=</span> <span class="n">precision</span>
+        <span class="k">if</span> <span class="n">in_subfmt</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">in_subfmt</span> <span class="o">=</span> <span class="n">in_subfmt</span>
+        <span class="k">if</span> <span class="n">out_subfmt</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">out_subfmt</span> <span class="o">=</span> <span class="n">out_subfmt</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">scale</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_set_scale</span><span class="p">(</span><span class="n">scale</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_init_from_vals</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">val2</span><span class="p">,</span> <span class="n">format</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">copy</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_init_from_vals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">val2</span><span class="p">,</span> <span class="n">format</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">copy</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the internal _format, scale, and _time attrs from user</span>
+<span class="sd">        inputs.  This handles coercion into the correct shapes and</span>
+<span class="sd">        some basic input validation.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c"># Coerce val into a 1-d array</span>
+        <span class="n">val</span><span class="p">,</span> <span class="n">val_ndim</span> <span class="o">=</span> <span class="n">_make_1d_array</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">copy</span><span class="p">)</span>
+
+        <span class="c"># If val2 is None then replace with zeros of the same length</span>
+        <span class="k">if</span> <span class="n">val2</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">val2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">val</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">)</span>
+            <span class="n">val2_ndim</span> <span class="o">=</span> <span class="n">val_ndim</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">val2</span><span class="p">,</span> <span class="n">val2_ndim</span> <span class="o">=</span> <span class="n">_make_1d_array</span><span class="p">(</span><span class="n">val2</span><span class="p">,</span> <span class="n">copy</span><span class="p">)</span>
+
+        <span class="c"># Consistency checks</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">val2</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Input val and val2 must match in length&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_scalar</span> <span class="o">=</span> <span class="p">(</span><span class="n">val_ndim</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">val_ndim</span> <span class="o">!=</span> <span class="n">val2_ndim</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Input val and val2 must have same dimensions&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">scale</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">scale</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">SCALES</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ScaleValueError</span><span class="p">(</span><span class="s">&quot;Scale {0} is not in the allowed scales {1}&quot;</span>
+                                  <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">scale</span><span class="p">),</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">SCALES</span><span class="p">)))</span>
+
+        <span class="c"># Parse / convert input values into internal jd1, jd2 based on format</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_format</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_time_fmt</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">val2</span><span class="p">,</span> <span class="n">format</span><span class="p">,</span> <span class="n">scale</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_get_time_fmt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">val2</span><span class="p">,</span> <span class="n">format</span><span class="p">,</span> <span class="n">scale</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Given the supplied val, val2, format and scale try to instantiate</span>
+<span class="sd">        the corresponding TimeFormat class to convert the input values into</span>
+<span class="sd">        the internal jd1 and jd2.</span>
+
+<span class="sd">        If format is None and the input is a string-type array then guess</span>
+<span class="sd">        available string formats and stop when one matches.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">format</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">val</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">kind</span> <span class="ow">in</span> <span class="p">(</span><span class="s">&#39;S&#39;</span><span class="p">,</span> <span class="s">&#39;U&#39;</span><span class="p">):</span>
+            <span class="n">formats</span> <span class="o">=</span> <span class="p">[(</span><span class="n">name</span><span class="p">,</span> <span class="n">cls</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">cls</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">FORMATS</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+                       <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">TimeString</span><span class="p">)]</span>
+            <span class="n">err_msg</span> <span class="o">=</span> <span class="s">&#39;any formats that can interpret strings {0}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                      <span class="p">[</span><span class="n">name</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">cls</span> <span class="ow">in</span> <span class="n">formats</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="n">format</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">FORMATS</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">format</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;No time format was given, and the input is &quot;</span>
+                                 <span class="s">&quot;not string-like&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Format {0} is not one of the allowed &quot;</span>
+                    <span class="s">&quot;formats {1}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">format</span><span class="p">),</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">FORMATS</span><span class="p">)))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">formats</span> <span class="o">=</span> <span class="p">[(</span><span class="n">format</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">FORMATS</span><span class="p">[</span><span class="n">format</span><span class="p">])]</span>
+            <span class="n">err_msg</span> <span class="o">=</span> <span class="s">&#39;the format class {0}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">format</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">format</span><span class="p">,</span> <span class="n">FormatClass</span> <span class="ow">in</span> <span class="n">formats</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">format</span><span class="p">,</span> <span class="n">FormatClass</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">val2</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">precision</span><span class="p">,</span>
+                                           <span class="bp">self</span><span class="o">.</span><span class="n">in_subfmt</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">out_subfmt</span><span class="p">)</span>
+            <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">):</span>
+                <span class="k">pass</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Input values did not match {0}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">err_msg</span><span class="p">))</span>
+
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="Time.format"><a class="viewcode-back" href="../../../_generated/astropy.time.core.Time.html#astropy.time.core.Time.format">[docs]</a>    <span class="k">def</span> <span class="nf">format</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Time format&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format</span>
+</div>
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="s">&quot;&lt;{0} object: scale=&#39;{1}&#39; format=&#39;{2}&#39; vals={3}&gt;&quot;</span>
+                <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">format</span><span class="p">,</span>
+                        <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">format</span><span class="p">)))</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">format</span><span class="p">))</span>
+
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="Time.scale"><a class="viewcode-back" href="../../../_generated/astropy.time.core.Time.html#astropy.time.core.Time.scale">[docs]</a>    <span class="k">def</span> <span class="nf">scale</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Time scale&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_time</span><span class="o">.</span><span class="n">scale</span>
+</div>
+    <span class="k">def</span> <span class="nf">_set_scale</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scale</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This is the key routine that actually does time scale conversions.</span>
+<span class="sd">        This is not public and not connected to the read-only scale property.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">scale</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="k">if</span> <span class="n">scale</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">SCALES</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Scale {0} is not in the allowed scales {1}&quot;</span>
+                             <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">scale</span><span class="p">),</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">SCALES</span><span class="p">)))</span>
+
+        <span class="c"># Determine the chain of scale transformations to get from the current</span>
+        <span class="c"># scale to the new scale.  MULTI_HOPS contains a dict of all</span>
+        <span class="c"># transformations (xforms) that require intermediate xforms.</span>
+        <span class="c"># The MULTI_HOPS dict is keyed by (sys1, sys2) in alphabetical order.</span>
+        <span class="n">xform</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">,</span> <span class="n">scale</span><span class="p">)</span>
+        <span class="n">xform_sort</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">xform</span><span class="p">))</span>
+        <span class="n">multi</span> <span class="o">=</span> <span class="n">MULTI_HOPS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">xform_sort</span><span class="p">,</span> <span class="p">())</span>
+        <span class="n">xforms</span> <span class="o">=</span> <span class="n">xform_sort</span><span class="p">[:</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">multi</span> <span class="o">+</span> <span class="n">xform_sort</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">:]</span>
+        <span class="c"># If we made the reverse xform then reverse it now.</span>
+        <span class="k">if</span> <span class="n">xform_sort</span> <span class="o">!=</span> <span class="n">xform</span><span class="p">:</span>
+            <span class="n">xforms</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="n">xforms</span><span class="p">))</span>
+
+        <span class="c"># Transform the jd1,2 pairs through the chain of scale xforms.</span>
+        <span class="n">jd1</span><span class="p">,</span> <span class="n">jd2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_time</span><span class="o">.</span><span class="n">jd1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_time</span><span class="o">.</span><span class="n">jd2</span>
+        <span class="k">for</span> <span class="n">sys1</span><span class="p">,</span> <span class="n">sys2</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">izip</span><span class="p">(</span><span class="n">xforms</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">xforms</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>
+            <span class="c"># Some xforms require an additional delta_ argument that is</span>
+            <span class="c"># provided through Time methods.  These values may be supplied by</span>
+            <span class="c"># the user or computed based on available approximations.  The</span>
+            <span class="c"># get_delta_ methods are available for only one combination of</span>
+            <span class="c"># sys1, sys2 though the property applies for both xform directions.</span>
+            <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="n">jd1</span><span class="p">,</span> <span class="n">jd2</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">sys12</span> <span class="ow">in</span> <span class="p">((</span><span class="n">sys1</span><span class="p">,</span> <span class="n">sys2</span><span class="p">),</span> <span class="p">(</span><span class="n">sys2</span><span class="p">,</span> <span class="n">sys1</span><span class="p">)):</span>
+                <span class="n">dt_method</span> <span class="o">=</span> <span class="s">&#39;_get_delta_{0}_{1}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">sys12</span><span class="p">)</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">get_dt</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dt_method</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+                    <span class="k">pass</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">get_dt</span><span class="p">(</span><span class="n">jd1</span><span class="p">,</span> <span class="n">jd2</span><span class="p">))</span>
+                    <span class="k">break</span>
+
+            <span class="n">conv_func</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">sofa_time</span><span class="p">,</span> <span class="n">sys1</span> <span class="o">+</span> <span class="s">&#39;_&#39;</span> <span class="o">+</span> <span class="n">sys2</span><span class="p">)</span>
+            <span class="n">jd1</span><span class="p">,</span> <span class="n">jd2</span> <span class="o">=</span> <span class="n">conv_func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">FORMATS</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">format</span><span class="p">](</span><span class="n">jd1</span><span class="p">,</span> <span class="n">jd2</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">precision</span><span class="p">,</span>
+                                               <span class="bp">self</span><span class="o">.</span><span class="n">in_subfmt</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">out_subfmt</span><span class="p">,</span>
+                                               <span class="n">from_jd</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">precision</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Decimal precision when outputting seconds as floating point (int</span>
+<span class="sd">        value between 0 and 9 inclusive).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_precision</span>
+
+    <span class="nd">@precision.setter</span>
+<div class="viewcode-block" id="Time.precision"><a class="viewcode-back" href="../../../_generated/astropy.time.core.Time.html#astropy.time.core.Time.precision">[docs]</a>    <span class="k">def</span> <span class="nf">precision</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">or</span> <span class="n">val</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">val</span> <span class="o">&gt;</span> <span class="mi">9</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;precision attribute must be an int between &#39;</span>
+                             <span class="s">&#39;0 and 9&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_precision</span> <span class="o">=</span> <span class="n">val</span>
+</div>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">in_subfmt</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Unix wildcard pattern to select subformats for parsing string input</span>
+<span class="sd">        times</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_in_subfmt</span>
+
+    <span class="nd">@in_subfmt.setter</span>
+<div class="viewcode-block" id="Time.in_subfmt"><a class="viewcode-back" href="../../../_generated/astropy.time.core.Time.html#astropy.time.core.Time.in_subfmt">[docs]</a>    <span class="k">def</span> <span class="nf">in_subfmt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">basestring</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;in_subfmt attribute must be a string&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_in_subfmt</span> <span class="o">=</span> <span class="n">val</span>
+</div>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">out_subfmt</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Unix wildcard pattern to select subformats for outputting times</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_out_subfmt</span>
+
+    <span class="nd">@out_subfmt.setter</span>
+<div class="viewcode-block" id="Time.out_subfmt"><a class="viewcode-back" href="../../../_generated/astropy.time.core.Time.html#astropy.time.core.Time.out_subfmt">[docs]</a>    <span class="k">def</span> <span class="nf">out_subfmt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">basestring</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;out_subfmt attribute must be a string&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_out_subfmt</span> <span class="o">=</span> <span class="n">val</span>
+</div>
+    <span class="k">def</span> <span class="nf">_shaped_like_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vals</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">vals</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_scalar</span> <span class="k">else</span> <span class="n">vals</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="Time.jd1"><a class="viewcode-back" href="../../../_generated/astropy.time.core.Time.html#astropy.time.core.Time.jd1">[docs]</a>    <span class="k">def</span> <span class="nf">jd1</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        First of the two doubles that internally store time value(s) in JD</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_shaped_like_input</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_time</span><span class="o">.</span><span class="n">jd1</span><span class="p">)</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="Time.jd2"><a class="viewcode-back" href="../../../_generated/astropy.time.core.Time.html#astropy.time.core.Time.jd2">[docs]</a>    <span class="k">def</span> <span class="nf">jd2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Second of the two doubles that internally store time value(s) in JD</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_shaped_like_input</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_time</span><span class="o">.</span><span class="n">jd2</span><span class="p">)</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="Time.val"><a class="viewcode-back" href="../../../_generated/astropy.time.core.Time.html#astropy.time.core.Time.val">[docs]</a>    <span class="k">def</span> <span class="nf">val</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Time value(s) in current format&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_shaped_like_input</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_time</span><span class="o">.</span><span class="n">vals</span><span class="p">)</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="Time.vals"><a class="viewcode-back" href="../../../_generated/astropy.time.core.Time.html#astropy.time.core.Time.vals">[docs]</a>    <span class="k">def</span> <span class="nf">vals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Time values in current format as a numpy array&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_time</span><span class="o">.</span><span class="n">vals</span>
+</div>
+<div class="viewcode-block" id="Time.copy"><a class="viewcode-back" href="../../../_generated/astropy.time.core.Time.html#astropy.time.core.Time.copy">[docs]</a>    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a fully independent copy the Time object, optionally changing</span>
+<span class="sd">        the format.</span>
+
+<span class="sd">        If ``format`` is supplied then the time format of the returned Time</span>
+<span class="sd">        object will be set accordingly, otherwise it will be unchanged from the</span>
+<span class="sd">        original.</span>
+
+<span class="sd">        In this method a full copy of the internal time arrays will be made.</span>
+<span class="sd">        The internal time arrays are normally not changeable by the user so in</span>
+<span class="sd">        most cases the ``replicate()`` method should be used.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        format : str, optional</span>
+<span class="sd">            Time format of the copy.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        tm: Time object</span>
+<span class="sd">            Copy of this object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">replicate</span><span class="p">(</span><span class="n">format</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Time.replicate"><a class="viewcode-back" href="../../../_generated/astropy.time.core.Time.html#astropy.time.core.Time.replicate">[docs]</a>    <span class="k">def</span> <span class="nf">replicate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a replica of the Time object, optionally changing the format.</span>
+
+<span class="sd">        If ``format`` is supplied then the time format of the returned Time</span>
+<span class="sd">        object will be set accordingly, otherwise it will be unchanged from the</span>
+<span class="sd">        original.</span>
+
+<span class="sd">        If ``copy`` is set to True then a full copy of the internal time arrays</span>
+<span class="sd">        will be made.  By default the replica will use a reference to the</span>
+<span class="sd">        original arrays when possible to save memory.  The internal time arrays</span>
+<span class="sd">        are normally not changeable by the user so in most cases it should not</span>
+<span class="sd">        be necessary to set ``copy`` to True.</span>
+
+<span class="sd">        The convenience method copy() is available in which ``copy`` is True</span>
+<span class="sd">        by default.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        format : str, optional</span>
+<span class="sd">            Time format of the replica.</span>
+<span class="sd">        copy : bool, optional</span>
+<span class="sd">            Return a true copy instead of using references where possible.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        tm: Time object</span>
+<span class="sd">            Replica of this object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">tm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_time</span><span class="o">.</span><span class="n">jd1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_time</span><span class="o">.</span><span class="n">jd2</span><span class="p">,</span>
+                            <span class="n">format</span><span class="o">=</span><span class="s">&#39;jd&#39;</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="n">copy</span><span class="p">)</span>
+
+        <span class="c"># Optional or non-arg attributes</span>
+        <span class="n">attrs</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;is_scalar&#39;</span><span class="p">,</span> <span class="s">&#39;_delta_ut1_utc&#39;</span><span class="p">,</span> <span class="s">&#39;_delta_tdb_tt&#39;</span><span class="p">,</span>
+                 <span class="s">&#39;lat&#39;</span><span class="p">,</span> <span class="s">&#39;lon&#39;</span><span class="p">,</span> <span class="s">&#39;precision&#39;</span><span class="p">,</span> <span class="s">&#39;in_subfmt&#39;</span><span class="p">,</span> <span class="s">&#39;out_subfmt&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">attrs</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="n">tm</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">))</span>
+            <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+                <span class="k">pass</span>
+
+        <span class="k">if</span> <span class="n">format</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">format</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">format</span>
+
+        <span class="c"># Make the new internal _time object corresponding to the format</span>
+        <span class="c"># in the copy.  If the format is unchanged this process is lightweight</span>
+        <span class="c"># and does not create any new arrays.</span>
+
+        <span class="n">NewFormat</span> <span class="o">=</span> <span class="n">tm</span><span class="o">.</span><span class="n">FORMATS</span><span class="p">[</span><span class="n">format</span><span class="p">]</span>
+        <span class="c"># If the new format class has a &quot;scale&quot; class attr then that scale is</span>
+        <span class="c"># required and the input jd1,2 has to be converted first.</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">NewFormat</span><span class="p">,</span> <span class="s">&#39;required_scale&#39;</span><span class="p">):</span>
+            <span class="n">scale</span> <span class="o">=</span> <span class="n">NewFormat</span><span class="o">.</span><span class="n">required_scale</span>
+            <span class="n">new</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">tm</span><span class="p">,</span> <span class="n">scale</span><span class="p">)</span>  <span class="c"># self JDs converted to scale</span>
+            <span class="n">tm</span><span class="o">.</span><span class="n">_time</span> <span class="o">=</span> <span class="n">NewFormat</span><span class="p">(</span><span class="n">new</span><span class="o">.</span><span class="n">_time</span><span class="o">.</span><span class="n">jd1</span><span class="p">,</span> <span class="n">new</span><span class="o">.</span><span class="n">_time</span><span class="o">.</span><span class="n">jd2</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span>
+                                   <span class="n">tm</span><span class="o">.</span><span class="n">precision</span><span class="p">,</span>
+                                   <span class="n">tm</span><span class="o">.</span><span class="n">in_subfmt</span><span class="p">,</span> <span class="n">tm</span><span class="o">.</span><span class="n">out_subfmt</span><span class="p">,</span>
+                                   <span class="n">from_jd</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">tm</span><span class="o">.</span><span class="n">_time</span> <span class="o">=</span> <span class="n">NewFormat</span><span class="p">(</span><span class="n">tm</span><span class="o">.</span><span class="n">_time</span><span class="o">.</span><span class="n">jd1</span><span class="p">,</span> <span class="n">tm</span><span class="o">.</span><span class="n">_time</span><span class="o">.</span><span class="n">jd2</span><span class="p">,</span>
+                                   <span class="n">tm</span><span class="o">.</span><span class="n">scale</span><span class="p">,</span> <span class="n">tm</span><span class="o">.</span><span class="n">precision</span><span class="p">,</span>
+                                   <span class="n">tm</span><span class="o">.</span><span class="n">in_subfmt</span><span class="p">,</span> <span class="n">tm</span><span class="o">.</span><span class="n">out_subfmt</span><span class="p">,</span>
+                                   <span class="n">from_jd</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="n">tm</span><span class="o">.</span><span class="n">_format</span> <span class="o">=</span> <span class="n">format</span>
+
+        <span class="k">return</span> <span class="n">tm</span>
+</div>
+    <span class="k">def</span> <span class="nf">_getAttributeNames</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add dynamic attribute names for IPython completer.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">SCALES</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">FORMATS</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get dynamic attributes to output format or do timescale conversion.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c"># The following is needed for the IPython completer</span>
+        <span class="k">if</span> <span class="n">attr</span> <span class="o">==</span> <span class="s">&#39;trait_names&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[]</span>
+
+        <span class="k">if</span> <span class="n">attr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">SCALES</span><span class="p">:</span>
+            <span class="n">tm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">replicate</span><span class="p">()</span>
+            <span class="n">tm</span><span class="o">.</span><span class="n">_set_scale</span><span class="p">(</span><span class="n">attr</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">tm</span>
+
+        <span class="k">elif</span> <span class="n">attr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">FORMATS</span><span class="p">:</span>
+            <span class="n">tm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">replicate</span><span class="p">(</span><span class="n">format</span><span class="o">=</span><span class="n">attr</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">tm</span><span class="o">.</span><span class="n">vals</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_scalar</span> <span class="k">else</span> <span class="n">tm</span><span class="o">.</span><span class="n">vals</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c"># Should raise AttributeError</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__getattribute__</span><span class="p">(</span><span class="n">attr</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_match_len</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Ensure that `val` is matched to length of self.  If val has length 1</span>
+<span class="sd">        then broadcast, otherwise cast to double and make sure length matches.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">val</span><span class="p">,</span> <span class="n">ndim</span> <span class="o">=</span> <span class="n">_make_1d_array</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>  <span class="c"># be conservative and copy</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">oval</span> <span class="o">=</span> <span class="n">val</span>
+            <span class="n">val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">)</span>
+            <span class="n">val</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">oval</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Attribute length must match Time object length&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">val</span>
+
+    <span class="c"># Property for SOFA DUT arg = UT1 - UTC</span>
+    <span class="k">def</span> <span class="nf">_get_delta_ut1_utc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">jd1</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">jd2</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get SOFA DUT arg = UT1 - UTC.  This getter takes optional jd1 and</span>
+<span class="sd">        jd2 args because it gets called that way when converting time scales.</span>
+<span class="sd">        The current code ignores these, but when the IERS table is interpolated</span>
+<span class="sd">        by this module they will be used.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c"># Sec. 4.3.1: the arg DUT is the quantity delta_UT1 = UT1 - UTC in</span>
+        <span class="c"># seconds. It can be obtained from tables published by the IERS.</span>
+        <span class="c"># TODO - get that table when needed and interpolate or whatever.</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;_delta_ut1_utc&#39;</span><span class="p">):</span>
+            <span class="c"># Exception until the IERS table is available to the package</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Must set the delta_ut1_utc attribute in &#39;</span>
+                             <span class="s">&#39;order to do the scale transform.&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_delta_ut1_utc</span>
+
+    <span class="k">def</span> <span class="nf">_set_delta_ut1_utc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_delta_ut1_utc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_match_len</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+
+    <span class="c"># Note can&#39;t use @property because _get_delta_tdb_tt is explicitly</span>
+    <span class="c"># called with the optional jd1 and jd2 args.</span>
+    <span class="n">delta_ut1_utc</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_get_delta_ut1_utc</span><span class="p">,</span> <span class="n">_set_delta_ut1_utc</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;UT1 - UTC time scale offset&quot;&quot;&quot;</span>
+
+    <span class="c"># Property for SOFA DTR arg = TDB - TT</span>
+    <span class="k">def</span> <span class="nf">_get_delta_tdb_tt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">jd1</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">jd2</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;_delta_tdb_tt&#39;</span><span class="p">):</span>
+            <span class="c"># If jd1 and jd2 are not provided (which is the case for property</span>
+            <span class="c"># attribute access) then require that the time scale is TT or TDB.</span>
+            <span class="c"># Otherwise the computations here are not correct.</span>
+            <span class="k">if</span> <span class="n">jd1</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="n">jd2</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s">&#39;tt&#39;</span><span class="p">,</span> <span class="s">&#39;tdb&#39;</span><span class="p">):</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Accessing the delta_tdb_tt attribute &#39;</span>
+                                     <span class="s">&#39;is only possible for TT or TDB time &#39;</span>
+                                     <span class="s">&#39;scales&#39;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">jd1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_time</span><span class="o">.</span><span class="n">jd1</span>
+                    <span class="n">jd2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_time</span><span class="o">.</span><span class="n">jd2</span>
+
+            <span class="c"># First go from the current input time (which is either</span>
+            <span class="c"># TDB or TT) to an approximate UTC.  Since TT and TDB are</span>
+            <span class="c"># pretty close (few msec?), assume TT.</span>
+            <span class="n">njd1</span><span class="p">,</span> <span class="n">njd2</span> <span class="o">=</span> <span class="n">sofa_time</span><span class="o">.</span><span class="n">tt_tai</span><span class="p">(</span><span class="n">jd1</span><span class="p">,</span> <span class="n">jd2</span><span class="p">)</span>
+            <span class="n">njd1</span><span class="p">,</span> <span class="n">njd2</span> <span class="o">=</span> <span class="n">sofa_time</span><span class="o">.</span><span class="n">tai_utc</span><span class="p">(</span><span class="n">njd1</span><span class="p">,</span> <span class="n">njd2</span><span class="p">)</span>
+            <span class="c"># TODO: actually need to go to UT1 which needs DUT.</span>
+            <span class="n">ut</span> <span class="o">=</span> <span class="n">njd1</span> <span class="o">+</span> <span class="n">njd2</span>
+
+            <span class="c"># Compute geodetic params needed for d_tdb_tt()</span>
+            <span class="n">phi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lat</span><span class="p">)</span>
+            <span class="n">elon</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lon</span><span class="p">)</span>
+            <span class="n">xyz</span> <span class="o">=</span> <span class="n">sofa_time</span><span class="o">.</span><span class="n">iau_gd2gc</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">elon</span><span class="p">,</span> <span class="n">phi</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+            <span class="n">u</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">xyz</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">xyz</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="n">xyz</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_delta_tdb_tt</span> <span class="o">=</span> <span class="n">sofa_time</span><span class="o">.</span><span class="n">d_tdb_tt</span><span class="p">(</span><span class="n">jd1</span><span class="p">,</span> <span class="n">jd2</span><span class="p">,</span> <span class="n">ut</span><span class="p">,</span> <span class="n">elon</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_delta_tdb_tt</span>
+
+    <span class="k">def</span> <span class="nf">_set_delta_tdb_tt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_delta_tdb_tt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_match_len</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+
+    <span class="c"># Note can&#39;t use @property because _get_delta_tdb_tt is explicitly</span>
+    <span class="c"># called with the optional jd1 and jd2 args.</span>
+    <span class="n">delta_tdb_tt</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_get_delta_tdb_tt</span><span class="p">,</span> <span class="n">_set_delta_tdb_tt</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;TDB - TT time scale offset&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_time</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__sub__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="n">self_tai</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tai</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Time</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">OperandTypeError</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span>
+
+        <span class="n">other_tai</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">tai</span>
+        <span class="n">jd1</span> <span class="o">=</span> <span class="n">self_tai</span><span class="o">.</span><span class="n">jd1</span> <span class="o">-</span> <span class="n">other_tai</span><span class="o">.</span><span class="n">jd1</span>
+        <span class="n">jd2</span> <span class="o">=</span> <span class="n">self_tai</span><span class="o">.</span><span class="n">jd2</span> <span class="o">-</span> <span class="n">other_tai</span><span class="o">.</span><span class="n">jd2</span>
+
+        <span class="c"># T      - Tdelta = T</span>
+        <span class="c"># Tdelta - Tdelta = Tdelta</span>
+        <span class="c"># T      - T      = Tdelta</span>
+        <span class="c"># Tdelta - T      = error</span>
+        <span class="n">self_delta</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">TimeDelta</span><span class="p">)</span>
+        <span class="n">other_delta</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">TimeDelta</span><span class="p">)</span>
+        <span class="n">self_time</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">self_delta</span>  <span class="c"># only 2 possibilities</span>
+        <span class="n">other_time</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">other_delta</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">self_delta</span> <span class="ow">and</span> <span class="n">other_delta</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">self_time</span> <span class="ow">and</span> <span class="n">other_time</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">TimeDelta</span><span class="p">(</span><span class="n">jd1</span><span class="p">,</span> <span class="n">jd2</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s">&#39;jd&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">self_time</span> <span class="ow">and</span> <span class="n">other_delta</span><span class="p">):</span>
+            <span class="n">self_tai</span><span class="o">.</span><span class="n">_time</span><span class="o">.</span><span class="n">jd1</span> <span class="o">=</span> <span class="n">jd1</span>
+            <span class="n">self_tai</span><span class="o">.</span><span class="n">_time</span><span class="o">.</span><span class="n">jd2</span> <span class="o">=</span> <span class="n">jd2</span>
+            <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">self_tai</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">OperandTypeError</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="n">self_tai</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tai</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Time</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">OperandTypeError</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span>
+
+        <span class="n">other_tai</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">tai</span>
+        <span class="n">jd1</span> <span class="o">=</span> <span class="n">self_tai</span><span class="o">.</span><span class="n">jd1</span> <span class="o">+</span> <span class="n">other_tai</span><span class="o">.</span><span class="n">jd1</span>
+        <span class="n">jd2</span> <span class="o">=</span> <span class="n">self_tai</span><span class="o">.</span><span class="n">jd2</span> <span class="o">+</span> <span class="n">other_tai</span><span class="o">.</span><span class="n">jd2</span>
+
+        <span class="c"># T      + Tdelta = T</span>
+        <span class="c"># Tdelta + Tdelta = Tdelta</span>
+        <span class="c"># T      + T      = error</span>
+        <span class="c"># Tdelta + T      = T</span>
+        <span class="n">self_delta</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">TimeDelta</span><span class="p">)</span>
+        <span class="n">other_delta</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">TimeDelta</span><span class="p">)</span>
+        <span class="n">self_time</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">self_delta</span>  <span class="c"># only 2 possibilities</span>
+        <span class="n">other_time</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">other_delta</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">self_delta</span> <span class="ow">and</span> <span class="n">other_delta</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">TimeDelta</span><span class="p">(</span><span class="n">jd1</span><span class="p">,</span> <span class="n">jd2</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s">&#39;jd&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">self_time</span> <span class="ow">and</span> <span class="n">other_delta</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">self_delta</span> <span class="ow">and</span> <span class="n">other_time</span><span class="p">):</span>
+            <span class="n">tai</span> <span class="o">=</span> <span class="n">self_tai</span> <span class="k">if</span> <span class="n">self_time</span> <span class="k">else</span> <span class="n">other_tai</span>
+            <span class="n">scale</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span> <span class="k">if</span> <span class="n">self_time</span> <span class="k">else</span> <span class="n">other</span><span class="o">.</span><span class="n">scale</span>
+            <span class="n">tai</span><span class="o">.</span><span class="n">_time</span><span class="o">.</span><span class="n">jd1</span> <span class="o">=</span> <span class="n">jd1</span>
+            <span class="n">tai</span><span class="o">.</span><span class="n">_time</span><span class="o">.</span><span class="n">jd2</span> <span class="o">=</span> <span class="n">jd2</span>
+            <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">tai</span><span class="p">,</span> <span class="n">scale</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">OperandTypeError</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="TimeDelta"><a class="viewcode-back" href="../../../_generated/astropy.time.core.TimeDelta.html#astropy.time.core.TimeDelta">[docs]</a><span class="k">class</span> <span class="nc">TimeDelta</span><span class="p">(</span><span class="n">Time</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represent the time difference between two times.</span>
+
+<span class="sd">    A TimeDelta object is initialized with one or more times in the ``val``</span>
+<span class="sd">    argument.  The input times in ``val`` must conform to the specified</span>
+<span class="sd">    ``format``.  The optional ``val2`` time input should be supplied only for</span>
+<span class="sd">    numeric input formats (e.g. JD) where very high precision (better than</span>
+<span class="sd">    64-bit precision) is required.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    val : numpy ndarray, list, str, number, or `~astropy.time.TimeDelta` object</span>
+<span class="sd">        Data to initialize table.</span>
+<span class="sd">    val2 : numpy ndarray, list, str, or number; optional</span>
+<span class="sd">        Data to initialize table.</span>
+<span class="sd">    format : str, optional</span>
+<span class="sd">        Format of input value(s)</span>
+<span class="sd">    copy : bool, optional</span>
+<span class="sd">        Make a copy of the input values</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">SCALES</span> <span class="o">=</span> <span class="n">TIME_DELTA_SCALES</span>
+    <span class="sd">&quot;&quot;&quot;List of time delta scales&quot;&quot;&quot;</span>
+
+    <span class="n">FORMATS</span> <span class="o">=</span> <span class="n">TIME_DELTA_FORMATS</span>
+    <span class="sd">&quot;&quot;&quot;Dict of time delta formats&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">val2</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="c"># Note: scale is not used but is needed because of the inheritance</span>
+        <span class="c"># from Time.</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_init_from_vals</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">val2</span><span class="p">,</span> <span class="n">format</span><span class="p">,</span> <span class="s">&#39;tai&#39;</span><span class="p">,</span> <span class="n">copy</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="TimeFormat"><a class="viewcode-back" href="../../../_generated/astropy.time.core.TimeFormat.html#astropy.time.core.TimeFormat">[docs]</a><span class="k">class</span> <span class="nc">TimeFormat</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Base class for time representations.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    val1 : numpy ndarray, list, str, or number</span>
+<span class="sd">        Data to initialize table.</span>
+<span class="sd">    val2 : numpy ndarray, list, str, or number; optional</span>
+<span class="sd">        Data to initialize table.</span>
+<span class="sd">    scale : str</span>
+<span class="sd">        Time scale of input value(s)</span>
+<span class="sd">    precision : int</span>
+<span class="sd">        Precision for seconds as floating point</span>
+<span class="sd">    in_subfmt : str</span>
+<span class="sd">        Select subformat for inputting string times</span>
+<span class="sd">    out_subfmt : str</span>
+<span class="sd">        Select subformat for outputting string times</span>
+<span class="sd">    from_jd : bool</span>
+<span class="sd">        If true then val1, val2 are jd1, jd2</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val1</span><span class="p">,</span> <span class="n">val2</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">precision</span><span class="p">,</span>
+                 <span class="n">in_subfmt</span><span class="p">,</span> <span class="n">out_subfmt</span><span class="p">,</span> <span class="n">from_jd</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scale</span> <span class="o">=</span> <span class="n">scale</span>  <span class="c"># validation of scale done later with _check_scale</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">precision</span> <span class="o">=</span> <span class="n">precision</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">in_subfmt</span> <span class="o">=</span> <span class="n">in_subfmt</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">out_subfmt</span> <span class="o">=</span> <span class="n">out_subfmt</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">val1</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">val2</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Input val1 and val2 must match in length&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">from_jd</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">jd1</span> <span class="o">=</span> <span class="n">val1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">jd2</span> <span class="o">=</span> <span class="n">val2</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_check_val_type</span><span class="p">(</span><span class="n">val1</span><span class="p">,</span> <span class="n">val2</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_jds</span><span class="p">(</span><span class="n">val1</span><span class="p">,</span> <span class="n">val2</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jd1</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">scale</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Time scale&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_scale</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_scale</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_scale</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_scale</span>
+
+    <span class="nd">@scale.setter</span>
+<div class="viewcode-block" id="TimeFormat.scale"><a class="viewcode-back" href="../../../_generated/astropy.time.core.TimeFormat.html#astropy.time.core.TimeFormat.scale">[docs]</a>    <span class="k">def</span> <span class="nf">scale</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_scale</span> <span class="o">=</span> <span class="n">val</span>
+</div>
+    <span class="k">def</span> <span class="nf">_check_val_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val1</span><span class="p">,</span> <span class="n">val2</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Input value validation, typically overridden by derived classes&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">val1</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">type</span> <span class="o">!=</span> <span class="n">np</span><span class="o">.</span><span class="n">double</span> <span class="ow">or</span> <span class="n">val2</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">type</span> <span class="o">!=</span> <span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&#39;Input values for {0} class must be doubles&#39;</span>
+                             <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_check_scale</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scale</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a validated scale value.</span>
+
+<span class="sd">        If there is a class attribute &#39;scale&#39; then that defines the default /</span>
+<span class="sd">        required time scale for this format.  In this case if a scale value was</span>
+<span class="sd">        provided that needs to match the class default, otherwise return</span>
+<span class="sd">        the class default.</span>
+
+<span class="sd">        Otherwise just make sure that scale is in the allowed list of</span>
+<span class="sd">        scales.  Provide a different error message if None (no value) was</span>
+<span class="sd">        supplied.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">,</span> <span class="s">&#39;epoch_scale&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">scale</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">scale</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">epoch_scale</span>
+
+        <span class="k">if</span> <span class="n">scale</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">TIME_SCALES</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">scale</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">ScaleValueError</span><span class="p">(</span><span class="s">&quot;No scale value supplied but it is &quot;</span>
+                                    <span class="s">&quot;required for class {0}&quot;</span>
+                                    <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="n">ScaleValueError</span><span class="p">(</span><span class="s">&quot;Scale value &#39;{0}&#39; not in &quot;</span>
+                                  <span class="s">&quot;allowed values {1}&quot;</span>
+                                <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">scale</span><span class="p">,</span> <span class="n">TIME_SCALES</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">scale</span>
+
+<div class="viewcode-block" id="TimeFormat.set_jds"><a class="viewcode-back" href="../../../_generated/astropy.time.core.TimeFormat.html#astropy.time.core.TimeFormat.set_jds">[docs]</a>    <span class="k">def</span> <span class="nf">set_jds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val1</span><span class="p">,</span> <span class="n">val2</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set internal jd1 and jd2 from val1 and val2.  Must be provided</span>
+<span class="sd">        by derived classes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="TimeFormat.vals"><a class="viewcode-back" href="../../../_generated/astropy.time.core.TimeFormat.html#astropy.time.core.TimeFormat.vals">[docs]</a>    <span class="k">def</span> <span class="nf">vals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return time representation from internal jd1 and jd2.  Must be</span>
+<span class="sd">        provided by by derived classes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+
+</div></div>
+<div class="viewcode-block" id="TimeJD"><a class="viewcode-back" href="../../../_generated/astropy.time.core.TimeJD.html#astropy.time.core.TimeJD">[docs]</a><span class="k">class</span> <span class="nc">TimeJD</span><span class="p">(</span><span class="n">TimeFormat</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Julian Date time format&quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s">&#39;jd&#39;</span>
+
+<div class="viewcode-block" id="TimeJD.set_jds"><a class="viewcode-back" href="../../../_generated/astropy.time.core.TimeJD.html#astropy.time.core.TimeJD.set_jds">[docs]</a>    <span class="k">def</span> <span class="nf">set_jds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val1</span><span class="p">,</span> <span class="n">val2</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_scale</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_scale</span><span class="p">)</span>  <span class="c"># Validate scale.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">jd1</span> <span class="o">=</span> <span class="n">val1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">jd2</span> <span class="o">=</span> <span class="n">val2</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="TimeJD.vals"><a class="viewcode-back" href="../../../_generated/astropy.time.core.TimeJD.html#astropy.time.core.TimeJD.vals">[docs]</a>    <span class="k">def</span> <span class="nf">vals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">jd1</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">jd2</span>
+
+</div></div>
+<div class="viewcode-block" id="TimeMJD"><a class="viewcode-back" href="../../../_generated/astropy.time.core.TimeMJD.html#astropy.time.core.TimeMJD">[docs]</a><span class="k">class</span> <span class="nc">TimeMJD</span><span class="p">(</span><span class="n">TimeFormat</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Modified Julian Date time format&quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s">&#39;mjd&#39;</span>
+
+<div class="viewcode-block" id="TimeMJD.set_jds"><a class="viewcode-back" href="../../../_generated/astropy.time.core.TimeMJD.html#astropy.time.core.TimeMJD.set_jds">[docs]</a>    <span class="k">def</span> <span class="nf">set_jds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val1</span><span class="p">,</span> <span class="n">val2</span><span class="p">):</span>
+        <span class="c"># TODO - this routine and vals should be Cythonized to follow the SOFA</span>
+        <span class="c"># convention of preserving precision by adding to the larger of the two</span>
+        <span class="c"># values in a vectorized operation.  But in most practical cases the</span>
+        <span class="c"># first one is probably biggest.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_scale</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_scale</span><span class="p">)</span>  <span class="c"># Validate scale.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">jd1</span> <span class="o">=</span> <span class="n">val1</span> <span class="o">+</span> <span class="n">MJD_ZERO</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">jd2</span> <span class="o">=</span> <span class="n">val2</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="TimeMJD.vals"><a class="viewcode-back" href="../../../_generated/astropy.time.core.TimeMJD.html#astropy.time.core.TimeMJD.vals">[docs]</a>    <span class="k">def</span> <span class="nf">vals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jd1</span> <span class="o">-</span> <span class="n">MJD_ZERO</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">jd2</span>
+
+</div></div>
+<div class="viewcode-block" id="TimeFromEpoch"><a class="viewcode-back" href="../../../_generated/astropy.time.core.TimeFromEpoch.html#astropy.time.core.TimeFromEpoch">[docs]</a><span class="k">class</span> <span class="nc">TimeFromEpoch</span><span class="p">(</span><span class="n">TimeFormat</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Base class for times that represent the interval from a particular</span>
+<span class="sd">    epoch as a floating point multiple of a unit time interval (e.g. seconds</span>
+<span class="sd">    or days).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val1</span><span class="p">,</span> <span class="n">val2</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">precision</span><span class="p">,</span>
+                 <span class="n">in_subfmt</span><span class="p">,</span> <span class="n">out_subfmt</span><span class="p">,</span> <span class="n">from_jd</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scale</span> <span class="o">=</span> <span class="n">scale</span>
+        <span class="c"># Initialize the reference epoch which is a single time defined in subclasses</span>
+        <span class="n">epoch</span> <span class="o">=</span> <span class="n">Time</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">epoch_val</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">epoch_val2</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">epoch_scale</span><span class="p">,</span>
+                     <span class="n">format</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">epoch_format</span><span class="p">)</span>
+        <span class="c"># Convert the epoch time to TAI so that calculations involving adding/subtracting</span>
+        <span class="c"># JDs are always linear and well-defined (a JD in TAI is always 86400 uniform</span>
+        <span class="c"># seconds, unlike other scales, in particular UTC where one JD isn&#39;t always the</span>
+        <span class="c"># same duration).</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">epoch</span> <span class="o">=</span> <span class="n">epoch</span><span class="o">.</span><span class="n">tai</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">TimeFromEpoch</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">val1</span><span class="p">,</span> <span class="n">val2</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">precision</span><span class="p">,</span>
+                                            <span class="n">in_subfmt</span><span class="p">,</span> <span class="n">out_subfmt</span><span class="p">,</span> <span class="n">from_jd</span><span class="p">)</span>
+
+<div class="viewcode-block" id="TimeFromEpoch.set_jds"><a class="viewcode-back" href="../../../_generated/astropy.time.core.TimeFromEpoch.html#astropy.time.core.TimeFromEpoch.set_jds">[docs]</a>    <span class="k">def</span> <span class="nf">set_jds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val1</span><span class="p">,</span> <span class="n">val2</span><span class="p">):</span>
+        <span class="c"># Form new JDs based on epoch time (TAI) + time from epoch (converted to JD)</span>
+        <span class="n">jd1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">epoch</span><span class="o">.</span><span class="n">jd1</span> <span class="o">+</span> <span class="n">val2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">unit</span>
+        <span class="n">jd2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">epoch</span><span class="o">.</span><span class="n">jd2</span> <span class="o">+</span> <span class="n">val1</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">unit</span>
+
+        <span class="c"># Create a Time object corresponding to the new (jd1, jd2) in TAI, then convert</span>
+        <span class="c"># that to the time scale for this object.</span>
+        <span class="n">tm</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">Time</span><span class="p">(</span><span class="n">jd1</span><span class="p">,</span> <span class="n">jd2</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="s">&#39;tai&#39;</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s">&#39;jd&#39;</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">jd1</span> <span class="o">=</span> <span class="n">tm</span><span class="o">.</span><span class="n">jd1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">jd2</span> <span class="o">=</span> <span class="n">tm</span><span class="o">.</span><span class="n">jd2</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="TimeFromEpoch.vals"><a class="viewcode-back" href="../../../_generated/astropy.time.core.TimeFromEpoch.html#astropy.time.core.TimeFromEpoch.vals">[docs]</a>    <span class="k">def</span> <span class="nf">vals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c"># Convert current JDs to TAI</span>
+        <span class="n">tm</span> <span class="o">=</span> <span class="n">Time</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jd1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">jd2</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">,</span> <span class="n">format</span><span class="o">=</span><span class="s">&#39;jd&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">tai</span>
+        <span class="n">time_from_epoch</span> <span class="o">=</span> <span class="p">((</span><span class="n">tm</span><span class="o">.</span><span class="n">jd1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">epoch</span><span class="o">.</span><span class="n">jd1</span><span class="p">)</span> <span class="o">+</span>
+                           <span class="p">(</span><span class="n">tm</span><span class="o">.</span><span class="n">jd2</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">epoch</span><span class="o">.</span><span class="n">jd2</span><span class="p">))</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">unit</span>
+        <span class="k">return</span> <span class="n">time_from_epoch</span>
+
+</div></div>
+<div class="viewcode-block" id="TimeUnix"><a class="viewcode-back" href="../../../_generated/astropy.time.core.TimeUnix.html#astropy.time.core.TimeUnix">[docs]</a><span class="k">class</span> <span class="nc">TimeUnix</span><span class="p">(</span><span class="n">TimeFromEpoch</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Unix time: seconds from 1970-01-01 00:00:00 UTC.</span>
+
+<span class="sd">    NOTE: this quantity is not exactly unix time and differs from the strict</span>
+<span class="sd">    POSIX definition by up to 1 second on days with a leap second.  POSIX</span>
+<span class="sd">    unix time actually jumps backward by 1 second at midnight on leap second</span>
+<span class="sd">    days while this class value is monotonically increasing at 86400 seconds</span>
+<span class="sd">    per UTC day.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s">&#39;unix&#39;</span>
+    <span class="n">unit</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">SECS_PER_DAY</span>  <span class="c"># in days (1 day == 86400 seconds)</span>
+    <span class="n">epoch_val</span> <span class="o">=</span> <span class="s">&#39;1970-01-01 00:00:00&#39;</span>
+    <span class="n">epoch_val2</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">epoch_scale</span> <span class="o">=</span> <span class="s">&#39;utc&#39;</span>
+    <span class="n">epoch_format</span> <span class="o">=</span> <span class="s">&#39;iso&#39;</span>
+
+</div>
+<div class="viewcode-block" id="TimeCxcSec"><a class="viewcode-back" href="../../../_generated/astropy.time.core.TimeCxcSec.html#astropy.time.core.TimeCxcSec">[docs]</a><span class="k">class</span> <span class="nc">TimeCxcSec</span><span class="p">(</span><span class="n">TimeFromEpoch</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Chandra X-ray Center seconds from 1998-01-01 00:00:00 TT&quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s">&#39;cxcsec&#39;</span>
+    <span class="n">unit</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">SECS_PER_DAY</span>  <span class="c"># in days (1 day == 86400 seconds)</span>
+    <span class="n">epoch_val</span> <span class="o">=</span> <span class="s">&#39;1998-01-01 00:00:00&#39;</span>
+    <span class="n">epoch_val2</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">epoch_scale</span> <span class="o">=</span> <span class="s">&#39;tt&#39;</span>
+    <span class="n">epoch_format</span> <span class="o">=</span> <span class="s">&#39;iso&#39;</span>
+
+</div>
+<div class="viewcode-block" id="TimeString"><a class="viewcode-back" href="../../../_generated/astropy.time.core.TimeString.html#astropy.time.core.TimeString">[docs]</a><span class="k">class</span> <span class="nc">TimeString</span><span class="p">(</span><span class="n">TimeFormat</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Base class for string-like time represetations.</span>
+
+<span class="sd">    This class assumes that anything following the last decimal point to the</span>
+<span class="sd">    right is a fraction of a second.</span>
+
+<span class="sd">    This is a reference implementation can be made much faster with effort.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">_check_val_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val1</span><span class="p">,</span> <span class="n">val2</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">val1</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">kind</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s">&#39;S&#39;</span><span class="p">,</span> <span class="s">&#39;U&#39;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&#39;Input values for {0} class must be strings&#39;</span>
+                             <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+            <span class="c"># Note: don&#39;t care about val2 for these classes</span>
+
+<div class="viewcode-block" id="TimeString.set_jds"><a class="viewcode-back" href="../../../_generated/astropy.time.core.TimeString.html#astropy.time.core.TimeString.set_jds">[docs]</a>    <span class="k">def</span> <span class="nf">set_jds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val1</span><span class="p">,</span> <span class="n">val2</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Parse the time strings contained in val1 and set jd1, jd2&quot;&quot;&quot;</span>
+        <span class="n">n_times</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">val1</span><span class="p">)</span>  <span class="c"># val1,2 already checked to have same len</span>
+        <span class="n">iy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">n_times</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">intc</span><span class="p">)</span>
+        <span class="n">im</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">n_times</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">intc</span><span class="p">)</span>
+        <span class="nb">id</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">n_times</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">intc</span><span class="p">)</span>
+        <span class="n">ihr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">n_times</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">intc</span><span class="p">)</span>
+        <span class="n">imin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">n_times</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">intc</span><span class="p">)</span>
+        <span class="n">dsec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">n_times</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">)</span>
+
+        <span class="c"># Select subformats based on current self.in_subfmt</span>
+        <span class="n">subfmts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_select_subfmts</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">in_subfmt</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">timestr</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">val1</span><span class="p">):</span>
+            <span class="c"># Assume that anything following &quot;.&quot; on the right side is a</span>
+            <span class="c"># floating fraction of a second.</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">idot</span> <span class="o">=</span> <span class="n">timestr</span><span class="o">.</span><span class="n">rindex</span><span class="p">(</span><span class="s">&#39;.&#39;</span><span class="p">)</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="n">fracsec</span> <span class="o">=</span> <span class="mf">0.0</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">timestr</span><span class="p">,</span> <span class="n">fracsec</span> <span class="o">=</span> <span class="n">timestr</span><span class="p">[:</span><span class="n">idot</span><span class="p">],</span> <span class="n">timestr</span><span class="p">[</span><span class="n">idot</span><span class="p">:]</span>
+                <span class="n">fracsec</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">fracsec</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">strptime_fmt</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">subfmts</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">tm</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">timestr</span><span class="p">,</span> <span class="n">strptime_fmt</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                    <span class="k">pass</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">iy</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">tm</span><span class="o">.</span><span class="n">tm_year</span>
+                    <span class="n">im</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">tm</span><span class="o">.</span><span class="n">tm_mon</span>
+                    <span class="nb">id</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">tm</span><span class="o">.</span><span class="n">tm_mday</span>
+                    <span class="n">ihr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">tm</span><span class="o">.</span><span class="n">tm_hour</span>
+                    <span class="n">imin</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">tm</span><span class="o">.</span><span class="n">tm_min</span>
+                    <span class="n">dsec</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">tm</span><span class="o">.</span><span class="n">tm_sec</span> <span class="o">+</span> <span class="n">fracsec</span>
+                    <span class="k">break</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Time {0} does not match {1} format&#39;</span>
+                                 <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">timestr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">jd1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">jd2</span> <span class="o">=</span> <span class="n">sofa_time</span><span class="o">.</span><span class="n">dtf_jd</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">&#39;utf8&#39;</span><span class="p">),</span>
+                                              <span class="n">iy</span><span class="p">,</span> <span class="n">im</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">ihr</span><span class="p">,</span> <span class="n">imin</span><span class="p">,</span> <span class="n">dsec</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="TimeString.str_kwargs"><a class="viewcode-back" href="../../../_generated/astropy.time.core.TimeString.html#astropy.time.core.TimeString.str_kwargs">[docs]</a>    <span class="k">def</span> <span class="nf">str_kwargs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generator that yields a dict of values corresponding to the</span>
+<span class="sd">        calendar date and time for the internal JD values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">iys</span><span class="p">,</span> <span class="n">ims</span><span class="p">,</span> <span class="n">ids</span><span class="p">,</span> <span class="n">ihmsfs</span> <span class="o">=</span> <span class="n">sofa_time</span><span class="o">.</span><span class="n">jd_dtf</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+                                                 <span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">&#39;utf8&#39;</span><span class="p">),</span>
+                                                 <span class="bp">self</span><span class="o">.</span><span class="n">precision</span><span class="p">,</span>
+                                                 <span class="bp">self</span><span class="o">.</span><span class="n">jd1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">jd2</span><span class="p">)</span>
+
+        <span class="c"># Get the str_fmt element of the first allowed output subformat</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">str_fmt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_select_subfmts</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">out_subfmt</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="s">&#39;{yday:&#39;</span> <span class="ow">in</span> <span class="n">str_fmt</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+            <span class="n">has_yday</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">has_yday</span> <span class="o">=</span> <span class="bp">False</span>
+            <span class="n">yday</span> <span class="o">=</span> <span class="bp">None</span>
+
+        <span class="k">for</span> <span class="n">iy</span><span class="p">,</span> <span class="n">im</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">ihmsf</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">izip</span><span class="p">(</span><span class="n">iys</span><span class="p">,</span> <span class="n">ims</span><span class="p">,</span> <span class="n">ids</span><span class="p">,</span> <span class="n">ihmsfs</span><span class="p">):</span>
+            <span class="n">ihr</span><span class="p">,</span> <span class="n">imin</span><span class="p">,</span> <span class="n">isec</span><span class="p">,</span> <span class="n">ifracsec</span> <span class="o">=</span> <span class="n">ihmsf</span>
+            <span class="k">if</span> <span class="n">has_yday</span><span class="p">:</span>
+                <span class="n">yday</span> <span class="o">=</span> <span class="n">datetime</span><span class="p">(</span><span class="n">iy</span><span class="p">,</span> <span class="n">im</span><span class="p">,</span> <span class="nb">id</span><span class="p">)</span><span class="o">.</span><span class="n">timetuple</span><span class="p">()</span><span class="o">.</span><span class="n">tm_yday</span>
+
+            <span class="k">yield</span> <span class="p">{</span><span class="s">&#39;year&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">iy</span><span class="p">),</span> <span class="s">&#39;mon&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">im</span><span class="p">),</span> <span class="s">&#39;day&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="nb">id</span><span class="p">),</span>
+                   <span class="s">&#39;hour&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">ihr</span><span class="p">),</span> <span class="s">&#39;min&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">imin</span><span class="p">),</span> <span class="s">&#39;sec&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">isec</span><span class="p">),</span>
+                   <span class="s">&#39;fracsec&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">ifracsec</span><span class="p">),</span> <span class="s">&#39;yday&#39;</span><span class="p">:</span> <span class="n">yday</span><span class="p">}</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="TimeString.vals"><a class="viewcode-back" href="../../../_generated/astropy.time.core.TimeString.html#astropy.time.core.TimeString.vals">[docs]</a>    <span class="k">def</span> <span class="nf">vals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c"># Select the first available subformat based on current</span>
+        <span class="c"># self.out_subfmt</span>
+        <span class="n">subfmts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_select_subfmts</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">out_subfmt</span><span class="p">)</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">str_fmt</span> <span class="o">=</span> <span class="n">subfmts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="c"># TODO: fix this ugly hack</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">precision</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">str_fmt</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s">&#39;{sec:02d}&#39;</span><span class="p">):</span>
+            <span class="n">str_fmt</span> <span class="o">+=</span> <span class="s">&#39;.{fracsec:0&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">precision</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;d}&#39;</span>
+
+        <span class="c"># Try to optimize this later.  Can&#39;t pre-allocate because length of</span>
+        <span class="c"># output could change, e.g. year rolls from 999 to 1000.</span>
+        <span class="n">outs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">kwargs</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">str_kwargs</span><span class="p">():</span>
+            <span class="n">outs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">str_fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">outs</span><span class="p">)</span>
+</div>
+    <span class="k">def</span> <span class="nf">_select_subfmts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pattern</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a list of subformats where name matches ``pattern`` using</span>
+<span class="sd">        fnmatch.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">fnmatch</span> <span class="kn">import</span> <span class="n">fnmatchcase</span>
+        <span class="n">subfmts</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">subfmts</span> <span class="k">if</span> <span class="n">fnmatchcase</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">pattern</span><span class="p">)]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">subfmts</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;No subformats match {0}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pattern</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">subfmts</span>
+
+</div>
+<div class="viewcode-block" id="TimeISO"><a class="viewcode-back" href="../../../_generated/astropy.time.core.TimeISO.html#astropy.time.core.TimeISO">[docs]</a><span class="k">class</span> <span class="nc">TimeISO</span><span class="p">(</span><span class="n">TimeString</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    ISO 8601 compliant date-time format &quot;YYYY-MM-DD HH:MM:SS.sss...&quot;.</span>
+
+<span class="sd">    The allowed subformats are:</span>
+
+<span class="sd">    - &#39;date_hms&#39;: date + hours, mins, secs (and optional fractional secs)</span>
+<span class="sd">    - &#39;date_hm&#39;: date + hours, mins</span>
+<span class="sd">    - &#39;date&#39;: date</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="s">&#39;iso&#39;</span>
+    <span class="n">subfmts</span> <span class="o">=</span> <span class="p">((</span><span class="s">&#39;date_hms&#39;</span><span class="p">,</span>
+                <span class="s">&#39;%Y-%m-</span><span class="si">%d</span><span class="s"> %H:%M:%S&#39;</span><span class="p">,</span>
+                <span class="c"># XXX To Do - use strftime for output ??</span>
+                <span class="s">&#39;{year:d}-{mon:02d}-{day:02d} {hour:02d}:{min:02d}:{sec:02d}&#39;</span><span class="p">),</span>
+               <span class="p">(</span><span class="s">&#39;date_hm&#39;</span><span class="p">,</span>
+                <span class="s">&#39;%Y-%m-</span><span class="si">%d</span><span class="s"> %H:%M&#39;</span><span class="p">,</span>
+                <span class="s">&#39;{year:d}-{mon:02d}-{day:02d} {hour:02d}:{min:02d}&#39;</span><span class="p">),</span>
+               <span class="p">(</span><span class="s">&#39;date&#39;</span><span class="p">,</span>
+                <span class="s">&#39;%Y-%m-</span><span class="si">%d</span><span class="s">&#39;</span><span class="p">,</span>
+                <span class="s">&#39;{year:d}-{mon:02d}-{day:02d}&#39;</span><span class="p">))</span>
+
+</div>
+<div class="viewcode-block" id="TimeISOT"><a class="viewcode-back" href="../../../_generated/astropy.time.core.TimeISOT.html#astropy.time.core.TimeISOT">[docs]</a><span class="k">class</span> <span class="nc">TimeISOT</span><span class="p">(</span><span class="n">TimeString</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    ISO 8601 compliant date-time format &quot;YYYY-MM-DDTHH:MM:SS.sss...&quot;.</span>
+<span class="sd">    This is the same as TimeISO except for a &quot;T&quot; instead of space between</span>
+<span class="sd">    the date and time.</span>
+
+<span class="sd">    The allowed subformats are:</span>
+
+<span class="sd">    - &#39;date_hms&#39;: date + hours, mins, secs (and optional fractional secs)</span>
+<span class="sd">    - &#39;date_hm&#39;: date + hours, mins</span>
+<span class="sd">    - &#39;date&#39;: date</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="s">&#39;isot&#39;</span>
+    <span class="n">subfmts</span> <span class="o">=</span> <span class="p">((</span><span class="s">&#39;date_hms&#39;</span><span class="p">,</span>
+                <span class="s">&#39;%Y-%m-</span><span class="si">%d</span><span class="s">T%H:%M:%S&#39;</span><span class="p">,</span>
+                <span class="s">&#39;{year:d}-{mon:02d}-{day:02d}T{hour:02d}:{min:02d}:{sec:02d}&#39;</span><span class="p">),</span>
+               <span class="p">(</span><span class="s">&#39;date_hm&#39;</span><span class="p">,</span>
+                <span class="s">&#39;%Y-%m-</span><span class="si">%d</span><span class="s">T%H:%M&#39;</span><span class="p">,</span>
+                <span class="s">&#39;{year:d}-{mon:02d}-{day:02d}T{hour:02d}:{min:02d}&#39;</span><span class="p">),</span>
+               <span class="p">(</span><span class="s">&#39;date&#39;</span><span class="p">,</span>
+                <span class="s">&#39;%Y-%m-</span><span class="si">%d</span><span class="s">&#39;</span><span class="p">,</span>
+                <span class="s">&#39;{year:d}-{mon:02d}-{day:02d}&#39;</span><span class="p">))</span>
+
+</div>
+<div class="viewcode-block" id="TimeYearDayTime"><a class="viewcode-back" href="../../../_generated/astropy.time.core.TimeYearDayTime.html#astropy.time.core.TimeYearDayTime">[docs]</a><span class="k">class</span> <span class="nc">TimeYearDayTime</span><span class="p">(</span><span class="n">TimeString</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Year, day-of-year and time as &quot;YYYY:DOY:HH:MM:SS.sss...&quot;.  The</span>
+<span class="sd">    day-of-year (DOY) goes from 001 to 365 (366 in leap years).</span>
+
+<span class="sd">    The allowed subformats are:</span>
+
+<span class="sd">    - &#39;date_hms&#39;: date + hours, mins, secs (and optional fractional secs)</span>
+<span class="sd">    - &#39;date_hm&#39;: date + hours, mins</span>
+<span class="sd">    - &#39;date&#39;: date</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="s">&#39;yday&#39;</span>
+    <span class="n">subfmts</span> <span class="o">=</span> <span class="p">((</span><span class="s">&#39;date_hms&#39;</span><span class="p">,</span>
+                <span class="s">&#39;%Y:%j:%H:%M:%S&#39;</span><span class="p">,</span>
+                <span class="s">&#39;{year:d}:{yday:03d}:{hour:02d}:{min:02d}:{sec:02d}&#39;</span><span class="p">),</span>
+               <span class="p">(</span><span class="s">&#39;date_hm&#39;</span><span class="p">,</span>
+                <span class="s">&#39;%Y:%j:%H:%M&#39;</span><span class="p">,</span>
+                <span class="s">&#39;{year:d}:{yday:03d}:{hour:02d}:{min:02d}&#39;</span><span class="p">),</span>
+               <span class="p">(</span><span class="s">&#39;date&#39;</span><span class="p">,</span>
+                <span class="s">&#39;%Y:%j&#39;</span><span class="p">,</span>
+                <span class="s">&#39;{year:d}:{yday:03d}&#39;</span><span class="p">))</span>
+
+</div>
+<div class="viewcode-block" id="TimeEpochDate"><a class="viewcode-back" href="../../../_generated/astropy.time.core.TimeEpochDate.html#astropy.time.core.TimeEpochDate">[docs]</a><span class="k">class</span> <span class="nc">TimeEpochDate</span><span class="p">(</span><span class="n">TimeFormat</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Base class for support floating point Besselian and Julian epoch dates</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="TimeEpochDate.set_jds"><a class="viewcode-back" href="../../../_generated/astropy.time.core.TimeEpochDate.html#astropy.time.core.TimeEpochDate.set_jds">[docs]</a>    <span class="k">def</span> <span class="nf">set_jds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val1</span><span class="p">,</span> <span class="n">val2</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_scale</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_scale</span><span class="p">)</span>  <span class="c"># validate scale.</span>
+        <span class="n">epoch_to_jd</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">sofa_time</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">epoch_to_jd</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">jd1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">jd2</span> <span class="o">=</span> <span class="n">epoch_to_jd</span><span class="p">(</span><span class="n">val1</span> <span class="o">+</span> <span class="n">val2</span><span class="p">)</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="TimeEpochDate.vals"><a class="viewcode-back" href="../../../_generated/astropy.time.core.TimeEpochDate.html#astropy.time.core.TimeEpochDate.vals">[docs]</a>    <span class="k">def</span> <span class="nf">vals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">jd_to_epoch</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">sofa_time</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">jd_to_epoch</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">jd_to_epoch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jd1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">jd2</span><span class="p">)</span>
+
+</div></div>
+<div class="viewcode-block" id="TimeBesselianEpoch"><a class="viewcode-back" href="../../../_generated/astropy.time.core.TimeBesselianEpoch.html#astropy.time.core.TimeBesselianEpoch">[docs]</a><span class="k">class</span> <span class="nc">TimeBesselianEpoch</span><span class="p">(</span><span class="n">TimeEpochDate</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Besselian Epoch year as floating point value(s) like 1950.0&quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s">&#39;byear&#39;</span>
+    <span class="n">epoch_to_jd</span> <span class="o">=</span> <span class="s">&#39;besselian_epoch_jd&#39;</span>
+    <span class="n">jd_to_epoch</span> <span class="o">=</span> <span class="s">&#39;jd_besselian_epoch&#39;</span>
+
+</div>
+<div class="viewcode-block" id="TimeJulianEpoch"><a class="viewcode-back" href="../../../_generated/astropy.time.core.TimeJulianEpoch.html#astropy.time.core.TimeJulianEpoch">[docs]</a><span class="k">class</span> <span class="nc">TimeJulianEpoch</span><span class="p">(</span><span class="n">TimeEpochDate</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Julian Epoch year as floating point value(s) like 2000.0&quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s">&#39;jyear&#39;</span>
+    <span class="n">epoch_to_jd</span> <span class="o">=</span> <span class="s">&#39;julian_epoch_jd&#39;</span>
+    <span class="n">jd_to_epoch</span> <span class="o">=</span> <span class="s">&#39;jd_julian_epoch&#39;</span>
+
+</div>
+<div class="viewcode-block" id="TimeEpochDateString"><a class="viewcode-back" href="../../../_generated/astropy.time.core.TimeEpochDateString.html#astropy.time.core.TimeEpochDateString">[docs]</a><span class="k">class</span> <span class="nc">TimeEpochDateString</span><span class="p">(</span><span class="n">TimeString</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Base class to support string Besselian and Julian epoch dates</span>
+<span class="sd">    such as &#39;B1950.0&#39; or &#39;J2000.0&#39; respectively.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="TimeEpochDateString.set_jds"><a class="viewcode-back" href="../../../_generated/astropy.time.core.TimeEpochDateString.html#astropy.time.core.TimeEpochDateString.set_jds">[docs]</a>    <span class="k">def</span> <span class="nf">set_jds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val1</span><span class="p">,</span> <span class="n">val2</span><span class="p">):</span>
+        <span class="n">years</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">val1</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">)</span>
+        <span class="n">epoch_prefix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">epoch_prefix</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">time_str</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">val1</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">epoch_type</span><span class="p">,</span> <span class="n">year_str</span> <span class="o">=</span> <span class="n">time_str</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">time_str</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+                <span class="n">year</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">year_str</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">epoch_type</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">!=</span> <span class="n">epoch_prefix</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span>
+            <span class="k">except</span> <span class="p">(</span><span class="ne">IndexError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">)</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Time {0} does not match {1} format&#39;</span>
+                                 <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">time_str</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">years</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">year</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_scale</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_scale</span><span class="p">)</span>  <span class="c"># validate scale.</span>
+        <span class="n">epoch_to_jd</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">sofa_time</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">epoch_to_jd</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">jd1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">jd2</span> <span class="o">=</span> <span class="n">epoch_to_jd</span><span class="p">(</span><span class="n">years</span><span class="p">)</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="TimeEpochDateString.vals"><a class="viewcode-back" href="../../../_generated/astropy.time.core.TimeEpochDateString.html#astropy.time.core.TimeEpochDateString.vals">[docs]</a>    <span class="k">def</span> <span class="nf">vals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">jd_to_epoch</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">sofa_time</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">jd_to_epoch</span><span class="p">)</span>
+        <span class="n">years</span> <span class="o">=</span> <span class="n">jd_to_epoch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jd1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">jd2</span><span class="p">)</span>
+        <span class="c"># Use old-style format since it is a factor of 2 faster</span>
+        <span class="n">str_fmt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">epoch_prefix</span> <span class="o">+</span> <span class="s">&#39;%.&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">precision</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;f&#39;</span>
+        <span class="n">outs</span> <span class="o">=</span> <span class="p">[</span><span class="n">str_fmt</span> <span class="o">%</span> <span class="n">year</span> <span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="n">years</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">outs</span><span class="p">)</span>
+
+</div></div>
+<div class="viewcode-block" id="TimeBesselianEpochString"><a class="viewcode-back" href="../../../_generated/astropy.time.core.TimeBesselianEpochString.html#astropy.time.core.TimeBesselianEpochString">[docs]</a><span class="k">class</span> <span class="nc">TimeBesselianEpochString</span><span class="p">(</span><span class="n">TimeEpochDateString</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Besselian Epoch year as string value(s) like &#39;B1950.0&#39;&quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s">&#39;byear_str&#39;</span>
+    <span class="n">epoch_to_jd</span> <span class="o">=</span> <span class="s">&#39;besselian_epoch_jd&#39;</span>
+    <span class="n">jd_to_epoch</span> <span class="o">=</span> <span class="s">&#39;jd_besselian_epoch&#39;</span>
+    <span class="n">epoch_prefix</span> <span class="o">=</span> <span class="s">&#39;B&#39;</span>
+
+</div>
+<div class="viewcode-block" id="TimeJulianEpochString"><a class="viewcode-back" href="../../../_generated/astropy.time.core.TimeJulianEpochString.html#astropy.time.core.TimeJulianEpochString">[docs]</a><span class="k">class</span> <span class="nc">TimeJulianEpochString</span><span class="p">(</span><span class="n">TimeEpochDateString</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Julian Epoch year as string value(s) like &#39;J2000.0&#39;&quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s">&#39;jyear_str&#39;</span>
+    <span class="n">epoch_to_jd</span> <span class="o">=</span> <span class="s">&#39;julian_epoch_jd&#39;</span>
+    <span class="n">jd_to_epoch</span> <span class="o">=</span> <span class="s">&#39;jd_julian_epoch&#39;</span>
+    <span class="n">epoch_prefix</span> <span class="o">=</span> <span class="s">&#39;J&#39;</span>
+
+</div>
+<div class="viewcode-block" id="TimeDeltaFormat"><a class="viewcode-back" href="../../../_generated/astropy.time.core.TimeDeltaFormat.html#astropy.time.core.TimeDeltaFormat">[docs]</a><span class="k">class</span> <span class="nc">TimeDeltaFormat</span><span class="p">(</span><span class="n">TimeFormat</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Base class for time delta representations&quot;&quot;&quot;</span>
+    <span class="k">pass</span>
+
+</div>
+<div class="viewcode-block" id="TimeDeltaSec"><a class="viewcode-back" href="../../../_generated/astropy.time.core.TimeDeltaSec.html#astropy.time.core.TimeDeltaSec">[docs]</a><span class="k">class</span> <span class="nc">TimeDeltaSec</span><span class="p">(</span><span class="n">TimeDeltaFormat</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Time delta in SI seconds&quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s">&#39;sec&#39;</span>
+
+<div class="viewcode-block" id="TimeDeltaSec.set_jds"><a class="viewcode-back" href="../../../_generated/astropy.time.core.TimeDeltaSec.html#astropy.time.core.TimeDeltaSec.set_jds">[docs]</a>    <span class="k">def</span> <span class="nf">set_jds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val1</span><span class="p">,</span> <span class="n">val2</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_scale</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_scale</span><span class="p">)</span>  <span class="c"># Validate scale.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">jd1</span> <span class="o">=</span> <span class="n">val1</span> <span class="o">/</span> <span class="n">SECS_PER_DAY</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">jd2</span> <span class="o">=</span> <span class="n">val2</span> <span class="o">/</span> <span class="n">SECS_PER_DAY</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="TimeDeltaSec.vals"><a class="viewcode-back" href="../../../_generated/astropy.time.core.TimeDeltaSec.html#astropy.time.core.TimeDeltaSec.vals">[docs]</a>    <span class="k">def</span> <span class="nf">vals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jd1</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">jd2</span><span class="p">)</span> <span class="o">*</span> <span class="n">SECS_PER_DAY</span>
+
+</div></div>
+<div class="viewcode-block" id="TimeDeltaJD"><a class="viewcode-back" href="../../../_generated/astropy.time.core.TimeDeltaJD.html#astropy.time.core.TimeDeltaJD">[docs]</a><span class="k">class</span> <span class="nc">TimeDeltaJD</span><span class="p">(</span><span class="n">TimeDeltaFormat</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Time delta in Julian days (86400 SI seconds)&quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s">&#39;jd&#39;</span>
+
+<div class="viewcode-block" id="TimeDeltaJD.set_jds"><a class="viewcode-back" href="../../../_generated/astropy.time.core.TimeDeltaJD.html#astropy.time.core.TimeDeltaJD.set_jds">[docs]</a>    <span class="k">def</span> <span class="nf">set_jds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val1</span><span class="p">,</span> <span class="n">val2</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_scale</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_scale</span><span class="p">)</span>  <span class="c"># Validate scale.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">jd1</span> <span class="o">=</span> <span class="n">val1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">jd2</span> <span class="o">=</span> <span class="n">val2</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="TimeDeltaJD.vals"><a class="viewcode-back" href="../../../_generated/astropy.time.core.TimeDeltaJD.html#astropy.time.core.TimeDeltaJD.vals">[docs]</a>    <span class="k">def</span> <span class="nf">vals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">jd1</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">jd2</span>
+
+</div></div>
+<div class="viewcode-block" id="ScaleValueError"><a class="viewcode-back" href="../../../_generated/astropy.time.core.ScaleValueError.html#astropy.time.core.ScaleValueError">[docs]</a><span class="k">class</span> <span class="nc">ScaleValueError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+
+<span class="c"># Set module constant with names of all available time formats</span></div>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">locals</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">is_timeformat</span> <span class="o">=</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">TimeFormat</span><span class="p">)</span>
+        <span class="n">is_timedeltaformat</span> <span class="o">=</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">TimeDeltaFormat</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">pass</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="s">&#39;name&#39;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">is_timedeltaformat</span><span class="p">:</span>
+                <span class="n">TIME_DELTA_FORMATS</span><span class="p">[</span><span class="n">val</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
+            <span class="k">elif</span> <span class="n">is_timeformat</span><span class="p">:</span>
+                <span class="n">TIME_FORMATS</span><span class="p">[</span><span class="n">val</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
+
+
+<span class="k">def</span> <span class="nf">_make_1d_array</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Take ``val`` and convert/reshape to a 1-d array.  If ``copy`` is True</span>
+<span class="sd">    then copy input values.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    val, val_ndim: ndarray, int</span>
+<span class="sd">        Array version of ``val`` and the number of dims in original.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="n">copy</span><span class="p">)</span>
+    <span class="n">val_ndim</span> <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">ndim</span>  <span class="c"># remember original ndim</span>
+    <span class="k">if</span> <span class="n">val</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">val</span><span class="p">])</span>
+    <span class="k">elif</span> <span class="n">val_ndim</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="c"># Maybe lift this restriction later to allow multi-dim in/out?</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&#39;Input val must be zero or one dimensional&#39;</span><span class="p">)</span>
+
+    <span class="c"># Allow only string or float arrays as input (XXX datetime later...)</span>
+    <span class="k">if</span> <span class="n">val</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="s">&#39;i&#39;</span><span class="p">:</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">val</span><span class="p">,</span> <span class="n">val_ndim</span>
+
+
+<div class="viewcode-block" id="OperandTypeError"><a class="viewcode-back" href="../../../_generated/astropy.time.core.OperandTypeError.html#astropy.time.core.OperandTypeError">[docs]</a><span class="k">class</span> <span class="nc">OperandTypeError</span><span class="p">(</span><span class="ne">TypeError</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="p">(</span><span class="s">&quot;unsupported operand type(s) for -: &quot;</span>
+                      <span class="s">&quot;&#39;{0}&#39; and &#39;{1}&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">left</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span>
+                                               <span class="n">right</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span><span class="p">))</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+
+
+<h3>Page Contents</h3>
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+<footer class="footer">
+  <p class="pull-right"> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright 2011-2013, The Astropy Developers.<br/>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3+. &nbsp;
+    Last built 03 Apr 2013. <br/>
+  </p>
+</footer>
+ <!-- End original user content -->
+
+
+<br>
+<br>
+<br>
+
+
+<style type="text/css">
+  .rtd-badge {
+    position: fixed;
+    display: block;
+    bottom: 5px;
+    height: 40px;
+    text-indent: -9999em;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+  }
+  #version_menu {
+    position: fixed;
+    display: none;
+    bottom: 11px;
+    right: 166px;
+    list-style-type: none;
+    margin: 0;
+  }
+  .footer_popout:hover #version_menu {
+    display: block;
+  }
+  #version_menu li {
+    display: block;
+    float: right;
+  }
+  #version_menu li a {
+    display: block;
+    padding: 6px 10px 4px 10px;
+    margin: 7px 7px 0 0;
+    font-weight: bold;
+    font-size: 14px;
+    height: 20px;
+    line-height: 17px;
+    text-decoration: none;
+    color: #fff;
+    background: #8ca1af url(../images/gradient-light.png) bottom left repeat-x;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 1px #465158;
+    -moz-box-shadow: 0 1px 1px #465158;
+    -webkit-box-shadow: 0 1px 1px #465158;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+  }
+  #version_menu li a:hover {
+    text-decoration: none;
+    background-color: #697983;
+    box-shadow: 0 1px 0px #465158;
+    -moz-box-shadow: 0 1px 0px #465158;
+    -webkit-box-shadow: 0 1px 0px #465158;
+  }
+  .rtd-badge.rtd {
+    background: #3b4449 url(//media.readthedocs.org//images/badge-rtd.png) scroll 0px -46px no-repeat;
+    border: 1px solid #282E32;
+    width: 41px;
+    right: 5px;
+  }
+  .footer_popout:hover .rtd-badge.rtd {
+    background-position: top left;
+    width: 160px;
+  }
+  .rtd-badge.revsys { background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline-sponsored {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys-sm.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 205px;
+    right: 173px;
+  }
+
+</style>
+<div class="rtd_doc_footer">
+  <div class="footer_popout">
+    <a href="//readthedocs.org/projects/astropy/?fromdocs=astropy" class="rtd-badge rtd"> Brought to you by Read the Docs</a>
+    <ul id="version_menu">
+      
+        <li><a href="/en/latest/">latest</a></li>
+      
+        <li><a href="/en/add-mpl-to-rtd-pip-req/">add-mpl-to-rtd-pip-req</a></li>
+      
+        <li><a href="/en/v0.2.1/">v0.2.1</a></li>
+      
+        <li><a href="/en/v0.2/">v0.2</a></li>
+      
+        <li><a href="/en/v0.1/">v0.1</a></li>
+      
+    </ul>
+  </div>
+</div>
+<!-- RTD Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17997319-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+<!-- User Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-30968842-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+  </body>
+</html>

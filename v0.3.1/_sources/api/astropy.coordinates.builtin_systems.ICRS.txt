@@ -1,0 +1,50 @@
+
+
+ICRS
+========================================
+
+.. currentmodule:: astropy.coordinates.builtin_systems
+
+.. autoclass:: ICRS
+   :show-inheritance:
+
+   
+     
+   
+
+   
+   
+
+   .. rubric:: Attributes Summary
+
+   .. autosummary::
+   
+      ~ICRS.dec
+      ~ICRS.equinox
+      ~ICRS.obstime
+      ~ICRS.ra
+
+   
+   
+
+   
+   
+   
+
+   
+   
+
+   .. rubric:: Attributes Documentation
+
+   
+   .. autoattribute:: dec
+   .. autoattribute:: equinox
+   .. autoattribute:: obstime
+   .. autoattribute:: ra
+
+   
+   
+
+   
+   
+   

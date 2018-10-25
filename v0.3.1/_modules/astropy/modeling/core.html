@@ -1,0 +1,1276 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>astropy.modeling.core &mdash; Astropy v0.3.1</title>
+    
+    <link rel="stylesheet" href="../../../_static/bootstrap-astropy.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="https://media.readthedocs.org/css/badge_only.css" type="text/css" />
+    <link rel="stylesheet" href="https://media.readthedocs.org/css/readthedocs-doc-embed.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.3.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/jquery/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/jquery/jquery-migrate-1.2.1.min.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/underscore.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/doctools.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/readthedocs-doc-embed.js"></script>
+    <script type="text/javascript" src="../../../_static/sidebar.js"></script>
+    <link rel="shortcut icon" href="../../../_static/astropy_logo.ico"/>
+    <link rel="top" title="Astropy v0.3.1" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" />
+
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,600' rel='stylesheet' type='text/css'>
+
+<!-- RTD Extra Head -->
+
+
+
+<!-- 
+Read the Docs is acting as the canonical URL for your project. 
+If you want to change it, more info is available in our docs:
+  http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="http://astropy.readthedocs.org/en/latest/_modules/astropy/modeling/core.html">
+
+<script type="text/javascript">
+  // This is included here because other places don't have access to the pagename variable.
+  var READTHEDOCS_DATA = {
+    project: "astropy",
+    version: "v0.3.1",
+    language: "en",
+    page: "_modules/astropy/modeling/core",
+    theme: "bootstrap-astropy",
+    docroot: "/docs/",
+    api_host: "https://readthedocs.org"
+  }
+  // Old variables
+  var doc_version = "v0.3.1";
+  var doc_slug = "astropy";
+  var page_name = "_modules/astropy/modeling/core";
+  var html_theme = "bootstrap-astropy";
+</script>
+<!-- RTD Analytics Code -->
+<!-- Included in the header because you don't have a footer block. -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17997319-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+<!-- end RTD Analytics Code -->
+
+
+<!-- User Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-30968842-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+<!-- End User Analytics Code -->
+
+<!-- end RTD <extrahead> -->
+
+  </head>
+  <body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../../../index.html"><span id="logotext1">astro</span><span id="logotext2">py</span><span id="logotext3">:docs</span></a>
+  <ul>
+    <li><a class="homelink" title="Astropy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../../../genindex.html">Index</a></li>
+    <li><a title="Module Index" href="../../../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li>
+	<a href="../../../index.html">Astropy v0.3.1</a>
+	 &raquo;
+      </li>
+      <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li>
+      
+       
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for astropy.modeling.core</h1><div class="highlight"><pre>
+<span class="c"># Licensed under a 3-clause BSD style license - see LICENSE.rst</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module defines base classes for all models.</span>
+<span class="sd">The base class of all models is `~astropy.modeling.Model`.</span>
+<span class="sd">`~astropy.modeling.ParametricModel` is the base class for all fittable models. Parametric</span>
+<span class="sd">models can be linear or nonlinear in a regression analysis sense.</span>
+
+<span class="sd">All models provide a `__call__` method which performs the transformation in a</span>
+<span class="sd">purely mathematical way, i.e. the models are unitless. In addition, when</span>
+<span class="sd">possible the transformation is done using multiple parameter sets, `param_sets`.</span>
+<span class="sd">The number of parameter sets is stored in an attribute `param_dim`.</span>
+
+<span class="sd">Parametric models also store a flat list of all parameters as an instance of</span>
+<span class="sd">`~astropy.modeling.parameters.Parameters`. When fitting, this list-like object is modified by a</span>
+<span class="sd">subclass of `~astropy.modeling.fitting.Fitter`. When fitting nonlinear models, the values of the</span>
+<span class="sd">parameters are used as initial guesses by the fitting class. Normally users</span>
+<span class="sd">will not have to use the `~astropy.modeling.parameters` module directly.</span>
+
+<span class="sd">Input Format For Model Evaluation and Fitting</span>
+
+<span class="sd">Input coordinates are passed in separate arguments, for example 2D models</span>
+<span class="sd">expect x and y coordinates to be passed separately as two scalars or array-like</span>
+<span class="sd">objects.</span>
+<span class="sd">The evaluation depends on the input dimensions and the number of parameter</span>
+<span class="sd">sets but in general normal broadcasting rules apply.</span>
+<span class="sd">For example:</span>
+
+<span class="sd">- A model with one parameter set works with input in any dimensionality</span>
+
+<span class="sd">- A model with N parameter sets works with 2D arrays of shape (M, N).</span>
+<span class="sd">  A parameter set is applied to each column.</span>
+
+<span class="sd">- A model with N parameter sets works with multidimensional arrays if the</span>
+<span class="sd">  shape of the input array is (N, M, P). A parameter set is applied to each plane.</span>
+
+<span class="sd">In all these cases the output has the same shape as the input.</span>
+
+<span class="sd">- A model with N parameter sets works with 1D input arrays. The shape</span>
+<span class="sd">  of the output is (M, N)</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">division</span>
+
+<span class="kn">import</span> <span class="nn">abc</span>
+<span class="kn">import</span> <span class="nn">functools</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">izip</span>
+<span class="kn">from</span> <span class="nn">textwrap</span> <span class="kn">import</span> <span class="n">dedent</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">.parameters</span> <span class="kn">import</span> <span class="n">Parameter</span><span class="p">,</span> <span class="n">InputParameterError</span>
+<span class="kn">from</span> <span class="nn">..utils</span> <span class="kn">import</span> <span class="n">indent</span><span class="p">,</span> <span class="n">isiterable</span>
+
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;Model&#39;</span><span class="p">,</span> <span class="s">&#39;ParametricModel&#39;</span><span class="p">,</span> <span class="s">&#39;SummedCompositeModel&#39;</span><span class="p">,</span>
+           <span class="s">&#39;SerialCompositeModel&#39;</span><span class="p">,</span> <span class="s">&#39;LabeledInput&#39;</span><span class="p">,</span> <span class="s">&#39;Parametric1DModel&#39;</span><span class="p">,</span>
+           <span class="s">&#39;Parametric2DModel&#39;</span><span class="p">,</span> <span class="s">&#39;ModelDefinitionError&#39;</span><span class="p">,</span> <span class="s">&#39;format_input&#39;</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="ModelDefinitionError"><a class="viewcode-back" href="../../../api/astropy.modeling.core.ModelDefinitionError.html#astropy.modeling.core.ModelDefinitionError">[docs]</a><span class="k">class</span> <span class="nc">ModelDefinitionError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Used for incorrect models definitions&quot;&quot;&quot;</span>
+
+</div>
+<div class="viewcode-block" id="format_input"><a class="viewcode-back" href="../../../api/astropy.modeling.core.format_input.html#astropy.modeling.core.format_input">[docs]</a><span class="k">def</span> <span class="nf">format_input</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Wraps a model&#39;s ``__call__`` method so that the input arrays are converted</span>
+<span class="sd">    into the appropriate shape given the model&#39;s parameter dimensions.</span>
+
+<span class="sd">    Wraps the result to match the shape of the last input array.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nd">@functools.wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">wrapped_call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="n">converted</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">args</span><span class="p">:</span>
+            <span class="c"># Reset these flags; their value only matters for the last</span>
+            <span class="c"># argument</span>
+            <span class="n">transposed</span> <span class="o">=</span> <span class="bp">False</span>
+            <span class="n">scalar</span> <span class="o">=</span> <span class="bp">False</span>
+
+            <span class="n">arg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">param_dim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">arg</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">scalar</span> <span class="o">=</span> <span class="bp">True</span>
+                <span class="n">converted</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
+                <span class="k">continue</span>
+
+            <span class="k">if</span> <span class="n">arg</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="n">converted</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">arg</span><span class="p">])</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">arg</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="k">assert</span> <span class="n">arg</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">param_dim</span><span class="p">,</span> \
+                    <span class="p">(</span><span class="s">&quot;Cannot broadcast with shape &quot;</span>
+                     <span class="s">&quot;({0}, {1})&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">arg</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">arg</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+                <span class="n">converted</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">arg</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="k">assert</span> <span class="n">arg</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">param_dim</span><span class="p">,</span> \
+                    <span class="p">(</span><span class="s">&quot;Cannot broadcast with shape &quot;</span>
+                     <span class="s">&quot;({0}, {1}, {2})&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">arg</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">arg</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                                              <span class="n">arg</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
+                <span class="n">transposed</span> <span class="o">=</span> <span class="bp">True</span>
+                <span class="n">converted</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">arg</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+
+        <span class="n">result</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">converted</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">transposed</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">result</span><span class="o">.</span><span class="n">T</span>
+        <span class="k">elif</span> <span class="n">scalar</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">result</span>
+
+        <span class="k">return</span> <span class="n">result</span>
+
+    <span class="k">return</span> <span class="n">wrapped_call</span>
+
+</div>
+<span class="k">class</span> <span class="nc">_ModelMeta</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABCMeta</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Metaclass for Model.</span>
+
+<span class="sd">    Currently just handles auto-generating the param_names list based on</span>
+<span class="sd">    Parameter descriptors declared at the class-level of Model subclasses.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__new__</span><span class="p">(</span><span class="n">mcls</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">members</span><span class="p">):</span>
+        <span class="n">param_names</span> <span class="o">=</span> <span class="n">members</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;param_names&#39;</span><span class="p">,</span> <span class="p">[])</span>
+        <span class="n">parameters</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">((</span><span class="n">value</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">members</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+                          <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">Parameter</span><span class="p">))</span>
+
+        <span class="c"># If no parameters were defined get out early--this is especially</span>
+        <span class="c"># important for PolynomialModels which take a different approach to</span>
+        <span class="c"># parameters, since they can have a variable number of them</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">parameters</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">_ModelMeta</span><span class="p">,</span> <span class="n">mcls</span><span class="p">)</span><span class="o">.</span><span class="n">__new__</span><span class="p">(</span><span class="n">mcls</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">members</span><span class="p">)</span>
+
+        <span class="c"># If param_names was declared explicitly we use only the parameters</span>
+        <span class="c"># listed manually in param_names, but still check that all listed</span>
+        <span class="c"># parameters were declared</span>
+        <span class="k">if</span> <span class="n">param_names</span> <span class="ow">and</span> <span class="n">isiterable</span><span class="p">(</span><span class="n">param_names</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">param_name</span> <span class="ow">in</span> <span class="n">param_names</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">param_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">parameters</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                        <span class="s">&quot;Parameter {0!r} listed in {1}.param_names was not &quot;</span>
+                        <span class="s">&quot;declared in the class body.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">param_name</span><span class="p">,</span> <span class="n">name</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">param_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">param</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span>
+                           <span class="nb">sorted</span><span class="p">(</span><span class="n">parameters</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span>
+                                  <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">p</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="n">_order</span><span class="p">)]</span>
+            <span class="n">members</span><span class="p">[</span><span class="s">&#39;param_names&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">param_names</span>
+
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">_ModelMeta</span><span class="p">,</span> <span class="n">mcls</span><span class="p">)</span><span class="o">.</span><span class="n">__new__</span><span class="p">(</span><span class="n">mcls</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">members</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="Model"><a class="viewcode-back" href="../../../api/astropy.modeling.core.Model.html#astropy.modeling.core.Model">[docs]</a><span class="k">class</span> <span class="nc">Model</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Base class for all models.</span>
+
+<span class="sd">    This is an abstract class and should not be instantiated directly.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Models which are not meant to be fit to data should subclass this class.</span>
+
+<span class="sd">    This class sets the properties for all individual parameters and performs</span>
+<span class="sd">    parameter validation.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">__metaclass__</span> <span class="o">=</span> <span class="n">_ModelMeta</span>
+
+    <span class="n">param_names</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">n_inputs</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">n_outputs</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">fittable</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">linear</span> <span class="o">=</span> <span class="bp">True</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param_dim</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_param_dim</span> <span class="o">=</span> <span class="n">param_dim</span>
+
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="Model.param_dim"><a class="viewcode-back" href="../../../api/astropy.modeling.core.Model.html#astropy.modeling.core.Model.param_dim">[docs]</a>    <span class="k">def</span> <span class="nf">param_dim</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Number of parameter sets in a model.&quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_param_dim</span>
+</div>
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">fmt</span> <span class="o">=</span> <span class="s">&quot;{0}(&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">param_names</span><span class="p">:</span>
+            <span class="n">fmt1</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;</span>
+<span class="s">            {0}={1},</span>
+<span class="s">            &quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">))</span>
+            <span class="n">fmt</span> <span class="o">+=</span> <span class="n">fmt1</span>
+        <span class="n">fmt</span> <span class="o">+=</span> <span class="s">&quot;)&quot;</span>
+
+        <span class="k">return</span> <span class="n">fmt</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">fmt</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;</span>
+<span class="s">        Model: {0}</span>
+<span class="s">        Parameter sets: {1}</span>
+<span class="s">        Parameters: </span><span class="se">\n</span><span class="s">{2}</span>
+<span class="s">        &quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+              <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span>
+              <span class="bp">self</span><span class="o">.</span><span class="n">param_dim</span><span class="p">,</span>
+              <span class="n">indent</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s">&#39;{0}: {1}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span>
+                               <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">param_names</span><span class="p">),</span>
+                     <span class="n">width</span><span class="o">=</span><span class="mi">19</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">dedent</span><span class="p">(</span><span class="n">fmt</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="Model.param_sets"><a class="viewcode-back" href="../../../api/astropy.modeling.core.Model.html#astropy.modeling.core.Model.param_sets">[docs]</a>    <span class="k">def</span> <span class="nf">param_sets</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return parameters as a pset.</span>
+
+<span class="sd">        This is an array where each column represents one parameter set.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">parameters</span> <span class="o">=</span> <span class="p">[</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span> <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">param_names</span><span class="p">]</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="p">[</span><span class="n">par</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">par</span> <span class="ow">in</span> <span class="n">parameters</span><span class="p">]</span>
+        <span class="n">shapes</span> <span class="o">=</span> <span class="p">[</span><span class="n">par</span><span class="o">.</span><span class="n">shape</span> <span class="k">for</span> <span class="n">par</span> <span class="ow">in</span> <span class="n">parameters</span><span class="p">]</span>
+        <span class="n">n_dims</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">parameters</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">n_dims</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
+            <span class="k">if</span> <span class="p">()</span> <span class="ow">in</span> <span class="n">shapes</span><span class="p">:</span>
+                <span class="n">psets</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">object</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">psets</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">psets</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+            <span class="n">psets</span><span class="o">.</span><span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">param_names</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">param_dim</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">psets</span>
+</div>
+<div class="viewcode-block" id="Model.inverse"><a class="viewcode-back" href="../../../api/astropy.modeling.core.Model.html#astropy.modeling.core.Model.inverse">[docs]</a>    <span class="k">def</span> <span class="nf">inverse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns a callable object which performs the inverse transform.&quot;&quot;&quot;</span>
+
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;An analytical inverse transform has not &quot;</span>
+                                  <span class="s">&quot;been implemented for this model.&quot;</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Model.invert"><a class="viewcode-back" href="../../../api/astropy.modeling.core.Model.html#astropy.modeling.core.Model.invert">[docs]</a>    <span class="k">def</span> <span class="nf">invert</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Invert coordinates iteratively if possible.&quot;&quot;&quot;</span>
+
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;Subclasses should implement this&quot;</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Model.add_model"><a class="viewcode-back" href="../../../api/astropy.modeling.core.Model.html#astropy.modeling.core.Model.add_model">[docs]</a>    <span class="k">def</span> <span class="nf">add_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">mode</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a CompositeModel by chaining the current model with the new one</span>
+<span class="sd">        using the specified mode.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        model : an instance of a subclass of Model</span>
+<span class="sd">        mode :  string</span>
+<span class="sd">               &#39;parallel&#39;, &#39;serial&#39;, &#39;p&#39; or &#39;s&#39;</span>
+<span class="sd">               a flag indicating whether to combine the models</span>
+<span class="sd">               in series or in parallel</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        model : CompositeModel</span>
+<span class="sd">            an instance of CompositeModel</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">mode</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;parallel&#39;</span><span class="p">,</span> <span class="s">&#39;p&#39;</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="n">SummedCompositeModel</span><span class="p">([</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="n">mode</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;serial&#39;</span><span class="p">,</span> <span class="s">&#39;s&#39;</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="n">SerialCompositeModel</span><span class="p">([</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">InputParameterError</span><span class="p">(</span><span class="s">&quot;Unrecognized mode {0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mode</span><span class="p">))</span>
+</div>
+<div class="viewcode-block" id="Model.copy"><a class="viewcode-back" href="../../../api/astropy.modeling.core.Model.html#astropy.modeling.core.Model.copy">[docs]</a>    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</div>
+    <span class="nd">@abc.abstractmethod</span>
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;Subclasses should implement this&quot;</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="ParametricModel"><a class="viewcode-back" href="../../../api/astropy.modeling.core.ParametricModel.html#astropy.modeling.core.ParametricModel">[docs]</a><span class="k">class</span> <span class="nc">ParametricModel</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Base class for all fittable models.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    All models which can be fit to data should subclass this class.</span>
+
+<span class="sd">    Sets the ``parameters`` attributes.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    param_dim : int</span>
+<span class="sd">        Number of parameter sets</span>
+<span class="sd">    fixed : dict</span>
+<span class="sd">        Dictionary ``{parameter_name: boolean}`` of parameters to not be</span>
+<span class="sd">        varied during fitting. True means the parameter is held fixed.</span>
+<span class="sd">        Alternatively the `~astropy.modeling.parameters.Parameter.fixed`</span>
+<span class="sd">        property of a parameter may be used.</span>
+<span class="sd">    tied : dict</span>
+<span class="sd">        Dictionary ``{parameter_name: callable}`` of parameters which are</span>
+<span class="sd">        linked to some other parameter. The dictionary values are callables</span>
+<span class="sd">        providing the linking relationship.</span>
+<span class="sd">        Alternatively the `~astropy.modeling.parameters.Parameter.tied`</span>
+<span class="sd">        property of a parameter may be used.</span>
+<span class="sd">    bounds : dict</span>
+<span class="sd">        Dictionary ``{parameter_name: boolean}`` of lower and upper bounds of</span>
+<span class="sd">        parameters. Keys are parameter names. Values are a list of length 2</span>
+<span class="sd">        giving the desired range for the parameter.  Alternatively the</span>
+<span class="sd">        `~astropy.modeling.parameters.Parameter.min` and</span>
+<span class="sd">        `~astropy.modeling.parameters.Parameter.max` properties of a parameter</span>
+<span class="sd">        may be used.</span>
+<span class="sd">    eqcons : list</span>
+<span class="sd">        List of functions of length n such that ``eqcons[j](x0, *args) == 0.0``</span>
+<span class="sd">        in a successfully optimized problem.</span>
+<span class="sd">    ineqcons : list</span>
+<span class="sd">        List of functions of length n such that ``ieqcons[j](x0, *args) &gt;=</span>
+<span class="sd">        0.0`` is a successfully optimized problem.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; from astropy.modeling import models</span>
+<span class="sd">    &gt;&gt;&gt; def tie_center(model):</span>
+<span class="sd">    ...         mean = 50 * model.stddev</span>
+<span class="sd">    ...         return mean</span>
+<span class="sd">    &gt;&gt;&gt; tied_parameters = {&#39;mean&#39;: tie_center}</span>
+
+<span class="sd">    Specify that ``&#39;mean&#39;`` is a tied parameter in one of two ways:</span>
+
+<span class="sd">    &gt;&gt;&gt; g1 = models.Gaussian1D(amplitude=10, mean=5, stddev=.3,</span>
+<span class="sd">    ...                             tied=tied_parameters)</span>
+
+<span class="sd">    or</span>
+
+<span class="sd">    &gt;&gt;&gt; g1 = models.Gaussian1D(amplitude=10, mean=5, stddev=.3)</span>
+<span class="sd">    &gt;&gt;&gt; g1.mean.tied</span>
+<span class="sd">    False</span>
+<span class="sd">    &gt;&gt;&gt; g1.mean.tied = tie_center</span>
+<span class="sd">    &gt;&gt;&gt; g1.mean.tied</span>
+<span class="sd">    &lt;function tie_center at 0x...&gt;</span>
+
+<span class="sd">    Fixed parameters:</span>
+
+<span class="sd">    &gt;&gt;&gt; g1 = models.Gaussian1D(amplitude=10, mean=5, stddev=.3,</span>
+<span class="sd">    ...                             fixed={&#39;stddev&#39;: True})</span>
+<span class="sd">    &gt;&gt;&gt; g1.stddev.fixed</span>
+<span class="sd">    True</span>
+
+<span class="sd">    or</span>
+
+<span class="sd">    &gt;&gt;&gt; g1 = models.Gaussian1D(amplitude=10, mean=5, stddev=.3)</span>
+<span class="sd">    &gt;&gt;&gt; g1.stddev.fixed</span>
+<span class="sd">    False</span>
+<span class="sd">    &gt;&gt;&gt; g1.stddev.fixed = True</span>
+<span class="sd">    &gt;&gt;&gt; g1.stddev.fixed</span>
+<span class="sd">    True</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">linear</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">deriv</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="c"># Flag that indicates if the model derivatives are given in columns</span>
+    <span class="c"># or rows</span>
+    <span class="n">col_deriv</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="n">fittable</span> <span class="o">=</span> <span class="bp">True</span>
+
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="c"># Pop any constraints off the keyword arguments</span>
+        <span class="n">bounds</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;bounds&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+        <span class="n">fixed</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;fixed&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+        <span class="n">tied</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;tied&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+        <span class="n">eqcons</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;eqcons&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+        <span class="n">ineqcons</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;ineqcons&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+
+        <span class="c"># Pop off the param_dims</span>
+        <span class="n">param_dim</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;param_dim&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+
+        <span class="c"># Remaining keyword args are either parameter values or invalid</span>
+        <span class="c"># Parameter values must be passed in as keyword arguments in order to</span>
+        <span class="c"># distinguish them</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="n">kwargs</span>
+
+        <span class="c"># Determine the number of parameter sets: This will be based</span>
+        <span class="c"># on the size of any parameters whose values have been specified</span>
+        <span class="c"># or the default of 1 is used</span>
+        <span class="c"># This loop also checks that all the supplied parameter names are</span>
+        <span class="c"># valid</span>
+        <span class="n">param_names</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">param_names</span><span class="p">)</span>
+
+        <span class="n">max_param_dim</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">param_dim</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="c"># Determine the best param_dims, if not already specified,</span>
+                <span class="c"># based on the sizes of the input parameter values</span>
+                <span class="n">max_param_dim</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">max_param_dim</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
+
+            <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">param_names</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                    <span class="s">&quot;Unrecognized parameter: {0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">param_dim</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">param_dim</span> <span class="o">=</span> <span class="n">max_param_dim</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">ParametricModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">param_dim</span><span class="o">=</span><span class="n">param_dim</span><span class="p">)</span>
+
+        <span class="c"># Initialize the constraints for each parameter</span>
+        <span class="k">if</span> <span class="n">eqcons</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_eqcons</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_eqcons</span> <span class="o">=</span> <span class="n">eqcons</span>
+        <span class="k">if</span> <span class="n">ineqcons</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_ineqcons</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_ineqcons</span> <span class="o">=</span> <span class="n">ineqcons</span>
+
+        <span class="c"># Set constraints</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_constraints</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">if</span> <span class="n">fixed</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_constraints</span><span class="p">[</span><span class="s">&#39;fixed&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fixed</span>
+        <span class="k">if</span> <span class="n">tied</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_constraints</span><span class="p">[</span><span class="s">&#39;tied&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tied</span>
+        <span class="k">if</span> <span class="n">bounds</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_constraints</span><span class="p">[</span><span class="s">&#39;bounds&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">bounds</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_initialize_parameters</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+
+
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="ParametricModel.fixed"><a class="viewcode-back" href="../../../api/astropy.modeling.core.ParametricModel.html#astropy.modeling.core.ParametricModel.fixed">[docs]</a>    <span class="k">def</span> <span class="nf">fixed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A dictionary mapping parameter names to their fixed constraint</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="nb">dict</span><span class="p">((</span><span class="n">name</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">fixed</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">param_names</span><span class="p">)</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="ParametricModel.tied"><a class="viewcode-back" href="../../../api/astropy.modeling.core.ParametricModel.html#astropy.modeling.core.ParametricModel.tied">[docs]</a>    <span class="k">def</span> <span class="nf">tied</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A dictionary mapping parameter names to their tied constraint</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="nb">dict</span><span class="p">((</span><span class="n">name</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">tied</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">param_names</span><span class="p">)</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="ParametricModel.bounds"><a class="viewcode-back" href="../../../api/astropy.modeling.core.ParametricModel.html#astropy.modeling.core.ParametricModel.bounds">[docs]</a>    <span class="k">def</span> <span class="nf">bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">dict</span><span class="p">((</span><span class="n">name</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">bounds</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">param_names</span><span class="p">)</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="ParametricModel.eqcons"><a class="viewcode-back" href="../../../api/astropy.modeling.core.ParametricModel.html#astropy.modeling.core.ParametricModel.eqcons">[docs]</a>    <span class="k">def</span> <span class="nf">eqcons</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;List of parameter equality constraints.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_eqcons</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="ParametricModel.ineqcons"><a class="viewcode-back" href="../../../api/astropy.modeling.core.ParametricModel.html#astropy.modeling.core.ParametricModel.ineqcons">[docs]</a>    <span class="k">def</span> <span class="nf">ineqcons</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;List of parameter inequality constraints.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ineqcons</span>
+</div>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A flattened array of all parameter values in all parameter sets</span>
+
+<span class="sd">        Fittable parameters maintain this list and fitters modify it.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parameters</span>
+
+    <span class="nd">@parameters.setter</span>
+<div class="viewcode-block" id="ParametricModel.parameters"><a class="viewcode-back" href="../../../api/astropy.modeling.core.ParametricModel.html#astropy.modeling.core.ParametricModel.parameters">[docs]</a>    <span class="k">def</span> <span class="nf">parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Assigning to this attribute updates the parameters array rather than</span>
+<span class="sd">        replacing it.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_parameters</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">InputParameterError</span><span class="p">(</span>
+                <span class="s">&quot;Input parameter values not compatible with the model &quot;</span>
+                <span class="s">&quot;parameters array: {0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_parameters</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">value</span>
+</div>
+    <span class="k">def</span> <span class="nf">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">attr</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">attr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;_&#39;</span> <span class="ow">and</span> <span class="n">attr</span> <span class="o">!=</span> <span class="s">&#39;_param_metrics&#39;</span><span class="p">:</span>
+            <span class="n">param_name</span> <span class="o">=</span> <span class="n">attr</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+            <span class="k">if</span> <span class="n">param_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_param_metrics</span><span class="p">:</span>
+                <span class="n">param_slice</span><span class="p">,</span> <span class="n">param_shape</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_param_metrics</span><span class="p">[</span><span class="n">param_name</span><span class="p">]</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parameters</span><span class="p">[</span><span class="n">param_slice</span><span class="p">]</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">param_dim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">value</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">param_shape</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">param_shape</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="n">value</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="n">attr</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">attr</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">attr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;_&#39;</span> <span class="ow">and</span>
+                <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;_param_metrics&#39;</span><span class="p">)):</span>
+            <span class="n">param_name</span> <span class="o">=</span> <span class="n">attr</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+            <span class="k">if</span> <span class="n">param_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_param_metrics</span><span class="p">:</span>
+                <span class="c"># TODO: Maybe handle exception on invalid input shape</span>
+                <span class="n">param_slice</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_param_metrics</span><span class="p">[</span><span class="n">param_name</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_parameters</span><span class="p">[</span><span class="n">param_slice</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+                <span class="k">return</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">ParametricModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__setattr__</span><span class="p">(</span><span class="n">attr</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">degree</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">deg</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="n">degree</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">param_dim</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">param_dim</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="n">param_dim</span> <span class="o">=</span> <span class="s">&quot; &quot;</span>
+
+        <span class="k">if</span> <span class="n">degree</span><span class="p">:</span>
+            <span class="n">fmt</span> <span class="o">=</span> <span class="s">&quot;&lt;{0}({1}, &quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">deg</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">fmt</span> <span class="o">=</span> <span class="s">&quot;&lt;{0}(&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">param_names</span><span class="p">:</span>
+            <span class="n">fmt1</span> <span class="o">=</span> <span class="s">&quot;{0}={1}, &quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">))</span>
+            <span class="n">fmt</span> <span class="o">+=</span> <span class="n">fmt1</span>
+        <span class="k">if</span> <span class="n">param_dim</span><span class="p">:</span>
+            <span class="n">fmt</span> <span class="o">+=</span> <span class="s">&quot;param_dim={0})&gt;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">param_dim</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">fmt</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">degree</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">degree</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="n">degree</span> <span class="o">=</span> <span class="s">&#39;N/A&#39;</span>
+
+        <span class="n">fmt</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;</span>
+<span class="s">        Model: {0}</span>
+<span class="s">        n_inputs:   {1}</span>
+<span class="s">        Degree: {2}</span>
+<span class="s">        Parameter sets: {3}</span>
+<span class="s">        Parameters: </span><span class="se">\n</span><span class="s">{4}</span>
+<span class="s">        &quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+              <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span>
+              <span class="bp">self</span><span class="o">.</span><span class="n">n_inputs</span><span class="p">,</span>
+              <span class="n">degree</span><span class="p">,</span>
+              <span class="bp">self</span><span class="o">.</span><span class="n">param_dim</span><span class="p">,</span>
+              <span class="n">indent</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s">&#39;{0}: {1}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span>
+                     <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">param_names</span><span class="p">),</span>
+                     <span class="n">width</span><span class="o">=</span><span class="mi">19</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">dedent</span><span class="p">(</span><span class="n">fmt</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+
+<div class="viewcode-block" id="ParametricModel.set_joint_parameters"><a class="viewcode-back" href="../../../api/astropy.modeling.core.ParametricModel.html#astropy.modeling.core.ParametricModel.set_joint_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">set_joint_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">jparams</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Used by the `~astropy.modeling.fitters.JointFitter` class to store</span>
+<span class="sd">        parameters which are considered common for several models and are to be</span>
+<span class="sd">        fitted together.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">joint</span> <span class="o">=</span> <span class="n">jparams</span>
+</div>
+    <span class="k">def</span> <span class="nf">_model_to_fit_params</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a set of parameters to be fitted.</span>
+
+<span class="sd">        These may be a subset of the model parameters, if some of them are held</span>
+<span class="sd">        constant or tied.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">fitparam_indices</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">param_names</span><span class="p">))</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fixed</span><span class="o">.</span><span class="n">values</span><span class="p">())</span> <span class="ow">or</span> <span class="nb">any</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tied</span><span class="o">.</span><span class="n">values</span><span class="p">()):</span>
+            <span class="n">params</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">param_names</span><span class="p">))[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fixed</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">tied</span><span class="p">[</span><span class="n">name</span><span class="p">]:</span>
+                    <span class="n">sl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_param_metrics</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="k">del</span> <span class="n">params</span><span class="p">[</span><span class="n">sl</span><span class="p">]</span>
+                    <span class="k">del</span> <span class="n">fitparam_indices</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">params</span><span class="p">),</span> <span class="n">fitparam_indices</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">,</span> <span class="n">fitparam_indices</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_fitter_to_model_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fps</span><span class="p">):</span>
+        <span class="n">_fit_params</span><span class="p">,</span> <span class="n">_fit_param_indices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_model_to_fit_params</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fixed</span><span class="o">.</span><span class="n">values</span><span class="p">())</span> <span class="ow">or</span> <span class="nb">any</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tied</span><span class="o">.</span><span class="n">values</span><span class="p">()):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">_fit_param_indices</span><span class="p">]</span> <span class="o">=</span> <span class="n">fps</span>
+            <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">param_names</span><span class="p">):</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tied</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">False</span><span class="p">:</span>
+                    <span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tied</span><span class="p">[</span><span class="n">name</span><span class="p">](</span><span class="bp">self</span><span class="p">)</span>
+                    <span class="n">slice_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_param_metrics</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="n">slice_</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="k">elif</span> <span class="nb">any</span><span class="p">([</span><span class="nb">tuple</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="o">!=</span> <span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">bounds</span><span class="o">.</span><span class="n">values</span><span class="p">()]):</span>
+            <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">par</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">param_names</span><span class="p">,</span> <span class="n">_fit_params</span><span class="p">):</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">bounds</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">!=</span> <span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">):</span>
+                    <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bounds</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                        <span class="n">par</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">par</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bounds</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+                    <span class="k">if</span> <span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                        <span class="n">par</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">par</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bounds</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+                    <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">par</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span> <span class="o">=</span> <span class="n">fps</span>
+
+    <span class="k">def</span> <span class="nf">_initialize_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize the _parameters array that stores raw parameter values for</span>
+<span class="sd">        all parameter sets for use with vectorized fitting algorithms; on</span>
+<span class="sd">        ParametricModels the _param_name attributes actually just reference</span>
+<span class="sd">        slices of this array.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c"># First we need to determine how much array space is needed by all the</span>
+        <span class="c"># parameters based on the number of parameters, the shape each input</span>
+        <span class="c"># parameter, and the param_dim</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_param_metrics</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">total_size</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">param_names</span><span class="p">:</span>
+
+            <span class="k">if</span> <span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="c"># parameters that were not supplied at all or that have</span>
+                <span class="c"># defaults of None should attempt to use the default provided</span>
+                <span class="c"># by their Parameter descriptor</span>
+                <span class="n">params</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">default</span>
+
+            <span class="n">value</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+
+            <span class="n">param_size</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+            <span class="n">param_shape</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">param_dim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">pass</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">param_dim</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">param_size</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">param_size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">param_dim</span>
+                    <span class="c"># Update the value for this param to the new repeated</span>
+                    <span class="c"># version</span>
+                    <span class="n">value</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">param_size</span><span class="p">)</span>
+                    <span class="n">param_shape</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">shape</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Model param_dim must be 1 or greater.&quot;</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="n">param_size</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">param_size</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">param_dim</span> <span class="ow">and</span>
+                    <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">param_dim</span><span class="p">):</span>
+                <span class="c"># The len(value) == self.param_dim case is a special case</span>
+                <span class="c"># (see #1680) where the parameter has compound values (like [1,</span>
+                <span class="c"># 2]) but we&#39;re passing in two (or more) param sets, so we want</span>
+                <span class="c"># to make sure a value like [[1, 2], [3, 4]] is interpreted as</span>
+                <span class="c"># having values for 2 param sets, not 4.</span>
+
+                <span class="c"># For now all parameter values must have a number of elements</span>
+                <span class="c"># equal to param_dim (the number of param sets) or it is</span>
+                <span class="c"># invalid.  The *only* exception is, again, a scalar value is</span>
+                <span class="c"># allowed to be repeated across param sets</span>
+                <span class="k">raise</span> <span class="n">InputParameterError</span><span class="p">(</span>
+                    <span class="s">&quot;The input value for {0!r} has too many elements for &quot;</span>
+                    <span class="s">&quot;param_dim={1}.  Parameter values must either match the &quot;</span>
+                    <span class="s">&quot;model&#39;s param_dim in size, or may be a scalar value, in &quot;</span>
+                    <span class="s">&quot;which case the value is repeated accross parameter &quot;</span>
+                    <span class="s">&quot;sets.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">param_dim</span><span class="p">))</span>
+
+            <span class="n">param_slice</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="n">total_size</span><span class="p">,</span> <span class="n">total_size</span> <span class="o">+</span> <span class="n">param_size</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_param_metrics</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">param_slice</span><span class="p">,</span> <span class="n">param_shape</span><span class="p">)</span>
+            <span class="n">total_size</span> <span class="o">+=</span> <span class="n">param_size</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_parameters</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">total_size</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+
+        <span class="c"># Now set the parameter values (this will also fill</span>
+        <span class="c"># self._parameters)</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">_model_to_fit_params</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a set of parameters to be fitted.</span>
+
+<span class="sd">        These may be a subset of the model parameters, if some of them are held</span>
+<span class="sd">        constant or tied.</span>
+
+<span class="sd">        This is an adapter of the model parameters to fitters, none of which</span>
+<span class="sd">        currently support parameters with tied/fixed constraints.</span>
+
+<span class="sd">        TODO: It may make more sense to make this adaptation on the Fitter end,</span>
+<span class="sd">        since one could conceivably implement a fitter from scratch (for</span>
+<span class="sd">        Astropy specifically) that understands how to use tied constraints, for</span>
+<span class="sd">        example.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">fitparam_indices</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">param_names</span><span class="p">))</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fixed</span><span class="o">.</span><span class="n">values</span><span class="p">())</span> <span class="ow">or</span> <span class="nb">any</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tied</span><span class="o">.</span><span class="n">values</span><span class="p">()):</span>
+            <span class="n">params</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">param_names</span><span class="p">))[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fixed</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">tied</span><span class="p">[</span><span class="n">name</span><span class="p">]:</span>
+                    <span class="n">sl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_param_metrics</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="k">del</span> <span class="n">params</span><span class="p">[</span><span class="n">sl</span><span class="p">]</span>
+                    <span class="k">del</span> <span class="n">fitparam_indices</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">params</span><span class="p">),</span> <span class="n">fitparam_indices</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">,</span> <span class="n">fitparam_indices</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="LabeledInput"><a class="viewcode-back" href="../../../api/astropy.modeling.core.LabeledInput.html#astropy.modeling.core.LabeledInput">[docs]</a><span class="k">class</span> <span class="nc">LabeledInput</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a container with all input data arrays, assigning labels for</span>
+<span class="sd">    each one.</span>
+
+<span class="sd">    Used by CompositeModel to choose input data using labels.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : list</span>
+<span class="sd">        List of all input data</span>
+<span class="sd">    labels : list of strings</span>
+<span class="sd">        names matching each coordinate in data</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    data : LabeledData</span>
+<span class="sd">        a dict of input data and their assigned labels</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; x,y = np.mgrid[:5, :5]</span>
+<span class="sd">    &gt;&gt;&gt; l = np.arange(10)</span>
+<span class="sd">    &gt;&gt;&gt; labeled_input = LabeledInput([x, y, l], [&#39;x&#39;, &#39;y&#39;, &#39;pixel&#39;])</span>
+<span class="sd">    &gt;&gt;&gt; labeled_input.x</span>
+<span class="sd">    array([[0, 0, 0, 0, 0],</span>
+<span class="sd">           [1, 1, 1, 1, 1],</span>
+<span class="sd">           [2, 2, 2, 2, 2],</span>
+<span class="sd">           [3, 3, 3, 3, 3],</span>
+<span class="sd">           [4, 4, 4, 4, 4]])</span>
+<span class="sd">    &gt;&gt;&gt; labeled_input[&#39;x&#39;]</span>
+<span class="sd">    array([[0, 0, 0, 0, 0],</span>
+<span class="sd">           [1, 1, 1, 1, 1],</span>
+<span class="sd">           [2, 2, 2, 2, 2],</span>
+<span class="sd">           [3, 3, 3, 3, 3],</span>
+<span class="sd">           [4, 4, 4, 4, 4]])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">labels</span><span class="p">):</span>
+        <span class="nb">dict</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">l</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">coord</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">labels</span><span class="p">):</span>
+            <span class="bp">self</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="n">coord</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;_&#39;</span> <span class="o">+</span> <span class="n">label</span><span class="p">,</span> <span class="n">coord</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_properties</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">labels</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_getlabel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="n">par</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;_&#39;</span> <span class="o">+</span> <span class="n">name</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">par</span>
+
+    <span class="k">def</span> <span class="nf">_setlabel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;_&#39;</span> <span class="o">+</span> <span class="n">name</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
+
+    <span class="k">def</span> <span class="nf">_dellabel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="nb">delattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;_&#39;</span> <span class="o">+</span> <span class="n">name</span><span class="p">)</span>
+        <span class="k">del</span> <span class="bp">self</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+
+<div class="viewcode-block" id="LabeledInput.add"><a class="viewcode-back" href="../../../api/astropy.modeling.core.LabeledInput.html#astropy.modeling.core.LabeledInput.add">[docs]</a>    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add input data to a LabeledInput object</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        --------------</span>
+<span class="sd">        label : str</span>
+<span class="sd">            coordinate label</span>
+<span class="sd">        value : numerical type</span>
+<span class="sd">            coordinate value</span>
+<span class="sd">        kw : dictionary</span>
+<span class="sd">            if given this is a dictionary of ``{label: value}`` pairs</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">kw</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">label</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="n">value</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kw</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">kw</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kw</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">kw</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">({</span><span class="n">label</span><span class="p">:</span> <span class="n">value</span><span class="p">})</span>
+            <span class="k">assert</span><span class="p">(</span><span class="n">label</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">),</span> <span class="p">(</span>
+                <span class="s">&quot;Expected label and value to be defined&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">kw</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__setattr__</span><span class="p">(</span><span class="s">&#39;_&#39;</span> <span class="o">+</span> <span class="n">key</span><span class="p">,</span> <span class="n">kw</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_properties</span><span class="p">(</span><span class="n">kw</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+</div>
+    <span class="k">def</span> <span class="nf">_set_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attributes</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">attributes</span><span class="p">:</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="nb">property</span><span class="p">(</span><span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="o">=</span><span class="n">attr</span><span class="p">:</span>
+                                                   <span class="bp">self</span><span class="o">.</span><span class="n">_getlabel</span><span class="p">(</span><span class="n">attr</span><span class="p">),</span>
+                    <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">attr</span><span class="o">=</span><span class="n">attr</span><span class="p">:</span>
+                                                   <span class="bp">self</span><span class="o">.</span><span class="n">_setlabel</span><span class="p">(</span><span class="n">attr</span><span class="p">,</span> <span class="n">value</span><span class="p">),</span>
+                    <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="o">=</span><span class="n">attr</span><span class="p">:</span>
+                                                   <span class="bp">self</span><span class="o">.</span><span class="n">_dellabel</span><span class="p">(</span><span class="n">attr</span><span class="p">)</span>
+                                                   <span class="p">)</span>
+                    <span class="p">)</span>
+
+<div class="viewcode-block" id="LabeledInput.copy"><a class="viewcode-back" href="../../../api/astropy.modeling.core.LabeledInput.html#astropy.modeling.core.LabeledInput.copy">[docs]</a>    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">labels</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">LabeledInput</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">labels</span><span class="p">)</span>
+
+</div></div>
+<span class="k">class</span> <span class="nc">_CompositeModel</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">transforms</span><span class="p">,</span> <span class="n">n_inputs</span><span class="p">,</span> <span class="n">n_outputs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Base class for all composite models.&quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_transforms</span> <span class="o">=</span> <span class="n">transforms</span>
+        <span class="n">param_names</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">tr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transforms</span><span class="p">:</span>
+            <span class="n">param_names</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">param_names</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">_CompositeModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">param_names</span> <span class="o">=</span> <span class="n">param_names</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_inputs</span> <span class="o">=</span> <span class="n">n_inputs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_outputs</span> <span class="o">=</span> <span class="n">n_outputs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fittable</span> <span class="o">=</span> <span class="bp">False</span>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">fmt</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;</span>
+<span class="s">            Model:  {0}</span>
+<span class="s">            &quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
+        <span class="n">fmt_args</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">tr</span><span class="p">)</span> <span class="k">for</span> <span class="n">tr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transforms</span><span class="p">)</span>
+        <span class="n">fmt1</span> <span class="o">=</span> <span class="p">(</span><span class="s">&quot; </span><span class="si">%s</span><span class="s">  &quot;</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_transforms</span><span class="p">))</span> <span class="o">%</span> <span class="n">fmt_args</span>
+        <span class="n">fmt</span> <span class="o">=</span> <span class="n">fmt</span> <span class="o">+</span> <span class="n">fmt1</span>
+        <span class="k">return</span> <span class="n">fmt</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">fmt</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;</span>
+<span class="s">            Model:  {0}</span>
+<span class="s">            &quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
+        <span class="n">fmt_args</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">tr</span><span class="p">)</span> <span class="k">for</span> <span class="n">tr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transforms</span><span class="p">)</span>
+        <span class="n">fmt1</span> <span class="o">=</span> <span class="p">(</span><span class="s">&quot; </span><span class="si">%s</span><span class="s">  &quot;</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_transforms</span><span class="p">))</span> <span class="o">%</span> <span class="n">fmt_args</span>
+        <span class="n">fmt</span> <span class="o">=</span> <span class="n">fmt</span> <span class="o">+</span> <span class="n">fmt1</span>
+        <span class="k">return</span> <span class="n">fmt</span>
+
+    <span class="k">def</span> <span class="nf">add_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">transf</span><span class="p">,</span> <span class="n">inmap</span><span class="p">,</span> <span class="n">outmap</span><span class="p">):</span>
+        <span class="bp">self</span><span class="p">[</span><span class="n">transf</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">inmap</span><span class="p">,</span> <span class="n">outmap</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">invert</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;Subclasses should implement this&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c"># implemented by subclasses</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;Subclasses should implement this&quot;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="SerialCompositeModel"><a class="viewcode-back" href="../../../api/astropy.modeling.core.SerialCompositeModel.html#astropy.modeling.core.SerialCompositeModel">[docs]</a><span class="k">class</span> <span class="nc">SerialCompositeModel</span><span class="p">(</span><span class="n">_CompositeModel</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Composite model that evaluates models in series.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    transforms : list</span>
+<span class="sd">        a list of transforms in the order to be executed</span>
+<span class="sd">    inmap : list of lists or None</span>
+<span class="sd">        labels in an input instance of LabeledInput</span>
+<span class="sd">        if None, the number of input coordinates is exactly what</span>
+<span class="sd">        the transforms expect</span>
+<span class="sd">    outmap : list or None</span>
+<span class="sd">        labels in an input instance of LabeledInput</span>
+<span class="sd">        if None, the number of output coordinates is exactly what</span>
+<span class="sd">        the transforms expect</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Output values of one model are used as input values of another.</span>
+<span class="sd">    Obviously the order of the models matters.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Apply a 2D rotation followed by a shift in x and y::</span>
+
+<span class="sd">        &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">        &gt;&gt;&gt; from astropy.modeling import models, LabeledInput, SerialCompositeModel</span>
+<span class="sd">        &gt;&gt;&gt; x, y = np.mgrid[:5, :5]</span>
+<span class="sd">        &gt;&gt;&gt; rotation = models.MatrixRotation2D(angle=23.5)</span>
+<span class="sd">        &gt;&gt;&gt; offset_x = models.Shift(-4.23)</span>
+<span class="sd">        &gt;&gt;&gt; offset_y = models.Shift(2)</span>
+<span class="sd">        &gt;&gt;&gt; labeled_input = LabeledInput([x, y], [&quot;x&quot;, &quot;y&quot;])</span>
+<span class="sd">        &gt;&gt;&gt; transform = SerialCompositeModel([rotation, offset_x, offset_y],</span>
+<span class="sd">        ...                                  inmap=[[&#39;x&#39;, &#39;y&#39;], [&#39;x&#39;], [&#39;y&#39;]],</span>
+<span class="sd">        ...                                  outmap=[[&#39;x&#39;, &#39;y&#39;], [&#39;x&#39;], [&#39;y&#39;]])</span>
+<span class="sd">        &gt;&gt;&gt; result = transform(labeled_input)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">transforms</span><span class="p">,</span> <span class="n">inmap</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">outmap</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">n_inputs</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                 <span class="n">n_outputs</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">n_inputs</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">n_inputs</span> <span class="o">=</span> <span class="nb">max</span><span class="p">([</span><span class="n">tr</span><span class="o">.</span><span class="n">n_inputs</span> <span class="k">for</span> <span class="n">tr</span> <span class="ow">in</span> <span class="n">transforms</span><span class="p">])</span>
+            <span class="c"># the output dimension is equal to the output dim of the last</span>
+            <span class="c"># transform</span>
+            <span class="n">n_outputs</span> <span class="o">=</span> <span class="n">transforms</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">n_outputs</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="n">n_outputs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">,</span> <span class="s">&quot;Expected n_inputs and n_outputs&quot;</span>
+            <span class="n">n_inputs</span> <span class="o">=</span> <span class="n">n_inputs</span>
+            <span class="n">n_outputs</span> <span class="o">=</span> <span class="n">n_outputs</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">SerialCompositeModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">transforms</span><span class="p">,</span> <span class="n">n_inputs</span><span class="p">,</span>
+                                                   <span class="n">n_outputs</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">transforms</span> <span class="ow">and</span> <span class="n">inmap</span> <span class="ow">and</span> <span class="n">outmap</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">transforms</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">inmap</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">outmap</span><span class="p">),</span> \
+                <span class="s">&quot;Expected sequences of transform, &quot;</span> \
+                <span class="s">&quot;inmap and outmap to have the same length&quot;</span>
+
+        <span class="k">if</span> <span class="n">inmap</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">inmap</span> <span class="o">=</span> <span class="p">[</span><span class="bp">None</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">transforms</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">outmap</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">outmap</span> <span class="o">=</span> <span class="p">[</span><span class="bp">None</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">transforms</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_inmap</span> <span class="o">=</span> <span class="n">inmap</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_outmap</span> <span class="o">=</span> <span class="n">outmap</span>
+
+<div class="viewcode-block" id="SerialCompositeModel.inverse"><a class="viewcode-back" href="../../../api/astropy.modeling.core.SerialCompositeModel.html#astropy.modeling.core.SerialCompositeModel.inverse">[docs]</a>    <span class="k">def</span> <span class="nf">inverse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">transforms</span> <span class="o">=</span> <span class="p">[</span><span class="n">tr</span><span class="o">.</span><span class="n">inverse</span><span class="p">()</span> <span class="k">for</span> <span class="n">tr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transforms</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span>
+        <span class="k">except</span> <span class="ne">NotImplementedError</span><span class="p">:</span>
+            <span class="k">raise</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inmap</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">inmap</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inmap</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">outmap</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_outmap</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">inmap</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="n">outmap</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">return</span> <span class="n">SerialCompositeModel</span><span class="p">(</span><span class="n">transforms</span><span class="p">,</span> <span class="n">inmap</span><span class="p">,</span> <span class="n">outmap</span><span class="p">)</span>
+</div>
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Transforms data using this model.&quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">LabeledInput</span><span class="p">):</span>
+                <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transforms</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">n_inputs</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> \
+                    <span class="s">&quot;First transform expects {0} inputs, 1 given&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_transforms</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">n_inputs</span><span class="p">)</span>
+
+                <span class="n">result</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">tr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transforms</span><span class="p">:</span>
+                    <span class="n">result</span> <span class="o">=</span> <span class="n">tr</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">result</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">labeled_input</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+                <span class="c"># we want to return the entire labeled object because some</span>
+                <span class="c"># parts of it may be used in another transform of which this</span>
+                <span class="c"># one is a component</span>
+                <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inmap</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">,</span> \
+                    <span class="p">(</span><span class="s">&quot;Parameter &#39;inmap&#39; must be provided when &quot;</span>
+                     <span class="s">&quot;input is a labeled object.&quot;</span><span class="p">)</span>
+                <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">_outmap</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">,</span> \
+                    <span class="p">(</span><span class="s">&quot;Parameter &#39;outmap&#39; must be provided when input is a &quot;</span>
+                     <span class="s">&quot;labeled object&quot;</span><span class="p">)</span>
+
+                <span class="k">for</span> <span class="n">transform</span><span class="p">,</span> <span class="n">incoo</span><span class="p">,</span> <span class="n">outcoo</span> <span class="ow">in</span> <span class="n">izip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_transforms</span><span class="p">,</span>
+                                                     <span class="bp">self</span><span class="o">.</span><span class="n">_inmap</span><span class="p">,</span>
+                                                     <span class="bp">self</span><span class="o">.</span><span class="n">_outmap</span><span class="p">):</span>
+                    <span class="n">inlist</span> <span class="o">=</span> <span class="p">[</span><span class="n">labeled_input</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">incoo</span><span class="p">]</span>
+                    <span class="n">result</span> <span class="o">=</span> <span class="n">transform</span><span class="p">(</span><span class="o">*</span><span class="n">inlist</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">outcoo</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                        <span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="n">result</span><span class="p">]</span>
+                    <span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">res</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">outcoo</span><span class="p">,</span> <span class="n">result</span><span class="p">):</span>
+
+                        <span class="k">if</span> <span class="n">label</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">labeled_input</span><span class="o">.</span><span class="n">labels</span><span class="p">:</span>
+                            <span class="n">labeled_input</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="n">res</span>
+                        <span class="nb">setattr</span><span class="p">(</span><span class="n">labeled_input</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">res</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">labeled_input</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_inputs</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> \
+                <span class="s">&quot;This transform expects {0} inputs&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_n_inputs</span><span class="p">)</span>
+
+            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transforms</span><span class="p">[</span><span class="mi">0</span><span class="p">](</span><span class="o">*</span><span class="n">data</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">transform</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transforms</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">transform</span><span class="p">(</span><span class="o">*</span><span class="n">result</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span>
+
+</div>
+<div class="viewcode-block" id="SummedCompositeModel"><a class="viewcode-back" href="../../../api/astropy.modeling.core.SummedCompositeModel.html#astropy.modeling.core.SummedCompositeModel">[docs]</a><span class="k">class</span> <span class="nc">SummedCompositeModel</span><span class="p">(</span><span class="n">_CompositeModel</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Composite model that evaluates models in parallel.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    --------------</span>
+<span class="sd">    transforms : list</span>
+<span class="sd">        transforms to be executed in parallel</span>
+<span class="sd">    inmap : list or None</span>
+<span class="sd">        labels in an input instance of LabeledInput</span>
+<span class="sd">        if None, the number of input coordinates is exactly what the</span>
+<span class="sd">        transforms expect</span>
+<span class="sd">    outmap : list or None</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Evaluate each model separately and add the results to the input_data.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">transforms</span><span class="p">,</span> <span class="n">inmap</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">outmap</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_transforms</span> <span class="o">=</span> <span class="n">transforms</span>
+        <span class="n">n_inputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transforms</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">n_inputs</span>
+        <span class="n">n_outputs</span> <span class="o">=</span> <span class="n">n_inputs</span>
+        <span class="k">for</span> <span class="n">transform</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transforms</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="n">transform</span><span class="o">.</span><span class="n">n_inputs</span> <span class="o">==</span> <span class="n">transform</span><span class="o">.</span><span class="n">n_outputs</span> <span class="o">==</span> <span class="n">n_inputs</span><span class="p">,</span> \
+                <span class="p">(</span><span class="s">&quot;A SummedCompositeModel expects n_inputs = n_outputs for &quot;</span>
+                 <span class="s">&quot;all transforms&quot;</span><span class="p">)</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">SummedCompositeModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">transforms</span><span class="p">,</span> <span class="n">n_inputs</span><span class="p">,</span>
+                                                   <span class="n">n_outputs</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_inmap</span> <span class="o">=</span> <span class="n">inmap</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_outmap</span> <span class="o">=</span> <span class="n">outmap</span>
+
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Transforms data using this model.&quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">LabeledInput</span><span class="p">):</span>
+                <span class="n">x</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">deltas</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">tr</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">tr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transforms</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">deltas</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inmap</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">,</span> \
+                    <span class="p">(</span><span class="s">&quot;Parameter &#39;inmap&#39; must be provided when &quot;</span>
+                     <span class="s">&quot;input is a labeled object.&quot;</span><span class="p">)</span>
+                <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">_outmap</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">,</span> \
+                    <span class="p">(</span><span class="s">&quot;Parameter &#39;outmap&#39; must be provided when input is a &quot;</span>
+                     <span class="s">&quot;labeled object&quot;</span><span class="p">)</span>
+                <span class="n">labeled_input</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+                <span class="c"># create a list of inputs to be passed to the transforms</span>
+                <span class="n">inlist</span> <span class="o">=</span> <span class="p">[</span><span class="nb">getattr</span><span class="p">(</span><span class="n">labeled_input</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span>
+                          <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inmap</span><span class="p">]</span>
+                <span class="n">sum_of_deltas</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">inlist</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">transform</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transforms</span><span class="p">:</span>
+                    <span class="n">delta</span> <span class="o">=</span> <span class="p">[</span><span class="n">transform</span><span class="p">(</span><span class="o">*</span><span class="n">inlist</span><span class="p">)]</span>
+                    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sum_of_deltas</span><span class="p">)):</span>
+                        <span class="n">sum_of_deltas</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">delta</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+                <span class="k">for</span> <span class="n">outcoo</span><span class="p">,</span> <span class="n">delta</span> <span class="ow">in</span> <span class="n">izip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_outmap</span><span class="p">,</span> <span class="n">sum_of_deltas</span><span class="p">):</span>
+                    <span class="nb">setattr</span><span class="p">(</span><span class="n">labeled_input</span><span class="p">,</span> <span class="n">outcoo</span><span class="p">,</span> <span class="n">delta</span><span class="p">)</span>
+                <span class="c"># always return the entire labeled object, not just the result</span>
+                <span class="c"># since this may be part of another composite transform</span>
+                <span class="k">return</span> <span class="n">labeled_input</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transforms</span><span class="p">[</span><span class="mi">0</span><span class="p">](</span><span class="o">*</span><span class="n">data</span><span class="p">)</span>
+            <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_inputs</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_outputs</span>
+            <span class="k">for</span> <span class="n">tr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transforms</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+                <span class="n">result</span> <span class="o">+=</span> <span class="n">tr</span><span class="p">(</span><span class="o">*</span><span class="n">data</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">result</span>
+
+</div>
+<div class="viewcode-block" id="Parametric1DModel"><a class="viewcode-back" href="../../../api/astropy.modeling.core.Parametric1DModel.html#astropy.modeling.core.Parametric1DModel">[docs]</a><span class="k">class</span> <span class="nc">Parametric1DModel</span><span class="p">(</span><span class="n">ParametricModel</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Base class for one dimensional parametric models.</span>
+
+<span class="sd">    This class provides an easier interface to defining new models.</span>
+<span class="sd">    Examples can be found in functional_models.py</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    parameters : dictionary</span>
+<span class="sd">        Dictionary of model parameters with initialisation values</span>
+<span class="sd">        {&#39;parameter_name&#39;: &#39;parameter_value&#39;}</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nd">@format_input</span>
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Transforms data using this model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        x : array like or a number</span>
+<span class="sd">            input</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">param_sets</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="Parametric2DModel"><a class="viewcode-back" href="../../../api/astropy.modeling.core.Parametric2DModel.html#astropy.modeling.core.Parametric2DModel">[docs]</a><span class="k">class</span> <span class="nc">Parametric2DModel</span><span class="p">(</span><span class="n">ParametricModel</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Base class for two dimensional parametric models.</span>
+
+<span class="sd">    This class provides an easier interface to defining new models.</span>
+<span class="sd">    Examples can be found in functional_models.py</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    parameter_dict : dictionary</span>
+<span class="sd">        Dictionary of model parameters with initialization values</span>
+<span class="sd">        {&#39;parameter_name&#39;: &#39;parameter_value&#39;}</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">n_inputs</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">n_outputs</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="nd">@format_input</span>
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Transforms data using this model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        x : array like or a number</span>
+<span class="sd">            input</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">param_sets</span><span class="p">)</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"><h3>Page Contents</h3>
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+<footer class="footer">
+  <p class="pull-right"> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright 2011-2013, The Astropy Developers.<br/>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2. &nbsp;
+    Last built 05 Mar 2014. <br/>
+  </p>
+</footer>
+  </body>
+</html>

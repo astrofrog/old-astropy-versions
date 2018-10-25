@@ -1,0 +1,8 @@
+
+
+add_enabled_equivalencies
+============================================
+
+.. currentmodule:: astropy.units.core
+
+.. autofunction:: add_enabled_equivalencies

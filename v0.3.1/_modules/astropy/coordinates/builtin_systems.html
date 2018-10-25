@@ -1,0 +1,945 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>astropy.coordinates.builtin_systems &mdash; Astropy v0.3.1</title>
+    
+    <link rel="stylesheet" href="../../../_static/bootstrap-astropy.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="https://media.readthedocs.org/css/badge_only.css" type="text/css" />
+    <link rel="stylesheet" href="https://media.readthedocs.org/css/readthedocs-doc-embed.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.3.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/jquery/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/jquery/jquery-migrate-1.2.1.min.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/underscore.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/doctools.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/readthedocs-doc-embed.js"></script>
+    <script type="text/javascript" src="../../../_static/sidebar.js"></script>
+    <link rel="shortcut icon" href="../../../_static/astropy_logo.ico"/>
+    <link rel="top" title="Astropy v0.3.1" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" />
+
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,600' rel='stylesheet' type='text/css'>
+
+<!-- RTD Extra Head -->
+
+
+
+<!-- 
+Read the Docs is acting as the canonical URL for your project. 
+If you want to change it, more info is available in our docs:
+  http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="http://astropy.readthedocs.org/en/latest/_modules/astropy/coordinates/builtin_systems.html">
+
+<script type="text/javascript">
+  // This is included here because other places don't have access to the pagename variable.
+  var READTHEDOCS_DATA = {
+    project: "astropy",
+    version: "v0.3.1",
+    language: "en",
+    page: "_modules/astropy/coordinates/builtin_systems",
+    theme: "bootstrap-astropy",
+    docroot: "/docs/",
+    api_host: "https://readthedocs.org"
+  }
+  // Old variables
+  var doc_version = "v0.3.1";
+  var doc_slug = "astropy";
+  var page_name = "_modules/astropy/coordinates/builtin_systems";
+  var html_theme = "bootstrap-astropy";
+</script>
+<!-- RTD Analytics Code -->
+<!-- Included in the header because you don't have a footer block. -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17997319-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+<!-- end RTD Analytics Code -->
+
+
+<!-- User Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-30968842-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+<!-- End User Analytics Code -->
+
+<!-- end RTD <extrahead> -->
+
+  </head>
+  <body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../../../index.html"><span id="logotext1">astro</span><span id="logotext2">py</span><span id="logotext3">:docs</span></a>
+  <ul>
+    <li><a class="homelink" title="Astropy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../../../genindex.html">Index</a></li>
+    <li><a title="Module Index" href="../../../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li>
+	<a href="../../../index.html">Astropy v0.3.1</a>
+	 &raquo;
+      </li>
+      <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li>
+      
+       
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for astropy.coordinates.builtin_systems</h1><div class="highlight"><pre>
+<span class="c"># Licensed under a 3-clause BSD style license - see LICENSE.rst</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module contains the implementations of specific coordinate systems</span>
+<span class="sd">and the conversions between them.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="p">(</span><span class="n">absolute_import</span><span class="p">,</span> <span class="n">division</span><span class="p">,</span> <span class="n">print_function</span><span class="p">,</span>
+                        <span class="n">unicode_literals</span><span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">inspect</span>
+<span class="kn">import</span> <span class="nn">textwrap</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">..extern</span> <span class="kn">import</span> <span class="n">six</span>
+<span class="kn">from</span> <span class="nn">.angles</span> <span class="kn">import</span> <span class="n">Angle</span>
+<span class="kn">from</span> <span class="nn">.coordsystems</span> <span class="kn">import</span> <span class="n">SphericalCoordinatesBase</span>
+<span class="kn">from</span> <span class="nn">..time</span> <span class="kn">import</span> <span class="n">Time</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">transformations</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">units</span> <span class="k">as</span> <span class="n">u</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;ICRS&#39;</span><span class="p">,</span> <span class="s">&#39;FK5&#39;</span><span class="p">,</span> <span class="s">&#39;FK4&#39;</span><span class="p">,</span> <span class="s">&#39;FK4NoETerms&#39;</span><span class="p">,</span> <span class="s">&#39;Galactic&#39;</span><span class="p">,</span> <span class="s">&#39;AltAz&#39;</span><span class="p">]</span>
+
+<span class="c"># The UTC time scale is not properly defined prior to 1960, so Time(&#39;B1950&#39;,</span>
+<span class="c"># scale=&#39;utc&#39;) will emit a warning. Instead, we use Time(&#39;B1950&#39;, scale=&#39;tai&#39;)</span>
+<span class="c"># which is equivalent, but does not emit a warning.</span>
+<span class="n">_EQUINOX_J2000</span> <span class="o">=</span> <span class="n">Time</span><span class="p">(</span><span class="s">&#39;J2000&#39;</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="s">&#39;utc&#39;</span><span class="p">)</span>
+<span class="n">_EQUINOX_B1950</span> <span class="o">=</span> <span class="n">Time</span><span class="p">(</span><span class="s">&#39;B1950&#39;</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="s">&#39;tai&#39;</span><span class="p">)</span>
+
+
+<span class="c">#&lt;--------------Coordinate definitions; transformations are below--------------&gt;</span>
+<span class="nd">@transformations.coordinate_alias</span><span class="p">(</span><span class="s">&#39;icrs&#39;</span><span class="p">)</span>
+<div class="viewcode-block" id="ICRS"><a class="viewcode-back" href="../../../api/astropy.coordinates.builtin_systems.ICRS.html#astropy.coordinates.builtin_systems.ICRS">[docs]</a><span class="k">class</span> <span class="nc">ICRS</span><span class="p">(</span><span class="n">SphericalCoordinatesBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A coordinate in the ICRS.</span>
+
+<span class="sd">    If you&#39;re looking for &quot;J2000&quot; coordinates, and aren&#39;t sure if you</span>
+<span class="sd">    want to use this or `FK5`, you probably want to use ICRS.</span>
+<span class="sd">    It&#39;s more well-defined as a catalog coordinate and is an inertial</span>
+<span class="sd">    system.</span>
+
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    {params}</span>
+<span class="sd">    obstime : `~astropy.time.Time` or None</span>
+<span class="sd">        The time of observation for this coordinate.  If None, it will be taken</span>
+<span class="sd">        to be the same as the `equinox`.</span>
+
+<span class="sd">    Alternatively, a single argument that is any kind of spherical coordinate</span>
+<span class="sd">    can be provided, and will be converted to ICRS and used as this</span>
+<span class="sd">    coordinate.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">__doc__</span> <span class="o">=</span> <span class="n">__doc__</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="n">SphericalCoordinatesBase</span><span class="o">.</span><span class="n">_init_docstring_param_templ</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">lonnm</span><span class="o">=</span><span class="s">&#39;ra&#39;</span><span class="p">,</span> <span class="n">latnm</span><span class="o">=</span><span class="s">&#39;dec&#39;</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ICRS</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_obstime</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;obstime&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_obstime</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_obstime</span><span class="p">,</span> <span class="n">Time</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&#39;specified obstime is not None or a Time object&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">SphericalCoordinatesBase</span><span class="p">):</span>
+            <span class="n">newcoord</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">transform_to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_latangle</span> <span class="o">=</span> <span class="n">newcoord</span><span class="o">.</span><span class="n">_latangle</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_lonangle</span> <span class="o">=</span> <span class="n">newcoord</span><span class="o">.</span><span class="n">_lonangle</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_distance</span> <span class="o">=</span> <span class="n">newcoord</span><span class="o">.</span><span class="n">_distance</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">super</span><span class="p">(</span><span class="n">ICRS</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_initialize_latlon</span><span class="p">(</span><span class="s">&#39;ra&#39;</span><span class="p">,</span> <span class="s">&#39;dec&#39;</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="c">#strings used for making __repr__ work</span>
+    <span class="n">_repr_lon_name</span> <span class="o">=</span> <span class="s">&#39;RA&#39;</span>
+    <span class="n">_repr_lat_name</span> <span class="o">=</span> <span class="s">&#39;Dec&#39;</span>
+
+    <span class="c"># Default format for to_string</span>
+    <span class="n">_default_string_style</span> <span class="o">=</span> <span class="s">&#39;hmsdms&#39;</span>
+
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="ICRS.ra"><a class="viewcode-back" href="../../../api/astropy.coordinates.builtin_systems.ICRS.html#astropy.coordinates.builtin_systems.ICRS.ra">[docs]</a>    <span class="k">def</span> <span class="nf">ra</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lonangle</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="ICRS.dec"><a class="viewcode-back" href="../../../api/astropy.coordinates.builtin_systems.ICRS.html#astropy.coordinates.builtin_systems.ICRS.dec">[docs]</a>    <span class="k">def</span> <span class="nf">dec</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_latangle</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="ICRS.equinox"><a class="viewcode-back" href="../../../api/astropy.coordinates.builtin_systems.ICRS.html#astropy.coordinates.builtin_systems.ICRS.equinox">[docs]</a>    <span class="k">def</span> <span class="nf">equinox</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">_EQUINOX_J2000</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="ICRS.obstime"><a class="viewcode-back" href="../../../api/astropy.coordinates.builtin_systems.ICRS.html#astropy.coordinates.builtin_systems.ICRS.obstime">[docs]</a>    <span class="k">def</span> <span class="nf">obstime</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_obstime</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">equinox</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_obstime</span>
+
+</div></div>
+<span class="nd">@transformations.coordinate_alias</span><span class="p">(</span><span class="s">&#39;fk5&#39;</span><span class="p">)</span>
+<div class="viewcode-block" id="FK5"><a class="viewcode-back" href="../../../api/astropy.coordinates.builtin_systems.FK5.html#astropy.coordinates.builtin_systems.FK5">[docs]</a><span class="k">class</span> <span class="nc">FK5</span><span class="p">(</span><span class="n">SphericalCoordinatesBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A coordinate in the FK5 system.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    {params}</span>
+<span class="sd">    equinox : `~astropy.time.Time`, optional</span>
+<span class="sd">        The equinox for these coordinates.  Defaults to J2000.</span>
+<span class="sd">    obstime : `~astropy.time.Time` or None</span>
+<span class="sd">        The time of observation for this coordinate.  If None, it will be taken</span>
+<span class="sd">        to be the same as the `equinox`.</span>
+
+<span class="sd">    Alternatively, a single argument that is any kind of spherical coordinate</span>
+<span class="sd">    can be provided, and will be converted to `FK5` and used as this</span>
+<span class="sd">    coordinate.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">__doc__</span> <span class="o">=</span> <span class="n">__doc__</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="n">SphericalCoordinatesBase</span><span class="o">.</span><span class="n">_init_docstring_param_templ</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">lonnm</span><span class="o">=</span><span class="s">&#39;ra&#39;</span><span class="p">,</span> <span class="n">latnm</span><span class="o">=</span><span class="s">&#39;dec&#39;</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">FK5</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_equinox</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;equinox&#39;</span><span class="p">,</span> <span class="n">_EQUINOX_J2000</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_obstime</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;obstime&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_equinox</span><span class="p">,</span> <span class="n">Time</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&#39;specified equinox is not a Time object&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_obstime</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_obstime</span><span class="p">,</span> <span class="n">Time</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&#39;specified obstime is not None or a Time object&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_equinox</span><span class="o">.</span><span class="n">isscalar</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;specified equinox is not a scalar&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">SphericalCoordinatesBase</span><span class="p">):</span>
+            <span class="n">newcoord</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">transform_to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_latangle</span> <span class="o">=</span> <span class="n">newcoord</span><span class="o">.</span><span class="n">_latangle</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_lonangle</span> <span class="o">=</span> <span class="n">newcoord</span><span class="o">.</span><span class="n">_lonangle</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_distance</span> <span class="o">=</span> <span class="n">newcoord</span><span class="o">.</span><span class="n">_distance</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">super</span><span class="p">(</span><span class="n">FK5</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_initialize_latlon</span><span class="p">(</span><span class="s">&#39;ra&#39;</span><span class="p">,</span> <span class="s">&#39;dec&#39;</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="c">#strings used for making __repr__ work</span>
+    <span class="n">_repr_lon_name</span> <span class="o">=</span> <span class="s">&#39;RA&#39;</span>
+    <span class="n">_repr_lat_name</span> <span class="o">=</span> <span class="s">&#39;Dec&#39;</span>
+
+    <span class="c"># Default format for to_string</span>
+    <span class="n">_default_string_style</span> <span class="o">=</span> <span class="s">&#39;hmsdms&#39;</span>
+
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="FK5.ra"><a class="viewcode-back" href="../../../api/astropy.coordinates.builtin_systems.FK5.html#astropy.coordinates.builtin_systems.FK5.ra">[docs]</a>    <span class="k">def</span> <span class="nf">ra</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lonangle</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="FK5.dec"><a class="viewcode-back" href="../../../api/astropy.coordinates.builtin_systems.FK5.html#astropy.coordinates.builtin_systems.FK5.dec">[docs]</a>    <span class="k">def</span> <span class="nf">dec</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_latangle</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="FK5.equinox"><a class="viewcode-back" href="../../../api/astropy.coordinates.builtin_systems.FK5.html#astropy.coordinates.builtin_systems.FK5.equinox">[docs]</a>    <span class="k">def</span> <span class="nf">equinox</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_equinox</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="FK5.obstime"><a class="viewcode-back" href="../../../api/astropy.coordinates.builtin_systems.FK5.html#astropy.coordinates.builtin_systems.FK5.obstime">[docs]</a>    <span class="k">def</span> <span class="nf">obstime</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_obstime</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">equinox</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_obstime</span>
+</div>
+<div class="viewcode-block" id="FK5.precess_to"><a class="viewcode-back" href="../../../api/astropy.coordinates.builtin_systems.FK5.html#astropy.coordinates.builtin_systems.FK5.precess_to">[docs]</a>    <span class="k">def</span> <span class="nf">precess_to</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">newequinox</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Precesses the coordinates from their current `equinox` to a new equinox and</span>
+<span class="sd">        returns the resulting coordinate.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        newequinox : `~astropy.time.Time`</span>
+<span class="sd">            The equinox to precess these coordinates to.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        newcoord : FK5</span>
+<span class="sd">            The new coordinate</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">.earth_orientation</span> <span class="kn">import</span> <span class="n">precession_matrix_Capitaine</span>
+
+        <span class="n">pmat</span> <span class="o">=</span> <span class="n">precession_matrix_Capitaine</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_equinox</span><span class="p">,</span> <span class="n">newequinox</span><span class="p">)</span>
+
+        <span class="n">v</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="o">.</span><span class="n">value</span><span class="p">]</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">pmat</span><span class="o">.</span><span class="n">A</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">distance</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="n">z</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">distance</span><span class="o">.</span><span class="n">unit</span><span class="p">,</span> <span class="n">equinox</span><span class="o">=</span><span class="n">newequinox</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="n">z</span><span class="p">,</span> <span class="n">equinox</span><span class="o">=</span><span class="n">newequinox</span><span class="p">)</span>
+
+</div></div>
+<span class="nd">@transformations.coordinate_alias</span><span class="p">(</span><span class="s">&#39;fk4&#39;</span><span class="p">)</span>
+<div class="viewcode-block" id="FK4"><a class="viewcode-back" href="../../../api/astropy.coordinates.builtin_systems.FK4.html#astropy.coordinates.builtin_systems.FK4">[docs]</a><span class="k">class</span> <span class="nc">FK4</span><span class="p">(</span><span class="n">SphericalCoordinatesBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A coordinate in the FK4 system.</span>
+
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    {params}</span>
+<span class="sd">    equinox : `~astropy.time.Time`, optional</span>
+<span class="sd">        The equinox for these coordinates.  Defaults to B1950.</span>
+<span class="sd">    obstime : `~astropy.time.Time` or None</span>
+<span class="sd">        The time of observation for this coordinate.  If None, it will be taken</span>
+<span class="sd">        to be the same as the `equinox`.</span>
+
+<span class="sd">    Alternatively, a single argument that is any kind of spherical coordinate</span>
+<span class="sd">    can be provided, and will be converted to `FK4` and used as this</span>
+<span class="sd">    coordinate.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">__doc__</span> <span class="o">=</span> <span class="n">__doc__</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="n">SphericalCoordinatesBase</span><span class="o">.</span><span class="n">_init_docstring_param_templ</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">lonnm</span><span class="o">=</span><span class="s">&#39;ra&#39;</span><span class="p">,</span> <span class="n">latnm</span><span class="o">=</span><span class="s">&#39;dec&#39;</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">FK4</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_equinox</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;equinox&#39;</span><span class="p">,</span> <span class="n">_EQUINOX_B1950</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_obstime</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;obstime&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_equinox</span><span class="p">,</span> <span class="n">Time</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&#39;specified equinox is not a Time object&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_obstime</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_obstime</span><span class="p">,</span> <span class="n">Time</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&#39;specified obstime is not None or a Time object&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_equinox</span><span class="o">.</span><span class="n">isscalar</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;specified equinox is not a scalar&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">SphericalCoordinatesBase</span><span class="p">):</span>
+            <span class="n">newcoord</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">transform_to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_latangle</span> <span class="o">=</span> <span class="n">newcoord</span><span class="o">.</span><span class="n">_latangle</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_lonangle</span> <span class="o">=</span> <span class="n">newcoord</span><span class="o">.</span><span class="n">_lonangle</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_distance</span> <span class="o">=</span> <span class="n">newcoord</span><span class="o">.</span><span class="n">_distance</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">super</span><span class="p">(</span><span class="n">FK4</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_initialize_latlon</span><span class="p">(</span><span class="s">&#39;ra&#39;</span><span class="p">,</span> <span class="s">&#39;dec&#39;</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="c">#strings used for making __repr__ work</span>
+    <span class="n">_repr_lon_name</span> <span class="o">=</span> <span class="s">&#39;RA&#39;</span>
+    <span class="n">_repr_lat_name</span> <span class="o">=</span> <span class="s">&#39;Dec&#39;</span>
+
+    <span class="c"># Default format for to_string</span>
+    <span class="n">_default_string_style</span> <span class="o">=</span> <span class="s">&#39;hmsdms&#39;</span>
+
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="FK4.ra"><a class="viewcode-back" href="../../../api/astropy.coordinates.builtin_systems.FK4.html#astropy.coordinates.builtin_systems.FK4.ra">[docs]</a>    <span class="k">def</span> <span class="nf">ra</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lonangle</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="FK4.dec"><a class="viewcode-back" href="../../../api/astropy.coordinates.builtin_systems.FK4.html#astropy.coordinates.builtin_systems.FK4.dec">[docs]</a>    <span class="k">def</span> <span class="nf">dec</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_latangle</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="FK4.equinox"><a class="viewcode-back" href="../../../api/astropy.coordinates.builtin_systems.FK4.html#astropy.coordinates.builtin_systems.FK4.equinox">[docs]</a>    <span class="k">def</span> <span class="nf">equinox</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_equinox</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="FK4.obstime"><a class="viewcode-back" href="../../../api/astropy.coordinates.builtin_systems.FK4.html#astropy.coordinates.builtin_systems.FK4.obstime">[docs]</a>    <span class="k">def</span> <span class="nf">obstime</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_obstime</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">equinox</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_obstime</span>
+</div>
+<div class="viewcode-block" id="FK4.precess_to"><a class="viewcode-back" href="../../../api/astropy.coordinates.builtin_systems.FK4.html#astropy.coordinates.builtin_systems.FK4.precess_to">[docs]</a>    <span class="k">def</span> <span class="nf">precess_to</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">newequinox</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Precesses the coordinates from their current `equinox` to a new equinox.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        newequinox : `~astropy.time.Time`</span>
+<span class="sd">            The equinox to precess these coordinates to.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        newcoord : FK4</span>
+<span class="sd">            The new coordinate</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">.earth_orientation</span> <span class="kn">import</span> <span class="n">_precession_matrix_besselian</span>
+
+        <span class="n">pmat</span> <span class="o">=</span> <span class="n">_precession_matrix_besselian</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_equinox</span><span class="o">.</span><span class="n">byear</span><span class="p">,</span> <span class="n">newequinox</span><span class="o">.</span><span class="n">byear</span><span class="p">)</span>
+
+        <span class="n">v</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="o">.</span><span class="n">value</span><span class="p">]</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">pmat</span><span class="o">.</span><span class="n">A</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">distance</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="n">z</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">distance</span><span class="o">.</span><span class="n">unit</span><span class="p">,</span> <span class="n">equinox</span><span class="o">=</span><span class="n">newequinox</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="n">z</span><span class="p">,</span> <span class="n">equinox</span><span class="o">=</span><span class="n">newequinox</span><span class="p">)</span>
+
+</div></div>
+<span class="nd">@transformations.coordinate_alias</span><span class="p">(</span><span class="s">&#39;fk4_no_e&#39;</span><span class="p">)</span>
+<div class="viewcode-block" id="FK4NoETerms"><a class="viewcode-back" href="../../../api/astropy.coordinates.builtin_systems.FK4NoETerms.html#astropy.coordinates.builtin_systems.FK4NoETerms">[docs]</a><span class="k">class</span> <span class="nc">FK4NoETerms</span><span class="p">(</span><span class="n">SphericalCoordinatesBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A coordinate in the FK4 system.</span>
+
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    {params}</span>
+<span class="sd">    equinox : `~astropy.time.Time`, optional</span>
+<span class="sd">        The equinox for these coordinates.  Defaults to B1950.</span>
+<span class="sd">    obstime : `~astropy.time.Time` or None</span>
+<span class="sd">        The time of observation for this coordinate.  If None, it will be taken</span>
+<span class="sd">        to be the same as the `equinox`.</span>
+
+<span class="sd">    Alternatively, a single argument that is any kind of spherical coordinate</span>
+<span class="sd">    can be provided, and will be converted to `FK4NoETerms` and used as this</span>
+<span class="sd">    coordinate.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">__doc__</span> <span class="o">=</span> <span class="n">__doc__</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="n">SphericalCoordinatesBase</span><span class="o">.</span><span class="n">_init_docstring_param_templ</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">lonnm</span><span class="o">=</span><span class="s">&#39;ra&#39;</span><span class="p">,</span> <span class="n">latnm</span><span class="o">=</span><span class="s">&#39;dec&#39;</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">FK4NoETerms</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_equinox</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;equinox&#39;</span><span class="p">,</span> <span class="n">_EQUINOX_B1950</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_obstime</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;obstime&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_equinox</span><span class="p">,</span> <span class="n">Time</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&#39;specified equinox is not a Time object&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_obstime</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_obstime</span><span class="p">,</span> <span class="n">Time</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&#39;specified obstime is not None or a Time object&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_equinox</span><span class="o">.</span><span class="n">isscalar</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;specified equinox is not a scalar&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">SphericalCoordinatesBase</span><span class="p">):</span>
+            <span class="n">newcoord</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">transform_to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_latangle</span> <span class="o">=</span> <span class="n">newcoord</span><span class="o">.</span><span class="n">_latangle</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_lonangle</span> <span class="o">=</span> <span class="n">newcoord</span><span class="o">.</span><span class="n">_lonangle</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_distance</span> <span class="o">=</span> <span class="n">newcoord</span><span class="o">.</span><span class="n">_distance</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">super</span><span class="p">(</span><span class="n">FK4NoETerms</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_initialize_latlon</span><span class="p">(</span><span class="s">&#39;ra&#39;</span><span class="p">,</span> <span class="s">&#39;dec&#39;</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="c">#strings used for making __repr__ work</span>
+    <span class="n">_repr_lon_name</span> <span class="o">=</span> <span class="s">&#39;RA&#39;</span>
+    <span class="n">_repr_lat_name</span> <span class="o">=</span> <span class="s">&#39;Dec&#39;</span>
+
+    <span class="c"># Default format for to_string</span>
+    <span class="n">_default_string_style</span> <span class="o">=</span> <span class="s">&#39;hmsdms&#39;</span>
+
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="FK4NoETerms.ra"><a class="viewcode-back" href="../../../api/astropy.coordinates.builtin_systems.FK4NoETerms.html#astropy.coordinates.builtin_systems.FK4NoETerms.ra">[docs]</a>    <span class="k">def</span> <span class="nf">ra</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lonangle</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="FK4NoETerms.dec"><a class="viewcode-back" href="../../../api/astropy.coordinates.builtin_systems.FK4NoETerms.html#astropy.coordinates.builtin_systems.FK4NoETerms.dec">[docs]</a>    <span class="k">def</span> <span class="nf">dec</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_latangle</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="FK4NoETerms.equinox"><a class="viewcode-back" href="../../../api/astropy.coordinates.builtin_systems.FK4NoETerms.html#astropy.coordinates.builtin_systems.FK4NoETerms.equinox">[docs]</a>    <span class="k">def</span> <span class="nf">equinox</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_equinox</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="FK4NoETerms.obstime"><a class="viewcode-back" href="../../../api/astropy.coordinates.builtin_systems.FK4NoETerms.html#astropy.coordinates.builtin_systems.FK4NoETerms.obstime">[docs]</a>    <span class="k">def</span> <span class="nf">obstime</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_obstime</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">equinox</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_obstime</span>
+</div>
+<div class="viewcode-block" id="FK4NoETerms.precess_to"><a class="viewcode-back" href="../../../api/astropy.coordinates.builtin_systems.FK4NoETerms.html#astropy.coordinates.builtin_systems.FK4NoETerms.precess_to">[docs]</a>    <span class="k">def</span> <span class="nf">precess_to</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">newequinox</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Precesses the coordinates from their current `equinox` to a new equinox.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        newequinox : `~astropy.time.Time`</span>
+<span class="sd">            The equinox to precess these coordinates to.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        newcoord : FK4NoETerms</span>
+<span class="sd">            The new coordinate</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">.earth_orientation</span> <span class="kn">import</span> <span class="n">_precession_matrix_besselian</span>
+
+        <span class="n">pmat</span> <span class="o">=</span> <span class="n">_precession_matrix_besselian</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_equinox</span><span class="o">.</span><span class="n">byear</span><span class="p">,</span> <span class="n">newequinox</span><span class="o">.</span><span class="n">byear</span><span class="p">)</span>
+
+        <span class="n">v</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="o">.</span><span class="n">value</span><span class="p">]</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">pmat</span><span class="o">.</span><span class="n">A</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">distance</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="n">z</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">distance</span><span class="o">.</span><span class="n">unit</span><span class="p">,</span> <span class="n">equinox</span><span class="o">=</span><span class="n">newequinox</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="n">z</span><span class="p">,</span> <span class="n">equinox</span><span class="o">=</span><span class="n">newequinox</span><span class="p">)</span>
+
+</div></div>
+<span class="nd">@transformations.coordinate_alias</span><span class="p">(</span><span class="s">&#39;galactic&#39;</span><span class="p">)</span>
+<div class="viewcode-block" id="Galactic"><a class="viewcode-back" href="../../../api/astropy.coordinates.builtin_systems.Galactic.html#astropy.coordinates.builtin_systems.Galactic">[docs]</a><span class="k">class</span> <span class="nc">Galactic</span><span class="p">(</span><span class="n">SphericalCoordinatesBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A coordinate in Galactic Coordinates.</span>
+
+<span class="sd">    .. note::</span>
+
+<span class="sd">        Transformations from Galactic Coordinates to other systems are</span>
+<span class="sd">        not well-defined because of ambiguities in the definition of</span>
+<span class="sd">        Galactic Coordinates. See</span>
+<span class="sd">        `Lie et al. 2011 &lt;http://dx.doi.org/10.1051/0004-6361/201014961&gt;`</span>
+<span class="sd">        for more details on this.  Here, we use the</span>
+<span class="sd">        `Reid &amp; Brunthaler 2004 &lt;http://dx.doi.org/10.1086/424960&gt;`</span>
+<span class="sd">        definition for converting to/from FK5, and assume the IAU</span>
+<span class="sd">        definition applies for converting to FK4 *without* e-terms.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    {params}</span>
+<span class="sd">    obstime : `~astropy.time.Time` or None</span>
+<span class="sd">        The time of observation for this coordinate.  If None, it will be taken</span>
+<span class="sd">        to be the same as the `equinox`.</span>
+
+<span class="sd">    Alternatively, a single argument that is any kind of spherical coordinate</span>
+<span class="sd">    can be provided, and will be converted to `Galactic` and</span>
+<span class="sd">    used as this coordinate.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">__doc__</span> <span class="o">=</span> <span class="n">__doc__</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="n">SphericalCoordinatesBase</span><span class="o">.</span><span class="n">_init_docstring_param_templ</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">lonnm</span><span class="o">=</span><span class="s">&#39;l&#39;</span><span class="p">,</span> <span class="n">latnm</span><span class="o">=</span><span class="s">&#39;b&#39;</span><span class="p">))</span>
+
+    <span class="c"># North galactic pole and zeropoint of l in FK4/FK5 coordinates. Needed for</span>
+    <span class="c"># transformations to/from FK4/5</span>
+
+    <span class="c"># These are from Reid &amp; Brunthaler 2004</span>
+    <span class="n">_ngp_J2000</span> <span class="o">=</span> <span class="n">FK5</span><span class="p">(</span><span class="mf">192.859508</span><span class="p">,</span> <span class="mf">27.128336</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">degree</span><span class="p">,</span> <span class="n">u</span><span class="o">.</span><span class="n">degree</span><span class="p">))</span>
+    <span class="n">_lon0_J2000</span> <span class="o">=</span> <span class="n">Angle</span><span class="p">(</span><span class="mf">122.932</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="n">u</span><span class="o">.</span><span class="n">degree</span><span class="p">)</span>
+    <span class="c"># These are from the IAU&#39;s definition of galactic coordinates</span>
+    <span class="n">_ngp_B1950</span> <span class="o">=</span> <span class="n">FK4</span><span class="p">(</span><span class="mf">192.25</span><span class="p">,</span> <span class="mf">27.4</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">degree</span><span class="p">,</span> <span class="n">u</span><span class="o">.</span><span class="n">degree</span><span class="p">))</span>
+    <span class="n">_lon0_B1950</span> <span class="o">=</span> <span class="n">Angle</span><span class="p">(</span><span class="mi">123</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="n">u</span><span class="o">.</span><span class="n">degree</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Galactic</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_obstime</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;obstime&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_obstime</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_obstime</span><span class="p">,</span> <span class="n">Time</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&#39;specified obstime is not None or a Time object&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">SphericalCoordinatesBase</span><span class="p">):</span>
+            <span class="n">newcoord</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">transform_to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_latangle</span> <span class="o">=</span> <span class="n">newcoord</span><span class="o">.</span><span class="n">_latangle</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_lonangle</span> <span class="o">=</span> <span class="n">newcoord</span><span class="o">.</span><span class="n">_lonangle</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_distance</span> <span class="o">=</span> <span class="n">newcoord</span><span class="o">.</span><span class="n">_distance</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">super</span><span class="p">(</span><span class="n">Galactic</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_initialize_latlon</span><span class="p">(</span><span class="s">&#39;l&#39;</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="c">#strings used for making __repr__ work</span>
+    <span class="n">_repr_lon_name</span> <span class="o">=</span> <span class="s">&#39;l&#39;</span>
+    <span class="n">_repr_lat_name</span> <span class="o">=</span> <span class="s">&#39;b&#39;</span>
+
+    <span class="c"># Default format for to_string</span>
+    <span class="n">_default_string_style</span> <span class="o">=</span> <span class="s">&#39;dms&#39;</span>
+
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="Galactic.l"><a class="viewcode-back" href="../../../api/astropy.coordinates.builtin_systems.Galactic.html#astropy.coordinates.builtin_systems.Galactic.l">[docs]</a>    <span class="k">def</span> <span class="nf">l</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lonangle</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="Galactic.b"><a class="viewcode-back" href="../../../api/astropy.coordinates.builtin_systems.Galactic.html#astropy.coordinates.builtin_systems.Galactic.b">[docs]</a>    <span class="k">def</span> <span class="nf">b</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_latangle</span>
+
+</div></div>
+<span class="nd">@transformations.coordinate_alias</span><span class="p">(</span><span class="s">&#39;altaz&#39;</span><span class="p">)</span>
+<div class="viewcode-block" id="AltAz"><a class="viewcode-back" href="../../../api/astropy.coordinates.builtin_systems.AltAz.html#astropy.coordinates.builtin_systems.AltAz">[docs]</a><span class="k">class</span> <span class="nc">AltAz</span><span class="p">(</span><span class="n">SphericalCoordinatesBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A coordinate in the altitude/azimuth or &quot;horizontal&quot; system.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    {params}</span>
+<span class="sd">    equinox : `~astropy.time.Time`, optional</span>
+<span class="sd">        The equinox for these coordinates.  Defaults to J2000.</span>
+<span class="sd">    obstime : `~astropy.time.Time` or None</span>
+<span class="sd">        The time of observation for this coordinate.  If None, it will be taken</span>
+<span class="sd">        to be the same as the `equinox`.</span>
+
+<span class="sd">    Alternatively, a single argument that is any kind of spherical coordinate</span>
+<span class="sd">    can be provided, and will be converted to `AltAz` and used</span>
+<span class="sd">    as this coordinate.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">__doc__</span> <span class="o">=</span> <span class="n">__doc__</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="n">SphericalCoordinatesBase</span><span class="o">.</span><span class="n">_init_docstring_param_templ</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">lonnm</span><span class="o">=</span><span class="s">&#39;az&#39;</span><span class="p">,</span> <span class="n">latnm</span><span class="o">=</span><span class="s">&#39;el&#39;</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">AltAz</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_equinox</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;equinox&#39;</span><span class="p">,</span> <span class="n">_EQUINOX_J2000</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_obstime</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;obstime&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_equinox</span><span class="p">,</span> <span class="n">Time</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&#39;specified equinox is not a Time object&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_obstime</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_obstime</span><span class="p">,</span> <span class="n">Time</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s">&#39;specified obstime is not None or a Time object&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_equinox</span><span class="o">.</span><span class="n">isscalar</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;specified equinox is not a scalar&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">SphericalCoordinatesBase</span><span class="p">):</span>
+            <span class="n">newcoord</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">transform_to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_latangle</span> <span class="o">=</span> <span class="n">newcoord</span><span class="o">.</span><span class="n">_latangle</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_lonangle</span> <span class="o">=</span> <span class="n">newcoord</span><span class="o">.</span><span class="n">_lonangle</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_distance</span> <span class="o">=</span> <span class="n">newcoord</span><span class="o">.</span><span class="n">_distance</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">super</span><span class="p">(</span><span class="n">AltAz</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_initialize_latlon</span><span class="p">(</span><span class="s">&#39;az&#39;</span><span class="p">,</span> <span class="s">&#39;alt&#39;</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="c">#strings used for making __repr__ work</span>
+    <span class="n">_repr_lon_name</span> <span class="o">=</span> <span class="s">&#39;az&#39;</span>
+    <span class="n">_repr_lat_name</span> <span class="o">=</span> <span class="s">&#39;alt&#39;</span>
+
+    <span class="c"># Default format for to_string</span>
+    <span class="n">_default_string_style</span> <span class="o">=</span> <span class="s">&#39;dms&#39;</span>
+
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="AltAz.az"><a class="viewcode-back" href="../../../api/astropy.coordinates.builtin_systems.AltAz.html#astropy.coordinates.builtin_systems.AltAz.az">[docs]</a>    <span class="k">def</span> <span class="nf">az</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lonangle</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="AltAz.alt"><a class="viewcode-back" href="../../../api/astropy.coordinates.builtin_systems.AltAz.html#astropy.coordinates.builtin_systems.AltAz.alt">[docs]</a>    <span class="k">def</span> <span class="nf">alt</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_latangle</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="AltAz.equinox"><a class="viewcode-back" href="../../../api/astropy.coordinates.builtin_systems.AltAz.html#astropy.coordinates.builtin_systems.AltAz.equinox">[docs]</a>    <span class="k">def</span> <span class="nf">equinox</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_equinox</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="AltAz.obstime"><a class="viewcode-back" href="../../../api/astropy.coordinates.builtin_systems.AltAz.html#astropy.coordinates.builtin_systems.AltAz.obstime">[docs]</a>    <span class="k">def</span> <span class="nf">obstime</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_obstime</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">equinox</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_obstime</span>
+
+
+<span class="c">#&lt;--------------------------------transformations------------------------------&gt;</span>
+<span class="c"># ICRS to/from FK5</span></div></div>
+<span class="nd">@transformations.static_transform_matrix</span><span class="p">(</span><span class="n">ICRS</span><span class="p">,</span> <span class="n">FK5</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">icrs_to_fk5</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    B-matrix from USNO circular 179</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">.angles</span> <span class="kn">import</span> <span class="n">rotation_matrix</span>
+
+    <span class="n">eta0</span> <span class="o">=</span> <span class="o">-</span><span class="mf">19.9</span> <span class="o">/</span> <span class="mf">3600000.</span>
+    <span class="n">xi0</span> <span class="o">=</span> <span class="mf">9.1</span> <span class="o">/</span> <span class="mf">3600000.</span>
+    <span class="n">da0</span> <span class="o">=</span> <span class="o">-</span><span class="mf">22.9</span> <span class="o">/</span> <span class="mf">3600000.</span>
+
+    <span class="n">m1</span> <span class="o">=</span> <span class="n">rotation_matrix</span><span class="p">(</span><span class="o">-</span><span class="n">eta0</span><span class="p">,</span> <span class="s">&#39;x&#39;</span><span class="p">)</span>
+    <span class="n">m2</span> <span class="o">=</span> <span class="n">rotation_matrix</span><span class="p">(</span><span class="n">xi0</span><span class="p">,</span> <span class="s">&#39;y&#39;</span><span class="p">)</span>
+    <span class="n">m3</span> <span class="o">=</span> <span class="n">rotation_matrix</span><span class="p">(</span><span class="n">da0</span><span class="p">,</span> <span class="s">&#39;z&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">m1</span> <span class="o">*</span> <span class="n">m2</span> <span class="o">*</span> <span class="n">m3</span>
+
+
+<span class="c"># can&#39;t be static because the equinox is needed</span>
+<span class="nd">@transformations.dynamic_transform_matrix</span><span class="p">(</span><span class="n">FK5</span><span class="p">,</span> <span class="n">ICRS</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">fk5_to_icrs</span><span class="p">(</span><span class="n">fk5c</span><span class="p">):</span>
+    <span class="kn">from</span> <span class="nn">.earth_orientation</span> <span class="kn">import</span> <span class="n">_precess_from_J2000_Capitaine</span>
+
+    <span class="n">pmat</span> <span class="o">=</span> <span class="n">_precess_from_J2000_Capitaine</span><span class="p">(</span><span class="n">fk5c</span><span class="o">.</span><span class="n">equinox</span><span class="o">.</span><span class="n">jyear</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+
+    <span class="c"># transpose gets equinox -&gt; J2000</span>
+    <span class="n">fk5toicrsmat</span> <span class="o">=</span> <span class="n">icrs_to_fk5</span><span class="p">()</span><span class="o">.</span><span class="n">T</span>
+
+    <span class="k">return</span> <span class="n">fk5toicrsmat</span> <span class="o">*</span> <span class="n">pmat</span>
+
+<span class="c"># FK4-NO-E to/from FK4</span>
+
+<span class="c"># In the present framework, we include two coordinate classes for FK4</span>
+<span class="c"># coordinates - one including the E-terms of aberration (FK4), and</span>
+<span class="c"># one not including them (FK4NoETerms). In the following functions,</span>
+<span class="c"># we describe the transformation between these two.</span>
+
+<span class="k">def</span> <span class="nf">fk4_e_terms</span><span class="p">(</span><span class="n">equinox</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return the e-terms of aberation vector</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    equinox : Time object</span>
+<span class="sd">        The equinox for which to compute the e-terms</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">earth_orientation</span> <span class="k">as</span> <span class="n">earth</span>
+
+    <span class="c"># Constant of aberration at J2000</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="mf">0.0056932</span>
+
+    <span class="c"># Eccentricity of the Earth&#39;s orbit</span>
+    <span class="n">e</span> <span class="o">=</span> <span class="n">earth</span><span class="o">.</span><span class="n">eccentricity</span><span class="p">(</span><span class="n">equinox</span><span class="o">.</span><span class="n">jd</span><span class="p">)</span>
+    <span class="n">e</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
+    <span class="c"># Mean longitude of perigee of the solar orbit</span>
+    <span class="n">g</span> <span class="o">=</span> <span class="n">earth</span><span class="o">.</span><span class="n">mean_lon_of_perigee</span><span class="p">(</span><span class="n">equinox</span><span class="o">.</span><span class="n">jd</span><span class="p">)</span>
+    <span class="n">g</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+
+    <span class="c"># Obliquity of the ecliptic</span>
+    <span class="n">o</span> <span class="o">=</span> <span class="n">earth</span><span class="o">.</span><span class="n">obliquity</span><span class="p">(</span><span class="n">equinox</span><span class="o">.</span><span class="n">jd</span><span class="p">,</span> <span class="n">algorithm</span><span class="o">=</span><span class="mi">1980</span><span class="p">)</span>
+    <span class="n">o</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">e</span> <span class="o">*</span> <span class="n">k</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">g</span><span class="p">),</span> \
+           <span class="o">-</span><span class="n">e</span> <span class="o">*</span> <span class="n">k</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">g</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">o</span><span class="p">),</span> \
+           <span class="o">-</span><span class="n">e</span> <span class="o">*</span> <span class="n">k</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">g</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>
+
+
+<span class="nd">@transformations.transform_function</span><span class="p">(</span><span class="n">FK4</span><span class="p">,</span> <span class="n">FK4NoETerms</span><span class="p">,</span> <span class="n">priority</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">fk4_to_fk4_no_e</span><span class="p">(</span><span class="n">fk4c</span><span class="p">):</span>
+
+    <span class="c"># Extract cartesian vector</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">fk4c</span><span class="o">.</span><span class="n">cartesian</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">size</span> <span class="o">//</span> <span class="mi">3</span><span class="p">)))</span>
+
+    <span class="c"># Find distance (for re-normalization)</span>
+    <span class="n">d_orig</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">r</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
+
+    <span class="c"># Apply E-terms of aberration. Note that this depends on the equinox (not</span>
+    <span class="c"># the observing time/epoch) of the coordinates. See issue #1496 for a</span>
+    <span class="c"># discussion of this.</span>
+    <span class="n">eterms_a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">fk4_e_terms</span><span class="p">(</span><span class="n">fk4c</span><span class="o">.</span><span class="n">equinox</span><span class="p">))</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">r</span> <span class="o">-</span> <span class="n">eterms_a</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">eterms_a</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span> <span class="o">*</span> <span class="n">r</span>
+
+    <span class="c"># Find new distance (for re-normalization)</span>
+    <span class="n">d_new</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">r</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
+
+    <span class="c"># Renormalize</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">r</span> <span class="o">*</span> <span class="n">d_orig</span> <span class="o">/</span> <span class="n">d_new</span>
+
+    <span class="n">subshape</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">subshape</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">subshape</span><span class="p">)</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">subshape</span><span class="p">)</span>
+
+    <span class="n">newunit</span> <span class="o">=</span> <span class="bp">None</span> <span class="k">if</span> <span class="n">fk4c</span><span class="o">.</span><span class="n">distance</span> <span class="ow">is</span> <span class="bp">None</span> <span class="k">else</span> <span class="n">fk4c</span><span class="o">.</span><span class="n">distance</span><span class="o">.</span><span class="n">unit</span>
+    <span class="k">return</span> <span class="n">FK4NoETerms</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="n">z</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="n">newunit</span><span class="p">,</span> <span class="n">equinox</span><span class="o">=</span><span class="n">fk4c</span><span class="o">.</span><span class="n">equinox</span><span class="p">)</span>
+
+
+<span class="nd">@transformations.transform_function</span><span class="p">(</span><span class="n">FK4NoETerms</span><span class="p">,</span> <span class="n">FK4</span><span class="p">,</span> <span class="n">priority</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">fk4_no_e_to_fk4</span><span class="p">(</span><span class="n">fk4c</span><span class="p">):</span>
+
+    <span class="c"># Extract cartesian vector</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">fk4c</span><span class="o">.</span><span class="n">cartesian</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">size</span> <span class="o">//</span> <span class="mi">3</span><span class="p">)))</span>
+
+    <span class="c"># Find distance (for re-normalization)</span>
+    <span class="n">d_orig</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">r</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
+
+    <span class="c"># Apply E-terms of aberration. Note that this depends on the equinox (not</span>
+    <span class="c"># the observing time/epoch) of the coordinates. See issue #1496 for a</span>
+    <span class="c"># discussion of this.</span>
+    <span class="n">eterms_a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">fk4_e_terms</span><span class="p">(</span><span class="n">fk4c</span><span class="o">.</span><span class="n">equinox</span><span class="p">))</span>
+    <span class="n">r0</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="p">(</span><span class="n">eterms_a</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">r0</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1.</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">eterms_a</span><span class="p">,</span> <span class="n">r</span><span class="p">))</span>
+
+    <span class="c"># Find new distance (for re-normalization)</span>
+    <span class="n">d_new</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">r</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
+
+    <span class="c"># Renormalize</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">r</span> <span class="o">*</span> <span class="n">d_orig</span> <span class="o">/</span> <span class="n">d_new</span>
+
+    <span class="n">subshape</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">subshape</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">subshape</span><span class="p">)</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">subshape</span><span class="p">)</span>
+
+    <span class="n">newunit</span> <span class="o">=</span> <span class="bp">None</span> <span class="k">if</span> <span class="n">fk4c</span><span class="o">.</span><span class="n">distance</span> <span class="ow">is</span> <span class="bp">None</span> <span class="k">else</span> <span class="n">fk4c</span><span class="o">.</span><span class="n">distance</span><span class="o">.</span><span class="n">unit</span>
+    <span class="k">return</span> <span class="n">FK4</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="n">z</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="n">newunit</span><span class="p">,</span> <span class="n">equinox</span><span class="o">=</span><span class="n">fk4c</span><span class="o">.</span><span class="n">equinox</span><span class="p">)</span>
+
+<span class="c"># FK5 to/from FK4</span>
+
+<span class="c"># These transformations are very slightly prioritized &gt;1 (lower priority number means</span>
+<span class="c"># better path) to prefer the FK5 path over FK4 when possible</span>
+<span class="c">#can&#39;t be static because the equinox is needed</span>
+
+<span class="c"># B1950-&gt;J2000 matrix from Murray 1989 A&amp;A 218,325 eqn 28</span>
+<span class="n">B1950_TO_J2000_M</span> <span class="o">=</span> \
+    <span class="n">np</span><span class="o">.</span><span class="n">mat</span><span class="p">([[</span><span class="mf">0.9999256794956877</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.0111814832204662</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.0048590038153592</span><span class="p">],</span>
+            <span class="p">[</span><span class="mf">0.0111814832391717</span><span class="p">,</span>  <span class="mf">0.9999374848933135</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.0000271625947142</span><span class="p">],</span>
+            <span class="p">[</span><span class="mf">0.0048590037723143</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.0000271702937440</span><span class="p">,</span>  <span class="mf">0.9999881946023742</span><span class="p">]])</span>
+
+<span class="n">FK4_CORR</span> <span class="o">=</span> \
+    <span class="n">np</span><span class="o">.</span><span class="n">mat</span><span class="p">([[</span><span class="o">-</span><span class="mf">0.0026455262</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.1539918689</span><span class="p">,</span> <span class="o">+</span><span class="mf">2.1111346190</span><span class="p">],</span>
+            <span class="p">[</span><span class="o">+</span><span class="mf">1.1540628161</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.0129042997</span><span class="p">,</span> <span class="o">+</span><span class="mf">0.0236021478</span><span class="p">],</span>
+            <span class="p">[</span><span class="o">-</span><span class="mf">2.1112979048</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.0056024448</span><span class="p">,</span> <span class="o">+</span><span class="mf">0.0102587734</span><span class="p">]])</span> <span class="o">*</span> <span class="mf">1.e-6</span>
+
+<span class="c"># This transformation can&#39;t be static because the observation date is needed.</span>
+<span class="nd">@transformations.dynamic_transform_matrix</span><span class="p">(</span><span class="n">FK4NoETerms</span><span class="p">,</span> <span class="n">FK5</span><span class="p">,</span> <span class="n">priority</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">fk4_no_e_to_fk5</span><span class="p">(</span><span class="n">fk4c</span><span class="p">,</span> <span class="n">skip_precession</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+
+    <span class="c"># Add in correction terms for FK4 rotating system - Murray 89 eqn 29</span>
+    <span class="c"># Note this is *julian century*, not besselian</span>
+    <span class="n">T</span> <span class="o">=</span> <span class="p">(</span><span class="n">fk4c</span><span class="o">.</span><span class="n">obstime</span><span class="o">.</span><span class="n">jyear</span> <span class="o">-</span> <span class="mf">1950.</span><span class="p">)</span> <span class="o">/</span> <span class="mf">100.</span>
+
+    <span class="n">B</span> <span class="o">=</span> <span class="n">B1950_TO_J2000_M</span> <span class="o">+</span> <span class="n">FK4_CORR</span> <span class="o">*</span> <span class="n">T</span>
+
+    <span class="c"># If equinox is not B1950, need to precess first</span>
+    <span class="k">if</span> <span class="n">skip_precession</span> <span class="ow">or</span> <span class="n">fk4c</span><span class="o">.</span><span class="n">equinox</span> <span class="o">==</span> <span class="n">_EQUINOX_B1950</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">B</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="kn">from</span> <span class="nn">.earth_orientation</span> <span class="kn">import</span> <span class="n">_precession_matrix_besselian</span>
+        <span class="k">return</span> <span class="n">B</span> <span class="o">*</span> <span class="n">_precession_matrix_besselian</span><span class="p">(</span><span class="n">fk4c</span><span class="o">.</span><span class="n">equinox</span><span class="o">.</span><span class="n">byear</span><span class="p">,</span> <span class="mi">1950</span><span class="p">)</span>
+
+<span class="c"># This transformation can&#39;t be static because the observation date is needed.</span>
+<span class="nd">@transformations.dynamic_transform_matrix</span><span class="p">(</span><span class="n">FK5</span><span class="p">,</span> <span class="n">FK4NoETerms</span><span class="p">,</span> <span class="n">priority</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">fk5_to_fk4_no_e</span><span class="p">(</span><span class="n">fk5c</span><span class="p">):</span>
+
+    <span class="c"># Get transposed matrix from FK4 -&gt; FK5 assuming equinox B1950 -&gt; J2000</span>
+    <span class="n">B</span> <span class="o">=</span> <span class="n">fk4_no_e_to_fk5</span><span class="p">(</span><span class="n">fk5c</span><span class="p">,</span> <span class="n">skip_precession</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+
+    <span class="c"># If equinox is not B1950, need to precess first</span>
+    <span class="k">if</span> <span class="n">fk5c</span><span class="o">.</span><span class="n">equinox</span> <span class="o">==</span> <span class="n">_EQUINOX_J2000</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">B</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="kn">from</span> <span class="nn">.earth_orientation</span> <span class="kn">import</span> <span class="n">precession_matrix_Capitaine</span>
+        <span class="k">return</span> <span class="n">B</span> <span class="o">*</span> <span class="n">precession_matrix_Capitaine</span><span class="p">(</span><span class="n">fk5c</span><span class="o">.</span><span class="n">equinox</span><span class="p">,</span> <span class="n">_EQUINOX_J2000</span><span class="p">)</span>
+
+<span class="c"># Galactic to/from FK4/FK5</span>
+<span class="c"># can&#39;t be static because the equinox is needed</span>
+<span class="nd">@transformations.dynamic_transform_matrix</span><span class="p">(</span><span class="n">FK5</span><span class="p">,</span> <span class="n">Galactic</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_fk5_to_gal</span><span class="p">(</span><span class="n">fk5coords</span><span class="p">):</span>
+    <span class="kn">from</span> <span class="nn">.angles</span> <span class="kn">import</span> <span class="n">rotation_matrix</span>
+    <span class="kn">from</span> <span class="nn">.earth_orientation</span> <span class="kn">import</span> <span class="n">_precess_from_J2000_Capitaine</span>
+
+    <span class="c"># needed mainly to support inverse from galactic</span>
+    <span class="n">jequinox</span> <span class="o">=</span> <span class="mi">2000</span> <span class="k">if</span> <span class="n">fk5coords</span><span class="o">.</span><span class="n">equinox</span> <span class="ow">is</span> <span class="bp">None</span> <span class="k">else</span> <span class="n">fk5coords</span><span class="o">.</span><span class="n">equinox</span><span class="o">.</span><span class="n">jyear</span>
+
+    <span class="n">mat1</span> <span class="o">=</span> <span class="n">rotation_matrix</span><span class="p">(</span><span class="mi">180</span> <span class="o">-</span> <span class="n">Galactic</span><span class="o">.</span><span class="n">_lon0_J2000</span><span class="o">.</span><span class="n">degree</span><span class="p">,</span> <span class="s">&#39;z&#39;</span><span class="p">)</span>
+    <span class="n">mat2</span> <span class="o">=</span> <span class="n">rotation_matrix</span><span class="p">(</span><span class="mi">90</span> <span class="o">-</span> <span class="n">Galactic</span><span class="o">.</span><span class="n">_ngp_J2000</span><span class="o">.</span><span class="n">dec</span><span class="o">.</span><span class="n">degree</span><span class="p">,</span> <span class="s">&#39;y&#39;</span><span class="p">)</span>
+    <span class="n">mat3</span> <span class="o">=</span> <span class="n">rotation_matrix</span><span class="p">(</span><span class="n">Galactic</span><span class="o">.</span><span class="n">_ngp_J2000</span><span class="o">.</span><span class="n">ra</span><span class="o">.</span><span class="n">degree</span><span class="p">,</span> <span class="s">&#39;z&#39;</span><span class="p">)</span>
+    <span class="c"># transpose gets equinox -&gt; J2000</span>
+    <span class="n">matprec</span> <span class="o">=</span> <span class="n">_precess_from_J2000_Capitaine</span><span class="p">(</span><span class="n">jequinox</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+    <span class="k">return</span> <span class="n">mat1</span> <span class="o">*</span> <span class="n">mat2</span> <span class="o">*</span> <span class="n">mat3</span> <span class="o">*</span> <span class="n">matprec</span>
+
+
+<span class="nd">@transformations.dynamic_transform_matrix</span><span class="p">(</span><span class="n">Galactic</span><span class="p">,</span> <span class="n">FK5</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_gal_to_fk5</span><span class="p">(</span><span class="n">galcoords</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">_fk5_to_gal</span><span class="p">(</span><span class="n">galcoords</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+
+
+<span class="nd">@transformations.dynamic_transform_matrix</span><span class="p">(</span><span class="n">FK4NoETerms</span><span class="p">,</span> <span class="n">Galactic</span><span class="p">,</span> <span class="n">priority</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_fk4_to_gal</span><span class="p">(</span><span class="n">fk4coords</span><span class="p">):</span>
+    <span class="kn">from</span> <span class="nn">.angles</span> <span class="kn">import</span> <span class="n">rotation_matrix</span>
+    <span class="kn">from</span> <span class="nn">.earth_orientation</span> <span class="kn">import</span> <span class="n">_precession_matrix_besselian</span>
+
+    <span class="c"># needed mainly to support inverse from galactic</span>
+    <span class="n">bequinox</span> <span class="o">=</span> <span class="mi">1950</span> <span class="k">if</span> <span class="n">fk4coords</span><span class="o">.</span><span class="n">equinox</span> <span class="ow">is</span> <span class="bp">None</span> <span class="k">else</span> <span class="n">fk4coords</span><span class="o">.</span><span class="n">equinox</span><span class="o">.</span><span class="n">byear</span>
+
+    <span class="n">mat1</span> <span class="o">=</span> <span class="n">rotation_matrix</span><span class="p">(</span><span class="mi">180</span> <span class="o">-</span> <span class="n">Galactic</span><span class="o">.</span><span class="n">_lon0_B1950</span><span class="o">.</span><span class="n">degree</span><span class="p">,</span> <span class="s">&#39;z&#39;</span><span class="p">)</span>
+    <span class="n">mat2</span> <span class="o">=</span> <span class="n">rotation_matrix</span><span class="p">(</span><span class="mi">90</span> <span class="o">-</span> <span class="n">Galactic</span><span class="o">.</span><span class="n">_ngp_B1950</span><span class="o">.</span><span class="n">dec</span><span class="o">.</span><span class="n">degree</span><span class="p">,</span> <span class="s">&#39;y&#39;</span><span class="p">)</span>
+    <span class="n">mat3</span> <span class="o">=</span> <span class="n">rotation_matrix</span><span class="p">(</span><span class="n">Galactic</span><span class="o">.</span><span class="n">_ngp_B1950</span><span class="o">.</span><span class="n">ra</span><span class="o">.</span><span class="n">degree</span><span class="p">,</span> <span class="s">&#39;z&#39;</span><span class="p">)</span>
+    <span class="n">matprec</span> <span class="o">=</span> <span class="n">_precession_matrix_besselian</span><span class="p">(</span><span class="n">bequinox</span><span class="p">,</span> <span class="mi">1950</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">mat1</span> <span class="o">*</span> <span class="n">mat2</span> <span class="o">*</span> <span class="n">mat3</span> <span class="o">*</span> <span class="n">matprec</span>
+
+
+<span class="nd">@transformations.dynamic_transform_matrix</span><span class="p">(</span><span class="n">Galactic</span><span class="p">,</span> <span class="n">FK4NoETerms</span><span class="p">,</span> <span class="n">priority</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_gal_to_fk4</span><span class="p">(</span><span class="n">galcoords</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">_fk4_to_gal</span><span class="p">(</span><span class="n">galcoords</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+
+
+<span class="k">def</span> <span class="nf">_make_transform_graph_docs</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generates a string for use with the coordinate package&#39;s docstring</span>
+<span class="sd">    to show the available transforms and coordinate systems</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="kn">from</span> <span class="nn">.transformations</span> <span class="kn">import</span> <span class="n">master_transform_graph</span>
+
+    <span class="n">isclass</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">isclass</span>
+    <span class="n">coosys</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">six</span><span class="o">.</span><span class="n">itervalues</span><span class="p">(</span><span class="nb">globals</span><span class="p">()))</span>
+              <span class="k">if</span> <span class="n">isclass</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">SphericalCoordinatesBase</span><span class="p">)]</span>
+    <span class="n">coosys</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">SphericalCoordinatesBase</span><span class="p">)</span>
+    <span class="n">graphstr</span> <span class="o">=</span> <span class="n">master_transform_graph</span><span class="o">.</span><span class="n">to_dot_graph</span><span class="p">(</span><span class="n">addnodes</span><span class="o">=</span><span class="n">coosys</span><span class="p">)</span>
+
+    <span class="n">docstr</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot;</span>
+<span class="s">    The diagram below shows all of the coordinate systems built into the</span>
+<span class="s">    `~astropy.coordinates` package, their aliases (usable for converting</span>
+<span class="s">    other coordinates to them using attribute-style access) and the</span>
+<span class="s">    pre-defined transformations between them.  The user is free to</span>
+<span class="s">    override any of these transformations by defining new trasnformation</span>
+<span class="s">    between these systems, but the pre-defined transformations should be</span>
+<span class="s">    sufficient for typical usage.</span>
+
+<span class="s">    The graph also indicates the priority for each transformation as a</span>
+<span class="s">    number next to the arrow.  These priorities are used to decide the</span>
+<span class="s">    preferred order when two trasnformation paths have the same number</span>
+<span class="s">    of steps.  These priorities are defined such that path with a</span>
+<span class="s">    *smaller* total priority are favored over one with larger.</span>
+
+
+<span class="s">    .. graphviz::</span>
+
+<span class="s">    &quot;&quot;&quot;</span>
+
+    <span class="k">return</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="n">docstr</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;    &#39;</span> <span class="o">+</span> <span class="n">graphstr</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">,</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">    &#39;</span><span class="p">)</span>
+<span class="n">_transform_graph_docs</span> <span class="o">=</span> <span class="n">_make_transform_graph_docs</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"><h3>Page Contents</h3>
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+<footer class="footer">
+  <p class="pull-right"> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright 2011-2013, The Astropy Developers.<br/>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2. &nbsp;
+    Last built 05 Mar 2014. <br/>
+  </p>
+</footer>
+  </body>
+</html>

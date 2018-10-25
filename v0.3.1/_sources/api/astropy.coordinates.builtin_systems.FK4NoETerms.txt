@@ -1,0 +1,65 @@
+
+
+FK4NoETerms
+===============================================
+
+.. currentmodule:: astropy.coordinates.builtin_systems
+
+.. autoclass:: FK4NoETerms
+   :show-inheritance:
+
+   
+     
+   
+
+   
+   
+
+   .. rubric:: Attributes Summary
+
+   .. autosummary::
+   
+      ~FK4NoETerms.dec
+      ~FK4NoETerms.equinox
+      ~FK4NoETerms.obstime
+      ~FK4NoETerms.ra
+
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+   
+      ~FK4NoETerms.precess_to
+
+   
+   
+
+   
+   
+
+   .. rubric:: Attributes Documentation
+
+   
+   .. autoattribute:: dec
+   .. autoattribute:: equinox
+   .. autoattribute:: obstime
+   .. autoattribute:: ra
+
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Documentation
+
+   
+   .. automethod:: precess_to
+
+   
+   

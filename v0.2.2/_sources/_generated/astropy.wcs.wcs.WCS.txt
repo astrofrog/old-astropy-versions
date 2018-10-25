@@ -1,0 +1,107 @@
+
+.. include:: ../wcs/references.txt
+
+
+WCS
+===================
+
+.. currentmodule:: astropy.wcs.wcs
+
+.. autoclass:: WCS
+   :show-inheritance:
+
+   
+     
+   
+
+   
+   
+
+   .. rubric:: Attributes Summary
+
+   .. autosummary::
+   
+      ~WCS.naxis1
+      ~WCS.naxis2
+
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+   
+      ~WCS.all_pix2sky
+      ~WCS.all_pix2world
+      ~WCS.calcFootprint
+      ~WCS.copy
+      ~WCS.deepcopy
+      ~WCS.det2im
+      ~WCS.footprint_to_file
+      ~WCS.get_axis_types
+      ~WCS.get_naxis
+      ~WCS.p4_pix2foc
+      ~WCS.pix2foc
+      ~WCS.printwcs
+      ~WCS.rotateCD
+      ~WCS.sip_foc2pix
+      ~WCS.sip_pix2foc
+      ~WCS.sub
+      ~WCS.to_fits
+      ~WCS.to_header
+      ~WCS.to_header_string
+      ~WCS.wcs_pix2sky
+      ~WCS.wcs_pix2world
+      ~WCS.wcs_sky2pix
+      ~WCS.wcs_world2pix
+
+   
+   
+
+   
+   
+
+   .. rubric:: Attributes Documentation
+
+   
+   .. autoattribute:: naxis1
+   .. autoattribute:: naxis2
+
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Documentation
+
+   
+   .. automethod:: all_pix2sky
+   .. automethod:: all_pix2world
+   .. automethod:: calcFootprint
+   .. automethod:: copy
+   .. automethod:: deepcopy
+   .. automethod:: det2im
+   .. automethod:: footprint_to_file
+   .. automethod:: get_axis_types
+   .. automethod:: get_naxis
+   .. automethod:: p4_pix2foc
+   .. automethod:: pix2foc
+   .. automethod:: printwcs
+   .. automethod:: rotateCD
+   .. automethod:: sip_foc2pix
+   .. automethod:: sip_pix2foc
+   .. automethod:: sub
+   .. automethod:: to_fits
+   .. automethod:: to_header
+   .. automethod:: to_header_string
+   .. automethod:: wcs_pix2sky
+   .. automethod:: wcs_pix2world
+   .. automethod:: wcs_sky2pix
+   .. automethod:: wcs_world2pix
+
+   
+   

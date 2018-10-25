@@ -1,0 +1,419 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+
+    <title>Equivalencies &mdash; Astropy v0.2.1</title>
+<!-- RTD <head> -->
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/underscore.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/doctools.js"></script>
+
+<script type="text/javascript">
+  // This is included here for Javascript that doesn't have access to the templates.
+  var doc_version = "v0.2.1";
+  var doc_slug = "astropy";
+</script>
+
+<script type="text/javascript" src="//media.readthedocs.org/javascript/rtd.js"></script>
+<!-- end RTD <head> -->
+
+    
+    <link rel="stylesheet" href="../_static/bootstrap-astropy.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.2.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="shortcut icon" href="../_static/astropy_logo.ico"/>
+    <link rel="top" title="Astropy v0.2.1" href="../index.html" />
+    <link rel="up" title="Units (astropy.units)" href="index.html" />
+    <link rel="next" title="Quantity" href="quantity.html" />
+    <link rel="prev" title="Unit formats" href="format.html" /> 
+  </head>
+  <body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../index.html"></a>
+  <ul>
+    <li><a class="homelink" title="AstroPy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../genindex.html">Index</a></li>
+    <li><a title="Python Module Index" href="../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li class="right">
+	<a href="quantity.html" title="Quantity">
+	  next &raquo;
+	</a>
+      </li>
+      <li class="right">
+	<a href="format.html" title="Unit formats">
+	  &laquo; previous
+	</a>
+	 |
+      </li>
+      <li>
+	<a href="../index.html">Astropy v0.2.1</a>
+	 &raquo;
+      </li>
+      <li><a href="index.html" accesskey="U">Units (<tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">astropy.units</span></tt>)</a> &raquo;</li>
+      
+      <li>Equivalencies</li> 
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="equivalencies">
+<span id="unit-equivalencies"></span><h1>Equivalencies<a class="headerlink" href="#equivalencies" title="Permalink to this headline">¶</a></h1>
+<p>The unit module has machinery for supporting equivalences between
+different units in certain contexts. Namely when equations can
+uniquely relate a value in one unit to a different unit. A good
+example is the equivalence between wavelength, frequency and energy
+for specifying a wavelength of radiation. Normally these units are not
+convertible, but when understood as representing light, they are
+convertible.  This will describe how to use two of the equivalencies
+include in <tt class="xref py py-obj docutils literal"><span class="pre">astropy.units</span></tt> and then describe how to define new
+equivalencies.</p>
+<p>Equivalencies are used by passing a list of equivalency pairs to the
+<tt class="xref py py-obj docutils literal"><span class="pre">equivs</span></tt> keyword argument of <a class="reference internal" href="../_generated/astropy.units.core.UnitBase.html#astropy.units.core.UnitBase.to" title="astropy.units.core.UnitBase.to"><tt class="xref py py-obj docutils literal"><span class="pre">to</span></tt></a> or
+<a class="reference internal" href="../_generated/astropy.units.core.UnitBase.html#astropy.units.core.UnitBase.get_converter" title="astropy.units.core.UnitBase.get_converter"><tt class="xref py py-obj docutils literal"><span class="pre">get_converter</span></tt></a> methods.</p>
+<div class="section" id="built-in-equivalencies">
+<h2>Built-in equivalencies<a class="headerlink" href="#built-in-equivalencies" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="spectral-units">
+<h3>Spectral Units<a class="headerlink" href="#spectral-units" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference internal" href="../_generated/astropy.units.equivalencies.spectral.html#astropy.units.equivalencies.spectral" title="astropy.units.equivalencies.spectral"><tt class="xref py py-obj docutils literal"><span class="pre">spectral</span></tt></a> is a function that returns an
+equivalency list to handle conversions between wavelength, frequency
+and energy.</p>
+<p>Length and frequency are not normally convertible, so
+<a class="reference internal" href="../_generated/astropy.units.core.UnitBase.html#astropy.units.core.UnitBase.to" title="astropy.units.core.UnitBase.to"><tt class="xref py py-obj docutils literal"><span class="pre">to</span></tt></a> raises an exception:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">astropy</span> <span class="kn">import</span> <span class="n">units</span> <span class="k">as</span> <span class="n">u</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="o">.</span><span class="n">nm</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">Hz</span><span class="p">,</span> <span class="p">[</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">])</span>
+<span class="go">UnitsException: &#39;nm&#39; (length) and &#39;Hz&#39; (frequency) are not convertible</span>
+</pre></div>
+</div>
+<p>However, when passing the result of <a class="reference internal" href="../_generated/astropy.units.equivalencies.spectral.html#astropy.units.equivalencies.spectral" title="astropy.units.equivalencies.spectral"><tt class="xref py py-obj docutils literal"><span class="pre">spectral</span></tt></a>
+as the third argument to the <a class="reference internal" href="../_generated/astropy.units.core.UnitBase.html#astropy.units.core.UnitBase.to" title="astropy.units.core.UnitBase.to"><tt class="xref py py-obj docutils literal"><span class="pre">to</span></tt></a> method,
+wavelength, frequency and energy can be converted.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="o">.</span><span class="n">nm</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">Hz</span><span class="p">,</span> <span class="p">[</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">],</span> <span class="n">equivs</span><span class="o">=</span><span class="n">u</span><span class="o">.</span><span class="n">spectral</span><span class="p">())</span>
+<span class="go">array([  2.99792458e+14,   1.49896229e+14])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="o">.</span><span class="n">nm</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">eV</span><span class="p">,</span> <span class="p">[</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">],</span> <span class="n">equivs</span><span class="o">=</span><span class="n">u</span><span class="o">.</span><span class="n">spectral</span><span class="p">())</span>
+<span class="go">array([ 1.23984201,  0.61992101])</span>
+</pre></div>
+</div>
+<p>These equivalencies even work with non-base units:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="c"># Inches to calories</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="o">.</span><span class="n">inch</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">Cal</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">equivs</span><span class="o">=</span><span class="n">u</span><span class="o">.</span><span class="n">spectral</span><span class="p">())</span>
+<span class="go">1.869180759162485e-27</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="spectral-flux-density-units">
+<h3>Spectral Flux Density Units<a class="headerlink" href="#spectral-flux-density-units" title="Permalink to this headline">¶</a></h3>
+<p>There is also support for spectral flux density units. Their use is more
+complex, since it is necessary to also supply the location in the spectrum for
+which the conversions will be done, and the units of those spectral locations.
+The function that handles these unit conversions is
+<a class="reference internal" href="../_generated/astropy.units.equivalencies.spectral_density.html#astropy.units.equivalencies.spectral_density" title="astropy.units.equivalencies.spectral_density"><tt class="xref py py-obj docutils literal"><span class="pre">spectral_density</span></tt></a>. This function takes as its
+arguments the unit and value for the spectral location. For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="o">.</span><span class="n">Jy</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">erg</span> <span class="o">/</span> <span class="n">u</span><span class="o">.</span><span class="n">cm</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="n">u</span><span class="o">.</span><span class="n">s</span> <span class="o">/</span> <span class="n">u</span><span class="o">.</span><span class="n">Hz</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="n">equivs</span><span class="o">=</span><span class="n">u</span><span class="o">.</span><span class="n">spectral_density</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">AA</span><span class="p">,</span> <span class="mi">3500</span><span class="p">))</span>
+<span class="go">1.0000000000000001e-23</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="o">.</span><span class="n">Jy</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">erg</span> <span class="o">/</span> <span class="n">u</span><span class="o">.</span><span class="n">cm</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="n">u</span><span class="o">.</span><span class="n">s</span> <span class="o">/</span> <span class="n">u</span><span class="o">.</span><span class="n">micron</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="n">equivs</span><span class="o">=</span><span class="n">u</span><span class="o">.</span><span class="n">spectral_density</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">AA</span><span class="p">,</span> <span class="mi">3500</span><span class="p">))</span>
+<span class="go">2.4472853714285712e-08</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="writing-new-equivalencies">
+<h2>Writing new equivalencies<a class="headerlink" href="#writing-new-equivalencies" title="Permalink to this headline">¶</a></h2>
+<p>An equivalence list is just a list of tuples, where each tuple has 4
+elements:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">(</span><span class="n">from_unit</span><span class="p">,</span> <span class="n">to_unit</span><span class="p">,</span> <span class="n">forward</span><span class="p">,</span> <span class="n">backward</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><tt class="xref py py-obj docutils literal"><span class="pre">from_unit</span></tt> and <tt class="xref py py-obj docutils literal"><span class="pre">to_unit</span></tt> are the equivalent units.  <tt class="xref py py-obj docutils literal"><span class="pre">forward</span></tt> and
+<tt class="xref py py-obj docutils literal"><span class="pre">backward</span></tt> are functions that convert values between those units.</p>
+<p>For example, until 1964 the metric liter was defined as the volume of
+1kg of water at 4°C at 760mm mercury pressure.  Volumes and masses are
+not normally directly convertible, but if we hold the constants in the
+1964 definition of the liter as true, we could build an equivalency
+for them:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">liters_water</span> <span class="o">=</span> <span class="p">[</span>
+<span class="go">       (u.l, u.g, lambda x: 1000.0 * x, lambda x: x / 1000.0)</span>
+<span class="go">    ]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="o">.</span><span class="n">l</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">kg</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">equivs</span><span class="o">=</span><span class="n">liters_water</span><span class="p">)</span>
+<span class="go">1.0</span>
+</pre></div>
+</div>
+<p>Note that the equivalency can be used with any other compatible units:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="o">.</span><span class="n">gallon</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">pound</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">equivs</span><span class="o">=</span><span class="n">liters_water</span><span class="p">)</span>
+<span class="go">8.345404463333525</span>
+</pre></div>
+</div>
+<p>And it also works in the other direction:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="o">.</span><span class="n">lb</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">pint</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">equivs</span><span class="o">=</span><span class="n">liters_water</span><span class="p">)</span>
+<span class="go">0.9586114172355458</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="displaying-available-equivalencies">
+<h2>Displaying available equivalencies<a class="headerlink" href="#displaying-available-equivalencies" title="Permalink to this headline">¶</a></h2>
+<p>The <tt class="xref py py-obj docutils literal"><span class="pre">find_equivalent_units</span></tt> function also understands equivalencies.
+For example, without passing equivalencies, there are no compatible
+units for <tt class="xref py py-obj docutils literal"><span class="pre">Hz</span></tt> in the standard set:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="o">.</span><span class="n">Hz</span><span class="o">.</span><span class="n">find_equivalent_units</span><span class="p">()</span>
+<span class="go">  Primary name | Unit definition | Aliases</span>
+<span class="go">[</span>
+<span class="go">  Hz           | 1 / (s)         | Hertz, hertz ,</span>
+<span class="go">]</span>
+</pre></div>
+</div>
+<p>However, when passing the spectral equivalency, you can see there are
+all kinds of things that <tt class="xref py py-obj docutils literal"><span class="pre">Hz</span></tt> can be converted to:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="o">.</span><span class="n">Hz</span><span class="o">.</span><span class="n">find_equivalent_units</span><span class="p">(</span><span class="n">equivs</span><span class="o">=</span><span class="n">u</span><span class="o">.</span><span class="n">spectral</span><span class="p">())</span>
+<span class="go">  Primary name | Unit definition           | Aliases</span>
+<span class="go">[</span>
+<span class="go">  AU           | 1.495979e+11 m            | au                                 ,</span>
+<span class="go">  Angstrom     | 1.000000e-10 m            | AA, angstrom                       ,</span>
+<span class="go">  BTU          | 1.055056e+03 kg m2 / (s2) | btu                                ,</span>
+<span class="go">  Hz           | 1 / (s)                   | Hertz, hertz                       ,</span>
+<span class="go">  J            | kg m2 / (s2)              | Joule, joule                       ,</span>
+<span class="go">  Ry           | 2.179872e-18 kg m2 / (s2) | rydberg                            ,</span>
+<span class="go">  cal          | 4.184000e+00 kg m2 / (s2) | calorie                            ,</span>
+<span class="go">  eV           | 1.602177e-19 kg m2 / (s2) | electronvolt                       ,</span>
+<span class="go">  erg          | 1.000000e-07 kg m2 / (s2) |                                    ,</span>
+<span class="go">  ft           | 3.048000e-01 m            | foot                               ,</span>
+<span class="go">  inch         | 2.540000e-02 m            |                                    ,</span>
+<span class="go">  kcal         | 4.184000e+03 kg m2 / (s2) | Cal, Calorie, kilocal, kilocalorie ,</span>
+<span class="go">  lyr          | 9.460730e+15 m            |                                    ,</span>
+<span class="go">  m            | irreducible               | meter                              ,</span>
+<span class="go">  mi           | 1.609344e+03 m            | mile                               ,</span>
+<span class="go">  micron       | 1.000000e-06 m            |                                    ,</span>
+<span class="go">  pc           | 3.085678e+16 m            | parsec                             ,</span>
+<span class="go">  solRad       | 6.955080e+08 m            |                                    ,</span>
+<span class="go">  yd           | 9.144000e-01 m            | yard                               ,</span>
+<span class="go">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+
+
+<h3>Page Contents</h3>
+<ul>
+<li><a class="reference internal" href="#">Equivalencies</a><ul>
+<li><a class="reference internal" href="#built-in-equivalencies">Built-in equivalencies</a><ul>
+<li><a class="reference internal" href="#spectral-units">Spectral Units</a></li>
+<li><a class="reference internal" href="#spectral-flux-density-units">Spectral Flux Density Units</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#writing-new-equivalencies">Writing new equivalencies</a></li>
+<li><a class="reference internal" href="#displaying-available-equivalencies">Displaying available equivalencies</a></li>
+</ul>
+</li>
+</ul>
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+<footer class="footer">
+  <p class="pull-right">
+    <a href="http://github.com/astropy/astropy/tree/v0.2.1/docs/units/equivalencies.rst">Edit This Page on Github</a> &nbsp;
+    <a href="../_sources/units/equivalencies.txt"
+       rel="nofollow">Page Source</a> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright 2011-2013, The Astropy Developers.<br/>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3+. &nbsp;
+    Last built 03 Apr 2013. <br/>
+  </p>
+</footer>
+ <!-- End original user content -->
+
+
+<br>
+<br>
+<br>
+
+
+<style type="text/css">
+  .rtd-badge {
+    position: fixed;
+    display: block;
+    bottom: 5px;
+    height: 40px;
+    text-indent: -9999em;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+  }
+  #version_menu {
+    position: fixed;
+    display: none;
+    bottom: 11px;
+    right: 166px;
+    list-style-type: none;
+    margin: 0;
+  }
+  .footer_popout:hover #version_menu {
+    display: block;
+  }
+  #version_menu li {
+    display: block;
+    float: right;
+  }
+  #version_menu li a {
+    display: block;
+    padding: 6px 10px 4px 10px;
+    margin: 7px 7px 0 0;
+    font-weight: bold;
+    font-size: 14px;
+    height: 20px;
+    line-height: 17px;
+    text-decoration: none;
+    color: #fff;
+    background: #8ca1af url(../images/gradient-light.png) bottom left repeat-x;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 1px #465158;
+    -moz-box-shadow: 0 1px 1px #465158;
+    -webkit-box-shadow: 0 1px 1px #465158;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+  }
+  #version_menu li a:hover {
+    text-decoration: none;
+    background-color: #697983;
+    box-shadow: 0 1px 0px #465158;
+    -moz-box-shadow: 0 1px 0px #465158;
+    -webkit-box-shadow: 0 1px 0px #465158;
+  }
+  .rtd-badge.rtd {
+    background: #3b4449 url(//media.readthedocs.org//images/badge-rtd.png) scroll 0px -46px no-repeat;
+    border: 1px solid #282E32;
+    width: 41px;
+    right: 5px;
+  }
+  .footer_popout:hover .rtd-badge.rtd {
+    background-position: top left;
+    width: 160px;
+  }
+  .rtd-badge.revsys { background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline-sponsored {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys-sm.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 205px;
+    right: 173px;
+  }
+
+</style>
+<div class="rtd_doc_footer">
+  <div class="footer_popout">
+    <a href="//readthedocs.org/projects/astropy/?fromdocs=astropy" class="rtd-badge rtd"> Brought to you by Read the Docs</a>
+    <ul id="version_menu">
+      
+        <li><a href="/en/latest/">latest</a></li>
+      
+        <li><a href="/en/add-mpl-to-rtd-pip-req/">add-mpl-to-rtd-pip-req</a></li>
+      
+        <li><a href="/en/v0.2.1/">v0.2.1</a></li>
+      
+        <li><a href="/en/v0.2/">v0.2</a></li>
+      
+        <li><a href="/en/v0.1/">v0.1</a></li>
+      
+    </ul>
+  </div>
+</div>
+<!-- RTD Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17997319-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+<!-- User Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-30968842-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+  </body>
+</html>

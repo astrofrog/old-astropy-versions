@@ -1,0 +1,8 @@
+
+
+kernel_arithmetics
+===========================================
+
+.. currentmodule:: astropy.convolution.core
+
+.. autofunction:: kernel_arithmetics

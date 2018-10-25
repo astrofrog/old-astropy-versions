@@ -1,0 +1,63 @@
+
+.. include:: ../table/references.txt
+
+
+MaskedColumn
+================================
+
+.. currentmodule:: astropy.table.table
+
+.. autoclass:: MaskedColumn
+   :show-inheritance:
+
+   
+
+   
+   
+
+   .. rubric:: Attributes Summary
+
+   .. autosummary::
+   
+      ~MaskedColumn.data
+      ~MaskedColumn.fill_value
+
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+   
+      ~MaskedColumn.copy
+      ~MaskedColumn.filled
+
+   
+   
+
+   
+   
+
+   .. rubric:: Attributes Documentation
+
+   
+   .. autoattribute:: data
+   .. autoattribute:: fill_value
+
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Documentation
+
+   
+   .. automethod:: copy
+   .. automethod:: filled
+
+   
+   

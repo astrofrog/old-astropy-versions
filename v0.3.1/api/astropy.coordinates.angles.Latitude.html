@@ -1,0 +1,228 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Latitude &mdash; Astropy v0.3.1</title>
+    
+    <link rel="stylesheet" href="../_static/bootstrap-astropy.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="https://media.readthedocs.org/css/badge_only.css" type="text/css" />
+    <link rel="stylesheet" href="https://media.readthedocs.org/css/readthedocs-doc-embed.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.3.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/jquery/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/jquery/jquery-migrate-1.2.1.min.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/underscore.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/doctools.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/readthedocs-doc-embed.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="shortcut icon" href="../_static/astropy_logo.ico"/>
+    <link rel="top" title="Astropy v0.3.1" href="../index.html" />
+    <link rel="up" title="Astronomical Coordinate Systems (astropy.coordinates)" href="../coordinates/index.html" />
+    <link rel="next" title="Longitude" href="astropy.coordinates.angles.Longitude.html" />
+    <link rel="prev" title="IllegalSecondWarning" href="astropy.coordinates.errors.IllegalSecondWarning.html" />
+
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,600' rel='stylesheet' type='text/css'>
+
+<!-- RTD Extra Head -->
+
+
+
+<!-- 
+Read the Docs is acting as the canonical URL for your project. 
+If you want to change it, more info is available in our docs:
+  http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="http://astropy.readthedocs.org/en/latest/api/astropy.coordinates.angles.Latitude.html">
+
+<script type="text/javascript">
+  // This is included here because other places don't have access to the pagename variable.
+  var READTHEDOCS_DATA = {
+    project: "astropy",
+    version: "v0.3.1",
+    language: "en",
+    page: "api/astropy.coordinates.angles.Latitude",
+    theme: "bootstrap-astropy",
+    docroot: "/docs/",
+    api_host: "https://readthedocs.org"
+  }
+  // Old variables
+  var doc_version = "v0.3.1";
+  var doc_slug = "astropy";
+  var page_name = "api/astropy.coordinates.angles.Latitude";
+  var html_theme = "bootstrap-astropy";
+</script>
+<!-- RTD Analytics Code -->
+<!-- Included in the header because you don't have a footer block. -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17997319-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+<!-- end RTD Analytics Code -->
+
+
+<!-- User Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-30968842-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+<!-- End User Analytics Code -->
+
+<!-- end RTD <extrahead> -->
+
+  </head>
+  <body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../index.html"><span id="logotext1">astro</span><span id="logotext2">py</span><span id="logotext3">:docs</span></a>
+  <ul>
+    <li><a class="homelink" title="Astropy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../genindex.html">Index</a></li>
+    <li><a title="Module Index" href="../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li class="right">
+	<a href="astropy.coordinates.angles.Longitude.html" title="Longitude">
+	  next &raquo;
+	</a>
+      </li>
+      <li class="right">
+	<a href="astropy.coordinates.errors.IllegalSecondWarning.html" title="IllegalSecondWarning">
+	  &laquo; previous
+	</a>
+	 |
+      </li>
+      <li>
+	<a href="../index.html">Astropy v0.3.1</a>
+	 &raquo;
+      </li>
+      <li><a href="../coordinates/index.html" accesskey="U">Astronomical Coordinate Systems (<tt class="docutils literal"><span class="pre">astropy.coordinates</span></tt>)</a> &raquo;</li>
+      
+      <li>Latitude</li> 
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="latitude">
+<h1>Latitude<a class="headerlink" href="#latitude" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="astropy.coordinates.angles.Latitude">
+<em class="property">class </em><tt class="descclassname">astropy.coordinates.angles.</tt><tt class="descname">Latitude</tt><a class="reference internal" href="../_modules/astropy/coordinates/angles.html#Latitude"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.3.x/astropy/coordinates/angles.py#L505" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.coordinates.angles.Latitude" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="astropy.coordinates.angles.Angle.html#astropy.coordinates.angles.Angle" title="astropy.coordinates.angles.Angle"><tt class="xref py py-class docutils literal"><span class="pre">astropy.coordinates.angles.Angle</span></tt></a></p>
+<p>Latitude-like angle(s) which must be in the range -90 to +90 deg.</p>
+<p>A Latitude object is distinguished from a pure <a class="reference internal" href="astropy.coordinates.angles.Angle.html#astropy.coordinates.angles.Angle" title="astropy.coordinates.angles.Angle"><tt class="xref py py-obj docutils literal"><span class="pre">Angle</span></tt></a> by virtue
+of being constrained so that:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="o">-</span><span class="mf">90.0</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">deg</span> <span class="o">&lt;=</span> <span class="n">angle</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="o">+</span><span class="mf">90.0</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">deg</span>
+</pre></div>
+</div>
+<p>Any attempt to set a value outside that range will result in a <tt class="xref py py-obj docutils literal"><span class="pre">ValueError</span></tt>.</p>
+<p>The input angle(s) can be specified either as an array, list, scalar, tuple (see
+below), string, <a class="reference internal" href="astropy.units.quantity.Quantity.html#astropy.units.quantity.Quantity" title="astropy.units.quantity.Quantity"><tt class="xref py py-class docutils literal"><span class="pre">Quantity</span></tt></a> or another <a class="reference internal" href="astropy.coordinates.angles.Angle.html#astropy.coordinates.angles.Angle" title="astropy.coordinates.angles.Angle"><tt class="xref py py-obj docutils literal"><span class="pre">Angle</span></tt></a>.</p>
+<p>The input parser is flexible and supports all of the input formats supported by <a class="reference internal" href="astropy.coordinates.angles.Angle.html#astropy.coordinates.angles.Angle" title="astropy.coordinates.angles.Angle"><tt class="xref py py-obj docutils literal"><span class="pre">Angle</span></tt></a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>angle</strong> : array, list, scalar, Quantity, Angle</p>
+<blockquote>
+<div><p>The angle value(s). If a tuple, will be interpreted as <tt class="docutils literal"><span class="pre">(h,</span> <span class="pre">m</span>
+<span class="pre">s)</span></tt> or <tt class="docutils literal"><span class="pre">(d,</span> <span class="pre">m,</span> <span class="pre">s)</span></tt> depending on <tt class="xref py py-obj docutils literal"><span class="pre">unit</span></tt>. If a string, it
+will be interpreted following the rules described for <a class="reference internal" href="astropy.coordinates.angles.Angle.html#astropy.coordinates.angles.Angle" title="astropy.coordinates.angles.Angle"><tt class="xref py py-obj docutils literal"><span class="pre">Angle</span></tt></a>.</p>
+<p>If <tt class="xref py py-obj docutils literal"><span class="pre">angle</span></tt> is a sequence or array of strings, the resulting
+values will be in the given <tt class="xref py py-obj docutils literal"><span class="pre">unit</span></tt>, or if None is provided,
+the unit will be taken from the first given value.</p>
+</div></blockquote>
+<p><strong>unit</strong> : <a class="reference internal" href="astropy.units.core.UnitBase.html#astropy.units.core.UnitBase" title="astropy.units.core.UnitBase"><tt class="xref py py-class docutils literal"><span class="pre">UnitBase</span></tt></a>, str, optional</p>
+<blockquote>
+<div><p>The unit of the value specified for the angle.  This may be
+any string that <tt class="xref py py-obj docutils literal"><span class="pre">Unit</span></tt> understands, but it is
+better to give an actual unit object.  Must be an angular
+unit.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first"><strong>`~astropy.units.core.UnitsError`</strong> :</p>
+<blockquote class="last">
+<div><p>If a unit is not provided or it is not an angular unit.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"><h3>Page Contents</h3>
+<ul>
+<li><a class="reference internal" href="#">Latitude</a></li>
+</ul>
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+<footer class="footer">
+  <p class="pull-right">
+    <a href="http://github.com/astropy/astropy/tree/v0.3.x/docs/api/astropy.coordinates.angles.Latitude.rst">Edit This Page on Github</a> &nbsp;
+    <a href="../_sources/api/astropy.coordinates.angles.Latitude.txt"
+       rel="nofollow">Page Source</a> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright 2011-2013, The Astropy Developers.<br/>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2. &nbsp;
+    Last built 05 Mar 2014. <br/>
+  </p>
+</footer>
+  </body>
+</html>

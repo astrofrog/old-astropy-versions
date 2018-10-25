@@ -1,0 +1,29 @@
+
+
+AiryDisk2DKernel
+============================================
+
+.. currentmodule:: astropy.convolution.kernels
+
+.. autoclass:: AiryDisk2DKernel
+   :show-inheritance:
+
+   
+     
+   
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   

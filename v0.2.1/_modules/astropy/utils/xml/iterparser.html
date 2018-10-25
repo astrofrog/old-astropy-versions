@@ -1,0 +1,503 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+
+    <title>astropy.utils.xml.iterparser &mdash; Astropy v0.2.1</title>
+<!-- RTD <head> -->
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/underscore.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/doctools.js"></script>
+
+<script type="text/javascript">
+  // This is included here for Javascript that doesn't have access to the templates.
+  var doc_version = "v0.2.1";
+  var doc_slug = "astropy";
+</script>
+
+<script type="text/javascript" src="//media.readthedocs.org/javascript/rtd.js"></script>
+<!-- end RTD <head> -->
+
+    
+    <link rel="stylesheet" href="../../../../_static/bootstrap-astropy.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../',
+        VERSION:     '0.2.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../../_static/sidebar.js"></script>
+    <link rel="shortcut icon" href="../../../../_static/astropy_logo.ico"/>
+    <link rel="top" title="Astropy v0.2.1" href="../../../../index.html" />
+    <link rel="up" title="astropy.utils" href="../../utils.html" /> 
+  </head>
+  <body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../../../../index.html"></a>
+  <ul>
+    <li><a class="homelink" title="AstroPy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../../../../genindex.html">Index</a></li>
+    <li><a title="Python Module Index" href="../../../../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../../../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li>
+	<a href="../../../../index.html">Astropy v0.2.1</a>
+	 &raquo;
+      </li>
+      <li><a href="../../../index.html" >Module code</a> &raquo;</li>
+      <li><a href="../../utils.html" accesskey="U">astropy.utils</a> &raquo;</li>
+      
+       
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for astropy.utils.xml.iterparser</h1><div class="highlight"><pre>
+<span class="c"># Licensed under a 3-clause BSD style license - see LICENSE.rst</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module includes a fast iterator-based XML parser.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c"># STDLIB</span>
+<span class="kn">import</span> <span class="nn">collections</span>
+<span class="kn">import</span> <span class="nn">contextlib</span>
+<span class="kn">import</span> <span class="nn">io</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="c"># ASTROPY</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">data</span>
+
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;get_xml_iterator&#39;</span><span class="p">,</span> <span class="s">&#39;get_xml_encoding&#39;</span><span class="p">,</span> <span class="s">&#39;xml_readlines&#39;</span><span class="p">]</span>
+
+
+<span class="c">############################################################</span>
+<span class="c"># TODO: Refactor this into a py3k compatibility module</span>
+<span class="n">IS_PY3K</span> <span class="o">=</span> <span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">IS_PY3K</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">is_callable</span><span class="p">(</span><span class="n">o</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Abstracts away the different ways to test for a callable object in</span>
+<span class="sd">        Python 2.x and 3.x.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">collections</span><span class="o">.</span><span class="n">Callable</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">is_callable</span><span class="p">(</span><span class="n">o</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Abstracts away the different ways to test for a callable object in</span>
+<span class="sd">        Python 2.x and 3.x.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">callable</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>
+<span class="c">############################################################</span>
+
+
+<span class="nd">@contextlib.contextmanager</span>
+<span class="k">def</span> <span class="nf">_convert_to_fd_or_read_function</span><span class="p">(</span><span class="n">fd</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns a function suitable for streaming input, or a file object.</span>
+
+<span class="sd">    This function is only useful if passing off to C code where:</span>
+
+<span class="sd">       - If it&#39;s a real file object, we want to use it as a real</span>
+<span class="sd">         C file object to avoid the Python overhead.</span>
+
+<span class="sd">       - If it&#39;s not a real file object, it&#39;s much handier to just</span>
+<span class="sd">         have a Python function to call.</span>
+
+<span class="sd">    This is somewhat quirky behavior, of course, which is why it is</span>
+<span class="sd">    private.  For a more useful version of similar behavior, see</span>
+<span class="sd">    `astropy.utils.misc.get_readable_fileobj`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    fd : object</span>
+<span class="sd">        May be:</span>
+
+<span class="sd">            - a file object.  If the file is uncompressed, this raw</span>
+<span class="sd">              file object is returned verbatim.  Otherwise, the read</span>
+<span class="sd">              method is returned.</span>
+
+<span class="sd">            - a function that reads from a stream, in which case it is</span>
+<span class="sd">              returned verbatim.</span>
+
+<span class="sd">            - a file path, in which case it is opened.  Again, like a</span>
+<span class="sd">              file object, if it&#39;s uncompressed, a raw file object is</span>
+<span class="sd">              returned, otherwise its read method.</span>
+
+<span class="sd">            - an object with a :meth:`read` method, in which case that</span>
+<span class="sd">              method is returned.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    fd : context-dependent</span>
+<span class="sd">        See above.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">is_callable</span><span class="p">(</span><span class="n">fd</span><span class="p">):</span>
+        <span class="k">yield</span> <span class="n">fd</span>
+        <span class="k">return</span>
+
+    <span class="kn">from</span> <span class="nn">astropy.utils.data</span> <span class="kn">import</span> <span class="n">get_readable_fileobj</span>
+
+    <span class="k">with</span> <span class="n">get_readable_fileobj</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s">&#39;binary&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">new_fd</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;win&#39;</span><span class="p">):</span>
+            <span class="k">yield</span> <span class="n">new_fd</span><span class="o">.</span><span class="n">read</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">IS_PY3K</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">new_fd</span><span class="p">,</span> <span class="n">io</span><span class="o">.</span><span class="n">FileIO</span><span class="p">):</span>
+                    <span class="k">yield</span> <span class="n">new_fd</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">yield</span> <span class="n">new_fd</span><span class="o">.</span><span class="n">read</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">new_fd</span><span class="p">,</span> <span class="nb">file</span><span class="p">):</span>
+                    <span class="k">yield</span> <span class="n">new_fd</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">yield</span> <span class="n">new_fd</span><span class="o">.</span><span class="n">read</span>
+
+
+<span class="k">def</span> <span class="nf">_fast_iterparse</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="n">buffersize</span><span class="o">=</span><span class="mi">2</span> <span class="o">**</span> <span class="mi">10</span><span class="p">):</span>
+    <span class="kn">from</span> <span class="nn">xml.parsers</span> <span class="kn">import</span> <span class="n">expat</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">is_callable</span><span class="p">(</span><span class="n">fd</span><span class="p">):</span>
+        <span class="n">read</span> <span class="o">=</span> <span class="n">fd</span><span class="o">.</span><span class="n">read</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">read</span> <span class="o">=</span> <span class="n">fd</span>
+
+    <span class="n">queue</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">attr</span><span class="p">):</span>
+        <span class="n">queue</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="bp">True</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span>
+                      <span class="p">(</span><span class="n">parser</span><span class="o">.</span><span class="n">CurrentLineNumber</span><span class="p">,</span> <span class="n">parser</span><span class="o">.</span><span class="n">CurrentColumnNumber</span><span class="p">)))</span>
+        <span class="k">del</span> <span class="n">text</span><span class="p">[:]</span>
+
+    <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span> <span class="o">&lt;</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">):</span>
+        <span class="c"># Due to Python issue #4978, convert all keys to byte strings</span>
+        <span class="n">_start</span> <span class="o">=</span> <span class="n">start</span>
+        <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">attr</span><span class="p">):</span>
+            <span class="n">attr</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">((</span><span class="n">k</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">&#39;utf-8&#39;</span><span class="p">),</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="ow">in</span> <span class="n">attr</span><span class="o">.</span><span class="n">iteritems</span><span class="p">())</span>
+            <span class="k">return</span> <span class="n">_start</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">end</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+        <span class="n">queue</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="bp">False</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="s">u&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">text</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span>
+                      <span class="p">(</span><span class="n">parser</span><span class="o">.</span><span class="n">CurrentLineNumber</span><span class="p">,</span> <span class="n">parser</span><span class="o">.</span><span class="n">CurrentColumnNumber</span><span class="p">)))</span>
+
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">expat</span><span class="o">.</span><span class="n">ParserCreate</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">IS_PY3K</span><span class="p">:</span>
+        <span class="n">parser</span><span class="o">.</span><span class="n">returns_unicode</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">specified_attributes</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">StartElementHandler</span> <span class="o">=</span> <span class="n">start</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">EndElementHandler</span> <span class="o">=</span> <span class="n">end</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">CharacterDataHandler</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">append</span>
+    <span class="n">Parse</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">Parse</span>
+
+    <span class="n">data</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span><span class="n">buffersize</span><span class="p">)</span>
+    <span class="k">while</span> <span class="n">data</span><span class="p">:</span>
+        <span class="n">Parse</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">queue</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="n">elem</span>
+        <span class="k">del</span> <span class="n">queue</span><span class="p">[:]</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span><span class="n">buffersize</span><span class="p">)</span>
+
+    <span class="n">Parse</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">queue</span><span class="p">:</span>
+        <span class="k">yield</span> <span class="n">elem</span>
+
+
+<span class="c"># Try to import the C version of the iterparser, otherwise fall back</span>
+<span class="c"># to the Python implementation above.</span>
+<span class="n">_slow_iterparse</span> <span class="o">=</span> <span class="n">_fast_iterparse</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">_iterparser</span>
+    <span class="n">_fast_iterparse</span> <span class="o">=</span> <span class="n">_iterparser</span><span class="o">.</span><span class="n">IterParser</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="k">pass</span>
+
+
+<span class="nd">@contextlib.contextmanager</span>
+<div class="viewcode-block" id="get_xml_iterator"><a class="viewcode-back" href="../../../../_generated/astropy.utils.xml.iterparser.get_xml_iterator.html#astropy.utils.xml.iterparser.get_xml_iterator">[docs]</a><span class="k">def</span> <span class="nf">get_xml_iterator</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">_debug_python_based_parser</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns an iterator over the elements of an XML file.</span>
+
+<span class="sd">    The iterator doesn&#39;t ever build a tree, so it is much more memory</span>
+<span class="sd">    and time efficient than the alternative in `cElementTree`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    fd : readable file-like object or read function</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    parts : iterator</span>
+
+<span class="sd">        The iterator returns 4-tuples (*start*, *tag*, *data*, *pos*):</span>
+
+<span class="sd">            - *start*: when `True` is a start element event, otherwise</span>
+<span class="sd">              an end element event.</span>
+
+<span class="sd">            - *tag*: The name of the element</span>
+
+<span class="sd">            - *data*: Depends on the value of *event*:</span>
+
+<span class="sd">                - if *start* == `True`, data is a dictionary of</span>
+<span class="sd">                  attributes</span>
+
+<span class="sd">                - if *start* == `False`, data is a string containing</span>
+<span class="sd">                  the text content of the element</span>
+
+<span class="sd">            - *pos*: Tuple (*line*, *col*) indicating the source of the</span>
+<span class="sd">              event.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="n">_convert_to_fd_or_read_function</span><span class="p">(</span><span class="n">source</span><span class="p">)</span> <span class="k">as</span> <span class="n">fd</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">_debug_python_based_parser</span><span class="p">:</span>
+            <span class="n">context</span> <span class="o">=</span> <span class="n">_slow_iterparse</span><span class="p">(</span><span class="n">fd</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">context</span> <span class="o">=</span> <span class="n">_fast_iterparse</span><span class="p">(</span><span class="n">fd</span><span class="p">)</span>
+        <span class="k">yield</span> <span class="nb">iter</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="get_xml_encoding"><a class="viewcode-back" href="../../../../_generated/astropy.utils.xml.iterparser.get_xml_encoding.html#astropy.utils.xml.iterparser.get_xml_encoding">[docs]</a><span class="k">def</span> <span class="nf">get_xml_encoding</span><span class="p">(</span><span class="n">source</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Determine the encoding of an XML file by reading its header.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    source : readable file-like object, read function or str path</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    encoding : str</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="n">get_xml_iterator</span><span class="p">(</span><span class="n">source</span><span class="p">)</span> <span class="k">as</span> <span class="n">iterator</span><span class="p">:</span>
+        <span class="n">start</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">pos</span> <span class="o">=</span> <span class="n">iterator</span><span class="o">.</span><span class="n">next</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">start</span> <span class="ow">or</span> <span class="n">tag</span> <span class="o">!=</span> <span class="s">u&#39;xml&#39;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="s">&#39;Invalid XML file&#39;</span><span class="p">)</span>
+
+    <span class="c"># The XML spec says that no encoding === utf-8</span>
+    <span class="k">return</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;encoding&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="s">&#39;utf-8&#39;</span>
+
+</div>
+<div class="viewcode-block" id="xml_readlines"><a class="viewcode-back" href="../../../../_generated/astropy.utils.xml.iterparser.xml_readlines.html#astropy.utils.xml.iterparser.xml_readlines">[docs]</a><span class="k">def</span> <span class="nf">xml_readlines</span><span class="p">(</span><span class="n">source</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the lines from a given XML file.  Correctly determines the</span>
+<span class="sd">    encoding and always returns unicode.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    source : readable file-like object, read function or str path</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    lines : list of unicode</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">encoding</span> <span class="o">=</span> <span class="n">get_xml_encoding</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="n">data</span><span class="o">.</span><span class="n">get_readable_fileobj</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="n">encoding</span><span class="p">)</span> <span class="k">as</span> <span class="nb">input</span><span class="p">:</span>
+        <span class="nb">input</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">xml_lines</span> <span class="o">=</span> <span class="nb">input</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">xml_lines</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+
+
+<h3>Page Contents</h3>
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+<footer class="footer">
+  <p class="pull-right"> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright 2011-2013, The Astropy Developers.<br/>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3+. &nbsp;
+    Last built 03 Apr 2013. <br/>
+  </p>
+</footer>
+ <!-- End original user content -->
+
+
+<br>
+<br>
+<br>
+
+
+<style type="text/css">
+  .rtd-badge {
+    position: fixed;
+    display: block;
+    bottom: 5px;
+    height: 40px;
+    text-indent: -9999em;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+  }
+  #version_menu {
+    position: fixed;
+    display: none;
+    bottom: 11px;
+    right: 166px;
+    list-style-type: none;
+    margin: 0;
+  }
+  .footer_popout:hover #version_menu {
+    display: block;
+  }
+  #version_menu li {
+    display: block;
+    float: right;
+  }
+  #version_menu li a {
+    display: block;
+    padding: 6px 10px 4px 10px;
+    margin: 7px 7px 0 0;
+    font-weight: bold;
+    font-size: 14px;
+    height: 20px;
+    line-height: 17px;
+    text-decoration: none;
+    color: #fff;
+    background: #8ca1af url(../images/gradient-light.png) bottom left repeat-x;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 1px #465158;
+    -moz-box-shadow: 0 1px 1px #465158;
+    -webkit-box-shadow: 0 1px 1px #465158;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+  }
+  #version_menu li a:hover {
+    text-decoration: none;
+    background-color: #697983;
+    box-shadow: 0 1px 0px #465158;
+    -moz-box-shadow: 0 1px 0px #465158;
+    -webkit-box-shadow: 0 1px 0px #465158;
+  }
+  .rtd-badge.rtd {
+    background: #3b4449 url(//media.readthedocs.org//images/badge-rtd.png) scroll 0px -46px no-repeat;
+    border: 1px solid #282E32;
+    width: 41px;
+    right: 5px;
+  }
+  .footer_popout:hover .rtd-badge.rtd {
+    background-position: top left;
+    width: 160px;
+  }
+  .rtd-badge.revsys { background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline-sponsored {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys-sm.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 205px;
+    right: 173px;
+  }
+
+</style>
+<div class="rtd_doc_footer">
+  <div class="footer_popout">
+    <a href="//readthedocs.org/projects/astropy/?fromdocs=astropy" class="rtd-badge rtd"> Brought to you by Read the Docs</a>
+    <ul id="version_menu">
+      
+        <li><a href="/en/latest/">latest</a></li>
+      
+        <li><a href="/en/add-mpl-to-rtd-pip-req/">add-mpl-to-rtd-pip-req</a></li>
+      
+        <li><a href="/en/v0.2.1/">v0.2.1</a></li>
+      
+        <li><a href="/en/v0.2/">v0.2</a></li>
+      
+        <li><a href="/en/v0.1/">v0.1</a></li>
+      
+    </ul>
+  </div>
+</div>
+<!-- RTD Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17997319-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+<!-- User Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-30968842-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+  </body>
+</html>

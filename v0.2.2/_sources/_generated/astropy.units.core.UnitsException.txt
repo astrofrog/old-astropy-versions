@@ -1,0 +1,8 @@
+
+
+UnitsException
+=================================
+
+.. currentmodule:: astropy.units.core
+
+.. autoexception:: UnitsException

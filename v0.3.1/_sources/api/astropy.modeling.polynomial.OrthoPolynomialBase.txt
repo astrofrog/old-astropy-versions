@@ -1,0 +1,65 @@
+
+
+OrthoPolynomialBase
+===============================================
+
+.. currentmodule:: astropy.modeling.polynomial
+
+.. autoclass:: OrthoPolynomialBase
+   :show-inheritance:
+
+   
+     
+   
+
+   
+   
+
+   .. rubric:: Attributes Summary
+
+   .. autosummary::
+   
+      ~OrthoPolynomialBase.n_inputs
+      ~OrthoPolynomialBase.n_outputs
+
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+   
+      ~OrthoPolynomialBase.get_num_coeff
+      ~OrthoPolynomialBase.imhorner
+      ~OrthoPolynomialBase.invlex_coeff
+
+   
+   
+
+   
+   
+
+   .. rubric:: Attributes Documentation
+
+   
+   .. autoattribute:: n_inputs
+   .. autoattribute:: n_outputs
+
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Documentation
+
+   
+   .. automethod:: get_num_coeff
+   .. automethod:: imhorner
+   .. automethod:: invlex_coeff
+
+   
+   

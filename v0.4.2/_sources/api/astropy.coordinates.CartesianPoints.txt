@@ -1,0 +1,31 @@
+
+.. include:: ../coordinates/references.txt
+
+
+CartesianPoints
+===================================
+
+.. currentmodule:: astropy.coordinates
+
+.. autoclass:: CartesianPoints
+   :show-inheritance:
+
+   
+     
+   
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   

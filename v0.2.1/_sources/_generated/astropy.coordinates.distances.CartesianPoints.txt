@@ -1,0 +1,44 @@
+
+
+CartesianPoints
+=============================================
+
+.. currentmodule:: astropy.coordinates.distances
+
+.. autoclass:: CartesianPoints
+   :show-inheritance:
+
+   
+     
+   
+
+   
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+   
+      ~CartesianPoints.to_spherical
+
+   
+   
+
+   
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Documentation
+
+   
+   .. automethod:: to_spherical
+
+   
+   

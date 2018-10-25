@@ -1,0 +1,46 @@
+
+
+GalacticCoordinates
+=======================================================
+
+.. currentmodule:: astropy.coordinates.builtin_systems
+
+.. autoclass:: GalacticCoordinates
+   :show-inheritance:
+
+   
+     
+   
+
+   
+   
+
+   .. rubric:: Attributes Summary
+
+   .. autosummary::
+   
+      ~GalacticCoordinates.latangle
+      ~GalacticCoordinates.lonangle
+
+   
+   
+
+   
+   
+   
+
+   
+   
+
+   .. rubric:: Attributes Documentation
+
+   
+   .. autoattribute:: latangle
+   .. autoattribute:: lonangle
+
+   
+   
+
+   
+   
+   

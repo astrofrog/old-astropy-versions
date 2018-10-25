@@ -1,0 +1,230 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>How To: Contribute to Astropy &mdash; Astropy v0.3.1</title>
+    
+    <link rel="stylesheet" href="../../_static/bootstrap-astropy.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="https://media.readthedocs.org/css/badge_only.css" type="text/css" />
+    <link rel="stylesheet" href="https://media.readthedocs.org/css/readthedocs-doc-embed.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.3.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/jquery/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/jquery/jquery-migrate-1.2.1.min.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/underscore.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/doctools.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/readthedocs-doc-embed.js"></script>
+    <script type="text/javascript" src="../../_static/sidebar.js"></script>
+    <link rel="shortcut icon" href="../../_static/astropy_logo.ico"/>
+    <link rel="top" title="Astropy v0.3.1" href="../../index.html" />
+    <link rel="next" title="Installing git" href="git_install.html" />
+    <link rel="prev" title="Licenses" href="../../license.html" />
+
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,600' rel='stylesheet' type='text/css'>
+
+<!-- RTD Extra Head -->
+
+
+
+<!-- 
+Read the Docs is acting as the canonical URL for your project. 
+If you want to change it, more info is available in our docs:
+  http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="http://astropy.readthedocs.org/en/latest/development/workflow/">
+
+<script type="text/javascript">
+  // This is included here because other places don't have access to the pagename variable.
+  var READTHEDOCS_DATA = {
+    project: "astropy",
+    version: "v0.3.1",
+    language: "en",
+    page: "development/workflow/index",
+    theme: "bootstrap-astropy",
+    docroot: "/docs/",
+    api_host: "https://readthedocs.org"
+  }
+  // Old variables
+  var doc_version = "v0.3.1";
+  var doc_slug = "astropy";
+  var page_name = "development/workflow/index";
+  var html_theme = "bootstrap-astropy";
+</script>
+<!-- RTD Analytics Code -->
+<!-- Included in the header because you don't have a footer block. -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17997319-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+<!-- end RTD Analytics Code -->
+
+
+<!-- User Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-30968842-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+<!-- End User Analytics Code -->
+
+<!-- end RTD <extrahead> -->
+
+  </head>
+  <body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../../index.html"><span id="logotext1">astro</span><span id="logotext2">py</span><span id="logotext3">:docs</span></a>
+  <ul>
+    <li><a class="homelink" title="Astropy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../../genindex.html">Index</a></li>
+    <li><a title="Module Index" href="../../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li class="right">
+	<a href="git_install.html" title="Installing git">
+	  next &raquo;
+	</a>
+      </li>
+      <li class="right">
+	<a href="../../license.html" title="Licenses">
+	  &laquo; previous
+	</a>
+	 |
+      </li>
+      <li>
+	<a href="../../index.html">Astropy v0.3.1</a>
+	 &raquo;
+      </li>
+      
+      <li>How To: Contribute to Astropy</li> 
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="how-to-contribute-to-astropy">
+<span id="using-git"></span><h1>How To: Contribute to Astropy<a class="headerlink" href="#how-to-contribute-to-astropy" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
+<p>Any contributions to the core Astropy package, whether bug fixes,
+improvements to the documentation, or new functionality, can be done via
+<em>pull requests</em> on GitHub. The workflow for this is described below.</p>
+<p>However, substantial contributions, such as whole new sub-packages, can
+first be developed as <em>affiliated packages</em> then submitted to the Astropy
+core via pull requests once ready (as described in <a class="reference internal" href="../vision.html#vision"><em>Vision for a Common Astronomy Python Package</em></a>). Teams working on affiliated packages are free to choose whatever version control system they wish, but ultimately the affiliated package should be merged into a fork of the Astropy repository in order to be submitted as a pull request (this merging can be done either by the team or by one of the core maintainers).</p>
+</div>
+<div class="section" id="getting-started-with-git">
+<h2>Getting started with git<a class="headerlink" href="#getting-started-with-git" title="Permalink to this headline">¶</a></h2>
+<p>The only absolutely necessary configuration step is identifying yourself and
+your contact info:</p>
+<div class="highlight-python"><pre>git config --global user.name "Your Name"
+git config --global user.email you@yourdomain.example.com</pre>
+</div>
+<p>The following sections cover the installation of the git software, the basic
+configuration, and links to resources to learn more about using git.
+However, you can also directly go to the <a class="reference external" href="http://help.github.com/">GitHub help pages</a> which offer a great introduction to git and
+GitHub.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="git_install.html">Installing git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_configure.html">Configuring git</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_resources.html">Git resources</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="workflow">
+<h2>Workflow<a class="headerlink" href="#workflow" title="Permalink to this headline">¶</a></h2>
+<p>The following two sections describe the workflow for the Astropy core
+package, but teams working on affiliated packages that have chosen to use
+git are encouraged to also follow these guidelines internally.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="development_workflow.html">Workflow for Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maintainer_workflow.html">Workflow for Maintainers</a></li>
+</ul>
+</div>
+<p>If for any reason developers do not wish to or cannot contribute via pull requests, they can submit a patch as described in <a class="reference internal" href="patches.html"><em>Creating patches</em></a>.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"><h3>Page Contents</h3>
+<ul>
+<li><a class="reference internal" href="#">How To: Contribute to Astropy</a><ul>
+<li><a class="reference internal" href="#summary">Summary</a></li>
+<li><a class="reference internal" href="#getting-started-with-git">Getting started with git</a><ul>
+</ul>
+</li>
+<li><a class="reference internal" href="#workflow">Workflow</a><ul>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+<footer class="footer">
+  <p class="pull-right">
+    <a href="http://github.com/astropy/astropy/tree/v0.3.x/docs/development/workflow/index.rst">Edit This Page on Github</a> &nbsp;
+    <a href="../../_sources/development/workflow/index.txt"
+       rel="nofollow">Page Source</a> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright 2011-2013, The Astropy Developers.<br/>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2. &nbsp;
+    Last built 05 Mar 2014. <br/>
+  </p>
+</footer>
+  </body>
+</html>

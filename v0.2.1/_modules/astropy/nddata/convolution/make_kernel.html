@@ -1,0 +1,383 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+
+    <title>astropy.nddata.convolution.make_kernel &mdash; Astropy v0.2.1</title>
+<!-- RTD <head> -->
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/underscore.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/doctools.js"></script>
+
+<script type="text/javascript">
+  // This is included here for Javascript that doesn't have access to the templates.
+  var doc_version = "v0.2.1";
+  var doc_slug = "astropy";
+</script>
+
+<script type="text/javascript" src="//media.readthedocs.org/javascript/rtd.js"></script>
+<!-- end RTD <head> -->
+
+    
+    <link rel="stylesheet" href="../../../../_static/bootstrap-astropy.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../',
+        VERSION:     '0.2.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../../_static/sidebar.js"></script>
+    <link rel="shortcut icon" href="../../../../_static/astropy_logo.ico"/>
+    <link rel="top" title="Astropy v0.2.1" href="../../../../index.html" />
+    <link rel="up" title="Module code" href="../../../index.html" /> 
+  </head>
+  <body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../../../../index.html"></a>
+  <ul>
+    <li><a class="homelink" title="AstroPy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../../../../genindex.html">Index</a></li>
+    <li><a title="Python Module Index" href="../../../../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../../../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li>
+	<a href="../../../../index.html">Astropy v0.2.1</a>
+	 &raquo;
+      </li>
+      <li><a href="../../../index.html" accesskey="U">Module code</a> &raquo;</li>
+      
+       
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for astropy.nddata.convolution.make_kernel</h1><div class="highlight"><pre>
+<span class="c"># Licensed under a 3-clause BSD style license - see PYFITS.rst</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<div class="viewcode-block" id="make_kernel"><a class="viewcode-back" href="../../../../_generated/astropy.nddata.convolution.make_kernel.make_kernel.html#astropy.nddata.convolution.make_kernel.make_kernel">[docs]</a><span class="k">def</span> <span class="nf">make_kernel</span><span class="p">(</span><span class="n">kernelshape</span><span class="p">,</span> <span class="n">kernelwidth</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">kerneltype</span><span class="o">=</span><span class="s">&#39;gaussian&#39;</span><span class="p">,</span>
+        <span class="n">trapslope</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">normalize_kernel</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">,</span> <span class="n">force_odd</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a smoothing kernel for use with `convolve` or `convolve_fft`.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    kernelshape : n-tuple</span>
+<span class="sd">        A tuple (or list or array) defining the shape of the kernel.  The</span>
+<span class="sd">        length of kernelshape determines the dimensionality of the resulting</span>
+<span class="sd">        kernel</span>
+<span class="sd">    kernelwidth : float</span>
+<span class="sd">        Width of kernel in pixels  (see definitions under `kerneltype`)</span>
+<span class="sd">    kerneltype : {&#39;gaussian&#39;, &#39;boxcar&#39;, &#39;tophat&#39;, &#39;brickwall&#39;, &#39;airy&#39;, &#39;trapezoid&#39;}</span>
+<span class="sd">        Defines the type of kernel to be generated. The following types are</span>
+<span class="sd">        available:</span>
+
+<span class="sd">        * &#39;gaussian&#39;</span>
+<span class="sd">            Uses a gaussian kernel with sigma = `kernelwidth` (in pixels),</span>
+<span class="sd">            i.e. kernel = exp(-r**2 / (2*sigma**2)) where r is the radius.</span>
+<span class="sd">        * &#39;boxcar&#39;</span>
+<span class="sd">            A `kernelwidth` x `kernelwidth` square kernel, i.e.,</span>
+<span class="sd">            kernel = (x &lt; `kernelwidth`) * (y &lt; `kernelwidth`)</span>
+<span class="sd">        * &#39;tophat&#39;</span>
+<span class="sd">            A flat circle  with radius = `kernelwidth`,</span>
+<span class="sd">            i.e., kernel = (r &lt; `kernelwidth`)</span>
+<span class="sd">        * &#39;brickwall&#39; or &#39;airy&#39;</span>
+<span class="sd">            A kernel using the airy function from optics. It requires</span>
+<span class="sd">            `scipy.special` for the bessel function. See e.g.,</span>
+<span class="sd">            http://en.wikipedia.org/wiki/Airy_disk.</span>
+<span class="sd">        * &#39;trapezoid&#39;</span>
+<span class="sd">            A kernel like &#39;tophat&#39; but with sloped edges. It is</span>
+<span class="sd">            effectively a cone chopped off at the `kernelwidth` radius.</span>
+
+<span class="sd">    trapslope : float</span>
+<span class="sd">        Slope of the trapezoid kernel.  Only used if `kerneltype` == &#39;trapezoid&#39;</span>
+<span class="sd">    normalize_kernel : function</span>
+<span class="sd">        Function to use for kernel normalization</span>
+<span class="sd">    force_odd : boolean</span>
+<span class="sd">        If set, forces the kernel to have odd dimensions (needed for convolve</span>
+<span class="sd">        w/o ffts)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    kernel : ndarray</span>
+<span class="sd">        An N-dimensional float array</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    &gt;&gt;&gt; make_kernel([3, 3], 1, &#39;boxcar&#39;)</span>
+<span class="sd">    array([[ 0.  0.  0.]</span>
+<span class="sd">           [ 0.  1.  0.]</span>
+<span class="sd">           [ 0.  0.  0.]])</span>
+
+<span class="sd">    &gt;&gt;&gt; make_kernel([9], 1)  # Gaussian by default</span>
+<span class="sd">    array([  1.33830625e-04   4.43186162e-03   5.39911274e-02   2.41971446e-01</span>
+<span class="sd">             3.98943469e-01   2.41971446e-01   5.39911274e-02   4.43186162e-03</span>
+<span class="sd">             1.33830625e-04])</span>
+
+<span class="sd">    &gt;&gt;&gt; make_kernel([3, 3], 3, &#39;boxcar&#39;)</span>
+<span class="sd">    array([[ 0.11111111,  0.11111111,  0.11111111],</span>
+<span class="sd">           [ 0.11111111,  0.11111111,  0.11111111],</span>
+<span class="sd">           [ 0.11111111,  0.11111111,  0.11111111]])</span>
+
+<span class="sd">    &gt;&gt;&gt; make_kernel([3, 3], 1.4, &#39;tophat&#39;)</span>
+<span class="sd">    array([[ 0. ,  0.2,  0. ],</span>
+<span class="sd">           [ 0.2,  0.2,  0.2],</span>
+<span class="sd">           [ 0. ,  0.2,  0. ]])</span>
+
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">force_odd</span><span class="p">:</span>
+        <span class="n">kernelshape</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span> <span class="k">if</span> <span class="p">(</span><span class="n">n</span><span class="o">%</span><span class="mi">2</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="k">else</span> <span class="n">n</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">kernelshape</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">normalize_kernel</span> <span class="ow">is</span> <span class="bp">True</span><span class="p">:</span>
+        <span class="n">normalize_kernel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span>
+
+    <span class="k">if</span> <span class="n">kerneltype</span> <span class="o">==</span> <span class="s">&#39;gaussian&#39;</span><span class="p">:</span>
+        <span class="n">rr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">([(</span><span class="n">x</span><span class="o">-</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">//</span><span class="mi">2</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">indices</span><span class="p">(</span><span class="n">kernelshape</span><span class="p">)],</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">**</span><span class="mf">0.5</span>
+        <span class="n">kernel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">rr</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mf">2.</span><span class="o">*</span><span class="n">kernelwidth</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+        <span class="n">kernel</span> <span class="o">/=</span> <span class="n">normalize_kernel</span><span class="p">(</span><span class="n">kernel</span><span class="p">)</span> <span class="c">#/ (kernelwidth**2 * (2*np.pi))</span>
+
+    <span class="k">elif</span> <span class="n">kerneltype</span> <span class="o">==</span> <span class="s">&#39;boxcar&#39;</span><span class="p">:</span>
+        <span class="n">kernel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">kernelshape</span><span class="p">,</span><span class="n">dtype</span><span class="o">=</span><span class="s">&#39;float64&#39;</span><span class="p">)</span>
+        <span class="n">kernelslices</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">dimsize</span> <span class="ow">in</span> <span class="n">kernelshape</span><span class="p">:</span>
+            <span class="n">center</span> <span class="o">=</span> <span class="n">dimsize</span> <span class="o">-</span> <span class="p">(</span><span class="n">dimsize</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">//</span><span class="mi">2</span>
+            <span class="n">kernelslices</span> <span class="o">+=</span> <span class="p">[</span><span class="nb">slice</span><span class="p">(</span><span class="n">center</span> <span class="o">-</span> <span class="p">(</span><span class="n">kernelwidth</span><span class="p">)</span><span class="o">//</span><span class="mi">2</span><span class="p">,</span> <span class="n">center</span> <span class="o">+</span> <span class="p">(</span><span class="n">kernelwidth</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">//</span><span class="mi">2</span><span class="p">)]</span>
+        <span class="n">kernel</span><span class="p">[</span><span class="n">kernelslices</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+        <span class="n">kernel</span> <span class="o">/=</span> <span class="n">normalize_kernel</span><span class="p">(</span><span class="n">kernel</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">kerneltype</span> <span class="o">==</span> <span class="s">&#39;tophat&#39;</span><span class="p">:</span>
+        <span class="n">rr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">([(</span><span class="n">x</span><span class="o">-</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">max</span><span class="p">())</span><span class="o">/</span><span class="mf">2.</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">indices</span><span class="p">(</span><span class="n">kernelshape</span><span class="p">)],</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">**</span><span class="mf">0.5</span>
+        <span class="n">kernel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">kernelshape</span><span class="p">,</span><span class="n">dtype</span><span class="o">=</span><span class="s">&#39;float64&#39;</span><span class="p">)</span>
+        <span class="n">kernel</span><span class="p">[</span><span class="n">rr</span><span class="o">&lt;</span><span class="n">kernelwidth</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+        <span class="c"># normalize</span>
+        <span class="n">kernel</span> <span class="o">/=</span> <span class="n">normalize_kernel</span><span class="p">(</span><span class="n">kernel</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">kerneltype</span> <span class="ow">in</span> <span class="p">(</span><span class="s">&#39;brickwall&#39;</span><span class="p">,</span><span class="s">&#39;airy&#39;</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">import</span> <span class="nn">scipy.special</span>
+        <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s">&quot;Could not import scipy.special; cannot create an &quot;</span><span class="o">+</span>
+                    <span class="s">&quot;airy kernel without this (need the bessel function)&quot;</span><span class="p">)</span>
+        <span class="n">rr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">([(</span><span class="n">x</span><span class="o">-</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">max</span><span class="p">())</span><span class="o">/</span><span class="mf">2.</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">indices</span><span class="p">(</span><span class="n">kernelshape</span><span class="p">)],</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">**</span><span class="mf">0.5</span>
+        <span class="c"># airy function is first bessel(x) / x  [like the sinc]</span>
+        <span class="n">kernel</span> <span class="o">=</span> <span class="n">j1</span><span class="p">(</span><span class="n">rr</span><span class="o">/</span><span class="n">kernelwidth</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">rr</span><span class="o">/</span><span class="n">kernelwidth</span><span class="p">)</span>
+        <span class="c"># fix NAN @ center</span>
+        <span class="n">kernel</span><span class="p">[</span><span class="n">rr</span><span class="o">==</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.5</span>
+        <span class="n">kernel</span> <span class="o">/=</span> <span class="n">normalize_kernel</span><span class="p">(</span><span class="n">kernel</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">kerneltype</span> <span class="o">==</span> <span class="s">&#39;trapezoid&#39;</span><span class="p">:</span>
+        <span class="n">rr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">([(</span><span class="n">x</span><span class="o">-</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">max</span><span class="p">())</span><span class="o">/</span><span class="mf">2.</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">indices</span><span class="p">(</span><span class="n">kernelshape</span><span class="p">)],</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">**</span><span class="mf">0.5</span>
+        <span class="k">if</span> <span class="n">trapslope</span><span class="p">:</span>
+            <span class="n">zz</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">-</span><span class="p">(</span><span class="n">rr</span><span class="o">*</span><span class="n">trapslope</span><span class="p">)</span>
+            <span class="n">zz</span><span class="p">[</span><span class="n">zz</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">zz</span><span class="p">[</span><span class="n">rr</span><span class="o">&lt;</span><span class="n">kernelwidth</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+            <span class="n">kernel</span> <span class="o">=</span> <span class="n">zz</span><span class="o">/</span><span class="n">zz</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Must specify a slope for kerneltype=&#39;trapezoid&#39;&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">kernel</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+
+
+<h3>Page Contents</h3>
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+<footer class="footer">
+  <p class="pull-right"> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright 2011-2013, The Astropy Developers.<br/>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3+. &nbsp;
+    Last built 03 Apr 2013. <br/>
+  </p>
+</footer>
+ <!-- End original user content -->
+
+
+<br>
+<br>
+<br>
+
+
+<style type="text/css">
+  .rtd-badge {
+    position: fixed;
+    display: block;
+    bottom: 5px;
+    height: 40px;
+    text-indent: -9999em;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+  }
+  #version_menu {
+    position: fixed;
+    display: none;
+    bottom: 11px;
+    right: 166px;
+    list-style-type: none;
+    margin: 0;
+  }
+  .footer_popout:hover #version_menu {
+    display: block;
+  }
+  #version_menu li {
+    display: block;
+    float: right;
+  }
+  #version_menu li a {
+    display: block;
+    padding: 6px 10px 4px 10px;
+    margin: 7px 7px 0 0;
+    font-weight: bold;
+    font-size: 14px;
+    height: 20px;
+    line-height: 17px;
+    text-decoration: none;
+    color: #fff;
+    background: #8ca1af url(../images/gradient-light.png) bottom left repeat-x;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 1px #465158;
+    -moz-box-shadow: 0 1px 1px #465158;
+    -webkit-box-shadow: 0 1px 1px #465158;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+  }
+  #version_menu li a:hover {
+    text-decoration: none;
+    background-color: #697983;
+    box-shadow: 0 1px 0px #465158;
+    -moz-box-shadow: 0 1px 0px #465158;
+    -webkit-box-shadow: 0 1px 0px #465158;
+  }
+  .rtd-badge.rtd {
+    background: #3b4449 url(//media.readthedocs.org//images/badge-rtd.png) scroll 0px -46px no-repeat;
+    border: 1px solid #282E32;
+    width: 41px;
+    right: 5px;
+  }
+  .footer_popout:hover .rtd-badge.rtd {
+    background-position: top left;
+    width: 160px;
+  }
+  .rtd-badge.revsys { background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline-sponsored {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys-sm.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 205px;
+    right: 173px;
+  }
+
+</style>
+<div class="rtd_doc_footer">
+  <div class="footer_popout">
+    <a href="//readthedocs.org/projects/astropy/?fromdocs=astropy" class="rtd-badge rtd"> Brought to you by Read the Docs</a>
+    <ul id="version_menu">
+      
+        <li><a href="/en/latest/">latest</a></li>
+      
+        <li><a href="/en/add-mpl-to-rtd-pip-req/">add-mpl-to-rtd-pip-req</a></li>
+      
+        <li><a href="/en/v0.2.1/">v0.2.1</a></li>
+      
+        <li><a href="/en/v0.2/">v0.2</a></li>
+      
+        <li><a href="/en/v0.1/">v0.1</a></li>
+      
+    </ul>
+  </div>
+</div>
+<!-- RTD Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17997319-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+<!-- User Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-30968842-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+  </body>
+</html>

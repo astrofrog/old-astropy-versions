@@ -1,0 +1,554 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+
+    <title>astropy.io.ascii.cds &mdash; Astropy v0.2.1</title>
+<!-- RTD <head> -->
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/underscore.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/doctools.js"></script>
+
+<script type="text/javascript">
+  // This is included here for Javascript that doesn't have access to the templates.
+  var doc_version = "v0.2.1";
+  var doc_slug = "astropy";
+</script>
+
+<script type="text/javascript" src="//media.readthedocs.org/javascript/rtd.js"></script>
+<!-- end RTD <head> -->
+
+    
+    <link rel="stylesheet" href="../../../../_static/bootstrap-astropy.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../',
+        VERSION:     '0.2.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../../_static/sidebar.js"></script>
+    <link rel="shortcut icon" href="../../../../_static/astropy_logo.ico"/>
+    <link rel="top" title="Astropy v0.2.1" href="../../../../index.html" />
+    <link rel="up" title="Module code" href="../../../index.html" /> 
+  </head>
+  <body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../../../../index.html"></a>
+  <ul>
+    <li><a class="homelink" title="AstroPy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../../../../genindex.html">Index</a></li>
+    <li><a title="Python Module Index" href="../../../../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../../../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li>
+	<a href="../../../../index.html">Astropy v0.2.1</a>
+	 &raquo;
+      </li>
+      <li><a href="../../../index.html" accesskey="U">Module code</a> &raquo;</li>
+      
+       
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for astropy.io.ascii.cds</h1><div class="highlight"><pre>
+<span class="c"># Licensed under a 3-clause BSD style license - see LICENSE.rst</span>
+<span class="sd">&quot;&quot;&quot;An extensible ASCII table reader and writer.</span>
+
+<span class="sd">cds.py:</span>
+<span class="sd">  Classes to read CDS / Vizier table format</span>
+
+<span class="sd">:Copyright: Smithsonian Astrophysical Observatory (2011)</span>
+<span class="sd">:Author: Tom Aldcroft (aldcroft@head.cfa.harvard.edu)</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c">##</span>
+<span class="c">## Redistribution and use in source and binary forms, with or without</span>
+<span class="c">## modification, are permitted provided that the following conditions are met:</span>
+<span class="c">##     * Redistributions of source code must retain the above copyright</span>
+<span class="c">##       notice, this list of conditions and the following disclaimer.</span>
+<span class="c">##     * Redistributions in binary form must reproduce the above copyright</span>
+<span class="c">##       notice, this list of conditions and the following disclaimer in the</span>
+<span class="c">##       documentation and/or other materials provided with the distribution.</span>
+<span class="c">##     * Neither the name of the Smithsonian Astrophysical Observatory nor the</span>
+<span class="c">##       names of its contributors may be used to endorse or promote products</span>
+<span class="c">##       derived from this software without specific prior written permission.</span>
+<span class="c">##</span>
+<span class="c">## THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot; AND</span>
+<span class="c">## ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED</span>
+<span class="c">## WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE</span>
+<span class="c">## DISCLAIMED. IN NO EVENT SHALL &lt;COPYRIGHT HOLDER&gt; BE LIABLE FOR ANY</span>
+<span class="c">## DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES</span>
+<span class="c">## (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;</span>
+<span class="c">## LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND</span>
+<span class="c">## ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT</span>
+<span class="c">## (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS</span>
+<span class="c">## SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span>
+
+<span class="kn">import</span> <span class="nn">fnmatch</span>
+<span class="kn">import</span> <span class="nn">itertools</span>
+<span class="kn">import</span> <span class="nn">re</span>
+
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">core</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">fixedwidth</span>
+
+<span class="k">class</span> <span class="nc">CdsHeader</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">BaseHeader</span><span class="p">):</span>
+    <span class="n">col_type_map</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;e&#39;</span><span class="p">:</span> <span class="n">core</span><span class="o">.</span><span class="n">FloatType</span><span class="p">,</span>
+                    <span class="s">&#39;f&#39;</span><span class="p">:</span> <span class="n">core</span><span class="o">.</span><span class="n">FloatType</span><span class="p">,</span>
+                    <span class="s">&#39;i&#39;</span><span class="p">:</span> <span class="n">core</span><span class="o">.</span><span class="n">IntType</span><span class="p">,</span>
+                    <span class="s">&#39;a&#39;</span><span class="p">:</span> <span class="n">core</span><span class="o">.</span><span class="n">StrType</span><span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">get_type_map_key</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">col</span><span class="p">):</span>
+        <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s">r&#39;\d*(\S)&#39;</span><span class="p">,</span> <span class="n">col</span><span class="o">.</span><span class="n">raw_type</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">match</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Unrecognized CDS format &quot;</span><span class="si">%s</span><span class="s">&quot; for column &quot;</span><span class="si">%s</span><span class="s">&quot;&#39;</span> <span class="o">%</span> <span class="p">(</span>
+                    <span class="n">col</span><span class="o">.</span><span class="n">raw_type</span><span class="p">,</span> <span class="n">col</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">readme</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize ReadMe filename.</span>
+
+<span class="sd">        :param readme: The ReadMe file to construct header from.</span>
+<span class="sd">        :type readme: String</span>
+
+<span class="sd">        CDS tables have their header information in a separate file</span>
+<span class="sd">        named &quot;ReadMe&quot;. The ``get_cols`` method will read the contents</span>
+<span class="sd">        of the ReadMe file given by ``self.readme`` and set the various</span>
+<span class="sd">        properties needed to read the data file. The data file name</span>
+<span class="sd">        will be the ``table`` passed to the ``read`` method.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">BaseHeader</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">readme</span> <span class="o">=</span> <span class="n">readme</span>
+
+    <span class="k">def</span> <span class="nf">get_cols</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lines</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize the header Column objects from the table ``lines`` for a CDS</span>
+<span class="sd">        header.</span>
+
+<span class="sd">        :param lines: list of table lines</span>
+<span class="sd">        :returns: list of table Columns</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c"># Read header block for the table ``self.data.table_name`` from the read</span>
+        <span class="c"># me file ``self.readme``.</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">readme</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">table_name</span><span class="p">:</span>
+            <span class="n">in_header</span> <span class="o">=</span> <span class="bp">False</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">readme</span><span class="p">,</span><span class="s">&quot;r&quot;</span><span class="p">)</span>
+            <span class="c"># Header info is not in data lines but in a separate file.</span>
+            <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">comment_lines</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">in_header</span><span class="p">:</span>
+                    <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;------&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;=======&#39;</span><span class="p">):</span>
+                         <span class="n">comment_lines</span> <span class="o">+=</span> <span class="mi">1</span>
+                         <span class="k">if</span> <span class="n">comment_lines</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+                             <span class="k">break</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s">r&#39;Byte-by-byte Description of file: (?P&lt;name&gt;.+)$&#39;</span><span class="p">,</span>
+                            <span class="n">line</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
+                        <span class="c"># Split &#39;name&#39; in case in contains multiple files</span>
+                        <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">re</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;[, ]+&#39;</span><span class="p">,</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s">&#39;name&#39;</span><span class="p">))</span>
+                                                                        <span class="k">if</span> <span class="n">s</span><span class="p">]</span>
+                        <span class="c"># Iterate on names to find if one matches the tablename</span>
+                        <span class="c"># including wildcards.</span>
+                        <span class="k">for</span> <span class="n">pattern</span> <span class="ow">in</span> <span class="n">names</span><span class="p">:</span>
+                            <span class="k">if</span> <span class="n">fnmatch</span><span class="o">.</span><span class="n">fnmatch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">table_name</span><span class="p">,</span> <span class="n">pattern</span><span class="p">):</span>
+                                <span class="n">in_header</span> <span class="o">=</span> <span class="bp">True</span>
+                                <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+                                <span class="k">break</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">InconsistentTableError</span><span class="p">(</span><span class="s">&quot;Cant&#39; find table {0} in {1}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">table_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">readme</span><span class="p">))</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">i_col_def</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">lines</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s">r&#39;Byte-by-byte Description&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">):</span>
+                <span class="k">break</span>
+
+        <span class="n">re_col_def</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&quot;&quot;&quot;\s*</span>
+<span class="s">                                    (?P&lt;start&gt; \d+ \s* -)? \s*</span>
+<span class="s">                                    (?P&lt;end&gt;   \d+)        \s+</span>
+<span class="s">                                    (?P&lt;format&gt; [\w.]+)     \s+</span>
+<span class="s">                                    (?P&lt;units&gt; \S+)        \s+</span>
+<span class="s">                                    (?P&lt;name&gt;  \S+)        \s+</span>
+<span class="s">                                    (?P&lt;descr&gt; \S.+)&quot;&quot;&quot;</span><span class="p">,</span>
+                                <span class="n">re</span><span class="o">.</span><span class="n">VERBOSE</span><span class="p">)</span>
+
+        <span class="n">cols</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">islice</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">i_col_def</span><span class="o">+</span><span class="mi">4</span><span class="p">,</span> <span class="bp">None</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;------&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;=======&#39;</span><span class="p">):</span>
+                <span class="k">break</span>
+            <span class="n">match</span> <span class="o">=</span> <span class="n">re_col_def</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
+                <span class="n">col</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s">&#39;name&#39;</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="n">i</span><span class="p">)</span>
+                <span class="n">col</span><span class="o">.</span><span class="n">start</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">r&#39;[-\s]&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s">&#39;start&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s">&#39;end&#39;</span><span class="p">)))</span> <span class="o">-</span> <span class="mi">1</span>
+                <span class="n">col</span><span class="o">.</span><span class="n">end</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s">&#39;end&#39;</span><span class="p">))</span>
+                <span class="n">col</span><span class="o">.</span><span class="n">units</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s">&#39;units&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">col</span><span class="o">.</span><span class="n">units</span> <span class="o">==</span> <span class="s">&#39;---&#39;</span><span class="p">:</span>
+                    <span class="n">col</span><span class="o">.</span><span class="n">units</span> <span class="o">=</span> <span class="bp">None</span>  <span class="c"># &quot;---&quot; is the marker for no units in CDS table</span>
+                <span class="n">col</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s">&#39;descr&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                <span class="n">col</span><span class="o">.</span><span class="n">raw_type</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s">&#39;format&#39;</span><span class="p">)</span>
+                <span class="n">col</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_col_type</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
+
+                <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s">r&#39;\? (?P&lt;equal&gt; =)? (?P&lt;nullval&gt; \S*)&#39;</span><span class="p">,</span> <span class="n">col</span><span class="o">.</span><span class="n">description</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">VERBOSE</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">col</span><span class="o">.</span><span class="n">type</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">FloatType</span><span class="p">):</span>
+                        <span class="n">fillval</span> <span class="o">=</span> <span class="s">&#39;nan&#39;</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">fillval</span> <span class="o">=</span> <span class="s">&#39;-999&#39;</span>
+                    <span class="k">if</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s">&#39;nullval&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s">&#39;&#39;</span><span class="p">:</span>
+                        <span class="n">col</span><span class="o">.</span><span class="n">null</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+                    <span class="k">elif</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s">&#39;nullval&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s">&#39;-&#39;</span><span class="p">:</span>
+                        <span class="n">col</span><span class="o">.</span><span class="n">null</span> <span class="o">=</span> <span class="s">&#39;---&#39;</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">col</span><span class="o">.</span><span class="n">null</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s">&#39;nullval&#39;</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">fill_values</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">col</span><span class="o">.</span><span class="n">null</span><span class="p">,</span> <span class="n">fillval</span><span class="p">,</span> <span class="n">col</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+
+                <span class="n">cols</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>  <span class="c"># could be a continuation of the previous col&#39;s description</span>
+                <span class="k">if</span> <span class="n">cols</span><span class="p">:</span>
+                    <span class="n">cols</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">description</span> <span class="o">+=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Line &quot;</span><span class="si">%s</span><span class="s">&quot; not parsable as CDS header&#39;</span> <span class="o">%</span> <span class="n">line</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">cols</span><span class="p">]</span>
+        <span class="n">names</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">names</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">include_names</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">names</span><span class="o">.</span><span class="n">intersection_update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">include_names</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">exclude_names</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">names</span><span class="o">.</span><span class="n">difference_update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exclude_names</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">cols</span> <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="n">names</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_data_cols</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cols</span><span class="p">)</span>
+
+        <span class="c"># Re-index the cols because the FixedWidthSplitter does NOT return the ignored</span>
+        <span class="c"># cols (as is the case for typical delimiter-based splitters)</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cols</span><span class="p">):</span>
+            <span class="n">col</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">i</span>
+
+
+<span class="k">class</span> <span class="nc">CdsData</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">BaseData</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;CDS table data reader</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">splitter_class</span> <span class="o">=</span> <span class="n">fixedwidth</span><span class="o">.</span><span class="n">FixedWidthSplitter</span>
+
+    <span class="k">def</span> <span class="nf">process_lines</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lines</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Skip over CDS header by finding the last section delimiter&quot;&quot;&quot;</span>
+        <span class="c"># If the header has a ReadMe and data has a filename</span>
+        <span class="c"># then no need to skip, as the data lines do not have header</span>
+        <span class="c"># info. The ``read`` method adds the table_name to the ``data``</span>
+        <span class="c"># attribute.</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">readme</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">table_name</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">lines</span>
+        <span class="n">i_sections</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
+                      <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;------&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">x</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;=======&#39;</span><span class="p">)]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">i_sections</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">InconsistentTableError</span><span class="p">(</span><span class="s">&#39;No CDS section delimiter found&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">lines</span><span class="p">[</span><span class="n">i_sections</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span> <span class="p">:</span> <span class="p">]</span>
+
+
+<div class="viewcode-block" id="Cds"><a class="viewcode-back" href="../../../../_generated/astropy.io.ascii.cds.Cds.html#astropy.io.ascii.cds.Cds">[docs]</a><span class="k">class</span> <span class="nc">Cds</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">BaseReader</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Read a CDS format table.  See http://vizier.u-strasbg.fr/doc/catstd.htx.</span>
+<span class="sd">    Example::</span>
+
+<span class="sd">      Table: Table name here</span>
+<span class="sd">      = ==============================================================================</span>
+<span class="sd">      Catalog reference paper</span>
+<span class="sd">          Bibliography info here</span>
+<span class="sd">      ================================================================================</span>
+<span class="sd">      ADC_Keywords: Keyword ; Another keyword ; etc</span>
+
+<span class="sd">      Description:</span>
+<span class="sd">          Catalog description here.</span>
+<span class="sd">      ================================================================================</span>
+<span class="sd">      Byte-by-byte Description of file: datafile3.txt</span>
+<span class="sd">      --------------------------------------------------------------------------------</span>
+<span class="sd">         Bytes Format Units  Label  Explanations</span>
+<span class="sd">      --------------------------------------------------------------------------------</span>
+<span class="sd">         1-  3 I3     ---    Index  Running identification number</span>
+<span class="sd">         5-  6 I2     h      RAh    Hour of Right Ascension (J2000)</span>
+<span class="sd">         8-  9 I2     min    RAm    Minute of Right Ascension (J2000)</span>
+<span class="sd">        11- 15 F5.2   s      RAs    Second of Right Ascension (J2000)</span>
+<span class="sd">      --------------------------------------------------------------------------------</span>
+<span class="sd">      Note (1): A CDS file can contain sections with various metadata.</span>
+<span class="sd">                Notes can be multiple lines.</span>
+<span class="sd">      Note (2): Another note.</span>
+<span class="sd">      --------------------------------------------------------------------------------</span>
+<span class="sd">        1 03 28 39.09</span>
+<span class="sd">        2 04 18 24.11</span>
+
+<span class="sd">    **About parsing the CDS format**</span>
+
+<span class="sd">    The CDS format consists of a table description and the table data.  These</span>
+<span class="sd">    can be in separate files as a ``ReadMe`` file plus data file(s), or</span>
+<span class="sd">    combined in a single file.  Different subsections within the description</span>
+<span class="sd">    are separated by lines of dashes or equal signs (&quot;------&quot; or &quot;======&quot;).</span>
+<span class="sd">    The table which specifies the column information must be preceded by a line</span>
+<span class="sd">    starting with &quot;Byte-by-byte Description of file:&quot;.</span>
+
+<span class="sd">    In the case where the table description is combined with the data values,</span>
+<span class="sd">    the data must be in the last section and must be preceded by a section</span>
+<span class="sd">    delimiter line (dashes or equal signs only).</span>
+
+<span class="sd">    **Basic usage**</span>
+
+<span class="sd">    Use the ``ascii.read()`` function as normal, with an optional ``readme``</span>
+<span class="sd">    parameter indicating the CDS ReadMe file.  If not supplied it is assumed that</span>
+<span class="sd">    the header information is at the top of the given table.  Examples::</span>
+
+<span class="sd">      &gt;&gt;&gt; from astropy.io import ascii</span>
+<span class="sd">      &gt;&gt;&gt; table = ascii.read(&quot;t/cds.dat&quot;)</span>
+<span class="sd">      &gt;&gt;&gt; table = ascii.read(&quot;t/vizier/table1.dat&quot;, readme=&quot;t/vizier/ReadMe&quot;)</span>
+<span class="sd">      &gt;&gt;&gt; table = ascii.read(&quot;t/cds/multi/lhs2065.dat&quot;, readme=&quot;t/cds/multi/ReadMe&quot;)</span>
+<span class="sd">      &gt;&gt;&gt; table = ascii.read(&quot;t/cds/glob/lmxbrefs.dat&quot;, readme=&quot;t/cds/glob/ReadMe&quot;)</span>
+
+<span class="sd">    **Using a reader object**</span>
+
+<span class="sd">    When ``Cds`` reader object is created with a ``readme`` parameter</span>
+<span class="sd">    passed to it at initialization, then when the ``read`` method is</span>
+<span class="sd">    executed with a table filename, the header information for the</span>
+<span class="sd">    specified table is taken from the ``readme`` file.  An</span>
+<span class="sd">    ``InconsistentTableError`` is raised if the ``readme`` file does not</span>
+<span class="sd">    have header information for the given table.</span>
+
+<span class="sd">      &gt;&gt;&gt; readme = &quot;t/vizier/ReadMe&quot;</span>
+<span class="sd">      &gt;&gt;&gt; r = ascii.get_reader(ascii.Cds, readme=readme)</span>
+<span class="sd">      &gt;&gt;&gt; table = r.read(&quot;t/vizier/table1.dat&quot;)</span>
+<span class="sd">      &gt;&gt;&gt; # table5.dat has the same ReadMe file</span>
+<span class="sd">      &gt;&gt;&gt; table = r.read(&quot;t/vizier/table5.dat&quot;)</span>
+
+<span class="sd">    If no ``readme`` parameter is specified, then the header</span>
+<span class="sd">    information is assumed to be at the top of the given table.</span>
+
+<span class="sd">      &gt;&gt;&gt; r = ascii.get_reader(ascii.Cds)</span>
+<span class="sd">      &gt;&gt;&gt; table = r.read(&quot;t/cds.dat&quot;)</span>
+<span class="sd">      &gt;&gt;&gt; #The following gives InconsistentTableError, since no</span>
+<span class="sd">      &gt;&gt;&gt; #readme file was given and table1.dat does not have a header.</span>
+<span class="sd">      &gt;&gt;&gt; table = r.read(&quot;t/vizier/table1.dat&quot;)</span>
+<span class="sd">      Traceback (most recent call last):</span>
+<span class="sd">        ...</span>
+<span class="sd">      InconsistentTableError: No CDS section delimiter found</span>
+
+<span class="sd">    Caveats:</span>
+
+<span class="sd">    * Format, Units, and Explanations are available in the ``Reader.cols`` attribute.</span>
+<span class="sd">    * All of the other metadata defined by this format is ignored.</span>
+
+<span class="sd">    Code contribution to enhance the parsing to include metadata in a Reader.meta</span>
+<span class="sd">    attribute would be welcome.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">readme</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">BaseReader</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">header</span> <span class="o">=</span> <span class="n">CdsHeader</span><span class="p">(</span><span class="n">readme</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">CdsData</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Cds.write"><a class="viewcode-back" href="../../../../_generated/astropy.io.ascii.cds.Cds.html#astropy.io.ascii.cds.Cds.write">[docs]</a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">table</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Not available for the Cds class (raises NotImplementedError)&quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+
+
+<h3>Page Contents</h3>
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+<footer class="footer">
+  <p class="pull-right"> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright 2011-2013, The Astropy Developers.<br/>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3+. &nbsp;
+    Last built 03 Apr 2013. <br/>
+  </p>
+</footer>
+ <!-- End original user content -->
+
+
+<br>
+<br>
+<br>
+
+
+<style type="text/css">
+  .rtd-badge {
+    position: fixed;
+    display: block;
+    bottom: 5px;
+    height: 40px;
+    text-indent: -9999em;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+  }
+  #version_menu {
+    position: fixed;
+    display: none;
+    bottom: 11px;
+    right: 166px;
+    list-style-type: none;
+    margin: 0;
+  }
+  .footer_popout:hover #version_menu {
+    display: block;
+  }
+  #version_menu li {
+    display: block;
+    float: right;
+  }
+  #version_menu li a {
+    display: block;
+    padding: 6px 10px 4px 10px;
+    margin: 7px 7px 0 0;
+    font-weight: bold;
+    font-size: 14px;
+    height: 20px;
+    line-height: 17px;
+    text-decoration: none;
+    color: #fff;
+    background: #8ca1af url(../images/gradient-light.png) bottom left repeat-x;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 1px #465158;
+    -moz-box-shadow: 0 1px 1px #465158;
+    -webkit-box-shadow: 0 1px 1px #465158;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+  }
+  #version_menu li a:hover {
+    text-decoration: none;
+    background-color: #697983;
+    box-shadow: 0 1px 0px #465158;
+    -moz-box-shadow: 0 1px 0px #465158;
+    -webkit-box-shadow: 0 1px 0px #465158;
+  }
+  .rtd-badge.rtd {
+    background: #3b4449 url(//media.readthedocs.org//images/badge-rtd.png) scroll 0px -46px no-repeat;
+    border: 1px solid #282E32;
+    width: 41px;
+    right: 5px;
+  }
+  .footer_popout:hover .rtd-badge.rtd {
+    background-position: top left;
+    width: 160px;
+  }
+  .rtd-badge.revsys { background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline-sponsored {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys-sm.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 205px;
+    right: 173px;
+  }
+
+</style>
+<div class="rtd_doc_footer">
+  <div class="footer_popout">
+    <a href="//readthedocs.org/projects/astropy/?fromdocs=astropy" class="rtd-badge rtd"> Brought to you by Read the Docs</a>
+    <ul id="version_menu">
+      
+        <li><a href="/en/latest/">latest</a></li>
+      
+        <li><a href="/en/add-mpl-to-rtd-pip-req/">add-mpl-to-rtd-pip-req</a></li>
+      
+        <li><a href="/en/v0.2.1/">v0.2.1</a></li>
+      
+        <li><a href="/en/v0.2/">v0.2</a></li>
+      
+        <li><a href="/en/v0.1/">v0.1</a></li>
+      
+    </ul>
+  </div>
+</div>
+<!-- RTD Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17997319-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+<!-- User Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-30968842-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+  </body>
+</html>

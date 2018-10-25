@@ -1,0 +1,8 @@
+
+
+convolve_fft
+=========================================
+
+.. currentmodule:: astropy.convolution.convolve
+
+.. autofunction:: convolve_fft

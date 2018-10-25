@@ -1,0 +1,8 @@
+
+
+def_unit
+===========================
+
+.. currentmodule:: astropy.units.core
+
+.. autofunction:: def_unit

@@ -1,0 +1,29 @@
+
+
+Dec
+==============================
+
+.. currentmodule:: astropy.coordinates.angles
+
+.. autoclass:: Dec
+   :show-inheritance:
+
+   
+     
+   
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   

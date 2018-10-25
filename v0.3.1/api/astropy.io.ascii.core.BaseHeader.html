@@ -1,0 +1,338 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>BaseHeader &mdash; Astropy v0.3.1</title>
+    
+    <link rel="stylesheet" href="../_static/bootstrap-astropy.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="https://media.readthedocs.org/css/badge_only.css" type="text/css" />
+    <link rel="stylesheet" href="https://media.readthedocs.org/css/readthedocs-doc-embed.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.3.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/jquery/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/jquery/jquery-migrate-1.2.1.min.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/underscore.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/doctools.js"></script>
+    <script type="text/javascript" src="https://media.readthedocs.org/javascript/readthedocs-doc-embed.js"></script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="shortcut icon" href="../_static/astropy_logo.ico"/>
+    <link rel="top" title="Astropy v0.3.1" href="../index.html" />
+    <link rel="up" title="ASCII Tables (astropy.io.ascii)" href="../io/ascii/index.html" />
+    <link rel="next" title="BaseInputter" href="astropy.io.ascii.core.BaseInputter.html" />
+    <link rel="prev" title="BaseData" href="astropy.io.ascii.core.BaseData.html" />
+
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,600' rel='stylesheet' type='text/css'>
+
+<!-- RTD Extra Head -->
+
+
+
+<!-- 
+Read the Docs is acting as the canonical URL for your project. 
+If you want to change it, more info is available in our docs:
+  http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="http://astropy.readthedocs.org/en/latest/api/astropy.io.ascii.core.BaseHeader.html">
+
+<script type="text/javascript">
+  // This is included here because other places don't have access to the pagename variable.
+  var READTHEDOCS_DATA = {
+    project: "astropy",
+    version: "v0.3.1",
+    language: "en",
+    page: "api/astropy.io.ascii.core.BaseHeader",
+    theme: "bootstrap-astropy",
+    docroot: "/docs/",
+    api_host: "https://readthedocs.org"
+  }
+  // Old variables
+  var doc_version = "v0.3.1";
+  var doc_slug = "astropy";
+  var page_name = "api/astropy.io.ascii.core.BaseHeader";
+  var html_theme = "bootstrap-astropy";
+</script>
+<!-- RTD Analytics Code -->
+<!-- Included in the header because you don't have a footer block. -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17997319-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+<!-- end RTD Analytics Code -->
+
+
+<!-- User Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-30968842-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+<!-- End User Analytics Code -->
+
+<!-- end RTD <extrahead> -->
+
+  </head>
+  <body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../index.html"><span id="logotext1">astro</span><span id="logotext2">py</span><span id="logotext3">:docs</span></a>
+  <ul>
+    <li><a class="homelink" title="Astropy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../genindex.html">Index</a></li>
+    <li><a title="Module Index" href="../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li class="right">
+	<a href="astropy.io.ascii.core.BaseInputter.html" title="BaseInputter">
+	  next &raquo;
+	</a>
+      </li>
+      <li class="right">
+	<a href="astropy.io.ascii.core.BaseData.html" title="BaseData">
+	  &laquo; previous
+	</a>
+	 |
+      </li>
+      <li>
+	<a href="../index.html">Astropy v0.3.1</a>
+	 &raquo;
+      </li>
+      <li><a href="../io/ascii/index.html" accesskey="U">ASCII Tables (<tt class="docutils literal"><span class="pre">astropy.io.ascii</span></tt>)</a> &raquo;</li>
+      
+      <li>BaseHeader</li> 
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="baseheader">
+<h1>BaseHeader<a class="headerlink" href="#baseheader" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="astropy.io.ascii.core.BaseHeader">
+<em class="property">class </em><tt class="descclassname">astropy.io.ascii.core.</tt><tt class="descname">BaseHeader</tt><a class="reference internal" href="../_modules/astropy/io/ascii/core.html#BaseHeader"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.3.x/astropy/io/ascii/core.py#L344" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.io.ascii.core.BaseHeader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>Base table header reader</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>auto_format</strong> &#8211; format string for auto-generating column names</li>
+<li><strong>start_line</strong> &#8211; None, int, or a function of <tt class="docutils literal"><span class="pre">lines</span></tt> that returns None or int</li>
+<li><strong>comment</strong> &#8211; regular expression for comment lines</li>
+<li><strong>splitter_class</strong> &#8211; Splitter class for splitting data lines into columns</li>
+<li><strong>names</strong> &#8211; list of names corresponding to each data column</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes Summary</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.io.ascii.core.BaseHeader.auto_format" title="astropy.io.ascii.core.BaseHeader.auto_format"><tt class="xref py py-obj docutils literal"><span class="pre">auto_format</span></tt></a></td>
+<td>str(object=&#8217;&#8216;) -&gt; string</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#astropy.io.ascii.core.BaseHeader.colnames" title="astropy.io.ascii.core.BaseHeader.colnames"><tt class="xref py py-obj docutils literal"><span class="pre">colnames</span></tt></a></td>
+<td>Return the column names of the table</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.io.ascii.core.BaseHeader.comment" title="astropy.io.ascii.core.BaseHeader.comment"><tt class="xref py py-obj docutils literal"><span class="pre">comment</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#astropy.io.ascii.core.BaseHeader.names" title="astropy.io.ascii.core.BaseHeader.names"><tt class="xref py py-obj docutils literal"><span class="pre">names</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.io.ascii.core.BaseHeader.start_line" title="astropy.io.ascii.core.BaseHeader.start_line"><tt class="xref py py-obj docutils literal"><span class="pre">start_line</span></tt></a></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#astropy.io.ascii.core.BaseHeader.write_spacer_lines" title="astropy.io.ascii.core.BaseHeader.write_spacer_lines"><tt class="xref py py-obj docutils literal"><span class="pre">write_spacer_lines</span></tt></a></td>
+<td>list() -&gt; new empty list</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods Summary</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.io.ascii.core.BaseHeader.get_col_type" title="astropy.io.ascii.core.BaseHeader.get_col_type"><tt class="xref py py-obj docutils literal"><span class="pre">get_col_type</span></tt></a>(col)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#astropy.io.ascii.core.BaseHeader.get_cols" title="astropy.io.ascii.core.BaseHeader.get_cols"><tt class="xref py py-obj docutils literal"><span class="pre">get_cols</span></tt></a>(lines)</td>
+<td>Initialize the header Column objects from the table <tt class="docutils literal"><span class="pre">lines</span></tt>.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.io.ascii.core.BaseHeader.get_type_map_key" title="astropy.io.ascii.core.BaseHeader.get_type_map_key"><tt class="xref py py-obj docutils literal"><span class="pre">get_type_map_key</span></tt></a>(col)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#astropy.io.ascii.core.BaseHeader.process_lines" title="astropy.io.ascii.core.BaseHeader.process_lines"><tt class="xref py py-obj docutils literal"><span class="pre">process_lines</span></tt></a>(lines)</td>
+<td>Generator to yield non-comment lines</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#astropy.io.ascii.core.BaseHeader.update_meta" title="astropy.io.ascii.core.BaseHeader.update_meta"><tt class="xref py py-obj docutils literal"><span class="pre">update_meta</span></tt></a>(lines,&nbsp;meta)</td>
+<td>Extract any table-level metadata, e.g.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#astropy.io.ascii.core.BaseHeader.write" title="astropy.io.ascii.core.BaseHeader.write"><tt class="xref py py-obj docutils literal"><span class="pre">write</span></tt></a>(lines)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes Documentation</p>
+<dl class="attribute">
+<dt id="astropy.io.ascii.core.BaseHeader.auto_format">
+<tt class="descname">auto_format</tt><em class="property"> = 'col%d'</em><a class="headerlink" href="#astropy.io.ascii.core.BaseHeader.auto_format" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.io.ascii.core.BaseHeader.colnames">
+<tt class="descname">colnames</tt><a class="reference internal" href="../_modules/astropy/io/ascii/core.html#BaseHeader.colnames"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#astropy.io.ascii.core.BaseHeader.colnames" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the column names of the table</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.io.ascii.core.BaseHeader.comment">
+<tt class="descname">comment</tt><em class="property"> = None</em><a class="headerlink" href="#astropy.io.ascii.core.BaseHeader.comment" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.io.ascii.core.BaseHeader.names">
+<tt class="descname">names</tt><em class="property"> = None</em><a class="headerlink" href="#astropy.io.ascii.core.BaseHeader.names" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.io.ascii.core.BaseHeader.start_line">
+<tt class="descname">start_line</tt><em class="property"> = None</em><a class="headerlink" href="#astropy.io.ascii.core.BaseHeader.start_line" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="astropy.io.ascii.core.BaseHeader.write_spacer_lines">
+<tt class="descname">write_spacer_lines</tt><em class="property"> = ['ASCII_TABLE_WRITE_SPACER_LINE']</em><a class="headerlink" href="#astropy.io.ascii.core.BaseHeader.write_spacer_lines" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p class="rubric">Methods Documentation</p>
+<dl class="method">
+<dt id="astropy.io.ascii.core.BaseHeader.get_col_type">
+<tt class="descname">get_col_type</tt><big>(</big><em>col</em><big>)</big><a class="reference internal" href="../_modules/astropy/io/ascii/core.html#BaseHeader.get_col_type"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.3.x/astropy/io/ascii/core.py#L431" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.io.ascii.core.BaseHeader.get_col_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="astropy.io.ascii.core.BaseHeader.get_cols">
+<tt class="descname">get_cols</tt><big>(</big><em>lines</em><big>)</big><a class="reference internal" href="../_modules/astropy/io/ascii/core.html#BaseHeader.get_cols"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.3.x/astropy/io/ascii/core.py#L374" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.io.ascii.core.BaseHeader.get_cols" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the header Column objects from the table <tt class="docutils literal"><span class="pre">lines</span></tt>.</p>
+<p>Based on the previously set Header attributes find or create the column names.
+Sets <tt class="docutils literal"><span class="pre">self.cols</span></tt> with the list of Columns.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>lines</strong> &#8211; list of table lines</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.io.ascii.core.BaseHeader.get_type_map_key">
+<tt class="descname">get_type_map_key</tt><big>(</big><em>col</em><big>)</big><a class="reference internal" href="../_modules/astropy/io/ascii/core.html#BaseHeader.get_type_map_key"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.3.x/astropy/io/ascii/core.py#L428" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.io.ascii.core.BaseHeader.get_type_map_key" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="astropy.io.ascii.core.BaseHeader.process_lines">
+<tt class="descname">process_lines</tt><big>(</big><em>lines</em><big>)</big><a class="reference internal" href="../_modules/astropy/io/ascii/core.html#BaseHeader.process_lines"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.3.x/astropy/io/ascii/core.py#L407" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.io.ascii.core.BaseHeader.process_lines" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generator to yield non-comment lines</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.io.ascii.core.BaseHeader.update_meta">
+<tt class="descname">update_meta</tt><big>(</big><em>lines</em>, <em>meta</em><big>)</big><a class="reference internal" href="../_modules/astropy/io/ascii/core.html#BaseHeader.update_meta"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.3.x/astropy/io/ascii/core.py#L366" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.io.ascii.core.BaseHeader.update_meta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract any table-level metadata, e.g. keywords, comments, column metadata, from
+the table <tt class="docutils literal"><span class="pre">lines</span></tt> and update the OrderedDict <tt class="docutils literal"><span class="pre">meta</span></tt> in place.  This base
+method does nothing.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="astropy.io.ascii.core.BaseHeader.write">
+<tt class="descname">write</tt><big>(</big><em>lines</em><big>)</big><a class="reference internal" href="../_modules/astropy/io/ascii/core.html#BaseHeader.write"><span class="viewcode-link">[source]</span></a><a class="reference external" href="http://github.com/astropy/astropy/tree/v0.3.x/astropy/io/ascii/core.py#L416" title="Push the Edit button on the next page"><span class="edit-on-github viewcode-link">&nbsp;[edit on github]</span></a><a class="headerlink" href="#astropy.io.ascii.core.BaseHeader.write" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper"><h3>Page Contents</h3>
+<ul>
+<li><a class="reference internal" href="#">BaseHeader</a></li>
+</ul>
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+<footer class="footer">
+  <p class="pull-right">
+    <a href="http://github.com/astropy/astropy/tree/v0.3.x/docs/api/astropy.io.ascii.core.BaseHeader.rst">Edit This Page on Github</a> &nbsp;
+    <a href="../_sources/api/astropy.io.ascii.core.BaseHeader.txt"
+       rel="nofollow">Page Source</a> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright 2011-2013, The Astropy Developers.<br/>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2. &nbsp;
+    Last built 05 Mar 2014. <br/>
+  </p>
+</footer>
+  </body>
+</html>

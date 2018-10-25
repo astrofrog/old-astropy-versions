@@ -1,0 +1,52 @@
+
+
+ConfigAlias
+==========================
+
+.. currentmodule:: astropy.config
+
+.. autoclass:: ConfigAlias
+   :show-inheritance:
+
+   
+     
+   
+
+   
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+   
+      ~ConfigAlias.__call__
+      ~ConfigAlias.reload
+      ~ConfigAlias.save
+      ~ConfigAlias.set
+      ~ConfigAlias.set_temp
+
+   
+   
+
+   
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Documentation
+
+   
+   .. automethod:: __call__
+   .. automethod:: reload
+   .. automethod:: save
+   .. automethod:: set
+   .. automethod:: set_temp
+
+   
+   

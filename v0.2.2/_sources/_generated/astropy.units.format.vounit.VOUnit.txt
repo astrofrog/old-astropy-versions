@@ -1,0 +1,44 @@
+
+
+VOUnit
+==================================
+
+.. currentmodule:: astropy.units.format.vounit
+
+.. autoclass:: VOUnit
+   :show-inheritance:
+
+   
+     
+   
+
+   
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+   
+      ~VOUnit.to_string
+
+   
+   
+
+   
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Documentation
+
+   
+   .. automethod:: to_string
+
+   
+   

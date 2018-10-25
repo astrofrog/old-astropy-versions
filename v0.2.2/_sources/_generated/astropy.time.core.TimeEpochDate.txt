@@ -1,0 +1,59 @@
+
+.. include:: ../time/references.txt
+
+
+TimeEpochDate
+===============================
+
+.. currentmodule:: astropy.time.core
+
+.. autoclass:: TimeEpochDate
+   :show-inheritance:
+
+   
+
+   
+   
+
+   .. rubric:: Attributes Summary
+
+   .. autosummary::
+   
+      ~TimeEpochDate.vals
+
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+   
+      ~TimeEpochDate.set_jds
+
+   
+   
+
+   
+   
+
+   .. rubric:: Attributes Documentation
+
+   
+   .. autoattribute:: vals
+
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Documentation
+
+   
+   .. automethod:: set_jds
+
+   
+   

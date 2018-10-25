@@ -1,0 +1,344 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+
+    <title>Verification options &mdash; Astropy v0.2.1</title>
+<!-- RTD <head> -->
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/underscore.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/doctools.js"></script>
+
+<script type="text/javascript">
+  // This is included here for Javascript that doesn't have access to the templates.
+  var doc_version = "v0.2.1";
+  var doc_slug = "astropy";
+</script>
+
+<script type="text/javascript" src="//media.readthedocs.org/javascript/rtd.js"></script>
+<!-- end RTD <head> -->
+
+    
+    <link rel="stylesheet" href="../../../_static/bootstrap-astropy.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.2.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/sidebar.js"></script>
+    <link rel="shortcut icon" href="../../../_static/astropy_logo.ico"/>
+    <link rel="top" title="Astropy v0.2.1" href="../../../index.html" />
+    <link rel="up" title="FITS File handling (astropy.io.fits)" href="../index.html" />
+    <link rel="next" title="ASCII Tables (astropy.io.ascii)" href="../../ascii/index.html" />
+    <link rel="prev" title="Differs" href="diff.html" /> 
+  </head>
+  <body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../../../index.html"></a>
+  <ul>
+    <li><a class="homelink" title="AstroPy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../../../genindex.html">Index</a></li>
+    <li><a title="Python Module Index" href="../../../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li class="right">
+	<a href="../../ascii/index.html" title="ASCII Tables (astropy.io.ascii)">
+	  next &raquo;
+	</a>
+      </li>
+      <li class="right">
+	<a href="diff.html" title="Differs">
+	  &laquo; previous
+	</a>
+	 |
+      </li>
+      <li>
+	<a href="../../../index.html">Astropy v0.2.1</a>
+	 &raquo;
+      </li>
+      <li><a href="../index.html" accesskey="U">FITS File handling (<tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">astropy.io.fits</span></tt>)</a> &raquo;</li>
+      
+      <li>Verification options</li> 
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="verification-options">
+<span id="verify"></span><h1>Verification options<a class="headerlink" href="#verification-options" title="Permalink to this headline">¶</a></h1>
+<p>There are 5 options for the <tt class="docutils literal"><span class="pre">output_verify</span></tt> argument of the following methods
+of <a class="reference internal" href="hdulists.html#astropy.io.fits.HDUList" title="astropy.io.fits.HDUList"><tt class="xref py py-class docutils literal"><span class="pre">HDUList</span></tt></a>: <a class="reference internal" href="hdulists.html#astropy.io.fits.HDUList.close" title="astropy.io.fits.HDUList.close"><tt class="xref py py-meth docutils literal"><span class="pre">close()</span></tt></a>, <a class="reference internal" href="hdulists.html#astropy.io.fits.HDUList.writeto" title="astropy.io.fits.HDUList.writeto"><tt class="xref py py-meth docutils literal"><span class="pre">writeto()</span></tt></a>, and
+<a class="reference internal" href="hdulists.html#astropy.io.fits.HDUList.flush" title="astropy.io.fits.HDUList.flush"><tt class="xref py py-meth docutils literal"><span class="pre">flush()</span></tt></a>, or the <tt class="xref py py-meth docutils literal"><span class="pre">writeto()</span></tt> method on any HDU
+object.  In these cases, the verification option is passed to a <tt class="xref py py-meth docutils literal"><span class="pre">verify()</span></tt>
+call within these methods.</p>
+<div class="section" id="exception">
+<h2>exception<a class="headerlink" href="#exception" title="Permalink to this headline">¶</a></h2>
+<p>This option will raise an exception if any FITS standard is violated. This is
+the default option for output (i.e. when <a class="reference internal" href="hdulists.html#astropy.io.fits.HDUList.writeto" title="astropy.io.fits.HDUList.writeto"><tt class="xref py py-meth docutils literal"><span class="pre">writeto()</span></tt></a>,
+<a class="reference internal" href="hdulists.html#astropy.io.fits.HDUList.close" title="astropy.io.fits.HDUList.close"><tt class="xref py py-meth docutils literal"><span class="pre">close()</span></tt></a>, or <a class="reference internal" href="hdulists.html#astropy.io.fits.HDUList.flush" title="astropy.io.fits.HDUList.flush"><tt class="xref py py-meth docutils literal"><span class="pre">flush()</span></tt></a> is called. If a user wants to
+overwrite this default on output, the other options listed below can be used.</p>
+</div>
+<div class="section" id="ignore">
+<h2>ignore<a class="headerlink" href="#ignore" title="Permalink to this headline">¶</a></h2>
+<p>This option will ignore any FITS standard violation. On output, it will write
+the HDU List content to the output FITS file, whether or not it is conforming
+to FITS standard.</p>
+<p>The <tt class="docutils literal"><span class="pre">ignore</span></tt> option is useful in these situations, for example:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>An input FITS file with non-standard is read and the user wants to copy or
+write out after some modification to an output file. The non-standard will
+be preserved in such output file.</li>
+<li>A user wants to create a non-standard FITS file on purpose, possibly for
+testing purpose.</li>
+</ol>
+</div></blockquote>
+<p>No warning message will be printed out. This is like a silent warn (see below)
+option.</p>
+</div>
+<div class="section" id="fix">
+<h2>fix<a class="headerlink" href="#fix" title="Permalink to this headline">¶</a></h2>
+<p>This option wil try to fix any FITS standard violations. It is not always
+possible to fix such violations. In general, there are two kinds of FITS
+standard violation: fixable and not fixable. For example, if a keyword has a
+floating number with an exponential notation in lower case &#8216;e&#8217; (e.g. 1.23e11)
+instead of the upper case &#8216;E&#8217; as required by the FITS standard, it&#8217;s a fixable
+violation. On the other hand, a keyword name like <tt class="docutils literal"><span class="pre">P.I.</span></tt> is not fixable,
+since it will not know what to use to replace the disallowed periods. If a
+violation is fixable, this option will print out a message noting it is fixed.
+If it is not fixable, it will throw an exception.</p>
+<p>The principle behind the fixing is do no harm. For example, it is plausible to
+&#8216;fix&#8217; a <a class="reference internal" href="cards.html#astropy.io.fits.Card" title="astropy.io.fits.Card"><tt class="xref py py-class docutils literal"><span class="pre">Card</span></tt></a> with a keyword name like <tt class="docutils literal"><span class="pre">P.I.</span></tt> by deleting it, but
+Astropy will not take such action to hurt the integrity of the data.</p>
+<p>Not all fixes may be the &#8220;correct&#8221; fix, but at least Astropy will try to make
+the fix in such a way that it will not throw off other FITS readers.</p>
+</div>
+<div class="section" id="silentfix">
+<h2>silentfix<a class="headerlink" href="#silentfix" title="Permalink to this headline">¶</a></h2>
+<p>Same as fix, but will not print out informative messages. This may be useful in
+a large script where the user does not want excessive harmless messages. If the
+violation is not fixable, it will still throw an exception.</p>
+</div>
+<div class="section" id="warn">
+<h2>warn<a class="headerlink" href="#warn" title="Permalink to this headline">¶</a></h2>
+<p>This option is the same as the ignore option but will send warning messages. It
+will not try to fix any FITS standard violations whether fixable or not.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+
+
+<h3>Page Contents</h3>
+<ul>
+<li><a class="reference internal" href="#">Verification options</a><ul>
+<li><a class="reference internal" href="#exception">exception</a></li>
+<li><a class="reference internal" href="#ignore">ignore</a></li>
+<li><a class="reference internal" href="#fix">fix</a></li>
+<li><a class="reference internal" href="#silentfix">silentfix</a></li>
+<li><a class="reference internal" href="#warn">warn</a></li>
+</ul>
+</li>
+</ul>
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+<footer class="footer">
+  <p class="pull-right">
+    <a href="http://github.com/astropy/astropy/tree/v0.2.1/docs/io/fits/api/verification.rst">Edit This Page on Github</a> &nbsp;
+    <a href="../../../_sources/io/fits/api/verification.txt"
+       rel="nofollow">Page Source</a> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright 2011-2013, The Astropy Developers.<br/>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3+. &nbsp;
+    Last built 03 Apr 2013. <br/>
+  </p>
+</footer>
+ <!-- End original user content -->
+
+
+<br>
+<br>
+<br>
+
+
+<style type="text/css">
+  .rtd-badge {
+    position: fixed;
+    display: block;
+    bottom: 5px;
+    height: 40px;
+    text-indent: -9999em;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+  }
+  #version_menu {
+    position: fixed;
+    display: none;
+    bottom: 11px;
+    right: 166px;
+    list-style-type: none;
+    margin: 0;
+  }
+  .footer_popout:hover #version_menu {
+    display: block;
+  }
+  #version_menu li {
+    display: block;
+    float: right;
+  }
+  #version_menu li a {
+    display: block;
+    padding: 6px 10px 4px 10px;
+    margin: 7px 7px 0 0;
+    font-weight: bold;
+    font-size: 14px;
+    height: 20px;
+    line-height: 17px;
+    text-decoration: none;
+    color: #fff;
+    background: #8ca1af url(../images/gradient-light.png) bottom left repeat-x;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 1px #465158;
+    -moz-box-shadow: 0 1px 1px #465158;
+    -webkit-box-shadow: 0 1px 1px #465158;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+  }
+  #version_menu li a:hover {
+    text-decoration: none;
+    background-color: #697983;
+    box-shadow: 0 1px 0px #465158;
+    -moz-box-shadow: 0 1px 0px #465158;
+    -webkit-box-shadow: 0 1px 0px #465158;
+  }
+  .rtd-badge.rtd {
+    background: #3b4449 url(//media.readthedocs.org//images/badge-rtd.png) scroll 0px -46px no-repeat;
+    border: 1px solid #282E32;
+    width: 41px;
+    right: 5px;
+  }
+  .footer_popout:hover .rtd-badge.rtd {
+    background-position: top left;
+    width: 160px;
+  }
+  .rtd-badge.revsys { background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline-sponsored {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys-sm.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 205px;
+    right: 173px;
+  }
+
+</style>
+<div class="rtd_doc_footer">
+  <div class="footer_popout">
+    <a href="//readthedocs.org/projects/astropy/?fromdocs=astropy" class="rtd-badge rtd"> Brought to you by Read the Docs</a>
+    <ul id="version_menu">
+      
+        <li><a href="/en/latest/">latest</a></li>
+      
+        <li><a href="/en/add-mpl-to-rtd-pip-req/">add-mpl-to-rtd-pip-req</a></li>
+      
+        <li><a href="/en/v0.2.1/">v0.2.1</a></li>
+      
+        <li><a href="/en/v0.2/">v0.2</a></li>
+      
+        <li><a href="/en/v0.1/">v0.1</a></li>
+      
+    </ul>
+  </div>
+</div>
+<!-- RTD Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17997319-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+<!-- User Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-30968842-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+  </body>
+</html>

@@ -1,0 +1,44 @@
+
+
+Fittable1DModel
+================================
+
+.. currentmodule:: astropy.modeling
+
+.. autoclass:: Fittable1DModel
+   :show-inheritance:
+
+   
+
+   
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+   
+      ~Fittable1DModel.__call__
+      ~Fittable1DModel.eval
+
+   
+   
+
+   
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Documentation
+
+   
+   .. automethod:: __call__
+   .. automethod:: eval
+
+   
+   

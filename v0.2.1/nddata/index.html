@@ -1,0 +1,434 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+
+    <title>N-dimensional datasets (astropy.nddata) &mdash; Astropy v0.2.1</title>
+<!-- RTD <head> -->
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/underscore.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/doctools.js"></script>
+
+<script type="text/javascript">
+  // This is included here for Javascript that doesn't have access to the templates.
+  var doc_version = "v0.2.1";
+  var doc_slug = "astropy";
+</script>
+
+<script type="text/javascript" src="//media.readthedocs.org/javascript/rtd.js"></script>
+<!-- end RTD <head> -->
+
+    
+    <link rel="stylesheet" href="../_static/bootstrap-astropy.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.2.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="shortcut icon" href="../_static/astropy_logo.ico"/>
+    <link rel="top" title="Astropy v0.2.1" href="../index.html" />
+    <link rel="next" title="NDData overview" href="nddata.html" />
+    <link rel="prev" title="EMConstant" href="../_generated/astropy.constants.constant.EMConstant.html" /> 
+  </head>
+  <body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../index.html"></a>
+  <ul>
+    <li><a class="homelink" title="AstroPy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../genindex.html">Index</a></li>
+    <li><a title="Python Module Index" href="../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li class="right">
+	<a href="nddata.html" title="NDData overview">
+	  next &raquo;
+	</a>
+      </li>
+      <li class="right">
+	<a href="../_generated/astropy.constants.constant.EMConstant.html" title="EMConstant">
+	  &laquo; previous
+	</a>
+	 |
+      </li>
+      <li>
+	<a href="../index.html">Astropy v0.2.1</a>
+	 &raquo;
+      </li>
+      
+      <li>N-dimensional datasets (<tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">astropy.nddata</span></tt>)</li> 
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="n-dimensional-datasets-astropy-nddata">
+<span id="astropy-nddata"></span><h1>N-dimensional datasets (<a class="reference internal" href="#module-astropy.nddata" title="astropy.nddata"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.nddata</span></tt></a>)<a class="headerlink" href="#n-dimensional-datasets-astropy-nddata" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference internal" href="#module-astropy.nddata" title="astropy.nddata"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.nddata</span></tt></a> provides the <a class="reference internal" href="../_generated/astropy.nddata.nddata.NDData.html#astropy.nddata.nddata.NDData" title="astropy.nddata.nddata.NDData"><tt class="xref py py-obj docutils literal"><span class="pre">NDData</span></tt></a>
+class and related tools to manage n-dimensional array-based data (e.g.
+CCD images, IFU data, grid-based simulation data, ...). This is more than
+just <a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.7)"><tt class="xref py py-obj docutils literal"><span class="pre">numpy.ndarray</span></tt></a> objects, because it provides metadata that cannot
+be easily provided by a single array.</p>
+<p>This subpackage also provides new convolution routines that differ from
+Scipy in that they offer a proper treatment of NaN values.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The <a class="reference internal" href="../_generated/astropy.nddata.nddata.NDData.html#astropy.nddata.nddata.NDData" title="astropy.nddata.nddata.NDData"><tt class="xref py py-obj docutils literal"><span class="pre">NDData</span></tt></a> class is still under
+development, and support for WCS and units is not yet implemented.</p>
+</div>
+</div>
+<div class="section" id="getting-started">
+<h2>Getting started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h2>
+<p>An <a class="reference internal" href="../_generated/astropy.nddata.nddata.NDData.html#astropy.nddata.nddata.NDData" title="astropy.nddata.nddata.NDData"><tt class="xref py py-obj docutils literal"><span class="pre">NDData</span></tt></a> object can be instantiated by passing it an
+n-dimensional Numpy array:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">astropy.nddata</span> <span class="kn">import</span> <span class="n">NDData</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">12</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>  <span class="c"># a random 3-dimensional array</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ndd</span> <span class="o">=</span> <span class="n">NDData</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This object has a few attributes in common with Numpy:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">ndd</span><span class="o">.</span><span class="n">ndim</span>
+<span class="go">3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ndd</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">(12, 12, 12)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ndd</span><span class="o">.</span><span class="n">dtype</span>
+<span class="go">dtype(&#39;float64&#39;)</span>
+</pre></div>
+</div>
+<p>The underlying Numpy array can be accessed via the <tt class="xref py py-obj docutils literal"><span class="pre">data</span></tt> attribute:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">ndd</span><span class="o">.</span><span class="n">data</span>
+<span class="go">array([[[ 0.05621944,  0.85569765,  0.71609697, ...,  0.76049288,</span>
+<span class="gp">...</span>
+</pre></div>
+</div>
+<p>Values can be masked using the <tt class="xref py py-obj docutils literal"><span class="pre">mask</span></tt> attribute, which should be a boolean
+Numpy array with the same dimensions as the data, e.g.:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">ndd</span><span class="o">.</span><span class="n">mask</span> <span class="o">=</span> <span class="n">ndd</span><span class="o">.</span><span class="n">data</span> <span class="o">&gt;</span> <span class="mf">0.9</span>
+</pre></div>
+</div>
+<p>A mask value of <a class="reference external" href="http://docs.python.org/library/constants.html#True" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">True</span></tt></a> indicates a value that should be ignored, while a mask
+value of <a class="reference external" href="http://docs.python.org/library/constants.html#False" title="(in Python v2.7)"><tt class="xref py py-obj docutils literal"><span class="pre">False</span></tt></a> indicates a valid value.</p>
+<p>Similarly, attributes are available to store generic meta-data, flags, and
+uncertainties, and the <a class="reference internal" href="../_generated/astropy.nddata.nddata.NDData.html#astropy.nddata.nddata.NDData" title="astropy.nddata.nddata.NDData"><tt class="xref py py-obj docutils literal"><span class="pre">NDData</span></tt></a> class includes methods to
+combine datasets with arithmetic operations (which include uncertainties propagation).
+These are described in <a class="reference internal" href="nddata.html"><em>NDData overview</em></a>.</p>
+</div>
+<div class="section" id="using-nddata">
+<h2>Using <tt class="xref py py-obj docutils literal"><span class="pre">nddata</span></tt><a class="headerlink" href="#using-nddata" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="nddata.html">NDData overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="nddata.html#initializing">Initializing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nddata.html#mask">Mask</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nddata.html#flags">Flags</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nddata.html#uncertainties">Uncertainties</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nddata.html#arithmetic">Arithmetic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nddata.html#meta-data">Meta-data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nddata.html#converting-to-numpy-arrays">Converting to Numpy arrays</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="convolution.html">Convolution</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="convolution.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="convolution.html#usage">Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="convolution.html#examples">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="subclassing.html">Subclassing <tt class="docutils literal"><span class="pre">NDData</span></tt> and <tt class="docutils literal"><span class="pre">NDUncertainty</span></tt></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="subclassing.html#subclassing-nduncertainty">Subclassing <tt class="docutils literal"><span class="pre">NDUncertainty</span></tt></a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="reference-api">
+<h2>Reference/API<a class="headerlink" href="#reference-api" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-astropy.nddata">
+<span id="astropy-nddata-module"></span><h3>astropy.nddata Module<a class="headerlink" href="#module-astropy.nddata" title="Permalink to this headline">¶</a></h3>
+<p>The <tt class="xref py py-obj docutils literal"><span class="pre">nddata</span></tt> subpackage provides the <a class="reference internal" href="../_generated/astropy.nddata.nddata.NDData.html#astropy.nddata.nddata.NDData" title="astropy.nddata.nddata.NDData"><tt class="xref py py-obj docutils literal"><span class="pre">NDData</span></tt></a>
+class and related tools to manage n-dimensional array-based data (e.g.
+CCD images, IFU Data, grid-based simulation data, ...). This is more than
+just <a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.7)"><tt class="xref py py-obj docutils literal"><span class="pre">numpy.ndarray</span></tt></a> objects, because it provides metadata that cannot
+be easily provided by a single array.</p>
+<div class="section" id="functions">
+<h4>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../_generated/astropy.nddata.convolution.convolve.convolve.html#astropy.nddata.convolution.convolve.convolve" title="astropy.nddata.convolution.convolve.convolve"><tt class="xref py py-obj docutils literal"><span class="pre">convolve</span></tt></a>(array,&nbsp;kernel[,&nbsp;boundary,&nbsp;...])</td>
+<td>Convolve an array with a kernel.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../_generated/astropy.nddata.convolution.convolve.convolve_fft.html#astropy.nddata.convolution.convolve.convolve_fft" title="astropy.nddata.convolution.convolve.convolve_fft"><tt class="xref py py-obj docutils literal"><span class="pre">convolve_fft</span></tt></a>(array,&nbsp;kernel[,&nbsp;boundary,&nbsp;...])</td>
+<td>Convolve an ndarray with an nd-kernel.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../_generated/astropy.nddata.convolution.make_kernel.make_kernel.html#astropy.nddata.convolution.make_kernel.make_kernel" title="astropy.nddata.convolution.make_kernel.make_kernel"><tt class="xref py py-obj docutils literal"><span class="pre">make_kernel</span></tt></a>(kernelshape[,&nbsp;kernelwidth,&nbsp;...])</td>
+<td>Create a smoothing kernel for use with <tt class="xref py py-obj docutils literal"><span class="pre">convolve</span></tt> or <tt class="xref py py-obj docutils literal"><span class="pre">convolve_fft</span></tt>.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="classes">
+<h4>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../_generated/astropy.nddata.flag_collection.FlagCollection.html#astropy.nddata.flag_collection.FlagCollection" title="astropy.nddata.flag_collection.FlagCollection"><tt class="xref py py-obj docutils literal"><span class="pre">FlagCollection</span></tt></a>(*args,&nbsp;**kwargs)</td>
+<td>The purpose of this class is to provide a dictionary for containing arrays of flags for the <tt class="xref py py-obj docutils literal"><span class="pre">NDData</span></tt> class.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../_generated/astropy.nddata.nduncertainty.IncompatibleUncertaintiesException.html#astropy.nddata.nduncertainty.IncompatibleUncertaintiesException" title="astropy.nddata.nduncertainty.IncompatibleUncertaintiesException"><tt class="xref py py-obj docutils literal"><span class="pre">IncompatibleUncertaintiesException</span></tt></a></td>
+<td>This exception should be used to indicate cases in which uncertainties with two different classes can not be propagated.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../_generated/astropy.nddata.nduncertainty.MissingDataAssociationException.html#astropy.nddata.nduncertainty.MissingDataAssociationException" title="astropy.nddata.nduncertainty.MissingDataAssociationException"><tt class="xref py py-obj docutils literal"><span class="pre">MissingDataAssociationException</span></tt></a></td>
+<td>This exception should be used to indicate that an uncertainty instance has not been associated with a parent <a class="reference internal" href="../_generated/astropy.nddata.nddata.NDData.html#astropy.nddata.nddata.NDData" title="astropy.nddata.nddata.NDData"><tt class="xref py py-obj docutils literal"><span class="pre">NDData</span></tt></a> object.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../_generated/astropy.nddata.nddata.NDData.html#astropy.nddata.nddata.NDData" title="astropy.nddata.nddata.NDData"><tt class="xref py py-obj docutils literal"><span class="pre">NDData</span></tt></a>(data[,&nbsp;uncertainty,&nbsp;mask,&nbsp;flags,&nbsp;...])</td>
+<td>A Superclass for array-based data in Astropy.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../_generated/astropy.nddata.nduncertainty.NDUncertainty.html#astropy.nddata.nduncertainty.NDUncertainty" title="astropy.nddata.nduncertainty.NDUncertainty"><tt class="xref py py-obj docutils literal"><span class="pre">NDUncertainty</span></tt></a></td>
+<td>This is the base class for uncertainty classes used with NDData.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../_generated/astropy.nddata.nduncertainty.StdDevUncertainty.html#astropy.nddata.nduncertainty.StdDevUncertainty" title="astropy.nddata.nduncertainty.StdDevUncertainty"><tt class="xref py py-obj docutils literal"><span class="pre">StdDevUncertainty</span></tt></a>([array,&nbsp;copy])</td>
+<td>A class for standard deviation uncertaintys</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+
+
+<h3>Page Contents</h3>
+<ul>
+<li><a class="reference internal" href="#">N-dimensional datasets (<tt class="docutils literal"><span class="pre">astropy.nddata</span></tt>)</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#getting-started">Getting started</a></li>
+<li><a class="reference internal" href="#using-nddata">Using <tt class="docutils literal"><span class="pre">nddata</span></tt></a><ul>
+</ul>
+</li>
+<li><a class="reference internal" href="#reference-api">Reference/API</a><ul>
+<li><a class="reference internal" href="#module-astropy.nddata">astropy.nddata Module</a><ul>
+<li><a class="reference internal" href="#functions">Functions</a><ul>
+</ul>
+</li>
+<li><a class="reference internal" href="#classes">Classes</a><ul>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+<footer class="footer">
+  <p class="pull-right">
+    <a href="http://github.com/astropy/astropy/tree/v0.2.1/docs/nddata/index.rst">Edit This Page on Github</a> &nbsp;
+    <a href="../_sources/nddata/index.txt"
+       rel="nofollow">Page Source</a> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright 2011-2013, The Astropy Developers.<br/>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3+. &nbsp;
+    Last built 03 Apr 2013. <br/>
+  </p>
+</footer>
+ <!-- End original user content -->
+
+
+<br>
+<br>
+<br>
+
+
+<style type="text/css">
+  .rtd-badge {
+    position: fixed;
+    display: block;
+    bottom: 5px;
+    height: 40px;
+    text-indent: -9999em;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+  }
+  #version_menu {
+    position: fixed;
+    display: none;
+    bottom: 11px;
+    right: 166px;
+    list-style-type: none;
+    margin: 0;
+  }
+  .footer_popout:hover #version_menu {
+    display: block;
+  }
+  #version_menu li {
+    display: block;
+    float: right;
+  }
+  #version_menu li a {
+    display: block;
+    padding: 6px 10px 4px 10px;
+    margin: 7px 7px 0 0;
+    font-weight: bold;
+    font-size: 14px;
+    height: 20px;
+    line-height: 17px;
+    text-decoration: none;
+    color: #fff;
+    background: #8ca1af url(../images/gradient-light.png) bottom left repeat-x;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 1px #465158;
+    -moz-box-shadow: 0 1px 1px #465158;
+    -webkit-box-shadow: 0 1px 1px #465158;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+  }
+  #version_menu li a:hover {
+    text-decoration: none;
+    background-color: #697983;
+    box-shadow: 0 1px 0px #465158;
+    -moz-box-shadow: 0 1px 0px #465158;
+    -webkit-box-shadow: 0 1px 0px #465158;
+  }
+  .rtd-badge.rtd {
+    background: #3b4449 url(//media.readthedocs.org//images/badge-rtd.png) scroll 0px -46px no-repeat;
+    border: 1px solid #282E32;
+    width: 41px;
+    right: 5px;
+  }
+  .footer_popout:hover .rtd-badge.rtd {
+    background-position: top left;
+    width: 160px;
+  }
+  .rtd-badge.revsys { background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline-sponsored {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys-sm.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 205px;
+    right: 173px;
+  }
+
+</style>
+<div class="rtd_doc_footer">
+  <div class="footer_popout">
+    <a href="//readthedocs.org/projects/astropy/?fromdocs=astropy" class="rtd-badge rtd"> Brought to you by Read the Docs</a>
+    <ul id="version_menu">
+      
+        <li><a href="/en/latest/">latest</a></li>
+      
+        <li><a href="/en/add-mpl-to-rtd-pip-req/">add-mpl-to-rtd-pip-req</a></li>
+      
+        <li><a href="/en/v0.2.1/">v0.2.1</a></li>
+      
+        <li><a href="/en/v0.2/">v0.2</a></li>
+      
+        <li><a href="/en/v0.1/">v0.1</a></li>
+      
+    </ul>
+  </div>
+</div>
+<!-- RTD Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17997319-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+<!-- User Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-30968842-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+  </body>
+</html>

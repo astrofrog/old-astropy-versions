@@ -1,0 +1,8 @@
+
+
+add_kernel_arrays_1D
+==============================================
+
+.. currentmodule:: astropy.convolution.utils
+
+.. autofunction:: add_kernel_arrays_1D

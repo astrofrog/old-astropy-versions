@@ -1,0 +1,50 @@
+
+
+AltAz
+=========================================
+
+.. currentmodule:: astropy.coordinates.builtin_systems
+
+.. autoclass:: AltAz
+   :show-inheritance:
+
+   
+     
+   
+
+   
+   
+
+   .. rubric:: Attributes Summary
+
+   .. autosummary::
+   
+      ~AltAz.alt
+      ~AltAz.az
+      ~AltAz.equinox
+      ~AltAz.obstime
+
+   
+   
+
+   
+   
+   
+
+   
+   
+
+   .. rubric:: Attributes Documentation
+
+   
+   .. autoattribute:: alt
+   .. autoattribute:: az
+   .. autoattribute:: equinox
+   .. autoattribute:: obstime
+
+   
+   
+
+   
+   
+   

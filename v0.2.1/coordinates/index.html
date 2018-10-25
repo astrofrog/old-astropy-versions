@@ -1,0 +1,628 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+
+    <title>Astronomical Coordinate Systems (astropy.coordinates) &mdash; Astropy v0.2.1</title>
+<!-- RTD <head> -->
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/underscore.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/doctools.js"></script>
+
+<script type="text/javascript">
+  // This is included here for Javascript that doesn't have access to the templates.
+  var doc_version = "v0.2.1";
+  var doc_slug = "astropy";
+</script>
+
+<script type="text/javascript" src="//media.readthedocs.org/javascript/rtd.js"></script>
+<!-- end RTD <head> -->
+
+    
+    <link rel="stylesheet" href="../_static/bootstrap-astropy.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.2.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="shortcut icon" href="../_static/astropy_logo.ico"/>
+    <link rel="top" title="Astropy v0.2.1" href="../index.html" />
+    <link rel="next" title="Working with Angles" href="angles.html" />
+    <link rel="prev" title="TimeJulianEpochString" href="../_generated/astropy.time.core.TimeJulianEpochString.html" /> 
+  </head>
+  <body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../index.html"></a>
+  <ul>
+    <li><a class="homelink" title="AstroPy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../genindex.html">Index</a></li>
+    <li><a title="Python Module Index" href="../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li class="right">
+	<a href="angles.html" title="Working with Angles">
+	  next &raquo;
+	</a>
+      </li>
+      <li class="right">
+	<a href="../_generated/astropy.time.core.TimeJulianEpochString.html" title="TimeJulianEpochString">
+	  &laquo; previous
+	</a>
+	 |
+      </li>
+      <li>
+	<a href="../index.html">Astropy v0.2.1</a>
+	 &raquo;
+      </li>
+      
+      <li>Astronomical Coordinate Systems (<tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">astropy.coordinates</span></tt>)</li> 
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="astronomical-coordinate-systems-astropy-coordinates">
+<span id="astropy-coordinates"></span><h1>Astronomical Coordinate Systems (<a class="reference internal" href="#module-astropy.coordinates" title="astropy.coordinates"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.coordinates</span></tt></a>)<a class="headerlink" href="#astronomical-coordinate-systems-astropy-coordinates" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="#module-astropy.coordinates" title="astropy.coordinates"><tt class="xref py py-obj docutils literal"><span class="pre">coordinates</span></tt></a> package provides classes for representing celestial
+coordinates, as well as tools for converting between standard systems in a
+uniform way.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The current <a class="reference internal" href="#module-astropy.coordinates" title="astropy.coordinates"><tt class="xref py py-obj docutils literal"><span class="pre">coordinates</span></tt></a> framework only accepts scalar
+coordinates, i.e. one coordinate per object.  In the next release it will
+be expanded to accept arrays of coordinates.</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last"><a class="reference internal" href="#module-astropy.coordinates" title="astropy.coordinates"><tt class="xref py py-obj docutils literal"><span class="pre">coordinates</span></tt></a> is currently a work-in-progress, and thus it is
+possible there will be significant API changes in later versions of
+Astropy.</p>
+</div>
+</div>
+<div class="section" id="getting-started">
+<h2>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h2>
+<p>Coordinate objects are instantiated with a flexible and natural approach that
+supports both numeric angle values and (limited) string parsing:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">astropy</span> <span class="kn">import</span> <span class="n">coordinates</span> <span class="k">as</span> <span class="n">coord</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">astropy</span> <span class="kn">import</span> <span class="n">units</span> <span class="k">as</span> <span class="n">u</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">coord</span><span class="o">.</span><span class="n">ICRSCoordinates</span><span class="p">(</span><span class="n">ra</span><span class="o">=</span><span class="mf">10.68458</span><span class="p">,</span> <span class="n">dec</span><span class="o">=</span><span class="mf">41.26917</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">degree</span><span class="p">,</span> <span class="n">u</span><span class="o">.</span><span class="n">degree</span><span class="p">))</span>
+<span class="go">&lt;ICRSCoordinates RA=10.68458 deg, Dec=41.26917 deg&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">coord</span><span class="o">.</span><span class="n">ICRSCoordinates</span><span class="p">(</span><span class="s">&#39;00h42m44.3s +41d16m9s&#39;</span><span class="p">)</span>
+<span class="go">&lt;ICRSCoordinates RA=10.68458 deg, Dec=41.26917 deg&gt;</span>
+</pre></div>
+</div>
+<p>The individual components of a coordinate are <a class="reference internal" href="../_generated/astropy.coordinates.angles.Angle.html#astropy.coordinates.angles.Angle" title="astropy.coordinates.angles.Angle"><tt class="xref py py-obj docutils literal"><span class="pre">Angle</span></tt></a>
+objects, and their values are accessed using special attributes:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">coord</span><span class="o">.</span><span class="n">ICRSCoordinates</span><span class="p">(</span><span class="n">ra</span><span class="o">=</span><span class="mf">10.68458</span><span class="p">,</span> <span class="n">dec</span><span class="o">=</span><span class="mf">41.26917</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">degree</span><span class="p">,</span> <span class="n">u</span><span class="o">.</span><span class="n">degree</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">ra</span>
+<span class="go">&lt;RA 10.68458 deg&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">ra</span><span class="o">.</span><span class="n">hours</span>
+<span class="go">0.7123053333333333</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">ra</span><span class="o">.</span><span class="n">hms</span>
+<span class="go">(0.0, 42, 44.2992000000001)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">dec</span>
+<span class="go">&lt;Dec 41.26917 deg&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">dec</span><span class="o">.</span><span class="n">radians</span>
+<span class="go">0.7202828960652683</span>
+</pre></div>
+</div>
+<p>To convert to some other coordinate system, the easiest method is to use
+attribute-style access with short names for the built-in systems, but explicit
+transformations via the <tt class="xref py py-obj docutils literal"><span class="pre">transform_to</span></tt> method are also available:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">galactic</span>
+<span class="go">&lt;GalacticCoordinates l=121.17422 deg, b=-21.57283 deg&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">transform_to</span><span class="p">(</span><span class="n">coord</span><span class="o">.</span><span class="n">GalacticCoordinates</span><span class="p">)</span>
+<span class="go">&lt;GalacticCoordinates l=121.17422 deg, b=-21.57283 deg&gt;</span>
+</pre></div>
+</div>
+<p>Distances from the origin (which is system-dependent, but often the Earth
+center) can also be assigned to a coordinate. This specifies a unique point
+in 3D space, which also allows conversion to cartesian coordinates:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">coord</span><span class="o">.</span><span class="n">ICRSCoordinates</span><span class="p">(</span><span class="n">ra</span><span class="o">=</span><span class="mf">10.68458</span><span class="p">,</span> <span class="n">dec</span><span class="o">=</span><span class="mf">41.26917</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">degree</span><span class="p">,</span> <span class="n">u</span><span class="o">.</span><span class="n">degree</span><span class="p">),</span> <span class="n">distance</span><span class="o">=</span><span class="n">coord</span><span class="o">.</span><span class="n">Distance</span><span class="p">(</span><span class="mi">770</span><span class="p">,</span> <span class="n">u</span><span class="o">.</span><span class="n">kpc</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">x</span>
+<span class="go">568.7128654235232</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">y</span>
+<span class="go">107.3008974042025</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">z</span>
+<span class="go">507.88994291875713</span>
+</pre></div>
+</div>
+<p>The <tt class="xref py py-obj docutils literal"><span class="pre">Coordinates</span></tt> subpackage also provides a quick way to get coordinates
+for named objects (with an internet connection). All subclasses of
+<a class="reference internal" href="../_generated/astropy.coordinates.coordsystems.SphericalCoordinatesBase.html#astropy.coordinates.coordsystems.SphericalCoordinatesBase" title="astropy.coordinates.coordsystems.SphericalCoordinatesBase"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalCoordinatesBase</span></tt></a> have a special
+class method, <tt class="xref py py-obj docutils literal"><span class="pre">from_name()</span></tt>, that accepts a string and queries <a class="reference external" href="http://cds.u-strasbg.fr/cgi-bin/Sesame">Sesame</a> to retrieve coordinates for
+that object:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">coord</span><span class="o">.</span><span class="n">ICRSCoordinates</span><span class="o">.</span><span class="n">from_name</span><span class="p">(</span><span class="s">&quot;M42&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">ra</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">dec</span>
+<span class="go">(&lt;RA 83.82208 deg&gt;, &lt;Dec -5.39111 deg&gt;)</span>
+</pre></div>
+</div>
+<p>This works for any subclass of <a class="reference internal" href="../_generated/astropy.coordinates.coordsystems.SphericalCoordinatesBase.html#astropy.coordinates.coordsystems.SphericalCoordinatesBase" title="astropy.coordinates.coordsystems.SphericalCoordinatesBase"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalCoordinatesBase</span></tt></a>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">coord</span><span class="o">.</span><span class="n">GalacticCoordinates</span><span class="o">.</span><span class="n">from_name</span><span class="p">(</span><span class="s">&quot;M42&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span><span class="o">.</span><span class="n">l</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">b</span>
+<span class="go">(&lt;Angle -150.98622 deg&gt;, &lt;Angle -19.38162 deg&gt;)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This is intended to be a convenience, and is very simple. If you
+need precise coordinates for an object you should find the appropriate
+reference for that measurement and input the coordinates manually.</p>
+</div>
+</div>
+<div class="section" id="using-astropy-coordinates">
+<h2>Using <a class="reference internal" href="#module-astropy.coordinates" title="astropy.coordinates"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.coordinates</span></tt></a><a class="headerlink" href="#using-astropy-coordinates" title="Permalink to this headline">¶</a></h2>
+<p>More details of using <a class="reference internal" href="#module-astropy.coordinates" title="astropy.coordinates"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.coordinates</span></tt></a> are provided in the following sections:</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="angles.html">Working with Angles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="creating.html">Creating Coordinate Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="formatting.html">Formatting Coordinate Strings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="separations.html">Separations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="distances.html">Distances and Cartesian Representations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transforming.html">Transforming Between Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="designing.html">Designing Coordinate Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sgr-example.html">Example: Defining a new spherical coordinate system</a></li>
+</ul>
+</div>
+<p>In addition, another resource for the capabilities of this package is the
+<tt class="xref py py-obj docutils literal"><span class="pre">astropy.coordinates.tests.test_api</span></tt> testing file. It showcases most of the
+major capabilities of the package, and hence is a useful supplement to this
+document.  You can see it by either looking at it directly if you downloaded a
+copy of the astropy source code, or typing the following in an IPython session:</p>
+<div class="highlight-python"><pre>In [1]: from astropy.coordinates.tests import test_api
+In [2]: test_api??</pre>
+</div>
+</div>
+<div class="section" id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Permalink to this headline">¶</a></h2>
+<p>Some references particularly useful in understanding subtleties of the
+coordinate systems implemented here include:</p>
+<ul>
+<li><dl class="first docutils">
+<dt><a class="reference external" href="http://www.iausofa.org/">Standards Of Fundamental Astronomy</a></dt>
+<dd><p class="first last">The definitive implementation of IAU-defined algorithms.  The &#8220;SOFA Tools
+for Earth Attitude&#8221; document is particularly valuable for understanding
+the latest IAU standards in detail.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><a class="reference external" href="http://www.usno.navy.mil/USNO/astronomical-applications/publications/circ-179">USNO Circular 179</a></dt>
+<dd><p class="first last">A useful guide to the IAU 2000/2003 work surrounding ICRS/IERS/CIRS and
+related problems in precision coordinate system work.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Meeus, J. &#8220;Astronomical Algorithms&#8221;</dt>
+<dd><p class="first last">A valuable text describing details of a wide range of coordinate-related
+problems and concepts.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+<div class="section" id="reference-api">
+<h2>Reference/API<a class="headerlink" href="#reference-api" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-astropy.coordinates">
+<span id="astropy-coordinates-module"></span><h3>astropy.coordinates Module<a class="headerlink" href="#module-astropy.coordinates" title="Permalink to this headline">¶</a></h3>
+<p>This subpackage contains classes and functions for celestial coordinates
+of astronomical objects. It also contains a framework for conversions
+between coordinate systems.</p>
+<p>The diagram below shows all of the coordinate systems built into the
+<a class="reference internal" href="#module-astropy.coordinates" title="astropy.coordinates"><tt class="xref py py-obj docutils literal"><span class="pre">coordinates</span></tt></a> package, their aliases (usable for converting
+other coordinates to them using attribute-style access) and the
+pre-defined transformations between them.  The user is free to
+override any of these transformations by defining new trasnformation
+between these systems, but the pre-defined transformations should be
+sufficient for typical usage.</p>
+<p>The graph also indicates the priority for each transformation as a
+number next to the arrow.  These priorities are used to decide the
+preferred order when two trasnformation paths have the same number
+of steps.  These priorities are defined such that path with a
+<em>smaller</em> total priority are favored over larger.
+E.g., the path from <tt class="xref py py-obj docutils literal"><span class="pre">ICRSCoordinates</span></tt> to <tt class="xref py py-obj docutils literal"><span class="pre">GalacticCoordinates</span></tt> goes
+through <tt class="xref py py-obj docutils literal"><span class="pre">FK5Coordinates</span></tt> because the total path length is 2 instead
+of 2.03.</p>
+<p class="graphviz">
+<img src="../_images/graphviz-ebe5b15f4a4935f09b5b4e2e04f27ceb1db7ea85.png" alt="digraph AstropyCoordinateTransformGraph {
+FK4NoETermCoordinates [shape=oval label=&quot;FK4NoETermCoordinates\n`fk4_no_e`&quot;]; GalacticCoordinates [shape=oval label=&quot;GalacticCoordinates\n`galactic`&quot;]; FK4Coordinates [shape=oval label=&quot;FK4Coordinates\n`fk4`&quot;]; FK5Coordinates [shape=oval label=&quot;FK5Coordinates\n`fk5`&quot;]; ICRSCoordinates [shape=oval label=&quot;ICRSCoordinates\n`icrs`&quot;]; HorizontalCoordinates [shape=oval label=&quot;HorizontalCoordinates\n`horizontal`&quot;];
+FK4NoETermCoordinates -&gt; GalacticCoordinates[ label = &quot;1&quot; ];
+FK4NoETermCoordinates -&gt; FK4Coordinates[ label = &quot;1&quot; ];
+FK4NoETermCoordinates -&gt; FK5Coordinates[ label = &quot;1&quot; ];
+ICRSCoordinates -&gt; FK5Coordinates[ label = &quot;1&quot; ];
+FK4Coordinates -&gt; FK4NoETermCoordinates[ label = &quot;1&quot; ];
+GalacticCoordinates -&gt; FK4NoETermCoordinates[ label = &quot;1&quot; ];
+GalacticCoordinates -&gt; FK5Coordinates[ label = &quot;1&quot; ];
+FK5Coordinates -&gt; FK4NoETermCoordinates[ label = &quot;1&quot; ];
+FK5Coordinates -&gt; ICRSCoordinates[ label = &quot;1&quot; ];
+FK5Coordinates -&gt; GalacticCoordinates[ label = &quot;1&quot; ];
+
+overlap=false
+}" />
+</p>
+<div class="section" id="functions">
+<h4>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../_generated/astropy.coordinates.distances.cartesian_to_spherical.html#astropy.coordinates.distances.cartesian_to_spherical" title="astropy.coordinates.distances.cartesian_to_spherical"><tt class="xref py py-obj docutils literal"><span class="pre">cartesian_to_spherical</span></tt></a>(x,&nbsp;y,&nbsp;z)</td>
+<td>Converts 3D rectangular cartesian coordinates to spherical polar coordinates.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../_generated/astropy.coordinates.transformations.coordinate_alias.html#astropy.coordinates.transformations.coordinate_alias" title="astropy.coordinates.transformations.coordinate_alias"><tt class="xref py py-obj docutils literal"><span class="pre">coordinate_alias</span></tt></a>(name[,&nbsp;coordcls])</td>
+<td>Gives a short name to this coordinate system, allowing other coordinate objects to convert to this one using attribute-style access.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../_generated/astropy.coordinates.transformations.dynamic_transform_matrix.html#astropy.coordinates.transformations.dynamic_transform_matrix" title="astropy.coordinates.transformations.dynamic_transform_matrix"><tt class="xref py py-obj docutils literal"><span class="pre">dynamic_transform_matrix</span></tt></a>(fromsys,&nbsp;tosys[,&nbsp;...])</td>
+<td>A function decorator for defining transformations between coordinate systems using a function that yields a matrix.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../_generated/astropy.coordinates.name_resolve.get_icrs_coordinates.html#astropy.coordinates.name_resolve.get_icrs_coordinates" title="astropy.coordinates.name_resolve.get_icrs_coordinates"><tt class="xref py py-obj docutils literal"><span class="pre">get_icrs_coordinates</span></tt></a>(name)</td>
+<td>Retrieve an ICRSCoordinates object by using an online name resolving service to retrieve coordinates for the specified name.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../_generated/astropy.coordinates.distances.spherical_to_cartesian.html#astropy.coordinates.distances.spherical_to_cartesian" title="astropy.coordinates.distances.spherical_to_cartesian"><tt class="xref py py-obj docutils literal"><span class="pre">spherical_to_cartesian</span></tt></a>(r,&nbsp;lat,&nbsp;lon)</td>
+<td>Converts spherical polar coordinates to rectangular cartesian coordinates.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../_generated/astropy.coordinates.transformations.static_transform_matrix.html#astropy.coordinates.transformations.static_transform_matrix" title="astropy.coordinates.transformations.static_transform_matrix"><tt class="xref py py-obj docutils literal"><span class="pre">static_transform_matrix</span></tt></a>(fromsys,&nbsp;tosys[,&nbsp;...])</td>
+<td>A function decorator for defining transformations between coordinate systems using a matrix.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../_generated/astropy.coordinates.transformations.transform_function.html#astropy.coordinates.transformations.transform_function" title="astropy.coordinates.transformations.transform_function"><tt class="xref py py-obj docutils literal"><span class="pre">transform_function</span></tt></a>(fromsys,&nbsp;tosys[,&nbsp;...])</td>
+<td>A function decorator for defining transformations between coordinate systems.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="classes">
+<h4>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../_generated/astropy.coordinates.angles.Angle.html#astropy.coordinates.angles.Angle" title="astropy.coordinates.angles.Angle"><tt class="xref py py-obj docutils literal"><span class="pre">Angle</span></tt></a>(angle[,&nbsp;unit,&nbsp;bounds])</td>
+<td>An angle.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../_generated/astropy.coordinates.angles.AngularSeparation.html#astropy.coordinates.angles.AngularSeparation" title="astropy.coordinates.angles.AngularSeparation"><tt class="xref py py-obj docutils literal"><span class="pre">AngularSeparation</span></tt></a>(lat1,&nbsp;lon1,&nbsp;lat2,&nbsp;lon2,&nbsp;units)</td>
+<td>An on-sky separation between two directions.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../_generated/astropy.coordinates.errors.BoundsError.html#astropy.coordinates.errors.BoundsError" title="astropy.coordinates.errors.BoundsError"><tt class="xref py py-obj docutils literal"><span class="pre">BoundsError</span></tt></a></td>
+<td>Raised when an angle is outside of its user-specified bounds.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../_generated/astropy.coordinates.distances.CartesianPoints.html#astropy.coordinates.distances.CartesianPoints" title="astropy.coordinates.distances.CartesianPoints"><tt class="xref py py-obj docutils literal"><span class="pre">CartesianPoints</span></tt></a>(x,&nbsp;y,&nbsp;z[,&nbsp;unit])</td>
+<td>A cartesian representation of a point in three-dimensional space.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../_generated/astropy.coordinates.transformations.CompositeStaticMatrixTransform.html#astropy.coordinates.transformations.CompositeStaticMatrixTransform" title="astropy.coordinates.transformations.CompositeStaticMatrixTransform"><tt class="xref py py-obj docutils literal"><span class="pre">CompositeStaticMatrixTransform</span></tt></a>(fromsys,&nbsp;...)</td>
+<td>A <tt class="xref py py-obj docutils literal"><span class="pre">MatrixTransform</span></tt> constructed by combining a sequence of matricies together.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../_generated/astropy.coordinates.errors.ConvertError.html#astropy.coordinates.errors.ConvertError" title="astropy.coordinates.errors.ConvertError"><tt class="xref py py-obj docutils literal"><span class="pre">ConvertError</span></tt></a></td>
+<td>Raised if a coordinate system cannot be converted to another</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../_generated/astropy.coordinates.angles.Dec.html#astropy.coordinates.angles.Dec" title="astropy.coordinates.angles.Dec"><tt class="xref py py-obj docutils literal"><span class="pre">Dec</span></tt></a>(angle[,&nbsp;unit])</td>
+<td>Represents a declination value.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../_generated/astropy.coordinates.distances.Distance.html#astropy.coordinates.distances.Distance" title="astropy.coordinates.distances.Distance"><tt class="xref py py-obj docutils literal"><span class="pre">Distance</span></tt></a>(*args,&nbsp;**kwargs)</td>
+<td>A one-dimensional distance.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../_generated/astropy.coordinates.transformations.DynamicMatrixTransform.html#astropy.coordinates.transformations.DynamicMatrixTransform" title="astropy.coordinates.transformations.DynamicMatrixTransform"><tt class="xref py py-obj docutils literal"><span class="pre">DynamicMatrixTransform</span></tt></a>(fromsys,&nbsp;tosys,&nbsp;...)</td>
+<td>A coordinate transformation specified as a function that yields a 3 x 3 cartesian transformation matrix.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../_generated/astropy.coordinates.builtin_systems.FK4Coordinates.html#astropy.coordinates.builtin_systems.FK4Coordinates" title="astropy.coordinates.builtin_systems.FK4Coordinates"><tt class="xref py py-obj docutils literal"><span class="pre">FK4Coordinates</span></tt></a>(*args,&nbsp;**kwargs)</td>
+<td>A coordinate in the FK4 system.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../_generated/astropy.coordinates.builtin_systems.FK4NoETermCoordinates.html#astropy.coordinates.builtin_systems.FK4NoETermCoordinates" title="astropy.coordinates.builtin_systems.FK4NoETermCoordinates"><tt class="xref py py-obj docutils literal"><span class="pre">FK4NoETermCoordinates</span></tt></a>(*args,&nbsp;**kwargs)</td>
+<td>A coordinate in the FK4 system.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../_generated/astropy.coordinates.builtin_systems.FK5Coordinates.html#astropy.coordinates.builtin_systems.FK5Coordinates" title="astropy.coordinates.builtin_systems.FK5Coordinates"><tt class="xref py py-obj docutils literal"><span class="pre">FK5Coordinates</span></tt></a>(*args,&nbsp;**kwargs)</td>
+<td>A coordinate in the FK5 system.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../_generated/astropy.coordinates.transformations.FunctionTransform.html#astropy.coordinates.transformations.FunctionTransform" title="astropy.coordinates.transformations.FunctionTransform"><tt class="xref py py-obj docutils literal"><span class="pre">FunctionTransform</span></tt></a>(fromsys,&nbsp;tosys,&nbsp;func[,&nbsp;...])</td>
+<td>A coordinate transformation defined by a function that simply accepts a coordinate object and returns the transformed coordinate object.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../_generated/astropy.coordinates.builtin_systems.GalacticCoordinates.html#astropy.coordinates.builtin_systems.GalacticCoordinates" title="astropy.coordinates.builtin_systems.GalacticCoordinates"><tt class="xref py py-obj docutils literal"><span class="pre">GalacticCoordinates</span></tt></a>(*args,&nbsp;**kwargs)</td>
+<td>A coordinate in Galactic Coordinates.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../_generated/astropy.coordinates.builtin_systems.HorizontalCoordinates.html#astropy.coordinates.builtin_systems.HorizontalCoordinates" title="astropy.coordinates.builtin_systems.HorizontalCoordinates"><tt class="xref py py-obj docutils literal"><span class="pre">HorizontalCoordinates</span></tt></a>(*args,&nbsp;**kwargs)</td>
+<td>A coordinate in the Horizontal or &#8220;az/el&#8221; system.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../_generated/astropy.coordinates.builtin_systems.ICRSCoordinates.html#astropy.coordinates.builtin_systems.ICRSCoordinates" title="astropy.coordinates.builtin_systems.ICRSCoordinates"><tt class="xref py py-obj docutils literal"><span class="pre">ICRSCoordinates</span></tt></a>(*args,&nbsp;**kwargs)</td>
+<td>A coordinate in the ICRS.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../_generated/astropy.coordinates.errors.IllegalHourError.html#astropy.coordinates.errors.IllegalHourError" title="astropy.coordinates.errors.IllegalHourError"><tt class="xref py py-obj docutils literal"><span class="pre">IllegalHourError</span></tt></a>(hour)</td>
+<td>Raised when an hour value is not in the range [0,24).</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../_generated/astropy.coordinates.errors.IllegalMinuteError.html#astropy.coordinates.errors.IllegalMinuteError" title="astropy.coordinates.errors.IllegalMinuteError"><tt class="xref py py-obj docutils literal"><span class="pre">IllegalMinuteError</span></tt></a>(minute)</td>
+<td>Raised when an minute value is not in the range [0,60).</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../_generated/astropy.coordinates.errors.IllegalSecondError.html#astropy.coordinates.errors.IllegalSecondError" title="astropy.coordinates.errors.IllegalSecondError"><tt class="xref py py-obj docutils literal"><span class="pre">IllegalSecondError</span></tt></a>(second)</td>
+<td>Raised when an second value (time) is not in the range [0,60).</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../_generated/astropy.coordinates.angles.RA.html#astropy.coordinates.angles.RA" title="astropy.coordinates.angles.RA"><tt class="xref py py-obj docutils literal"><span class="pre">RA</span></tt></a>(angle[,&nbsp;unit])</td>
+<td>An object that represents a right ascension angle.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../_generated/astropy.coordinates.errors.RangeError.html#astropy.coordinates.errors.RangeError" title="astropy.coordinates.errors.RangeError"><tt class="xref py py-obj docutils literal"><span class="pre">RangeError</span></tt></a></td>
+<td>Raised when some part of an angle is out of its valid range.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../_generated/astropy.coordinates.coordsystems.SphericalCoordinatesBase.html#astropy.coordinates.coordsystems.SphericalCoordinatesBase" title="astropy.coordinates.coordsystems.SphericalCoordinatesBase"><tt class="xref py py-obj docutils literal"><span class="pre">SphericalCoordinatesBase</span></tt></a>(*args,&nbsp;**kwargs)</td>
+<td>Abstract superclass for all coordinate classes representing points in three dimensions.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../_generated/astropy.coordinates.transformations.StaticMatrixTransform.html#astropy.coordinates.transformations.StaticMatrixTransform" title="astropy.coordinates.transformations.StaticMatrixTransform"><tt class="xref py py-obj docutils literal"><span class="pre">StaticMatrixTransform</span></tt></a>(fromsys,&nbsp;tosys,&nbsp;matrix)</td>
+<td>A coordinate transformation defined as a 3 x 3 cartesian transformation matrix.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../_generated/astropy.coordinates.errors.UnitsError.html#astropy.coordinates.errors.UnitsError" title="astropy.coordinates.errors.UnitsError"><tt class="xref py py-obj docutils literal"><span class="pre">UnitsError</span></tt></a></td>
+<td>Raised if units are missing or invalid.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="class-inheritance-diagram">
+<h4>Class Inheritance Diagram<a class="headerlink" href="#class-inheritance-diagram" title="Permalink to this headline">¶</a></h4>
+<p class="graphviz">
+<img src="../_images/inheritance-e71bcadc8681928f6b4cc92ff12f21c551b38e01.png" alt="Inheritance diagram of astropy.coordinates.angles.Angle, astropy.coordinates.angles.AngularSeparation, astropy.coordinates.errors.BoundsError, astropy.coordinates.distances.CartesianPoints, astropy.coordinates.transformations.CompositeStaticMatrixTransform, astropy.coordinates.errors.ConvertError, astropy.coordinates.angles.Dec, astropy.coordinates.distances.Distance, astropy.coordinates.transformations.DynamicMatrixTransform, astropy.coordinates.builtin_systems.FK4Coordinates, astropy.coordinates.builtin_systems.FK4NoETermCoordinates, astropy.coordinates.builtin_systems.FK5Coordinates, astropy.coordinates.transformations.FunctionTransform, astropy.coordinates.builtin_systems.GalacticCoordinates, astropy.coordinates.builtin_systems.HorizontalCoordinates, astropy.coordinates.builtin_systems.ICRSCoordinates, astropy.coordinates.errors.IllegalHourError, astropy.coordinates.errors.IllegalMinuteError, astropy.coordinates.errors.IllegalSecondError, astropy.coordinates.angles.RA, astropy.coordinates.errors.RangeError, astropy.coordinates.coordsystems.SphericalCoordinatesBase, astropy.coordinates.transformations.StaticMatrixTransform, astropy.coordinates.errors.UnitsError" usemap="#inheritance1ca1ab0966" class="inheritance"/>
+<map id="inheritance1ca1ab0966" name="inheritance1ca1ab0966">
+<area shape="rect" id="node9" href="../_generated/astropy.coordinates.transformations.StaticMatrixTransform.html#astropy.coordinates.transformations.StaticMatrixTransform" title="astropy.coordinates.transformations.StaticMatrixTransform" alt="" coords="261,377,477,392"/>
+<area shape="rect" id="node34" href="../_generated/astropy.coordinates.transformations.DynamicMatrixTransform.html#astropy.coordinates.transformations.DynamicMatrixTransform" title="astropy.coordinates.transformations.DynamicMatrixTransform" alt="" coords="256,405,483,420"/>
+<area shape="rect" id="node37" href="../_generated/astropy.coordinates.transformations.FunctionTransform.html#astropy.coordinates.transformations.FunctionTransform" title="astropy.coordinates.transformations.FunctionTransform" alt="" coords="267,433,472,448"/>
+<area shape="rect" id="node2" href="../_generated/astropy.coordinates.builtin_systems.GalacticCoordinates.html#astropy.coordinates.builtin_systems.GalacticCoordinates" title="astropy.coordinates.builtin_systems.GalacticCoordinates" alt="" coords="265,211,474,226"/>
+<area shape="rect" id="node3" href="../_generated/astropy.coordinates.coordsystems.SphericalCoordinatesBase.html#astropy.coordinates.coordsystems.SphericalCoordinatesBase" title="astropy.coordinates.coordsystems.SphericalCoordinatesBase" alt="" coords="3,280,229,295"/>
+<area shape="rect" id="node11" href="../_generated/astropy.coordinates.builtin_systems.FK4NoETermCoordinates.html#astropy.coordinates.builtin_systems.FK4NoETermCoordinates" title="astropy.coordinates.builtin_systems.FK4NoETermCoordinates" alt="" coords="257,238,482,254"/>
+<area shape="rect" id="node13" href="../_generated/astropy.coordinates.builtin_systems.HorizontalCoordinates.html#astropy.coordinates.builtin_systems.HorizontalCoordinates" title="astropy.coordinates.builtin_systems.HorizontalCoordinates" alt="" coords="261,266,477,281"/>
+<area shape="rect" id="node20" href="../_generated/astropy.coordinates.builtin_systems.FK5Coordinates.html#astropy.coordinates.builtin_systems.FK5Coordinates" title="astropy.coordinates.builtin_systems.FK5Coordinates" alt="" coords="272,294,466,309"/>
+<area shape="rect" id="node32" href="../_generated/astropy.coordinates.builtin_systems.FK4Coordinates.html#astropy.coordinates.builtin_systems.FK4Coordinates" title="astropy.coordinates.builtin_systems.FK4Coordinates" alt="" coords="272,322,466,337"/>
+<area shape="rect" id="node39" href="../_generated/astropy.coordinates.builtin_systems.ICRSCoordinates.html#astropy.coordinates.builtin_systems.ICRSCoordinates" title="astropy.coordinates.builtin_systems.ICRSCoordinates" alt="" coords="271,349,468,365"/>
+<area shape="rect" id="node5" href="../_generated/astropy.coordinates.angles.AngularSeparation.html#astropy.coordinates.angles.AngularSeparation" title="astropy.coordinates.angles.AngularSeparation" alt="" coords="283,127,456,143"/>
+<area shape="rect" id="node6" href="../_generated/astropy.coordinates.angles.Angle.html#astropy.coordinates.angles.Angle" title="astropy.coordinates.angles.Angle" alt="" coords="53,155,180,170"/>
+<area shape="rect" id="node16" href="../_generated/astropy.coordinates.angles.RA.html#astropy.coordinates.angles.RA" title="astropy.coordinates.angles.RA" alt="" coords="311,155,428,170"/>
+<area shape="rect" id="node27" href="../_generated/astropy.coordinates.angles.Dec.html#astropy.coordinates.angles.Dec" title="astropy.coordinates.angles.Dec" alt="" coords="309,183,430,198"/>
+<area shape="rect" id="node8" href="../_generated/astropy.coordinates.transformations.CompositeStaticMatrixTransform.html#astropy.coordinates.transformations.CompositeStaticMatrixTransform" title="astropy.coordinates.transformations.CompositeStaticMatrixTransform" alt="" coords="510,377,764,392"/>
+<area shape="rect" id="node15" href="../_generated/astropy.coordinates.distances.Distance.html#astropy.coordinates.distances.Distance" title="astropy.coordinates.distances.Distance" alt="" coords="42,127,191,143"/>
+<area shape="rect" id="node18" href="../_generated/astropy.coordinates.errors.UnitsError.html#astropy.coordinates.errors.UnitsError" title="astropy.coordinates.errors.UnitsError" alt="" coords="46,100,186,115"/>
+<area shape="rect" id="node22" href="../_generated/astropy.coordinates.errors.IllegalMinuteError.html#astropy.coordinates.errors.IllegalMinuteError" title="astropy.coordinates.errors.IllegalMinuteError" alt="" coords="287,16,452,32"/>
+<area shape="rect" id="node23" href="../_generated/astropy.coordinates.errors.RangeError.html#astropy.coordinates.errors.RangeError" title="astropy.coordinates.errors.RangeError" alt="" coords="44,58,188,73"/>
+<area shape="rect" id="node25" href="../_generated/astropy.coordinates.errors.BoundsError.html#astropy.coordinates.errors.BoundsError" title="astropy.coordinates.errors.BoundsError" alt="" coords="295,44,444,59"/>
+<area shape="rect" id="node29" href="../_generated/astropy.coordinates.errors.IllegalSecondError.html#astropy.coordinates.errors.IllegalSecondError" title="astropy.coordinates.errors.IllegalSecondError" alt="" coords="285,72,453,87"/>
+<area shape="rect" id="node41" href="../_generated/astropy.coordinates.errors.IllegalHourError.html#astropy.coordinates.errors.IllegalHourError" title="astropy.coordinates.errors.IllegalHourError" alt="" coords="290,100,449,115"/>
+<area shape="rect" id="node31" href="../_generated/astropy.coordinates.errors.ConvertError.html#astropy.coordinates.errors.ConvertError" title="astropy.coordinates.errors.ConvertError" alt="" coords="41,30,191,46"/>
+<area shape="rect" id="node36" href="../_generated/astropy.coordinates.distances.CartesianPoints.html#astropy.coordinates.distances.CartesianPoints" title="astropy.coordinates.distances.CartesianPoints" alt="" coords="30,3,202,18"/>
+</map>
+</p>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+
+
+<h3>Page Contents</h3>
+<ul>
+<li><a class="reference internal" href="#">Astronomical Coordinate Systems (<tt class="docutils literal"><span class="pre">astropy.coordinates</span></tt>)</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#getting-started">Getting Started</a></li>
+<li><a class="reference internal" href="#using-astropy-coordinates">Using <tt class="docutils literal"><span class="pre">astropy.coordinates</span></tt></a><ul>
+</ul>
+</li>
+<li><a class="reference internal" href="#see-also">See Also</a></li>
+<li><a class="reference internal" href="#reference-api">Reference/API</a><ul>
+<li><a class="reference internal" href="#module-astropy.coordinates">astropy.coordinates Module</a><ul>
+<li><a class="reference internal" href="#functions">Functions</a><ul>
+</ul>
+</li>
+<li><a class="reference internal" href="#classes">Classes</a><ul>
+</ul>
+</li>
+<li><a class="reference internal" href="#class-inheritance-diagram">Class Inheritance Diagram</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+<footer class="footer">
+  <p class="pull-right">
+    <a href="http://github.com/astropy/astropy/tree/v0.2.1/docs/coordinates/index.rst">Edit This Page on Github</a> &nbsp;
+    <a href="../_sources/coordinates/index.txt"
+       rel="nofollow">Page Source</a> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright 2011-2013, The Astropy Developers.<br/>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3+. &nbsp;
+    Last built 03 Apr 2013. <br/>
+  </p>
+</footer>
+ <!-- End original user content -->
+
+
+<br>
+<br>
+<br>
+
+
+<style type="text/css">
+  .rtd-badge {
+    position: fixed;
+    display: block;
+    bottom: 5px;
+    height: 40px;
+    text-indent: -9999em;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+  }
+  #version_menu {
+    position: fixed;
+    display: none;
+    bottom: 11px;
+    right: 166px;
+    list-style-type: none;
+    margin: 0;
+  }
+  .footer_popout:hover #version_menu {
+    display: block;
+  }
+  #version_menu li {
+    display: block;
+    float: right;
+  }
+  #version_menu li a {
+    display: block;
+    padding: 6px 10px 4px 10px;
+    margin: 7px 7px 0 0;
+    font-weight: bold;
+    font-size: 14px;
+    height: 20px;
+    line-height: 17px;
+    text-decoration: none;
+    color: #fff;
+    background: #8ca1af url(../images/gradient-light.png) bottom left repeat-x;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 1px #465158;
+    -moz-box-shadow: 0 1px 1px #465158;
+    -webkit-box-shadow: 0 1px 1px #465158;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+  }
+  #version_menu li a:hover {
+    text-decoration: none;
+    background-color: #697983;
+    box-shadow: 0 1px 0px #465158;
+    -moz-box-shadow: 0 1px 0px #465158;
+    -webkit-box-shadow: 0 1px 0px #465158;
+  }
+  .rtd-badge.rtd {
+    background: #3b4449 url(//media.readthedocs.org//images/badge-rtd.png) scroll 0px -46px no-repeat;
+    border: 1px solid #282E32;
+    width: 41px;
+    right: 5px;
+  }
+  .footer_popout:hover .rtd-badge.rtd {
+    background-position: top left;
+    width: 160px;
+  }
+  .rtd-badge.revsys { background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline-sponsored {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys-sm.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 205px;
+    right: 173px;
+  }
+
+</style>
+<div class="rtd_doc_footer">
+  <div class="footer_popout">
+    <a href="//readthedocs.org/projects/astropy/?fromdocs=astropy" class="rtd-badge rtd"> Brought to you by Read the Docs</a>
+    <ul id="version_menu">
+      
+        <li><a href="/en/latest/">latest</a></li>
+      
+        <li><a href="/en/add-mpl-to-rtd-pip-req/">add-mpl-to-rtd-pip-req</a></li>
+      
+        <li><a href="/en/v0.2.1/">v0.2.1</a></li>
+      
+        <li><a href="/en/v0.2/">v0.2</a></li>
+      
+        <li><a href="/en/v0.1/">v0.1</a></li>
+      
+    </ul>
+  </div>
+</div>
+<!-- RTD Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17997319-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+<!-- User Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-30968842-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+  </body>
+</html>

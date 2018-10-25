@@ -1,0 +1,63 @@
+
+.. include:: ../io/ascii/references.txt
+
+
+BaseSplitter
+==================================
+
+.. currentmodule:: astropy.io.ascii.core
+
+.. autoclass:: BaseSplitter
+   :show-inheritance:
+
+   
+
+   
+   
+
+   .. rubric:: Attributes Summary
+
+   .. autosummary::
+   
+      ~BaseSplitter.delimiter
+
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+   
+      ~BaseSplitter.join
+      ~BaseSplitter.process_line
+      ~BaseSplitter.process_val
+
+   
+   
+
+   
+   
+
+   .. rubric:: Attributes Documentation
+
+   
+   .. autoattribute:: delimiter
+
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Documentation
+
+   
+   .. automethod:: join
+   .. automethod:: process_line
+   .. automethod:: process_val
+
+   
+   

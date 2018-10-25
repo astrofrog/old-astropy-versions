@@ -1,0 +1,684 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+
+    <title>Cosmological Calculations (astropy.cosmology) &mdash; Astropy v0.2.1</title>
+<!-- RTD <head> -->
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/underscore.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/doctools.js"></script>
+
+<script type="text/javascript">
+  // This is included here for Javascript that doesn't have access to the templates.
+  var doc_version = "v0.2.1";
+  var doc_slug = "astropy";
+</script>
+
+<script type="text/javascript" src="//media.readthedocs.org/javascript/rtd.js"></script>
+<!-- end RTD <head> -->
+
+    
+    <link rel="stylesheet" href="../_static/bootstrap-astropy.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.2.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    <link rel="shortcut icon" href="../_static/astropy_logo.ico"/>
+    <link rel="top" title="Astropy v0.2.1" href="../index.html" />
+    <link rel="next" title="H" href="../_generated/astropy.cosmology.funcs.H.html" />
+    <link rel="prev" title="TableColumns" href="../_generated/astropy.table.table.TableColumns.html" /> 
+  </head>
+  <body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../index.html"></a>
+  <ul>
+    <li><a class="homelink" title="AstroPy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../genindex.html">Index</a></li>
+    <li><a title="Python Module Index" href="../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li class="right">
+	<a href="../_generated/astropy.cosmology.funcs.H.html" title="H">
+	  next &raquo;
+	</a>
+      </li>
+      <li class="right">
+	<a href="../_generated/astropy.table.table.TableColumns.html" title="TableColumns">
+	  &laquo; previous
+	</a>
+	 |
+      </li>
+      <li>
+	<a href="../index.html">Astropy v0.2.1</a>
+	 &raquo;
+      </li>
+      
+      <li>Cosmological Calculations (<tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">astropy.cosmology</span></tt>)</li> 
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="cosmological-calculations-astropy-cosmology">
+<span id="astropy-cosmology"></span><h1>Cosmological Calculations (<a class="reference internal" href="#module-astropy.cosmology" title="astropy.cosmology"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.cosmology</span></tt></a>)<a class="headerlink" href="#cosmological-calculations-astropy-cosmology" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="#module-astropy.cosmology" title="astropy.cosmology"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.cosmology</span></tt></a> subpackage contains classes for representing
+cosmologies, and utility functions for calculating commonly used
+quantities that depend on a cosmological model. This includes
+distances, ages and lookback times corresponding to a measured
+redshift or the transverse separation corresponding to a measured
+angular separation.</p>
+</div>
+<div class="section" id="getting-started">
+<h2>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h2>
+<p>There are many functions available to calculate cosmological quantities.
+They generally take a redshift as input. For example, the two cases
+below give you the value of the hubble constant at z=0 (i.e., <tt class="xref py py-obj docutils literal"><span class="pre">H0</span></tt>), and
+the number of transverse proper kpc corresponding to an arcminute at z=3:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">astropy</span> <span class="kn">import</span> <span class="n">cosmology</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cosmology</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="go">70.4</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cosmology</span><span class="o">.</span><span class="n">kpc_proper_per_arcmin</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="go">472.8071851564037</span>
+</pre></div>
+</div>
+<p>All the functions available are listed in the <a class="reference internal" href="#reference-api">Reference/API</a>
+section. These will use the &#8220;current&#8221; cosmology to calculate the
+values (see <a class="reference internal" href="#the-current-cosmology">The Current Cosmology</a> section below for more
+details). If you haven&#8217;t set this explicitly, they will use the 7-year
+WMAP cosmological parameters and print a warning message.</p>
+<p>There are also several standard cosmologies already defined. These are
+objects with methods and attributes that calculate cosmological
+values. For example, the comoving distance in Mpc to redshift 4 using
+the 5-year WMAP parameters:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">astropy.cosmology</span> <span class="kn">import</span> <span class="n">WMAP5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">WMAP5</span><span class="o">.</span><span class="n">comoving_distance</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="go">7329.328120760829</span>
+</pre></div>
+</div>
+<p>A full list of the pre-defined cosmologies is given by
+<tt class="xref py py-obj docutils literal"><span class="pre">cosmology.parameters.available</span></tt>.</p>
+<p>An important point is that the cosmological parameters of each
+instance are immutable &#8211; that is, if you want to change, say,
+<tt class="xref py py-obj docutils literal"><span class="pre">Om</span></tt>, you need to make a new instance of the class.</p>
+</div>
+<div class="section" id="using-cosmology">
+<h2>Using <tt class="xref py py-obj docutils literal"><span class="pre">cosmology</span></tt><a class="headerlink" href="#using-cosmology" title="Permalink to this headline">¶</a></h2>
+<p>Most of the functionality is enabled by the
+<a class="reference internal" href="../_generated/astropy.cosmology.core.FLRW.html#astropy.cosmology.core.FLRW" title="astropy.cosmology.core.FLRW"><tt class="xref py py-obj docutils literal"><span class="pre">FLRW</span></tt></a> object. This represents a
+homogenous and isotropic cosmology (a cosmology characterized by the
+Friedmann-Lemaitre-Robertson-Walker metric, named after the people who
+solved Einstein&#8217;s field equation for this special case).  However,
+you can&#8217;t work with this class directly, as you must specify a
+dark energy model by using one of its subclasses instead,
+such as <a class="reference internal" href="../_generated/astropy.cosmology.core.FlatLambdaCDM.html#astropy.cosmology.core.FlatLambdaCDM" title="astropy.cosmology.core.FlatLambdaCDM"><tt class="xref py py-obj docutils literal"><span class="pre">FlatLambdaCDM</span></tt></a>.</p>
+<p>You can create a new <a class="reference internal" href="../_generated/astropy.cosmology.core.FlatLambdaCDM.html#astropy.cosmology.core.FlatLambdaCDM" title="astropy.cosmology.core.FlatLambdaCDM"><tt class="xref py py-obj docutils literal"><span class="pre">FlatLambdaCDM</span></tt></a> object with
+arguments giving the hubble parameter and omega matter (both at z=0):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">astropy.cosmology</span> <span class="kn">import</span> <span class="n">FlatLambdaCDM</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cosmo</span> <span class="o">=</span> <span class="n">FlatLambdaCDM</span><span class="p">(</span><span class="n">H0</span><span class="o">=</span><span class="mi">70</span><span class="p">,</span> <span class="n">Om0</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cosmo</span>
+<span class="go">LambdaCDM(H0=70, Om0=0.3, Ode0=0.7)</span>
+</pre></div>
+</div>
+<p>A number of additional dark energy models are provided (described below).
+Note that photons and neutrinos are included in these models, so
+Om0 + Ode0 is not quite one.</p>
+<p>The pre-defined cosmologies described in the <a class="reference internal" href="#getting-started">Getting Started</a>
+section are instances of <a class="reference internal" href="../_generated/astropy.cosmology.core.FlatLambdaCDM.html#astropy.cosmology.core.FlatLambdaCDM" title="astropy.cosmology.core.FlatLambdaCDM"><tt class="xref py py-obj docutils literal"><span class="pre">FlatLambdaCDM</span></tt></a>, and have
+the same methods. So we can find the luminosity distance in Mpc to
+redshift 4 by:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">cosmo</span><span class="o">.</span><span class="n">luminosity_distance</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="go">35842.35374316948</span>
+</pre></div>
+</div>
+<p>or the age of the universe at z = 0 in Gyr:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">cosmo</span><span class="o">.</span><span class="n">age</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="go">13.461701807287566</span>
+</pre></div>
+</div>
+<p>They also accept arrays of redshifts:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">cosmo</span><span class="o">.</span><span class="n">age</span><span class="p">([</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">])</span>
+<span class="go">array([ 8.42128059,  5.74698062,  4.1964541 ])</span>
+</pre></div>
+</div>
+<p>See the <a class="reference internal" href="../_generated/astropy.cosmology.core.FLRW.html#astropy.cosmology.core.FLRW" title="astropy.cosmology.core.FLRW"><tt class="xref py py-obj docutils literal"><span class="pre">FLRW</span></tt></a> and
+<a class="reference internal" href="../_generated/astropy.cosmology.core.FlatLambdaCDM.html#astropy.cosmology.core.FlatLambdaCDM" title="astropy.cosmology.core.FlatLambdaCDM"><tt class="xref py py-obj docutils literal"><span class="pre">FlatLambdaCDM</span></tt></a> object docstring for all the
+methods and attributes available. In addition to flat Universes,
+non-flat varieties are supported such as
+<a class="reference internal" href="../_generated/astropy.cosmology.core.LambdaCDM.html#astropy.cosmology.core.LambdaCDM" title="astropy.cosmology.core.LambdaCDM"><tt class="xref py py-obj docutils literal"><span class="pre">LambdaCDM</span></tt></a>.  There are also a variety of
+standard cosmologies with the parameters already defined:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">astropy.cosmology</span> <span class="kn">import</span> <span class="n">WMAP7</span>   <span class="c"># WMAP 7-year cosmology</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">WMAP7</span><span class="o">.</span><span class="n">critical_density</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>       <span class="c"># critical density at z = 0 in g/cm^3</span>
+<span class="go">9.31000313202047e-30</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">astropy.cosmology</span> <span class="kn">import</span> <span class="n">WMAP5</span>   <span class="c"># WMAP 5-year</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">WMAP5</span><span class="o">.</span><span class="n">H</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>                    <span class="c"># Hubble parameter at z = 3 in km/s/Mpc</span>
+<span class="go">301.71804314602889</span>
+</pre></div>
+</div>
+<p>You can see how the density parameters evolve with redshift as well</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">astropy.cosmology</span> <span class="kn">import</span> <span class="n">WMAP7</span>   <span class="c"># WMAP 7-year cosmology</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">WMAP7</span><span class="o">.</span><span class="n">Om</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">2.0</span><span class="p">]),</span> <span class="n">WMAP7</span><span class="o">.</span><span class="n">Ode</span><span class="p">([</span><span class="mf">0.</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">2.0</span><span class="p">])</span>
+<span class="go">(array([ 0.272     ,  0.74898525,  0.9090524 ]),</span>
+<span class="go"> array([ 0.72791572,  0.25055062,  0.09010261]))</span>
+</pre></div>
+</div>
+<p>Note that these don&#8217;t quite add up to one even though WMAP7 assumes a
+flat Universe because photons and neutrinos are included.</p>
+<p>In addition to the <a class="reference internal" href="../_generated/astropy.cosmology.core.LambdaCDM.html#astropy.cosmology.core.LambdaCDM" title="astropy.cosmology.core.LambdaCDM"><tt class="xref py py-obj docutils literal"><span class="pre">LambdaCDM</span></tt></a> object, there
+are convenience functions that calculate some of these quantities
+without needing to explicitly give a cosmology - but there are more
+methods available if you work directly with the cosmology object.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">astropy</span> <span class="kn">import</span> <span class="n">cosmology</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cosmology</span><span class="o">.</span><span class="n">kpc_proper_per_arcmin</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="go">472.8071851564037</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cosmology</span><span class="o">.</span><span class="n">arcsec_per_kpc_proper</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="go">0.12690162477152736</span>
+</pre></div>
+</div>
+<p>These functions will perform calculations using the &#8220;current&#8221;
+cosmology. This is a specific cosmology that is currently active in
+<tt class="xref py py-obj docutils literal"><span class="pre">astropy</span></tt> and it&#8217;s described further in the following section. They
+can also be explicitly given a cosmology using the <tt class="xref py py-obj docutils literal"><span class="pre">cosmo</span></tt> keyword
+argument. A full list of convenience functions is included below, in
+the <a class="reference internal" href="#reference-api">Reference/API</a> section.</p>
+</div>
+<div class="section" id="the-current-cosmology">
+<h2>The Current Cosmology<a class="headerlink" href="#the-current-cosmology" title="Permalink to this headline">¶</a></h2>
+<p>Sometimes it&#8217;s useful for Astropy functions to assume a default
+cosmology so that the desired cosmology doesn&#8217;t have to be specified
+every time the function is called &#8211; the convenience functions
+described in the previous section are one example. For these cases
+it&#8217;s possible to specify a &#8220;current&#8221; cosmology.</p>
+<p>You can set the current cosmology to a pre-defined value by using the
+&#8220;default_cosmology&#8221; option in the <tt class="docutils literal"><span class="pre">[cosmology.core]</span></tt> section of the
+configuration file (see <a class="reference internal" href="../configs/index.html#astropy-config"><em>Configuration system (astropy.config)</em></a>). Alternatively, you can
+use the <a class="reference internal" href="../_generated/astropy.cosmology.core.set_current.html#astropy.cosmology.core.set_current" title="astropy.cosmology.core.set_current"><tt class="xref py py-obj docutils literal"><span class="pre">set_current</span></tt></a> function to set a
+cosmology for the current Python session.</p>
+<p>If you haven&#8217;t set a current cosmology using one of the methods
+described above, then the cosmology module will use the 7-year WMAP
+parameters and print a warning message letting you know this. For
+example, if you call a convenience function without setting the
+current cosmology or using the <tt class="xref py py-obj docutils literal"><span class="pre">cosmo=</span></tt> keyword you see the following
+message:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">astropy</span> <span class="kn">import</span> <span class="n">cosmology</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cosmology</span><span class="o">.</span><span class="n">lookback_time</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>          <span class="c"># lookback time in Gyr at z=1</span>
+<span class="go">WARNING: No default cosmology has been specified, using 7-year WMAP.</span>
+<span class="go">[astropy.cosmology.core]</span>
+<span class="go">7.787767002228743</span>
+</pre></div>
+</div>
+<p>The 9-year WMAP cosmology is also available</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">astropy.cosmology</span> <span class="kn">import</span> <span class="n">WMAP9</span>   <span class="c"># WMAP 9-year</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">WMAP9</span><span class="o">.</span><span class="n">lookback_time</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>                <span class="c"># lookback time in Gyr at z=2</span>
+<span class="go">10.444367272683863</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">In general it&#8217;s better to use an explicit cosmology (for example
+<tt class="docutils literal"><span class="pre">WMAP7.H(0)</span></tt> instead of <tt class="docutils literal"><span class="pre">cosmology.H(0)</span></tt>). The motivation for
+this is that when you go back to use the code at a later date or
+share your scripts with someone else, the default cosmology may
+have changed. Use of the convenience functions should generally be
+reserved for interactive work or cases where the flexibility of
+quickly changing between different cosmologies is for some reason
+useful. Alternatively, putting (for example)
+<tt class="docutils literal"><span class="pre">cosmology.set_current(WMAP7)</span></tt> at the top of your code will
+ensure that the right cosmology is always used.</p>
+</div>
+<div class="section" id="using-cosmology-inside-astropy">
+<h3>Using <tt class="xref py py-obj docutils literal"><span class="pre">cosmology</span></tt> inside Astropy<a class="headerlink" href="#using-cosmology-inside-astropy" title="Permalink to this headline">¶</a></h3>
+<p>If you are writing code for the <tt class="xref py py-obj docutils literal"><span class="pre">astropy</span></tt> core or an affiliated
+package, it is strongly recommended that you use the current cosmology
+through the <a class="reference internal" href="../_generated/astropy.cosmology.core.get_current.html#astropy.cosmology.core.get_current" title="astropy.cosmology.core.get_current"><tt class="xref py py-obj docutils literal"><span class="pre">get_current</span></tt></a> function. It is also
+recommended that you provide an override option something like the
+following:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">myfunc</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">cosmo</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="kn">from</span> <span class="nn">astropy.cosmology</span> <span class="kn">import</span> <span class="n">get_current</span>
+
+    <span class="k">if</span> <span class="n">cosmo</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">cosmo</span> <span class="o">=</span> <span class="n">get_current</span><span class="p">()</span>
+
+    <span class="o">...</span> <span class="n">your</span> <span class="n">code</span> <span class="n">here</span> <span class="o">...</span>
+</pre></div>
+</div>
+<p>This ensures that all code consistently uses the current cosmology
+unless explicitly overridden.</p>
+</div>
+</div>
+<div class="section" id="specifying-a-dark-energy-model">
+<h2>Specifying a dark energy model<a class="headerlink" href="#specifying-a-dark-energy-model" title="Permalink to this headline">¶</a></h2>
+<p>In addition to the standard <a class="reference internal" href="../_generated/astropy.cosmology.core.FlatLambdaCDM.html#astropy.cosmology.core.FlatLambdaCDM" title="astropy.cosmology.core.FlatLambdaCDM"><tt class="xref py py-obj docutils literal"><span class="pre">FlatLambdaCDM</span></tt></a> model
+described above, a number of additional dark energy models are
+provided.  <a class="reference internal" href="../_generated/astropy.cosmology.core.FlatLambdaCDM.html#astropy.cosmology.core.FlatLambdaCDM" title="astropy.cosmology.core.FlatLambdaCDM"><tt class="xref py py-obj docutils literal"><span class="pre">FlatLambdaCDM</span></tt></a>
+and <a class="reference internal" href="../_generated/astropy.cosmology.core.FlatLambdaCDM.html#astropy.cosmology.core.FlatLambdaCDM" title="astropy.cosmology.core.FlatLambdaCDM"><tt class="xref py py-obj docutils literal"><span class="pre">FlatLambdaCDM</span></tt></a> assume that dark
+energy is a cosmological constant, and should be the most commonly
+used case.  <a class="reference internal" href="../_generated/astropy.cosmology.core.wCDM.html#astropy.cosmology.core.wCDM" title="astropy.cosmology.core.wCDM"><tt class="xref py py-obj docutils literal"><span class="pre">wCDM</span></tt></a> assumes a constant dark
+energy equation of state parameterized by <img class="math" src="../_images/math/eb37b8f84b267a3318413dcd963c9a5872051634.png" alt="w_0"/>. Two forms of a
+variable dark energy equation of state are provided: the simple first
+order linear expansion <img class="math" src="../_images/math/ed85b2873b5769ff6b80517cd611641d8a97e9bc.png" alt="w(z) = w_0 + w_z z"/> by
+<a class="reference internal" href="../_generated/astropy.cosmology.core.w0wzCDM.html#astropy.cosmology.core.w0wzCDM" title="astropy.cosmology.core.w0wzCDM"><tt class="xref py py-obj docutils literal"><span class="pre">w0wzCDM</span></tt></a>, as well as the common CPL form by
+<a class="reference internal" href="../_generated/astropy.cosmology.core.w0waCDM.html#astropy.cosmology.core.w0waCDM" title="astropy.cosmology.core.w0waCDM"><tt class="xref py py-obj docutils literal"><span class="pre">w0waCDM</span></tt></a>: <img class="math" src="../_images/math/aeb5f2d3957064389199ca6ae873b962b54b234c.png" alt="w(z) = w_0 + w_a (1 - a) =
+w_0 + w_a z / (1 + z)"/> and its generalization to include a pivot
+redshift by <a class="reference internal" href="../_generated/astropy.cosmology.core.wpwaCDM.html#astropy.cosmology.core.wpwaCDM" title="astropy.cosmology.core.wpwaCDM"><tt class="xref py py-obj docutils literal"><span class="pre">wpwaCDM</span></tt></a>: <img class="math" src="../_images/math/a5dbf4eece2ac20bc343e82f8b401b4d1781d658.png" alt="w(z) = w_p + w_a
+(a_p - a)"/>.</p>
+<p>Users can specify their own equation of state by sub-classing
+<a class="reference internal" href="../_generated/astropy.cosmology.core.FLRW.html#astropy.cosmology.core.FLRW" title="astropy.cosmology.core.FLRW"><tt class="xref py py-obj docutils literal"><span class="pre">FLRW</span></tt></a>.  See the provided subclasses for
+examples.</p>
+</div>
+<div class="section" id="relativistic-species">
+<h2>Relativistic Species<a class="headerlink" href="#relativistic-species" title="Permalink to this headline">¶</a></h2>
+<p>The cosmology classes include the contribution to the energy density
+from both photons and massless neutrinos.  The two parameters
+controlling the proporties of these species are Tcmb0 (the temperature
+of the CMB at z=0) and Neff, the effective number of neutrino species.
+Both have standard default values (2.725 and 3.04, respectively; the
+reason that Neff is not 3 has to do with a small bump in the neutrino
+energy spectrum due to electron-positron annihilation).</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">astropy.cosmology</span> <span class="kn">import</span> <span class="n">WMAP7</span>   <span class="c"># WMAP 7-year cosmology</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">z</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">2.0</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">WMAP7</span><span class="o">.</span><span class="n">Ogamma</span><span class="p">(</span><span class="n">z</span><span class="p">),</span> <span class="n">WMAP7</span><span class="o">.</span><span class="n">Onu</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+<span class="go">(array([  4.98569503e-05,   2.74574414e-04]),</span>
+<span class="go"> array([  3.44204408e-05,   1.89561782e-04]),</span>
+<span class="go"> array([  8.42773911e-05,   4.64136197e-04]))</span>
+</pre></div>
+</div>
+<p>If you want to exclude photons and neutrinos from your calculations,
+simply set the CMB Temperature to 0:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">astropy.cosmology</span> <span class="kn">import</span> <span class="n">FlatLambdaCDM</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cos</span> <span class="o">=</span> <span class="n">FlatLambdaCDM</span><span class="p">(</span><span class="mf">70.4</span><span class="p">,</span> <span class="mf">0.272</span><span class="p">,</span> <span class="n">Tcmb0</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cos</span><span class="o">.</span><span class="n">Ogamma0</span><span class="p">,</span> <span class="n">cos</span><span class="o">.</span><span class="n">Onu0</span>
+<span class="go">(0.0, 0.0)</span>
+</pre></div>
+</div>
+<p>Neutrinos can be removed (while leaving photons) by setting Neff=0:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">astropy.cosmology</span> <span class="kn">import</span> <span class="n">FlatLambdaCDM</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cos</span> <span class="o">=</span> <span class="n">FlatLambdaCDM</span><span class="p">(</span><span class="mf">70.4</span><span class="p">,</span> <span class="mf">0.272</span><span class="p">,</span> <span class="n">Neff</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cos</span><span class="o">.</span><span class="n">Ogamma</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]),</span><span class="n">cos</span><span class="o">.</span><span class="n">Onu</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+<span class="go">(array([  4.98569503e-05,   2.74623219e-04,   5.00051845e-04]),</span>
+<span class="go"> array([ 0.,  0.,  0.]))</span>
+</pre></div>
+</div>
+<p>While these examples used <a class="reference internal" href="../_generated/astropy.cosmology.core.FlatLambdaCDM.html#astropy.cosmology.core.FlatLambdaCDM" title="astropy.cosmology.core.FlatLambdaCDM"><tt class="xref py py-obj docutils literal"><span class="pre">FlatLambdaCDM</span></tt></a>,
+the above examples also apply for all of the other cosmology classes.</p>
+</div>
+<div class="section" id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Hogg, &#8220;Distance measures in cosmology&#8221;,
+<a class="reference external" href="http://arxiv.org/abs/astroph/9905116">http://arxiv.org/abs/astroph/9905116</a></li>
+<li>Linder, &#8220;Exploring the Expansion History of the Universe&#8221;, <a class="reference external" href="http://arxiv.org/abs/astro-ph/0208512">http://arxiv.org/abs/astro-ph/0208512</a></li>
+<li>NASA&#8217;s Legacy Archive for Microwave Background Data Analysis,
+<a class="reference external" href="http://lambda.gsfc.nasa.gov/">http://lambda.gsfc.nasa.gov/</a></li>
+</ul>
+</div>
+<div class="section" id="range-of-validity-and-reliability">
+<h2>Range of validity and reliability<a class="headerlink" href="#range-of-validity-and-reliability" title="Permalink to this headline">¶</a></h2>
+<p>The code in this sub-package is tested against several widely-used
+online cosmology calculators, and has been used to perform
+calculations in refereed papers. You can check the range of redshifts
+over which the code is regularly tested in the module
+<tt class="xref py py-obj docutils literal"><span class="pre">astropy.cosmology.tests.test_cosmology</span></tt>. If you find any bugs, please
+let us know by <a class="reference external" href="https://github.com/astropy/astropy/issues">opening an issue at the github repository</a>!</p>
+</div>
+<div class="section" id="reference-api">
+<h2>Reference/API<a class="headerlink" href="#reference-api" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-astropy.cosmology">
+<span id="astropy-cosmology-module"></span><h3>astropy.cosmology Module<a class="headerlink" href="#module-astropy.cosmology" title="Permalink to this headline">¶</a></h3>
+<p>astropy.cosmology contains classes and functions for cosmological
+distance measures and other cosmology-related calculations.</p>
+<p>See the <a class="reference external" href="http://docs.astropy.org/en/latest/cosmology/index.html">Astropy documentation</a> for more
+detailed usage examples and references.</p>
+<div class="section" id="functions">
+<h4>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../_generated/astropy.cosmology.funcs.H.html#astropy.cosmology.funcs.H" title="astropy.cosmology.funcs.H"><tt class="xref py py-obj docutils literal"><span class="pre">H</span></tt></a>(z[,&nbsp;cosmo])</td>
+<td>Hubble parameter (km/s/Mpc) at redshift <tt class="xref py py-obj docutils literal"><span class="pre">z</span></tt>.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../_generated/astropy.cosmology.funcs.angular_diameter_distance.html#astropy.cosmology.funcs.angular_diameter_distance" title="astropy.cosmology.funcs.angular_diameter_distance"><tt class="xref py py-obj docutils literal"><span class="pre">angular_diameter_distance</span></tt></a>(z[,&nbsp;cosmo])</td>
+<td>Angular diameter distance in Mpc at a given redshift.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../_generated/astropy.cosmology.funcs.arcsec_per_kpc_comoving.html#astropy.cosmology.funcs.arcsec_per_kpc_comoving" title="astropy.cosmology.funcs.arcsec_per_kpc_comoving"><tt class="xref py py-obj docutils literal"><span class="pre">arcsec_per_kpc_comoving</span></tt></a>(z[,&nbsp;cosmo])</td>
+<td>Angular separation in arcsec corresponding to a comoving kpc at redshift <tt class="xref py py-obj docutils literal"><span class="pre">z</span></tt>.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../_generated/astropy.cosmology.funcs.arcsec_per_kpc_proper.html#astropy.cosmology.funcs.arcsec_per_kpc_proper" title="astropy.cosmology.funcs.arcsec_per_kpc_proper"><tt class="xref py py-obj docutils literal"><span class="pre">arcsec_per_kpc_proper</span></tt></a>(z[,&nbsp;cosmo])</td>
+<td>Angular separation in arcsec corresponding to a proper kpc at redshift <tt class="xref py py-obj docutils literal"><span class="pre">z</span></tt>.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../_generated/astropy.cosmology.funcs.comoving_distance.html#astropy.cosmology.funcs.comoving_distance" title="astropy.cosmology.funcs.comoving_distance"><tt class="xref py py-obj docutils literal"><span class="pre">comoving_distance</span></tt></a>(z[,&nbsp;cosmo])</td>
+<td>Comoving distance in Mpc at redshift <tt class="xref py py-obj docutils literal"><span class="pre">z</span></tt>.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../_generated/astropy.cosmology.funcs.critical_density.html#astropy.cosmology.funcs.critical_density" title="astropy.cosmology.funcs.critical_density"><tt class="xref py py-obj docutils literal"><span class="pre">critical_density</span></tt></a>(z[,&nbsp;cosmo])</td>
+<td>Critical density in grams per cubic cm at redshift <tt class="xref py py-obj docutils literal"><span class="pre">z</span></tt>.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../_generated/astropy.cosmology.funcs.distmod.html#astropy.cosmology.funcs.distmod" title="astropy.cosmology.funcs.distmod"><tt class="xref py py-obj docutils literal"><span class="pre">distmod</span></tt></a>(z[,&nbsp;cosmo])</td>
+<td>Distance modulus at redshift <tt class="xref py py-obj docutils literal"><span class="pre">z</span></tt>.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../_generated/astropy.cosmology.core.get_current.html#astropy.cosmology.core.get_current" title="astropy.cosmology.core.get_current"><tt class="xref py py-obj docutils literal"><span class="pre">get_current</span></tt></a>()</td>
+<td>Get the current cosmology.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../_generated/astropy.cosmology.funcs.kpc_comoving_per_arcmin.html#astropy.cosmology.funcs.kpc_comoving_per_arcmin" title="astropy.cosmology.funcs.kpc_comoving_per_arcmin"><tt class="xref py py-obj docutils literal"><span class="pre">kpc_comoving_per_arcmin</span></tt></a>(z[,&nbsp;cosmo])</td>
+<td>Separation in transverse comoving kpc corresponding to an arcminute at redshift <tt class="xref py py-obj docutils literal"><span class="pre">z</span></tt>.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../_generated/astropy.cosmology.funcs.kpc_proper_per_arcmin.html#astropy.cosmology.funcs.kpc_proper_per_arcmin" title="astropy.cosmology.funcs.kpc_proper_per_arcmin"><tt class="xref py py-obj docutils literal"><span class="pre">kpc_proper_per_arcmin</span></tt></a>(z[,&nbsp;cosmo])</td>
+<td>Separation in transverse proper kpc corresponding to an arcminute at redshift <tt class="xref py py-obj docutils literal"><span class="pre">z</span></tt>.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../_generated/astropy.cosmology.funcs.lookback_time.html#astropy.cosmology.funcs.lookback_time" title="astropy.cosmology.funcs.lookback_time"><tt class="xref py py-obj docutils literal"><span class="pre">lookback_time</span></tt></a>(z[,&nbsp;cosmo])</td>
+<td>Lookback time in Gyr to redshift <tt class="xref py py-obj docutils literal"><span class="pre">z</span></tt>.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../_generated/astropy.cosmology.funcs.luminosity_distance.html#astropy.cosmology.funcs.luminosity_distance" title="astropy.cosmology.funcs.luminosity_distance"><tt class="xref py py-obj docutils literal"><span class="pre">luminosity_distance</span></tt></a>(z[,&nbsp;cosmo])</td>
+<td>Luminosity distance in Mpc at redshift <tt class="xref py py-obj docutils literal"><span class="pre">z</span></tt>.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../_generated/astropy.cosmology.funcs.scale_factor.html#astropy.cosmology.funcs.scale_factor" title="astropy.cosmology.funcs.scale_factor"><tt class="xref py py-obj docutils literal"><span class="pre">scale_factor</span></tt></a>(z[,&nbsp;cosmo])</td>
+<td>Scale factor at redshift <tt class="xref py py-obj docutils literal"><span class="pre">z</span></tt>.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../_generated/astropy.cosmology.core.set_current.html#astropy.cosmology.core.set_current" title="astropy.cosmology.core.set_current"><tt class="xref py py-obj docutils literal"><span class="pre">set_current</span></tt></a>(cosmo)</td>
+<td>Set the current cosmology.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="classes">
+<h4>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="../_generated/astropy.cosmology.core.FLRW.html#astropy.cosmology.core.FLRW" title="astropy.cosmology.core.FLRW"><tt class="xref py py-obj docutils literal"><span class="pre">FLRW</span></tt></a>(H0,&nbsp;Om0,&nbsp;Ode0[,&nbsp;Tcmb0,&nbsp;Neff,&nbsp;name])</td>
+<td>A class describing an isotropic and homogeneous (Friedmann-Lemaitre-Robertson-Walker) cosmology.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../_generated/astropy.cosmology.core.FlatLambdaCDM.html#astropy.cosmology.core.FlatLambdaCDM" title="astropy.cosmology.core.FlatLambdaCDM"><tt class="xref py py-obj docutils literal"><span class="pre">FlatLambdaCDM</span></tt></a>(H0,&nbsp;Om0[,&nbsp;Tcmb0,&nbsp;Neff,&nbsp;name])</td>
+<td>FLRW cosmology with a cosmological constant and no curvature.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../_generated/astropy.cosmology.core.Flatw0waCDM.html#astropy.cosmology.core.Flatw0waCDM" title="astropy.cosmology.core.Flatw0waCDM"><tt class="xref py py-obj docutils literal"><span class="pre">Flatw0waCDM</span></tt></a>(H0,&nbsp;Om0[,&nbsp;w0,&nbsp;wa,&nbsp;Tcmb0,&nbsp;Neff,&nbsp;name])</td>
+<td>FLRW cosmology with a CPL dark energy equation of state and no curvature.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../_generated/astropy.cosmology.core.FlatwCDM.html#astropy.cosmology.core.FlatwCDM" title="astropy.cosmology.core.FlatwCDM"><tt class="xref py py-obj docutils literal"><span class="pre">FlatwCDM</span></tt></a>(H0,&nbsp;Om0[,&nbsp;w0,&nbsp;Tcmb0,&nbsp;Neff,&nbsp;name])</td>
+<td>FLRW cosmology with a constant dark energy equation of state and no spatial curvature.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../_generated/astropy.cosmology.core.LambdaCDM.html#astropy.cosmology.core.LambdaCDM" title="astropy.cosmology.core.LambdaCDM"><tt class="xref py py-obj docutils literal"><span class="pre">LambdaCDM</span></tt></a>(H0,&nbsp;Om0,&nbsp;Ode0[,&nbsp;Tcmb0,&nbsp;Neff,&nbsp;name])</td>
+<td>FLRW cosmology with a cosmological constant and curvature.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../_generated/astropy.cosmology.core.w0waCDM.html#astropy.cosmology.core.w0waCDM" title="astropy.cosmology.core.w0waCDM"><tt class="xref py py-obj docutils literal"><span class="pre">w0waCDM</span></tt></a>(H0,&nbsp;Om0,&nbsp;Ode0[,&nbsp;w0,&nbsp;wa,&nbsp;Tcmb0,&nbsp;...])</td>
+<td>FLRW cosmology with a CPL dark energy equation of state and curvature.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../_generated/astropy.cosmology.core.w0wzCDM.html#astropy.cosmology.core.w0wzCDM" title="astropy.cosmology.core.w0wzCDM"><tt class="xref py py-obj docutils literal"><span class="pre">w0wzCDM</span></tt></a>(H0,&nbsp;Om0,&nbsp;Ode0[,&nbsp;w0,&nbsp;wz,&nbsp;Tcmb0,&nbsp;...])</td>
+<td>FLRW cosmology with a variable dark energy equation of state and curvature.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../_generated/astropy.cosmology.core.wCDM.html#astropy.cosmology.core.wCDM" title="astropy.cosmology.core.wCDM"><tt class="xref py py-obj docutils literal"><span class="pre">wCDM</span></tt></a>(H0,&nbsp;Om0,&nbsp;Ode0[,&nbsp;w0,&nbsp;Tcmb0,&nbsp;Neff,&nbsp;name])</td>
+<td>FLRW cosmology with a constant dark energy equation of state and curvature.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../_generated/astropy.cosmology.core.wpwaCDM.html#astropy.cosmology.core.wpwaCDM" title="astropy.cosmology.core.wpwaCDM"><tt class="xref py py-obj docutils literal"><span class="pre">wpwaCDM</span></tt></a>(H0,&nbsp;Om0,&nbsp;Ode0[,&nbsp;wp,&nbsp;wa,&nbsp;zp,&nbsp;Tcmb0,&nbsp;...])</td>
+<td>FLRW cosmology with a CPL dark energy equation of state, a pivot redshift, and curvature.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="class-inheritance-diagram">
+<h4>Class Inheritance Diagram<a class="headerlink" href="#class-inheritance-diagram" title="Permalink to this headline">¶</a></h4>
+<p class="graphviz">
+<img src="../_images/inheritance-6a889ec666e1d36743065f88dac40b160fb2309b.png" alt="Inheritance diagram of astropy.cosmology.core.FLRW, astropy.cosmology.core.FlatLambdaCDM, astropy.cosmology.core.Flatw0waCDM, astropy.cosmology.core.FlatwCDM, astropy.cosmology.core.LambdaCDM, astropy.cosmology.core.w0waCDM, astropy.cosmology.core.w0wzCDM, astropy.cosmology.core.wCDM, astropy.cosmology.core.wpwaCDM" usemap="#inheritanceb05379fd82" class="inheritance"/>
+<map id="inheritanceb05379fd82" name="inheritanceb05379fd82">
+<area shape="rect" id="node2" href="../_generated/astropy.cosmology.core.FLRW.html#astropy.cosmology.core.FLRW" title="astropy.cosmology.core.FLRW" alt="" coords="202,71,339,90"/>
+<area shape="rect" id="node4" href="../_generated/astropy.cosmology.core.w0waCDM.html#astropy.cosmology.core.w0waCDM" title="astropy.cosmology.core.w0waCDM" alt="" coords="380,3,538,22"/>
+<area shape="rect" id="node7" href="../_generated/astropy.cosmology.core.wCDM.html#astropy.cosmology.core.wCDM" title="astropy.cosmology.core.wCDM" alt="" coords="388,37,530,56"/>
+<area shape="rect" id="node9" href="../_generated/astropy.cosmology.core.LambdaCDM.html#astropy.cosmology.core.LambdaCDM" title="astropy.cosmology.core.LambdaCDM" alt="" coords="373,71,544,90"/>
+<area shape="rect" id="node11" href="../_generated/astropy.cosmology.core.wpwaCDM.html#astropy.cosmology.core.wpwaCDM" title="astropy.cosmology.core.wpwaCDM" alt="" coords="380,105,538,123"/>
+<area shape="rect" id="node16" href="../_generated/astropy.cosmology.core.w0wzCDM.html#astropy.cosmology.core.w0wzCDM" title="astropy.cosmology.core.w0wzCDM" alt="" coords="380,139,538,157"/>
+<area shape="rect" id="node18" href="../_generated/astropy.cosmology.core.Flatw0waCDM.html#astropy.cosmology.core.Flatw0waCDM" title="astropy.cosmology.core.Flatw0waCDM" alt="" coords="584,3,758,22"/>
+<area shape="rect" id="node6" href="../_generated/astropy.cosmology.core.FlatwCDM.html#astropy.cosmology.core.FlatwCDM" title="astropy.cosmology.core.FlatwCDM" alt="" coords="592,37,750,56"/>
+<area shape="rect" id="node13" href="../_generated/astropy.cosmology.core.FlatLambdaCDM.html#astropy.cosmology.core.FlatLambdaCDM" title="astropy.cosmology.core.FlatLambdaCDM" alt="" coords="577,71,764,90"/>
+</map>
+</p>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+
+
+<h3>Page Contents</h3>
+<ul>
+<li><a class="reference internal" href="#">Cosmological Calculations (<tt class="docutils literal"><span class="pre">astropy.cosmology</span></tt>)</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#getting-started">Getting Started</a></li>
+<li><a class="reference internal" href="#using-cosmology">Using <tt class="docutils literal"><span class="pre">cosmology</span></tt></a></li>
+<li><a class="reference internal" href="#the-current-cosmology">The Current Cosmology</a><ul>
+<li><a class="reference internal" href="#using-cosmology-inside-astropy">Using <tt class="docutils literal"><span class="pre">cosmology</span></tt> inside Astropy</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#specifying-a-dark-energy-model">Specifying a dark energy model</a></li>
+<li><a class="reference internal" href="#relativistic-species">Relativistic Species</a></li>
+<li><a class="reference internal" href="#see-also">See Also</a></li>
+<li><a class="reference internal" href="#range-of-validity-and-reliability">Range of validity and reliability</a></li>
+<li><a class="reference internal" href="#reference-api">Reference/API</a><ul>
+<li><a class="reference internal" href="#module-astropy.cosmology">astropy.cosmology Module</a><ul>
+<li><a class="reference internal" href="#functions">Functions</a><ul>
+</ul>
+</li>
+<li><a class="reference internal" href="#classes">Classes</a><ul>
+</ul>
+</li>
+<li><a class="reference internal" href="#class-inheritance-diagram">Class Inheritance Diagram</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+<footer class="footer">
+  <p class="pull-right">
+    <a href="http://github.com/astropy/astropy/tree/v0.2.1/docs/cosmology/index.rst">Edit This Page on Github</a> &nbsp;
+    <a href="../_sources/cosmology/index.txt"
+       rel="nofollow">Page Source</a> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright 2011-2013, The Astropy Developers.<br/>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3+. &nbsp;
+    Last built 03 Apr 2013. <br/>
+  </p>
+</footer>
+ <!-- End original user content -->
+
+
+<br>
+<br>
+<br>
+
+
+<style type="text/css">
+  .rtd-badge {
+    position: fixed;
+    display: block;
+    bottom: 5px;
+    height: 40px;
+    text-indent: -9999em;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+  }
+  #version_menu {
+    position: fixed;
+    display: none;
+    bottom: 11px;
+    right: 166px;
+    list-style-type: none;
+    margin: 0;
+  }
+  .footer_popout:hover #version_menu {
+    display: block;
+  }
+  #version_menu li {
+    display: block;
+    float: right;
+  }
+  #version_menu li a {
+    display: block;
+    padding: 6px 10px 4px 10px;
+    margin: 7px 7px 0 0;
+    font-weight: bold;
+    font-size: 14px;
+    height: 20px;
+    line-height: 17px;
+    text-decoration: none;
+    color: #fff;
+    background: #8ca1af url(../images/gradient-light.png) bottom left repeat-x;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 1px #465158;
+    -moz-box-shadow: 0 1px 1px #465158;
+    -webkit-box-shadow: 0 1px 1px #465158;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+  }
+  #version_menu li a:hover {
+    text-decoration: none;
+    background-color: #697983;
+    box-shadow: 0 1px 0px #465158;
+    -moz-box-shadow: 0 1px 0px #465158;
+    -webkit-box-shadow: 0 1px 0px #465158;
+  }
+  .rtd-badge.rtd {
+    background: #3b4449 url(//media.readthedocs.org//images/badge-rtd.png) scroll 0px -46px no-repeat;
+    border: 1px solid #282E32;
+    width: 41px;
+    right: 5px;
+  }
+  .footer_popout:hover .rtd-badge.rtd {
+    background-position: top left;
+    width: 160px;
+  }
+  .rtd-badge.revsys { background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline-sponsored {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys-sm.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 205px;
+    right: 173px;
+  }
+
+</style>
+<div class="rtd_doc_footer">
+  <div class="footer_popout">
+    <a href="//readthedocs.org/projects/astropy/?fromdocs=astropy" class="rtd-badge rtd"> Brought to you by Read the Docs</a>
+    <ul id="version_menu">
+      
+        <li><a href="/en/latest/">latest</a></li>
+      
+        <li><a href="/en/add-mpl-to-rtd-pip-req/">add-mpl-to-rtd-pip-req</a></li>
+      
+        <li><a href="/en/v0.2.1/">v0.2.1</a></li>
+      
+        <li><a href="/en/v0.2/">v0.2</a></li>
+      
+        <li><a href="/en/v0.1/">v0.1</a></li>
+      
+    </ul>
+  </div>
+</div>
+<!-- RTD Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17997319-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+<!-- User Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-30968842-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+  </body>
+</html>

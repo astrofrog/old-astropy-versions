@@ -1,0 +1,50 @@
+
+
+ConfigurationItem
+==============================================
+
+.. currentmodule:: astropy.config.configuration
+
+.. autoclass:: ConfigurationItem
+   :show-inheritance:
+
+   
+     
+   
+
+   
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+   
+      ~ConfigurationItem.reload
+      ~ConfigurationItem.save
+      ~ConfigurationItem.set
+      ~ConfigurationItem.set_temp
+
+   
+   
+
+   
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Documentation
+
+   
+   .. automethod:: reload
+   .. automethod:: save
+   .. automethod:: set
+   .. automethod:: set_temp
+
+   
+   

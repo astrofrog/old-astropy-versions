@@ -1,0 +1,81 @@
+
+
+SphericalCoordinatesBase
+=========================================================
+
+.. currentmodule:: astropy.coordinates.coordsystems
+
+.. autoclass:: SphericalCoordinatesBase
+   :show-inheritance:
+
+   
+     
+   
+
+   
+   
+
+   .. rubric:: Attributes Summary
+
+   .. autosummary::
+   
+      ~SphericalCoordinatesBase.cartesian
+      ~SphericalCoordinatesBase.distance
+      ~SphericalCoordinatesBase.equinox
+      ~SphericalCoordinatesBase.latangle
+      ~SphericalCoordinatesBase.lonangle
+      ~SphericalCoordinatesBase.x
+      ~SphericalCoordinatesBase.y
+      ~SphericalCoordinatesBase.z
+
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+   
+      ~SphericalCoordinatesBase.from_name
+      ~SphericalCoordinatesBase.is_transformable_to
+      ~SphericalCoordinatesBase.separation
+      ~SphericalCoordinatesBase.separation_3d
+      ~SphericalCoordinatesBase.transform_to
+
+   
+   
+
+   
+   
+
+   .. rubric:: Attributes Documentation
+
+   
+   .. autoattribute:: cartesian
+   .. autoattribute:: distance
+   .. autoattribute:: equinox
+   .. autoattribute:: latangle
+   .. autoattribute:: lonangle
+   .. autoattribute:: x
+   .. autoattribute:: y
+   .. autoattribute:: z
+
+   
+   
+
+   
+   
+
+   .. rubric:: Methods Documentation
+
+   
+   .. automethod:: from_name
+   .. automethod:: is_transformable_to
+   .. automethod:: separation
+   .. automethod:: separation_3d
+   .. automethod:: transform_to
+
+   
+   

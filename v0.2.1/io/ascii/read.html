@@ -1,0 +1,572 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+
+    <title>Reading tables &mdash; Astropy v0.2.1</title>
+<!-- RTD <head> -->
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/underscore.js"></script>
+<script type="text/javascript" src="//media.readthedocs.org/javascript/doctools.js"></script>
+
+<script type="text/javascript">
+  // This is included here for Javascript that doesn't have access to the templates.
+  var doc_version = "v0.2.1";
+  var doc_slug = "astropy";
+</script>
+
+<script type="text/javascript" src="//media.readthedocs.org/javascript/rtd.js"></script>
+<!-- end RTD <head> -->
+
+    
+    <link rel="stylesheet" href="../../_static/bootstrap-astropy.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.2.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/sidebar.js"></script>
+    <link rel="shortcut icon" href="../../_static/astropy_logo.ico"/>
+    <link rel="top" title="Astropy v0.2.1" href="../../index.html" />
+    <link rel="up" title="ASCII Tables (astropy.io.ascii)" href="index.html" />
+    <link rel="next" title="Writing tables" href="write.html" />
+    <link rel="prev" title="ASCII Tables (astropy.io.ascii)" href="index.html" /> 
+  </head>
+  <body>
+<div class="topbar">
+  <a class="brand" title="Documentation Home" href="../../index.html"></a>
+  <ul>
+    <li><a class="homelink" title="AstroPy Homepage" href="http://www.astropy.org"></a></li>
+    <li><a title="General Index" href="../../genindex.html">Index</a></li>
+    <li><a title="Python Module Index" href="../../py-modindex.html">Modules</a></li>
+    <li>
+      
+      
+<form action="../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+      
+    </li>
+  </ul>
+</div>
+
+<div class="related">
+    <h3>Navigation</h3>
+    <ul>
+      <li class="right">
+	<a href="write.html" title="Writing tables">
+	  next &raquo;
+	</a>
+      </li>
+      <li class="right">
+	<a href="index.html" title="ASCII Tables (astropy.io.ascii)">
+	  &laquo; previous
+	</a>
+	 |
+      </li>
+      <li>
+	<a href="../../index.html">Astropy v0.2.1</a>
+	 &raquo;
+      </li>
+      <li><a href="index.html" accesskey="U">ASCII Tables (<tt class="docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal docutils literal"><span class="pre">astropy.io.ascii</span></tt>)</a> &raquo;</li>
+      
+      <li>Reading tables</li> 
+    </ul>
+</div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <span class="target" id="astropy-io-ascii-read"></span><div class="section" id="reading-tables">
+<h1>Reading tables<a class="headerlink" href="#reading-tables" title="Permalink to this headline">¶</a></h1>
+<p>The majority of commonly encountered ASCII tables can be easily read with the <a class="reference internal" href="../../_generated/astropy.io.ascii.ui.read.html#astropy.io.ascii.ui.read" title="astropy.io.ascii.ui.read"><tt class="xref py py-func docutils literal"><span class="pre">read()</span></tt></a>
+function:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">astropy.io</span> <span class="kn">import</span> <span class="n">ascii</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">ascii</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>where <tt class="docutils literal"><span class="pre">table</span></tt> is the name of a file, a string representation of a table, or a
+list of table lines.  By default <a class="reference internal" href="../../_generated/astropy.io.ascii.ui.read.html#astropy.io.ascii.ui.read" title="astropy.io.ascii.ui.read"><tt class="xref py py-func docutils literal"><span class="pre">read()</span></tt></a> will try to <a class="reference external" href="#guess-table-format">guess the table format</a>
+by trying all the supported formats.  If this does not work (for unusually
+formatted tables) then one needs give <a class="reference internal" href="index.html#module-astropy.io.ascii" title="astropy.io.ascii"><tt class="xref py py-obj docutils literal"><span class="pre">astropy.io.ascii</span></tt></a> additional hints about the
+format, for example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">astropy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">ascii</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s">&#39;t/nls1_stackinfo.dbout&#39;</span><span class="p">,</span> <span class="n">data_start</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s">&#39;|&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">astropy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">ascii</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s">&#39;t/simple.txt&#39;</span><span class="p">,</span> <span class="n">quotechar</span><span class="o">=</span><span class="s">&quot;&#39;&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">astropy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">ascii</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s">&#39;t/simple4.txt&#39;</span><span class="p">,</span> <span class="n">Reader</span><span class="o">=</span><span class="n">ascii</span><span class="o">.</span><span class="n">NoHeader</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s">&#39;|&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <a class="reference internal" href="../../_generated/astropy.io.ascii.ui.read.html#astropy.io.ascii.ui.read" title="astropy.io.ascii.ui.read"><tt class="xref py py-func docutils literal"><span class="pre">read()</span></tt></a> function accepts a number of parameters that specify the detailed
+table format.  Different Reader classes can define different defaults, so the
+descriptions below sometimes mention &#8220;typical&#8221; default values.  This refers to
+the <tt class="xref py py-class docutils literal"><span class="pre">Basic</span></tt> reader and other similar Reader classes.</p>
+<div class="section" id="parameters-for-read">
+<h2>Parameters for <tt class="docutils literal"><span class="pre">read()</span></tt><a class="headerlink" href="#parameters-for-read" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt><strong>table</strong> <span class="classifier-delimiter">:</span> <span class="classifier">input table</span></dt>
+<dd><p class="first">There are four ways to specify the table to be read:</p>
+<ul class="simple">
+<li>Name of a file (string)</li>
+<li>Single string containing all table lines separated by newlines</li>
+<li>File-like object with a callable read() method</li>
+<li>List of strings where each list element is a table line</li>
+</ul>
+<p class="last">The first two options are distinguished by the presence of a newline in the string.
+This assumes that valid file names will not normally contain a newline.</p>
+</dd>
+<dt><strong>Reader</strong> <span class="classifier-delimiter">:</span> <span class="classifier">Reader class (default= <tt class="xref py py-class docutils literal"><span class="pre">Basic</span></tt>)</span></dt>
+<dd>This specifies the top-level format of the ASCII table, for example
+if it is a basic character delimited table, fixed format table, or
+a CDS-compatible table, etc.  The value of this parameter must
+be a Reader class.  For basic usage this means one of the
+built-in <a class="reference internal" href="extension_classes.html#extension-reader-classes"><em>Extension Reader classes</em></a>.</dd>
+<dt><strong>guess</strong>: try to guess table format (default=True)</dt>
+<dd>If set to True then <a class="reference internal" href="../../_generated/astropy.io.ascii.ui.read.html#astropy.io.ascii.ui.read" title="astropy.io.ascii.ui.read"><tt class="xref py py-func docutils literal"><span class="pre">read()</span></tt></a> will try to guess the table format by cycling
+through a number of possible table format permuations and attemping to read
+the table in each case.  See the <a class="reference internal" href="#guess-table-format">Guess table format</a> section for further details.</dd>
+<dt><strong>delimiter</strong> <span class="classifier-delimiter">:</span> <span class="classifier">column delimiter string</span></dt>
+<dd>A one-character string used to separate fields which typically defaults to
+the space character.  Other common values might be &#8220;\s&#8221; (whitespace), &#8221;,&#8221; or
+&#8220;|&#8221; or &#8220;\t&#8221; (tab).  A value of &#8220;\s&#8221; allows any combination of the tab and
+space characters to delimit columns.</dd>
+<dt><strong>comment</strong> <span class="classifier-delimiter">:</span> <span class="classifier">regular expression defining a comment line in table</span></dt>
+<dd>If the <tt class="docutils literal"><span class="pre">comment</span></tt> regular expression matches the beginning of a table line then that line
+will be discarded from header or data processing.  For the <tt class="xref py py-class docutils literal"><span class="pre">Basic</span></tt> Reader this
+defaults to &#8220;\s*#&#8221; (any whitespace followed by #).</dd>
+<dt><strong>quotechar</strong> <span class="classifier-delimiter">:</span> <span class="classifier">one-character string to quote fields containing special characters</span></dt>
+<dd>This specifies the quote character and will typically be either the single or double
+quote character.  This is can be useful for reading text fields with spaces in a space-delimited
+table.  The default is typically the double quote.</dd>
+<dt><strong>header_start</strong> <span class="classifier-delimiter">:</span> <span class="classifier">line index for the header line not counting comment lines</span></dt>
+<dd>This specifies in the line index where the header line will be found.  Comment lines are
+not included in this count and the counting starts from 0 (first non-comment line has index=0).
+If set to None this indicates that there is no header line and the column names
+will be auto-generated.  The default is dependent on the Reader.</dd>
+<dt><strong>data_start</strong>: line index for the start of data not counting comment lines</dt>
+<dd>This specifies in the line index where the data lines begin where the counting starts
+from 0 and does not include comment lines.  The default is dependent on the Reader.</dd>
+<dt><strong>data_end</strong>: line index for the end of data (can be negative to count from end)</dt>
+<dd>If this is not None then it allows for excluding lines at the end that are not
+valid data lines.  A negative value means to count from the end, so -1 would
+exclude the last line, -2 the last two lines, and so on.</dd>
+<dt><strong>converters</strong>: dict of data type converters</dt>
+<dd>See the <a class="reference internal" href="#converters">Converters</a> section for more information.</dd>
+<dt><strong>names</strong>: list of names corresponding to each data column</dt>
+<dd>Define the complete list of names for each data column.  This will override
+names found in the header (if it exists).  If not supplied then
+use names from the header or auto-generated names if there is no header.</dd>
+<dt><strong>include_names</strong>: list of names to include in output</dt>
+<dd>From the list of column names found from the header or the <tt class="docutils literal"><span class="pre">names</span></tt>
+parameter, select for output only columns within this list.  If not supplied
+then include all names.</dd>
+<dt><strong>exclude_names</strong>: list of names to exlude from output</dt>
+<dd>Exclude these names from the list of output columns.  This is applied <em>after</em>
+the <tt class="docutils literal"><span class="pre">include_names</span></tt> filtering.  If not specified then no columns are excluded.</dd>
+<dt><strong>fill_values</strong>: fill value specifier of lists</dt>
+<dd>This can be used to fill missing values in the table or replace strings with special meaning.
+See the <a class="reference internal" href="#id1">Replace bad or missing values</a> section for more information and examples.</dd>
+<dt><strong>fill_include_names</strong>: list of column names, which are affected by <tt class="docutils literal"><span class="pre">fill_values</span></tt>.</dt>
+<dd>If not supplied, then <tt class="docutils literal"><span class="pre">fill_values</span></tt> can affect all columns.</dd>
+<dt><strong>fill_exclude_names</strong>: list of column names, which are not affected by <tt class="docutils literal"><span class="pre">fill_values</span></tt>.</dt>
+<dd>If not supplied, then <tt class="docutils literal"><span class="pre">fill_values</span></tt> can affect all columns.</dd>
+<dt><strong>Outputter</strong>: Outputter class</dt>
+<dd>This converts the raw data tables value into the
+output object that gets returned by <a class="reference internal" href="../../_generated/astropy.io.ascii.ui.read.html#astropy.io.ascii.ui.read" title="astropy.io.ascii.ui.read"><tt class="xref py py-func docutils literal"><span class="pre">read()</span></tt></a>.  The default is
+<a class="reference internal" href="../../_generated/astropy.io.ascii.core.TableOutputter.html#astropy.io.ascii.core.TableOutputter" title="astropy.io.ascii.core.TableOutputter"><tt class="xref py py-class docutils literal"><span class="pre">TableOutputter</span></tt></a>, which returns a
+<tt class="xref py py-class docutils literal"><span class="pre">Table</span></tt> object.</dd>
+<dt><strong>Inputter</strong>: Inputter class</dt>
+<dd>This is generally not specified.</dd>
+</dl>
+<p><strong>data_Splitter</strong>: Splitter class to split data columns</p>
+<p><strong>header_Splitter</strong>: Splitter class to split header columns</p>
+</div>
+<div class="section" id="replace-bad-or-missing-values">
+<span id="id1"></span><h2>Replace bad or missing values<a class="headerlink" href="#replace-bad-or-missing-values" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference internal" href="index.html#module-astropy.io.ascii" title="astropy.io.ascii"><tt class="xref py py-mod docutils literal"><span class="pre">astropy.io.ascii</span></tt></a> can replace string values in the input data before they are
+converted.  The most common use case is probably a table which contains string
+values that are not a valid representation of a number, e.g. <tt class="docutils literal"><span class="pre">&quot;...&quot;</span></tt> for a
+missing value or <tt class="docutils literal"><span class="pre">&quot;&quot;</span></tt>.  If <a class="reference internal" href="index.html#module-astropy.io.ascii" title="astropy.io.ascii"><tt class="xref py py-mod docutils literal"><span class="pre">astropy.io.ascii</span></tt></a> cannot convert all elements in a
+column to a numeric type, it will format the column as strings. To avoid this,
+<tt class="docutils literal"><span class="pre">fill_values</span></tt> can be used at the string level to fill missing values with the
+following syntax, which replaces <tt class="docutils literal"><span class="pre">&lt;old&gt;</span></tt> with <tt class="docutils literal"><span class="pre">&lt;new&gt;</span></tt> before the type
+conversion is done:</p>
+<div class="highlight-python"><pre>fill_values = &lt;fill_spec&gt; | [&lt;fill_spec1&gt;, &lt;fill_spec2&gt;, ...]
+&lt;fill_spec&gt; = (&lt;old&gt;, &lt;new&gt;, &lt;optional col name 1&gt;, &lt;optional col name 2&gt;, ...)</pre>
+</div>
+<p>Within the <tt class="docutils literal"><span class="pre">&lt;fill_spec&gt;</span></tt> tuple the <tt class="docutils literal"><span class="pre">&lt;old&gt;</span></tt> and <tt class="docutils literal"><span class="pre">&lt;new&gt;</span></tt> values must be
+strings.  These two values are then followed by zero or more column names.  If
+column names are included the replacement is limited to those columns listed.
+If no columns are specified then the replacement is done in every column,
+subject to filtering by <tt class="docutils literal"><span class="pre">fill_include_names</span></tt> and <tt class="docutils literal"><span class="pre">fill_exclude_names</span></tt> (see
+below).</p>
+<p>The <tt class="docutils literal"><span class="pre">fill_values</span></tt> parameter in <a class="reference internal" href="../../_generated/astropy.io.ascii.ui.read.html#astropy.io.ascii.ui.read" title="astropy.io.ascii.ui.read"><tt class="xref py py-func docutils literal"><span class="pre">read()</span></tt></a> takes a single <tt class="docutils literal"><span class="pre">&lt;fill_spec&gt;</span></tt> or a
+list of <tt class="docutils literal"><span class="pre">&lt;fill_spec&gt;</span></tt> tuples.  If several <tt class="docutils literal"><span class="pre">&lt;fill_spec&gt;</span></tt> apply to a single
+occurence of <tt class="docutils literal"><span class="pre">&lt;old&gt;</span></tt> then the first one determines the <tt class="docutils literal"><span class="pre">&lt;new&gt;</span></tt> value.  For
+instance the following will replace an empty data value in the <tt class="docutils literal"><span class="pre">x</span></tt> or <tt class="docutils literal"><span class="pre">y</span></tt>
+columns with &#8220;1e38&#8221; while empty values in any other column will get &#8220;-999&#8221;:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">ascii</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">fill_values</span><span class="o">=</span><span class="p">[(</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;1e38&#39;</span><span class="p">,</span> <span class="s">&#39;x&#39;</span><span class="p">,</span> <span class="s">&#39;y&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;-999&#39;</span><span class="p">)])</span>
+</pre></div>
+</div>
+<p>The following shows an example where string information needs to be exchanged
+before the conversion to float values happens. Here <tt class="docutils literal"><span class="pre">no_rain</span></tt> and <tt class="docutils literal"><span class="pre">no_snow</span></tt> is replaced by <tt class="docutils literal"><span class="pre">0.0</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">table</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;day  rain     snow&#39;</span><span class="p">,</span>    <span class="c"># column names</span>
+<span class="go">             #---  -------  --------</span>
+<span class="go">             &#39;Mon  3.2      no_snow&#39;,</span>
+<span class="go">             &#39;Tue  no_rain  1.1&#39;,</span>
+<span class="go">             &#39;Wed  0.3      no_snow&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">ascii</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">fill_values</span><span class="o">=</span><span class="p">[(</span><span class="s">&#39;no_rain&#39;</span><span class="p">,</span> <span class="s">&#39;0.0&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;no_snow&#39;</span><span class="p">,</span> <span class="s">&#39;0.0&#39;</span><span class="p">)])</span>
+<span class="go">[(&#39;Mon&#39;, 3.2, --) (&#39;Tue&#39;, --, 1.1) (&#39;Wed&#39;, 0.3, --)]</span>
+</pre></div>
+</div>
+<p>Sometimes these rules apply only to specific columns in the table. Columns can be selected with
+<tt class="docutils literal"><span class="pre">fill_include_names</span></tt> or excluded with <tt class="docutils literal"><span class="pre">fill_exclude_names</span></tt>. Also, column names can be
+given directly with fill_values:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">asciidata</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;text,no1,no2&#39;</span><span class="p">,</span> <span class="s">&#39;text1,1,1.&#39;</span><span class="p">,</span><span class="s">&#39;,2,&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">ascii</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">asciidata</span><span class="p">,</span> <span class="n">fill_values</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;nan&#39;</span><span class="p">,</span><span class="s">&#39;no1&#39;</span><span class="p">,</span><span class="s">&#39;no2&#39;</span><span class="p">),</span> <span class="n">delimiter</span> <span class="o">=</span> <span class="s">&#39;,&#39;</span><span class="p">)</span>
+<span class="go">[(&#39;text1&#39;, 1, 1.0) (&#39;&#39;, 2, --)]</span>
+</pre></div>
+</div>
+<p>Here, the empty value <tt class="docutils literal"><span class="pre">''</span></tt> in column <tt class="docutils literal"><span class="pre">no2</span></tt> is replaced by <tt class="docutils literal"><span class="pre">nan</span></tt>, but the <tt class="docutils literal"><span class="pre">text</span></tt>
+column remains unaltered.</p>
+<p>If any table elements match the fill specification then <a class="reference internal" href="../../_generated/astropy.io.ascii.ui.read.html#astropy.io.ascii.ui.read" title="astropy.io.ascii.ui.read"><tt class="xref py py-func docutils literal"><span class="pre">read()</span></tt></a> returns a masked
+<tt class="xref py py-obj docutils literal"><span class="pre">Table</span></tt> object with the corresponding elements masked out.</p>
+</div>
+<div class="section" id="guess-table-format">
+<h2>Guess table format<a class="headerlink" href="#guess-table-format" title="Permalink to this headline">¶</a></h2>
+<p>If the <tt class="docutils literal"><span class="pre">guess</span></tt> parameter in <a class="reference internal" href="../../_generated/astropy.io.ascii.ui.read.html#astropy.io.ascii.ui.read" title="astropy.io.ascii.ui.read"><tt class="xref py py-func docutils literal"><span class="pre">read()</span></tt></a> is set to True (which is the default) then
+<a class="reference internal" href="../../_generated/astropy.io.ascii.ui.read.html#astropy.io.ascii.ui.read" title="astropy.io.ascii.ui.read"><tt class="xref py py-func docutils literal"><span class="pre">read()</span></tt></a> will try to guess the table format by cycling through a number of
+possible table format permutations and attemping to read the table in each case.
+The first format which succeeds and will be used to read the table. To succeed
+the table must be successfully parsed by the Reader and satisfy the following
+column requirements:</p>
+<blockquote>
+<div><ul class="simple">
+<li>At least two table columns</li>
+<li>No column names are a float or int number</li>
+<li>No column names begin or end with space, comma, tab, single quote, double quote, or
+a vertical bar (|).</li>
+</ul>
+</div></blockquote>
+<p>These requirements reduce the chance for a false positive where a table is
+successfully parsed with the wrong format.  A common situation is a table
+with numeric columns but no header row, and in this case <tt class="docutils literal"><span class="pre">astropy.io.ascii</span></tt> will
+auto-assign column names because of the restriction on column names that
+look like a number.</p>
+<p>The order of guessing is shown by this Python code:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">for</span> <span class="n">Reader</span> <span class="ow">in</span> <span class="p">(</span><span class="n">Rdb</span><span class="p">,</span> <span class="n">Tab</span><span class="p">,</span> <span class="n">Cds</span><span class="p">,</span> <span class="n">Daophot</span><span class="p">,</span> <span class="n">SExtractor</span><span class="p">,</span> <span class="n">Ipac</span><span class="p">):</span>
+    <span class="n">read</span><span class="p">(</span><span class="n">Reader</span><span class="o">=</span><span class="n">Reader</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">Reader</span> <span class="ow">in</span> <span class="p">(</span><span class="n">CommentedHeader</span><span class="p">,</span> <span class="n">Basic</span><span class="p">,</span> <span class="n">NoHeader</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">delimiter</span> <span class="ow">in</span> <span class="p">(</span><span class="s">&quot;|&quot;</span><span class="p">,</span> <span class="s">&quot;,&quot;</span><span class="p">,</span> <span class="s">&quot; &quot;</span><span class="p">,</span> <span class="s">&quot;</span><span class="se">\\</span><span class="s">s&quot;</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">quotechar</span> <span class="ow">in</span> <span class="p">(</span><span class="s">&#39;&quot;&#39;</span><span class="p">,</span> <span class="s">&quot;&#39;&quot;</span><span class="p">):</span>
+            <span class="n">read</span><span class="p">(</span><span class="n">Reader</span><span class="o">=</span><span class="n">Reader</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="n">delimiter</span><span class="p">,</span> <span class="n">quotechar</span><span class="o">=</span><span class="n">quotechar</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Note that the <tt class="xref py py-class docutils literal"><span class="pre">FixedWidth</span></tt> derived-readers are not included
+in the default guess sequence (this causes problems), so to read such tables
+one must explicitly specify the reader class with the <tt class="docutils literal"><span class="pre">Reader</span></tt> keyword.</p>
+<p>If none of the guesses succeed in reading the table (subject to the column
+requirements) a final try is made using just the user-supplied parameters but
+without checking the column requirements.  In this way a table with only one
+column or column names that look like a number can still be successfully read.</p>
+<p>The guessing process respects any values of the Reader, delimiter, and
+quotechar parameters that were supplied to the read() function.  Any guesses
+that would conflict are skipped.  For example the call:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">astropy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">ascii</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">Reader</span><span class="o">=</span><span class="n">NoHeader</span><span class="p">,</span> <span class="n">quotechar</span><span class="o">=</span><span class="s">&quot;&#39;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>would only try the four delimiter possibilities, skipping all the conflicting
+Reader and quotechar combinations.</p>
+<p>Guessing can be disabled in two ways:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">astropy.io.ascii</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">astropy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">ascii</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>               <span class="c"># guessing enabled by default</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">astropy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">ascii</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">guess</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>  <span class="c"># disable for this call</span>
+<span class="n">astropy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">ascii</span><span class="o">.</span><span class="n">set_guess</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>                 <span class="c"># set default to False globally</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">astropy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">ascii</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>               <span class="c"># guessing disabled</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="converters">
+<h2>Converters<a class="headerlink" href="#converters" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference internal" href="index.html#module-astropy.io.ascii" title="astropy.io.ascii"><tt class="xref py py-mod docutils literal"><span class="pre">astropy.io.ascii</span></tt></a> converts the raw string values from the table into
+numeric data types by using converter functions such as the Python <tt class="docutils literal"><span class="pre">int</span></tt> and
+<tt class="docutils literal"><span class="pre">float</span></tt> functions.  For example <tt class="docutils literal"><span class="pre">int(&quot;5.0&quot;)</span></tt> will fail while float(&#8220;5.0&#8221;)
+will succeed and return 5.0 as a Python float.</p>
+<p>The default converters are:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">default_converters</span> <span class="o">=</span> <span class="p">[</span><span class="n">astropy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">ascii</span><span class="o">.</span><span class="n">convert_numpy</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">int</span><span class="p">),</span>
+                      <span class="n">astropy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">ascii</span><span class="o">.</span><span class="n">convert_numpy</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">float</span><span class="p">),</span>
+                      <span class="n">astropy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">ascii</span><span class="o">.</span><span class="n">convert_numpy</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">str</span><span class="p">)]</span>
+</pre></div>
+</div>
+<p>These take advantage of the <a class="reference internal" href="../../_generated/astropy.io.ascii.core.convert_numpy.html#astropy.io.ascii.core.convert_numpy" title="astropy.io.ascii.core.convert_numpy"><tt class="xref py py-func docutils literal"><span class="pre">convert_numpy()</span></tt></a>
+function which returns a 2-element tuple <tt class="docutils literal"><span class="pre">(converter_func,</span> <span class="pre">converter_type)</span></tt>
+as described in the previous section.  The type provided to
+<a class="reference internal" href="../../_generated/astropy.io.ascii.core.convert_numpy.html#astropy.io.ascii.core.convert_numpy" title="astropy.io.ascii.core.convert_numpy"><tt class="xref py py-func docutils literal"><span class="pre">convert_numpy()</span></tt></a> must be a valid <a class="reference external" href="http://docs.scipy.org/doc/numpy/user/basics.types.html">numpy type</a>, for example
+<tt class="docutils literal"><span class="pre">numpy.int</span></tt>, <tt class="docutils literal"><span class="pre">numpy.uint</span></tt>, <tt class="docutils literal"><span class="pre">numpy.int8</span></tt>, <tt class="docutils literal"><span class="pre">numpy.int64</span></tt>,
+<tt class="docutils literal"><span class="pre">numpy.float</span></tt>, <tt class="docutils literal"><span class="pre">numpy.float64</span></tt>, <tt class="docutils literal"><span class="pre">numpy.str</span></tt>.</p>
+<p>The default converters for each column can be overridden with the
+<tt class="docutils literal"><span class="pre">converters</span></tt> keyword:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">converters</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;col1&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">astropy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">ascii</span><span class="o">.</span><span class="n">convert_numpy</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">uint</span><span class="p">)],</span>
+<span class="go">                  &#39;col2&#39;: [astropy.io.ascii.convert_numpy(numpy.float32)]}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ascii</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s">&#39;file.dat&#39;</span><span class="p">,</span> <span class="n">converters</span><span class="o">=</span><span class="n">converters</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="advanced-customization">
+<h2>Advanced customization<a class="headerlink" href="#advanced-customization" title="Permalink to this headline">¶</a></h2>
+<p>Here we provide a few examples that demonstrate how to extend the base
+functionality to handle special cases.  To go beyond these simple examples the
+best reference is to read the code for the existing
+<a class="reference internal" href="extension_classes.html#extension-reader-classes"><em>Extension Reader classes</em></a>.</p>
+<p><strong>Define a custom reader functionally</strong></p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">read_rdb_table</span><span class="p">(</span><span class="n">table</span><span class="p">):</span>
+    <span class="n">reader</span> <span class="o">=</span> <span class="n">astropy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">ascii</span><span class="o">.</span><span class="n">Basic</span><span class="p">()</span>
+    <span class="n">reader</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">splitter</span><span class="o">.</span><span class="n">delimiter</span> <span class="o">=</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span>
+    <span class="n">reader</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">splitter</span><span class="o">.</span><span class="n">delimiter</span> <span class="o">=</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span>
+    <span class="n">reader</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">splitter</span><span class="o">.</span><span class="n">process_line</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">reader</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">splitter</span><span class="o">.</span><span class="n">process_line</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">reader</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">start_line</span> <span class="o">=</span> <span class="mi">2</span>
+
+    <span class="k">return</span> <span class="n">reader</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Define custom readers by class inheritance</strong></p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Note: Tab and Rdb are already included in astropy.io.ascii for convenience.</span>
+<span class="k">class</span> <span class="nc">Tab</span><span class="p">(</span><span class="n">astropy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">ascii</span><span class="o">.</span><span class="n">Basic</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">astropy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">ascii</span><span class="o">.</span><span class="n">Basic</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">splitter</span><span class="o">.</span><span class="n">delimiter</span> <span class="o">=</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">splitter</span><span class="o">.</span><span class="n">delimiter</span> <span class="o">=</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span>
+        <span class="c"># Don&#39;t strip line whitespace since that includes tabs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">splitter</span><span class="o">.</span><span class="n">process_line</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">splitter</span><span class="o">.</span><span class="n">process_line</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="c"># Don&#39;t strip data value spaces since that is significant in TSV tables</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">splitter</span><span class="o">.</span><span class="n">process_val</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">splitter</span><span class="o">.</span><span class="n">skipinitialspace</span> <span class="o">=</span> <span class="bp">False</span>
+
+<span class="k">class</span> <span class="nc">Rdb</span><span class="p">(</span><span class="n">astropy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">ascii</span><span class="o">.</span><span class="n">Tab</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">astropy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">ascii</span><span class="o">.</span><span class="n">Tab</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">start_line</span> <span class="o">=</span> <span class="mi">2</span>
+</pre></div>
+</div>
+<p><strong>Create a custom splitter.process_val function</strong></p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># The default process_val() normally just strips whitespace.</span>
+<span class="c"># In addition have it replace empty fields with -999.</span>
+<span class="k">def</span> <span class="nf">process_val</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Custom splitter process_val function: Remove whitespace at the beginning</span>
+<span class="sd">    or end of value and substitute -999 for any blank entries.&quot;&quot;&quot;</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="s">&#39;&#39;</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="s">&#39;-999&#39;</span>
+    <span class="k">return</span> <span class="n">x</span>
+
+<span class="c"># Create an RDB reader and override the splitter.process_val function</span>
+<span class="n">rdb_reader</span> <span class="o">=</span> <span class="n">astropy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">ascii</span><span class="o">.</span><span class="n">get_reader</span><span class="p">(</span><span class="n">Reader</span><span class="o">=</span><span class="n">astropy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">ascii</span><span class="o">.</span><span class="n">Rdb</span><span class="p">)</span>
+<span class="n">rdb_reader</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">splitter</span><span class="o">.</span><span class="n">process_val</span> <span class="o">=</span> <span class="n">process_val</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+
+
+<h3>Page Contents</h3>
+<ul>
+<li><a class="reference internal" href="#">Reading tables</a><ul>
+<li><a class="reference internal" href="#parameters-for-read">Parameters for <tt class="docutils literal"><span class="pre">read()</span></tt></a></li>
+<li><a class="reference internal" href="#replace-bad-or-missing-values">Replace bad or missing values</a></li>
+<li><a class="reference internal" href="#guess-table-format">Guess table format</a></li>
+<li><a class="reference internal" href="#converters">Converters</a></li>
+<li><a class="reference internal" href="#advanced-customization">Advanced customization</a></li>
+</ul>
+</li>
+</ul>
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+<footer class="footer">
+  <p class="pull-right">
+    <a href="http://github.com/astropy/astropy/tree/v0.2.1/docs/io/ascii/read.rst">Edit This Page on Github</a> &nbsp;
+    <a href="../../_sources/io/ascii/read.txt"
+       rel="nofollow">Page Source</a> &nbsp;
+    <a href="#">Back to Top</a></p>
+  <p>
+    &copy; Copyright 2011-2013, The Astropy Developers.<br/>
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3+. &nbsp;
+    Last built 03 Apr 2013. <br/>
+  </p>
+</footer>
+ <!-- End original user content -->
+
+
+<br>
+<br>
+<br>
+
+
+<style type="text/css">
+  .rtd-badge {
+    position: fixed;
+    display: block;
+    bottom: 5px;
+    height: 40px;
+    text-indent: -9999em;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+    -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+  }
+  #version_menu {
+    position: fixed;
+    display: none;
+    bottom: 11px;
+    right: 166px;
+    list-style-type: none;
+    margin: 0;
+  }
+  .footer_popout:hover #version_menu {
+    display: block;
+  }
+  #version_menu li {
+    display: block;
+    float: right;
+  }
+  #version_menu li a {
+    display: block;
+    padding: 6px 10px 4px 10px;
+    margin: 7px 7px 0 0;
+    font-weight: bold;
+    font-size: 14px;
+    height: 20px;
+    line-height: 17px;
+    text-decoration: none;
+    color: #fff;
+    background: #8ca1af url(../images/gradient-light.png) bottom left repeat-x;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 1px #465158;
+    -moz-box-shadow: 0 1px 1px #465158;
+    -webkit-box-shadow: 0 1px 1px #465158;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+  }
+  #version_menu li a:hover {
+    text-decoration: none;
+    background-color: #697983;
+    box-shadow: 0 1px 0px #465158;
+    -moz-box-shadow: 0 1px 0px #465158;
+    -webkit-box-shadow: 0 1px 0px #465158;
+  }
+  .rtd-badge.rtd {
+    background: #3b4449 url(//media.readthedocs.org//images/badge-rtd.png) scroll 0px -46px no-repeat;
+    border: 1px solid #282E32;
+    width: 41px;
+    right: 5px;
+  }
+  .footer_popout:hover .rtd-badge.rtd {
+    background-position: top left;
+    width: 160px;
+  }
+  .rtd-badge.revsys { background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline-sponsored {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 290px;
+    right: 173px;
+  }
+  .rtd-badge.revsys-inline {
+    position: inherit;
+    margin-left: auto;
+    margin-right: 175px;
+    margin-bottom: 5px;
+    background: #465158 url(//media.readthedocs.org//images/badge-revsys-sm.png) top left no-repeat;
+    border: 1px solid #1C5871;
+    width: 205px;
+    right: 173px;
+  }
+
+</style>
+<div class="rtd_doc_footer">
+  <div class="footer_popout">
+    <a href="//readthedocs.org/projects/astropy/?fromdocs=astropy" class="rtd-badge rtd"> Brought to you by Read the Docs</a>
+    <ul id="version_menu">
+      
+        <li><a href="/en/latest/">latest</a></li>
+      
+        <li><a href="/en/add-mpl-to-rtd-pip-req/">add-mpl-to-rtd-pip-req</a></li>
+      
+        <li><a href="/en/v0.2.1/">v0.2.1</a></li>
+      
+        <li><a href="/en/v0.2/">v0.2</a></li>
+      
+        <li><a href="/en/v0.1/">v0.1</a></li>
+      
+    </ul>
+  </div>
+</div>
+<!-- RTD Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17997319-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+<!-- User Analytics Code -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-30968842-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+  </body>
+</html>
